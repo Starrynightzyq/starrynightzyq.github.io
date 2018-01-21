@@ -6,14 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Yuqian</title>
+  <title>基于FPGA的VGA控制器 | Yuqian</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yuqian">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="目标​    设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。  硬件平台：Basys 3 开发板">
+<meta name="keywords" content="verilog,项目,FPGA,VGA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于FPGA的VGA控制器">
+<meta property="og:url" content="http://yoursite.com/2018/01/21/VGA-controller/index.html">
 <meta property="og:site_name" content="Yuqian">
+<meta property="og:description" content="目标​    设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。  硬件平台：Basys 3 开发板">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/行扫描.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/场扫描.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/VGA时序图.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/ROM1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/ROM2.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/ROM3.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/ROM4.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/VGA-controller/整体连线图.png">
+<meta property="og:updated_time" content="2018-01-21T10:44:42.976Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yuqian">
+<meta name="twitter:title" content="基于FPGA的VGA控制器">
+<meta name="twitter:description" content="目标​    设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。  硬件平台：Basys 3 开发板">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/21/VGA-controller/行扫描.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Yuqian" type="application/atom+xml">
   
@@ -149,36 +163,154 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-VGA-controller" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/21/VGA-controller/" class="archive-article-date">
-  	<time datetime="2018-01-21T08:57:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/21/VGA-controller/">基于FPGA的VGA控制器</a>
+    <h1 class="article-title" itemprop="name">
+      基于FPGA的VGA控制器
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/01/21/VGA-controller/" class="archive-article-date">
+  	<time datetime="2018-01-21T08:57:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>​    设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。</p>
+<blockquote>
+<p>硬件平台：Basys 3 开发板</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>​    标准15针VGA接口共有五个信号接口，如下表所示，其中hsync、vsync为行同步和场同步信号，RGB为模拟信号。</p>
+<table>
+<thead>
+<tr>
+<th>信号名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hsync</td>
+<td>行同步信号</td>
+</tr>
+<tr>
+<td>vsync</td>
+<td>场同步信号</td>
+</tr>
+<tr>
+<td>R</td>
+<td>红色信号</td>
+</tr>
+<tr>
+<td>G</td>
+<td>绿色信号</td>
+</tr>
+<tr>
+<td>B</td>
+<td>蓝色信号</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/2018/01/21/VGA-controller/行扫描.jpg" alt="行扫描" title="行扫描时序"></p>
+<blockquote>
+<p>行扫描时序</p>
+</blockquote>
+<p><img src="/2018/01/21/VGA-controller/场扫描.jpg" alt="场扫描" title="场扫描"></p>
+<blockquote>
+<p>场扫描时序</p>
+</blockquote>
+<p><img src="/2018/01/21/VGA-controller/VGA时序图.jpg" alt="VGA时序图" title="VGA时序图"></p>
+<blockquote>
+<p>VGA时序图</p>
+</blockquote>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><p>整个电路分为这几个部分：</p>
+<ul>
+<li>VGA控制器</li>
+<li>图像控制器</li>
+<li>ROM存储</li>
+</ul>
+<ol>
+<li><p>首先是VGA控制器部分，这部分产生行同步信号和场同步信号；</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> vga_sync(</span><br><span class="line">	<span class="keyword">input</span> <span class="keyword">wire</span> clk,reset,</span><br><span class="line">	<span class="keyword">output</span> <span class="keyword">wire</span> hsync,vsync,video_on,p_tick,</span><br><span class="line">	<span class="keyword">output</span> <span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y,</span><br><span class="line">	<span class="keyword">output</span> <span class="keyword">wire</span> [<span class="number">18</span>:<span class="number">0</span>] addr</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">	<span class="comment">//定义常数</span></span><br><span class="line">	<span class="comment">//VGA 640 * 480 同步参数</span></span><br><span class="line">	<span class="keyword">localparam</span> HD = <span class="number">640</span>;	<span class="comment">//水平显示区域</span></span><br><span class="line">	<span class="keyword">localparam</span> HF = <span class="number">48</span>;		<span class="comment">//水平扫描左边界</span></span><br><span class="line">	<span class="keyword">localparam</span> HB = <span class="number">16</span>;		<span class="comment">//水平扫描右边界</span></span><br><span class="line">	<span class="keyword">localparam</span> HR = <span class="number">96</span>;		<span class="comment">//水平折回区</span></span><br><span class="line">	<span class="keyword">localparam</span> VD = <span class="number">480</span>;	<span class="comment">//垂直显示区域</span></span><br><span class="line">	<span class="keyword">localparam</span> VF = <span class="number">10</span>;		<span class="comment">//垂直扫描顶部边界</span></span><br><span class="line">	<span class="keyword">localparam</span> VB = <span class="number">33</span>;		<span class="comment">//垂直扫描底部边界</span></span><br><span class="line">	<span class="keyword">localparam</span> VR = <span class="number">2</span>;		<span class="comment">//垂直折回区</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//模4计数器</span></span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] mod4_reg;</span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] mod4_next;</span><br><span class="line">	<span class="comment">//同步计数器</span></span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">9</span>:<span class="number">0</span>] h_count_reg,h_count_next;</span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">9</span>:<span class="number">0</span>] v_count_reg,v_count_next;</span><br><span class="line">	<span class="comment">//输出缓冲器</span></span><br><span class="line">	<span class="keyword">reg</span> v_sync_reg,h_sync_reg;</span><br><span class="line">	<span class="keyword">wire</span> v_sync_next,h_sync_next;</span><br><span class="line">	<span class="comment">//状态信号</span></span><br><span class="line">	<span class="keyword">wire</span> h_end,v_end,pixel_tick,addr_end;</span><br><span class="line">	<span class="comment">//地址输出缓冲器</span></span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">18</span>:<span class="number">0</span>] addr_reg;</span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">18</span>:<span class="number">0</span>] addr_next;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset) <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">			<span class="comment">// reset</span></span><br><span class="line">			mod4_reg &lt;= <span class="number">1'b0</span>;</span><br><span class="line">			v_count_reg &lt;= <span class="number">0</span>;</span><br><span class="line">			h_count_reg &lt;= <span class="number">0</span>;</span><br><span class="line">			v_sync_reg &lt;= <span class="number">1'b0</span>;</span><br><span class="line">			h_sync_reg &lt;= <span class="number">1'b0</span>;</span><br><span class="line">			addr_reg &lt;= <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">			mod4_reg &lt;= mod4_next;</span><br><span class="line">			v_count_reg &lt;= v_count_next;</span><br><span class="line">			h_count_reg &lt;= h_count_next;</span><br><span class="line">			v_sync_reg &lt;= v_sync_next;</span><br><span class="line">			h_sync_reg &lt;= h_sync_next;</span><br><span class="line">			addr_reg &lt;= addr_next;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//模4计数器产生25MHz时钟使能信号</span></span><br><span class="line">	<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">			<span class="comment">// reset</span></span><br><span class="line">			mod4_next &lt;= <span class="number">2'b0</span>;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">			mod4_next &lt;= mod4_reg + <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="comment">// assign mod4_next = mod4_reg + 1;</span></span><br><span class="line">	<span class="keyword">assign</span> pixel_tick = (mod4_reg == <span class="number">2'b11</span>)&amp;&amp;(!clk);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//状态信号</span></span><br><span class="line">	<span class="comment">//水平扫描结束信号（799）</span></span><br><span class="line">	<span class="keyword">assign</span> h_end = (h_count_reg==(HD+HF+HB+HR-<span class="number">1</span>));</span><br><span class="line">	<span class="comment">//垂直扫描计数器结束信号</span></span><br><span class="line">	<span class="keyword">assign</span> v_end = (v_count_reg==(VD+VF+VB+VR-<span class="number">1</span>));</span><br><span class="line">	<span class="comment">//地址结束信号</span></span><br><span class="line">	<span class="keyword">assign</span> addr_end = (addr_reg==(HD*VD-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//水平同步扫描模800计数器下一状态</span></span><br><span class="line">	<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span> (pixel_tick) <span class="keyword">begin</span></span><br><span class="line">			<span class="keyword">if</span> (h_end) <span class="keyword">begin</span></span><br><span class="line">				h_count_next = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">				h_count_next = h_count_reg + <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">end</span></span><br><span class="line">		<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">			h_count_next = h_count_reg;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//垂直同步扫描模525计数器新下一状态</span></span><br><span class="line">	<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span> (pixel_tick &amp;&amp; h_end) <span class="keyword">begin</span></span><br><span class="line">			<span class="keyword">if</span> (v_end) <span class="keyword">begin</span></span><br><span class="line">				v_count_next = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">				v_count_next = v_count_reg + <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">end</span></span><br><span class="line">		<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">			v_count_next = v_count_reg;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//地址下一个状态</span></span><br><span class="line">	<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">		<span class="keyword">if</span> (pixel_tick) <span class="keyword">begin</span></span><br><span class="line">			<span class="keyword">if</span> (addr_end) <span class="keyword">begin</span></span><br><span class="line">				addr_next = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span>(video_on) <span class="keyword">begin</span></span><br><span class="line">				addr_next = addr_reg + <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">				addr_next = addr_reg;</span><br><span class="line">			<span class="keyword">end</span></span><br><span class="line">		<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">			addr_next = addr_reg;</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//同步缓冲器</span></span><br><span class="line">	<span class="comment">//h_sync_next 信号在计数器数值为656和751时赋值</span></span><br><span class="line">	<span class="keyword">assign</span> h_sync_next = (h_count_reg &gt;= (HD+HB)&amp;&amp;h_count_reg &lt;= (HD+HB+HR-<span class="number">1</span>));</span><br><span class="line">	<span class="comment">//v_sync_next 信号在计数器数值为490和491时赋值</span></span><br><span class="line">	<span class="keyword">assign</span> v_sync_next = (v_count_reg &gt;= (VD+VB)&amp;&amp;v_count_reg &lt;= (VD+VB+VR-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">	<span class="comment">//产生video_on 信号</span></span><br><span class="line">	<span class="keyword">assign</span> video_on = (h_count_reg &lt; HD) &amp;&amp; (v_count_reg &lt; VD);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//输出</span></span><br><span class="line">	<span class="keyword">assign</span> hsync = h_sync_reg;</span><br><span class="line">	<span class="keyword">assign</span> vsync = v_sync_reg;</span><br><span class="line">	<span class="keyword">assign</span> pixel_x = h_count_reg;</span><br><span class="line">	<span class="keyword">assign</span> pixel_y = v_count_reg;</span><br><span class="line">	<span class="keyword">assign</span> p_tick = pixel_tick;</span><br><span class="line">	<span class="keyword">assign</span> addr = addr_reg;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>然后是图像控制部分；</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> vga_display</span><br><span class="line">	(</span><br><span class="line">		<span class="keyword">input</span> clk,reset,</span><br><span class="line">        <span class="keyword">input</span> p_tick,</span><br><span class="line">		<span class="keyword">input</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y,</span><br><span class="line">        <span class="keyword">input</span> video_on,</span><br><span class="line">		<span class="keyword">input</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_in,</span><br><span class="line">		<span class="keyword">output</span> [<span class="number">14</span>:<span class="number">0</span>] addr_out,</span><br><span class="line">		<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_out</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">	<span class="keyword">parameter</span> DH = <span class="number">150</span>, DV = <span class="number">150</span>;</span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">14</span>:<span class="number">0</span>] addr_reg,addr_next;</span><br><span class="line">	<span class="keyword">reg</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_reg,rgb_next;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">assign</span> pic_en = ((pixel_x &gt;= <span class="number">0</span> &amp;&amp; pixel_x &lt; DH) &amp;&amp; (pixel_y &gt;= <span class="number">0</span> &amp;&amp; pixel_y &lt; DV));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset) <span class="keyword">begin</span></span><br><span class="line">    	<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">    		<span class="comment">// reset</span></span><br><span class="line">    		addr_reg &lt;= <span class="number">15'b0</span>;</span><br><span class="line">    		rgb_reg &lt;= <span class="number">12'b0</span>;</span><br><span class="line">    	<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    		addr_reg &lt;= addr_next;</span><br><span class="line">    		rgb_reg &lt;= rgb_next;</span><br><span class="line">    	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (p_tick) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (addr_reg == DH * DV - <span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                addr_next = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (pic_en) <span class="keyword">begin</span></span><br><span class="line">                addr_next = addr_reg + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                addr_next = addr_reg;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            addr_next = addr_reg;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    	<span class="keyword">if</span> (pic_en) <span class="keyword">begin</span></span><br><span class="line">    		rgb_next = rgb_in;</span><br><span class="line">    	<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    		rgb_next = <span class="number">12'b0000_1111_1111</span>;</span><br><span class="line">    	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> addr_out = addr_reg;</span><br><span class="line">    <span class="keyword">assign</span> rgb_out = (video_on)?rgb_reg:<span class="number">12'b0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>最后ROM储存。</p>
+<p>这部分调用了Xilinx官方的IP，在IP Catalog 中选择Block Memory Generator，</p>
+<ol>
+<li><p>首先在Basis里选择Memory Type为Single Port ROM；</p>
+<p><img src="/2018/01/21/VGA-controller/ROM1.png" alt="ROM1"></p>
+</li>
+<li><p>然后在Port A Options 里设置数据宽度和深度，因为Basys3上的VGA是RGB444格式的，所以数据宽度设为12位，深度可以理解为像素数，本来是想显示640*480的图片的，但Basys3上的RAM容量不够，所以就显示的150*150的图片,则深度为22500（150*150），不需要使能，所以Enable Port Type设为Always Enable；</p>
+<p><img src="/2018/01/21/VGA-controller/ROM2.png" alt="ROM2"></p>
+</li>
+<li><p>Other Options里，装载 .coe文件。</p>
+<p><img src="/2018/01/21/VGA-controller/ROM3.png" alt="ROM3"></p>
+<p><img src="/2018/01/21/VGA-controller/ROM4.png" alt="ROM4"></p>
+</li>
+<li><p>顶层文件</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> VGA_display_pictures_top</span><br><span class="line">	(</span><br><span class="line">		<span class="keyword">input</span> clk,reset,</span><br><span class="line">		<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_data,</span><br><span class="line">		<span class="keyword">output</span> hsync,vsync</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">	<span class="comment">//信号声明</span></span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">14</span>:<span class="number">0</span>] addr;</span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">11</span>:<span class="number">0</span>] rom_data;		<span class="comment">//rom输出rgb信号</span></span><br><span class="line">	<span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y;</span><br><span class="line">	<span class="keyword">wire</span> video_on;</span><br><span class="line"></span><br><span class="line">    vga_sync U_vga_sync</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.hsync</span>(hsync),</span><br><span class="line">    	<span class="variable">.vsync</span>(vsync),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">    vga_display U_vga_display</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.rgb_in</span>(rom_data),</span><br><span class="line">    	<span class="variable">.rgb_out</span>(rgb_data),</span><br><span class="line">    	<span class="variable">.addr_out</span>(addr),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	vga_picture vga_picture</span><br><span class="line">	(</span><br><span class="line">		<span class="variable">.clka</span>(clk),</span><br><span class="line">		<span class="variable">.addra</span>(addr),</span><br><span class="line">		<span class="variable">.douta</span>(rom_data)</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>整体连线图</p>
+<p><img src="/2018/01/21/VGA-controller/整体连线图.png" alt="整体连线图"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>为了防止自己忘记，所以写下来；</li>
+<li>暂时先写这么多，以后再补充。</li>
+</ul>
+</li>
+</ol>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我喝酸奶<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -202,57 +334,119 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/01/21/VGA-controller/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/13/my-first-blog/" class="archive-article-date">
-  	<time datetime="2018-01-12T16:08:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-13</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/13/my-first-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">我的第一个博客</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/13/my-first-blog/">我的第一个博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目标"><span class="toc-number">1.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设计"><span class="toc-number">3.</span> <span class="toc-text">设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -275,8 +469,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
