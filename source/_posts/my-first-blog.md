@@ -22,3 +22,5 @@ categories: 随笔
 > [浚宇的博客](http://blog.junyu.io/posts/0005-next-theme-settings.html#sociallinksandicons)
 >
 > [reuixiy](https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html)
+>
+> [Next主题个性化之自动更换背景图片](https://www.jianshu.com/p/30bf702f533c)
