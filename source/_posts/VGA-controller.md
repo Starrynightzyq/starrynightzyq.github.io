@@ -2,7 +2,7 @@
 title: 基于FPGA的VGA控制器
 toc: true
 date: 2018-01-21 16:57:19
-categories:
+categories: FPGA学习
 tags: [verilog,项目,FPGA,VGA]
 description:
 ---
