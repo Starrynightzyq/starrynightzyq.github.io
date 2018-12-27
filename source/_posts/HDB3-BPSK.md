@@ -19,7 +19,7 @@ description: 音频AD采集->HDB3编码->BPSK调制->传输
 
       根据上述要求，选择EGo1板卡。
 
-      - ADC可使用Artix7芯片自带的XDAC；
+      - ADC可使用Artix7芯片自带的XADC；
 
         > http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html
         >
