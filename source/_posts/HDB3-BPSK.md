@@ -27,6 +27,8 @@ description: 音频AD采集->HDB3编码->BPSK调制->传输
         >
         > https://zhuanlan.zhihu.com/p/44495333
 
+        [Zynq AXI XADC App Note](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note)
+
       - DDS可使用xilinx的DDS IP核；
 
         > https://zhuanlan.zhihu.com/p/36929424
