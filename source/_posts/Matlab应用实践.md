@@ -2,9 +2,9 @@
 title: Matlab应用实践
 toc: true
 date: 2019-01-11 00:23:46
-categories:课设
-tags:[Matlab, 数字信号处理]
-description:数字信号处理Matlab实习报告
+categories: [课设]
+tags: [Matlab, 数字信号处理]
+description: 数字信号处理Matlab实习报告
 ---
 
 # 实验一 基础练习
