@@ -55,14 +55,14 @@ description: 安装Ubuntu后要安装的一些软件
      plugins=( [plugins...] autojump) # 修改~/.zshrc
      ~~~
 
-   - [zsh-autosuggestion](https://github.com/zsh-users/zsh-autosuggestions)
+   - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
      ~~~bash
      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
      ~~~
 
      ~~~sh
-     plugins=( [plugins...] zsh-autosuggestion) # 修改~/.zshrc
+     plugins=( [plugins...] zsh-autosuggestions) # 修改~/.zshrc
      ~~~
 
    - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
