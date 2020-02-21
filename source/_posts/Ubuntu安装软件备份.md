@@ -166,6 +166,14 @@ sudo apt-get update
 sudo apt-get install sublime-text
 ```
 
+在`~/.zshrc` `plugins`里面添加`sublime`插件
+
+~~~
+plugins=( [plugins...] sublime) # 修改~/.zshrc
+~~~
+
+之后就可以用`subl`启动 sublime text 3 了
+
 # 实时监控网速：NetSpeed
 
 直接在``Ubuntu Software``里面搜索安装。
