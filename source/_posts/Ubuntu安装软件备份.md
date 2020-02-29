@@ -228,10 +228,137 @@ sudo apt install chrome-gnome-shell
 
 按下 `Alt` + `F2`,输入 `r`，回车重启 gnome。
 
-# 主题&图标
+## 主题&图标
 
 我比较喜欢的是
 
 - [Flatabulous](https://github.com/anmoljagetia/Flatabulous) 
 - [arc-theme](https://github.com/horst3180/arc-theme)
 - [flat-remix-gnome](https://github.com/daniruiz/flat-remix-gnome)
+
+# 关闭图形化界面
+
+> 参考 [Ubuntu桌面版关闭GUI环境]([https://dslztx.github.io/blog/2017/08/27/Ubuntu%E6%A1%8C%E9%9D%A2%E7%89%88%E5%85%B3%E9%97%ADGUI%E7%8E%AF%E5%A2%83/](https://dslztx.github.io/blog/2017/08/27/Ubuntu桌面版关闭GUI环境/))
+
+## **一、持久关闭**
+
+执行以下命令，持久关闭Ubuntu桌面版的GUI环境（通过`Ctrl+Alt+F1-F6`快捷键进入命令行界面）：
+
+```
+sudo systemctl set-default multi-user.target
+```
+
+执行以下命令，持久开启Ubuntu桌面版的GUI环境（通过`Ctrl+Alt+F7`快捷键进入GUI界面）：
+
+```
+sudo systemctl set-default graphical.target
+```
+
+## **二、临时关闭**
+
+执行以下命令，临时关闭Ubuntu桌面版的GUI环境：
+
+```
+sudo service lightdm stop
+```
+
+执行以下命令，临时开启Ubuntu桌面版的GUI环境：
+
+```
+sudo service lightdm start
+```
+
+
+参考文献： [1]https://askubuntu.com/questions/800239/how-to-disable-lightdmdisplay-manager-on-ubuntu-16-0-4-lts [2]https://askubuntu.com/questions/365719/i-have-to-restart-lightdm-after-run
+
+# 增加 Swap 分区
+
+1. 禁用 swap 功能
+
+   ~~~
+   sudo swapoff /swapfile
+   ~~~
+
+   这个命令执行之后，如果你用free命令查看的话会发现swap分区的大小变为了0。
+
+2. 增加 /swapfile的大小：
+
+   ```bash
+   sudo dd if=/dev/zero of=/swapfile bs=1M count=30720 oflag=append conv=notrunc
+   ```
+
+   这个命令会在现有的/swapfile后面追加30GB，加上之前的2GB的swap分区，现在共有32个GB的swap分区了。
+
+3. 设置这个文件为swap分区的挂载点：
+
+   ```bash
+   sudo mkswap /swapfile
+   ```
+
+4. 再次启用swap
+
+   ~~~bash
+   sudo swapon /swapfile
+   ~~~
+
+
+# 使用 screen 管理你的远程会话
+
+1. 新建screen会话
+
+   ~~~bash
+   $ screen
+   ~~~
+
+   或者
+
+   ~~~bash
+   $ screen + command
+   ~~~
+
+2. 在已有screen会话中创建新的窗口
+
+   `Ctrl`+`a` `c`
+
+   Ctrl键+a键，之后再按下c键，screen 在该会话内生成一个新的窗口并切换到该窗口。
+
+3. detached会话
+
+   `C-a` `d`
+
+4. 查看会话
+
+   ~~~
+   screen -ls
+   ~~~
+
+5. 恢复会话
+
+   ~~~
+   screen -r <screen_pid>
+   ~~~
+
+6. 清除dead会话
+
+   ~~~
+   screen -wipe
+   ~~~
+
+7. more
+
+   C-a w 显示所有窗口列表
+   C-a C-a 切换到之前显示的窗口
+   C-a c 创建一个新的运行shell的窗口并切换到该窗口
+   C-a n 切换到下一个窗口
+   C-a p 切换到前一个窗口(与C-a n相对)
+   C-a 0..9 切换到窗口0..9
+   C-a a 发送 C-a到当前窗口
+   C-a d 暂时断开screen会话
+   C-a k 杀掉当前窗口
+
+# 代替screen：tmux
+
+> https://www.ruanyifeng.com/blog/2019/10/tmux.html
+
+
+
