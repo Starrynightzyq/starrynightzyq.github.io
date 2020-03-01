@@ -238,7 +238,7 @@ sudo apt install chrome-gnome-shell
 
 # 关闭图形化界面
 
-> 参考 [Ubuntu桌面版关闭GUI环境]([https://dslztx.github.io/blog/2017/08/27/Ubuntu%E6%A1%8C%E9%9D%A2%E7%89%88%E5%85%B3%E9%97%ADGUI%E7%8E%AF%E5%A2%83/](https://dslztx.github.io/blog/2017/08/27/Ubuntu桌面版关闭GUI环境/))
+> 参考 [Ubuntu桌面版关闭GUI环境](https://dslztx.github.io/blog/2017/08/27/Ubuntu桌面版关闭GUI环境/)
 
 ## **一、持久关闭**
 
@@ -360,5 +360,16 @@ sudo service lightdm start
 
 > https://www.ruanyifeng.com/blog/2019/10/tmux.html
 
+# 监测CPU温度：sensors
 
+~~~
+sudo apt-get install lm-sensors
+~~~
 
+使用
+
+~~~
+watch -n 2 sensors
+~~~
+
+> -n 2 表示每隔两秒刷新一次
