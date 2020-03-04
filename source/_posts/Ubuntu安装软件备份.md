@@ -373,3 +373,10 @@ watch -n 2 sensors
 ~~~
 
 > -n 2 表示每隔两秒刷新一次
+
+# [MiniDLNA](https://help.ubuntu.com/community/MiniDLNA)
+
+> 还没装好
+
+# Samba
+
