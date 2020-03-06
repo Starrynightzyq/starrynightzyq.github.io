@@ -1,0 +1,321 @@
+---
+title: hexo 美化
+toc: true
+date: 2020-03-06 13:15:51
+categories: hexo
+tags: [hexo, GEEK, 美化]
+description: 美化hexo及next主题
+---
+
+# 安装/升级next主题
+
+安装
+
+~~~
+git clone https://github.com/theme-next/hexo-theme-next themes/next
+~~~
+
+升级
+
+~~~
+git clone https://github.com/theme-next/hexo-theme-next themes/next-reloaded
+~~~
+
+在 Hexo 的主配置文件中设置主题：
+
+~~~yaml
+...
+theme: next-reloaded
+...
+~~~
+
+更新语言配置
+
+从 v6.0.3 版本起，`zh-Hans` 改名为 `zh-CN`：https://github.com/theme-next/hexo-theme-next/releases/tag/v6.0.3
+
+需要修改 Hexo 主配置文件 `_config.yml` 里的 `language` 配置
+
+# 设置主题的Scheme
+
+Next自带了几种外观，在**主题目录**下的`_config.yml`里找到`scheme`，我比较喜欢Mist：
+
+~~~yaml
+#scheme: Muse
+scheme: Mist
+#scheme: Pisces
+#scheme: Gemini
+~~~
+
+# 菜单设置
+
+在**主题目录**下的`_config.yml`里找到`menu`：
+
+~~~yaml
+menu:
+  home: / || home
+  # about: /about/ || user
+  tags: /tags/ || tags
+  categories: /categories/ || th
+  archives: /archives/ || archive
+  #schedule: /schedule/ || calendar
+  #sitemap: /sitemap.xml || sitemap
+  # commonweal: /404/ || heartbeat
+~~~
+
+- 新添加的菜单需要翻译对应的中文
+
+  打开`hexo/theme/next/languages/zh-CN.yml`，在menu下自定义，如：
+
+  ~~~yaml
+  menu:
+    resources: 资源
+  ~~~
+
+- `hexo new page "categories"`
+
+  此时在根目录的`source`文件夹下会生成一个categories文件，文件中有一个`index.md`文件，修改内容如下
+
+  ~~~markdown
+  ---
+  title: 分类
+  date: 2017-12-14 13:05:38
+  type: "categories"
+  comments: false
+  ---
+  ~~~
+
+# 设定站点建立时间
+
+在**主题目录**下的`_config.yml`里找到`since`：
+
+~~~yaml
+footer:
+  # Specify the date when the site was setup. If not defined, current year will be used.
+  since: 2018
+~~~
+
+# 设置头像
+
+在**主题目录**下的`_config.yml`里找到`avatar`：
+
+~~~yaml
+# Sidebar Avatar
+avatar:
+  # Replace the default image and set the url here.
+  url: /images/avatar.jpg # 图标
+  # If true, the avatar will be dispalyed in circle.
+  rounded: true # 圆形图标
+  # If true, the avatar will be rotated with the cursor.
+  rotated: true # 图标旋转
+~~~
+
+**注意：**图片地址在`./themes/next-reloaded/source/images/`下
+
+# 网站图标设置
+
+下载16x16以及32x32大小的**PNG格式图标**，置于`/themes/next/source/images/`下
+
+在**主题目录**下的`_config.yml`里找到`favicon`：
+
+~~~yaml
+favicon:
+  small: /images/favicon-16x16-kite.png
+  medium: /images/favicon-32x32-kite.png
+  apple_touch_icon: /images/apple-touch-icon-kite.png
+  safari_pinned_tab: /images/logo-kite.svg
+  #android_manifest: /images/manifest.json
+  #ms_browserconfig: /images/browserconfig.xml
+~~~
+
+# 文章底部标签显示的优化
+
+修改`/themes/next/layout/_macro/post.swig`，搜索 `rel="tag">#`，将 `#` 换成 `<i class="fa fa-tag"></i>`
+
+# 主页文章添加阴影效果
+
+现在使用自定义CSS的办法：
+在主题目录下的`_config.yml`或`next.yml`中，设置
+
+```
+custom_file_path:
+  style: source/_data/styles.styl
+```
+
+然后，将自定义CSS放进`hexo/source/_data/styles.styl`文件中即可
+
+打开`hexo/source/source/_data/styles.styl`，添加以下代码：
+
+~~~css
+// 主页文章添加阴影效果
+.post {
+   margin-top: 60px;
+   margin-bottom: 60px;
+   padding: 25px;
+   background:rgba(255,255,255,0.9) none repeat scroll !important;
+   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+}
+~~~
+
+# 自动更换背景图片
+
+> https://www.jianshu.com/p/30bf702f533c
+
+打开`hexo/source/source/_data/styles.styl`，添加以下代码：
+
+~~~
+//页面背景
+body {
+    background:url(https://source.unsplash.com/random/1600x900);
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-size:100% 100%;
+    background-position:50% 50%;
+}
+.main-inner { 
+    margin-top: 60px;
+    padding: 60px 60px 60px 60px;
+    background: #fff;
+    opacity: 0.8;
+    min-height: 500px;
+}
+~~~
+
+background:url为图片路径，也可以使用本地地址，如 `/images/background.jpg`,地址在 `hexo/themes/next/source/images` 下
+background-repeat：若果背景图片不能全屏，那么是否平铺显示，充满屏幕
+background-attachment：背景是否随着网页上下滚动而滚动，fixed为固定
+background-size：图片展示大小，这里设置100% 100%的意义为：如果背景图片不能全屏，那么是否通过拉伸的方式将背景强制拉伸至全屏显示。
+
+# 顶部加载条
+
+修改主题配置文件，找到`pace`改为`true`，并从上面提供的样式中选择一种填入`pace_theme`中就可以了：
+
+```yaml
+# Progress bar in the top during page loading.
+# Dependencies: https://github.com/theme-next/theme-next-pace
+# For more information: https://github.com/HubSpot/pace
+pace:
+  enable: true
+  # Themes list:
+  # big-counter | bounce | barber-shop | center-atom | center-circle | center-radar | center-simple
+  # corner-indicator | fill-left | flat-top | flash | loading-bar | mac-osx | material | minimal
+  theme: minimal
+```
+
+# 浏览页面的时候显示当前浏览进度
+
+打开 `themes/next/_config.yml` ,搜索关键字 `scrollpercent` ,把 `false` 改为 `true`。
+
+```yaml
+# Scroll percent label in b2t button
+  scrollpercent: true
+```
+
+如果想把 `top`按钮放在侧边栏,打开 `themes/next/_config.yml` ,搜索关键字 `b2t` ,把 `false` 改为 `true`。
+
+```yaml
+# Back to top in sidebar
+  b2t: true
+
+  # Scroll percent label in b2t button
+  scrollpercent: true
+```
+
+# 文章顶部显示更新时间(默认打开)
+
+打开主题配置文件 `_config.yml` ,搜索关键字 `updated_at` 设置为 `true` ：
+
+```text
+# Post meta display settings
+post_meta:
+  item_text: true
+  created_at: true
+  updated_at:
+    enable: true
+    another_day: true
+  categories: true
+```
+
+**最新版本的next默认打开了这个选项**
+
+# 修改内容区域的宽度
+
+我们用Next主题是发现在电脑上阅读文章时内容两边留的空白较多，这样在浏览代码块时经常要滚动滚动条才能阅读完整，体验不是很好，下面提供修改内容区域的宽度的方法。 NexT 对于内容的宽度的设定如下：
+
+- 700px，当屏幕宽度 < 1600px
+- 900px，当屏幕宽度 >= 1600px
+- 移动设备下，宽度自适应
+
+如果你需要修改内容的宽度，同样需要编辑样式文件。 在Mist和Muse风格可以用下面的方法：
+
+编辑主题的 `source/css/_variables/base.styl` 文件，新增变量：
+
+```text
+// 修改成你期望的宽度
+$content-desktop = 700px
+
+// 当视窗超过 1600px 后的宽度
+$content-desktop-large = 900px
+```
+
+当你使用Pisces风格时可以用下面的方法：
+
+```text
+header{ width: 90%; }
+.container .main-inner { width: 90%; }
+.content-wrap { width: calc(100% - 260px); }
+```
+
+# 如何设置「阅读全文」？
+
+在首页显示一篇文章的部分内容，并提供一个链接跳转到全文页面是一个常见的需求。 NexT 提供三种方式来控制文章在首页的显示方式。 也就是说，在首页显示文章的摘录并显示 **阅读全文** 按钮，可以通过以下方法：
+
+1. 在文章中使用 `<!-- more -->` 手动进行截断，Hexo 提供的方式 **推荐**
+
+2. 在文章的 [front-matter](https://hexo.io/docs/front-matter.html) 中添加 `description`，并提供文章摘录
+
+3. 自动形成摘要，在 **主题配置文件** 中添加：
+
+   ```
+   auto_excerpt:
+     enable: true
+     length: 150
+   ```
+
+   默认截取的长度为 `150` 字符，可以根据需要自行设定
+
+建议使用 `<!-- more -->`（即第一种方式），除了可以精确控制需要显示的摘录内容以外， 这种方式也可以让 Hexo 中的插件更好的识别。
+
+# 404 页面
+
+使用方法，新建 404.html 页面，放到主题的 `source` 目录下，内容如下：
+
+~~~html
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8;"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="robots" content="all" />
+  <meta name="robots" content="index,follow"/>
+  <link rel="stylesheet" type="text/css" href="https://qzone.qq.com/gy/404/style/404style.css">
+</head>
+<body>
+  <script type="text/plain" src="http://www.qq.com/404/search_children.js"
+          charset="utf-8" homePageUrl="/"
+          homePageName="回到我的主页">
+  </script>
+  <script src="https://qzone.qq.com/gy/404/data.js" charset="utf-8"></script>
+  <script src="https://qzone.qq.com/gy/404/page.js" charset="utf-8"></script>
+</body>
+</html>
+~~~
+
+**注意：**本地测试没有效果，需要发布
+
+# gulp 压缩
+
+> 参考 https://zhuanlan.zhihu.com/p/28447279
+>
+> https://leaferx.online/2017/06/16/use-gulp-to-minimize/
+

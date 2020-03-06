@@ -7,7 +7,7 @@ title: 风满楼
 subtitle:
 description: 生命中的全部偶然，其实都是命中注定。
 author: Fitz
-language: zh-Hans
+language: zh-CN
 timezone:
 
 # URL
@@ -72,7 +72,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: next-reloaded
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

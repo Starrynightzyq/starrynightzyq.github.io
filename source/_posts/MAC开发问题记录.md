@@ -29,3 +29,39 @@ description: 记录 MAC 环境下开发遇到的问题
 
   `opencv-python-headless` ：与 `opencv-python` 相同但没有GUI功能。适用于无界面系统。
 
+# proxychains-ng
+
+- 问题描述
+
+  ~~~
+  [proxychains] config file found: /Users/zhouyugan/.proxychains/proxychains.conf
+  [proxychains] preloading /usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib
+  [proxychains] DLL init: proxychains-ng 4.14
+  dyld: warning: could not load inserted library '/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib' into hardened process because no suitable image found.  Did find:
+  	/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib: code signature in (/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib) not valid for use in process using Library Validation: mapped file has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.
+  	/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib: stat() failed with errno=1
+  Cloning into 'themes/next-reloaded'...
+  dyld: warning: could not load inserted library '/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib' into hardened process because no suitable image found.  Did find:
+  	/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib: code signature in (/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib) not valid for use in process using Library Validation: mapped file has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.
+  	/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib: stat() failed with errno=1
+  ^C
+  ~~~
+
+- 解决方案
+
+  ~~~
+  brew install git
+  ~~~
+
+  ~~~
+  export PATH=/usr/local/bin:/usr/local/bin:${PATH}
+  ~~~
+
+  查看一下使用的是哪个版本的 git
+
+  ~~~bash
+  $ which git
+  /usr/local/bin/git
+  ~~~
+
+  
