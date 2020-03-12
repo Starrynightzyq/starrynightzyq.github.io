@@ -218,9 +218,9 @@ echo $PETALINUX
 
 生成bitstream文件，导入到SDK。
 
-输出的文件都在“/<vivado project>/<project name>.sdk/<top module name>_hw_platform_0”文件夹下。
+输出的文件都在"`/<vivado project>/<project name>.sdk/<top module name>_hw_platform_0`"文件夹下。
 
-后面使用只需要将“<top module name>_hw_platform_0”文件夹中”system_wapper.hdf“文件复制到Linux就行了。
+后面使用只需要将"`<top module name>_hw_platform_0”文件夹中”system_wapper.hdf`"文件复制到Linux就行了。
 
 ## step2 创建Petalinux工程
 

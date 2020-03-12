@@ -11,13 +11,13 @@ categories: 随笔
 
 参考了如下几个网站：
 
-1. ## 建站
+## 1. 建站
 
 > [好记的博客](http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa)
 > [可能是最详细的 Hexo + GitHub Pages 搭建博客的教程](http://www.lovebxm.com/2017/05/30/buildBlog/)
 > [GitHub+Hexo 搭建个人网站详细教程](https://zhuanlan.zhihu.com/p/26625249)
 
-2. ## 优化
+## 2. 优化
 
 > [浚宇的博客](http://blog.junyu.io/posts/0005-next-theme-settings.html#sociallinksandicons)
 >
