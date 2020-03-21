@@ -319,3 +319,78 @@ header{ width: 90%; }
 >
 > https://leaferx.online/2017/06/16/use-gulp-to-minimize/
 
+# 代码框设置
+
+打开主题配置文件 `_config.yml` , 搜索关键字 `codeblock`
+
+~~~yaml
+codeblock:
+  # Code Highlight theme
+  # Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic
+  # See: https://github.com/chriskempson/tomorrow-theme
+  highlight_theme: night
+  # Add copy button on codeblock
+  copy_button:
+    enable: true
+    # Show text copy result.
+    show_result: default
+    # Available values: default | flat | mac
+    style: mac
+~~~
+
+# PAJX
+
+该项功能的作用是：跳转到同网站另一个页面的时候，前后两个页面相同的元素不再重复加载，进而节省了加载的时间，加快访问速度。该项功能依赖官方提供的 [PJAX 插件](https://github.com/theme-next/theme-next-pjax)。
+
+~~~yaml
+# Easily enable fast Ajax navigation on your website.
+# Dependencies: https://github.com/theme-next/theme-next-pjax
+pjax: true
+~~~
+
+# 图片加载
+
+实现该功能的基础是在文章中[插入图片](https://guanqr.com/tech/website/hexo-theme-next-customization/#图片)。该项功能的效果是：点击文中插图，图片能够放大，有幻灯片的效果。目前 NexT 提供了两款插件 fancybox 和 mediumzoom，两款插件开启一个即可。两款插件的效果不同，各有各的特点，我推荐使用 mediumzoom。
+
+~~~yaml
+# FancyBox is a tool that offers a nice and elegant way to add zooming functionality for images.
+# For more information: https://fancyapps.com/fancybox
+fancybox: false
+
+# A JavaScript library for zooming images like Medium.
+# Do not enable both `fancybox` and `mediumzoom`.
+# For more information: https://github.com/francoischalifour/medium-zoom
+mediumzoom: true
+~~~
+
+> PS: 本地图片无法加载问题
+>
+> reference: https://blog.csdn.net/xjm850552586/article/details/84101345
+
+# 段落标题添加锚点
+
+使用 NexT 官方制作的一个锚点插件：[hexo-theme-next-anchor](https://github.com/theme-next/hexo-theme-next-anchor)。
+
+~~~bash
+npm install hexo-theme-next-anchor --save
+~~~
+
+在主题的配置文件 `_config.yml` 中添加：
+
+~~~yaml
+anchor:
+  enable: true
+  color: '#0e83cd'
+  position: right # If left, anchors will always be visible.
+  margin: 7px 
+  text: '#'
+  icon:
+    # If true, the `text` option will be ignored.
+    enable: false 
+    # By default, NexT has built-in FontAwesome support.
+    # This option means `font-family: FontAwesome`, so DO Not change it.
+    # Also you can choose ForkAwesome, but that's another story.
+    font: FontAwesome
+    content: \f0c1 # CSS content for FontAwesome & ForkAwesome.
+~~~
+

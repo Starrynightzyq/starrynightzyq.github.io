@@ -4,7 +4,7 @@ toc: true
 date: 2020-03-10 17:44:43
 categories: GEEK
 tags: [GEEK, Linux]
-description: 不能一言不合就 chmod 777 啊
+description:
 ---
 
 记录一下 Linux 下的用户、用户组、文件权限等基本知识，不能动不动就 777。
