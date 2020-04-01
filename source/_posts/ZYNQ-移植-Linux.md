@@ -45,24 +45,25 @@ description:
 
 > Tools Required: vivado sdk
 >
-> Source Required: [linux-xlnx](https://github.com/Xilinx/linux-xlnx.git)
+> Source Required: [Device Tree compiler](https://git.kernel.org/pub/scm/utils/dtc/dtc.git)
 
-下载与自己 vivado 版本对应的 linux-xlnx，在目录 *linux-xlnx* 下运行：
+下载[Device Tree compiler](https://git.kernel.org/pub/scm/utils/dtc/dtc.git)，在目录 *dtc* 下运行：
 
 ~~~
 make
 ~~~
 
-生成的文件位置为：`linux-xlnx/scripts/dtc/dtc`，一个可执行文件，将其添加到 PATH 中：
+会在当前目录生成 `dtc`，一个可执行文件，将其添加到 PATH 中：
 
 ~~~bash
-export PATH=`pwd`:$PATH # 或者把 `pwd` 换为 <linux-xlnx/scripts/dtc/dtc> 目录
+export PATH=`pwd`:$PATH # 或者把 `pwd` 换为 <dtc> 目录
 ~~~
 
 ## 其他
 
 ~~~bash
-export PATH=/home/fitz/linux-on-zynq/linux-xlnx/scripts/dtc:$PATH
+# export PATH=/home/fitz/linux-on-zynq/linux-xlnx/scripts/dtc:$PATH
+export PATH=/home/fitz/linux-on-zynq/dtc:$PATH
 export PATH=/home/fitz/linux-on-zynq/u-boot-xlnx/tools:$PATH
 export CROSS_COMPILE=arm-linux-gnueabihf-
 export ARCH=arm
@@ -203,7 +204,7 @@ make # 或者 make -j8
 
 ![截屏2020-04-01 上午2.17.17](ZYNQ-移植-Linux/截屏2020-04-01 上午2.17.17.png)
 
-依次添加 *fsbl.elf*, *.bit*, *u-boot.elf*，其中的 *u-boot.elf* 是在上一个步骤中生成的，最后点击 `Create Image`，会在 *<vivado_project>/<vivado_project>.sdk/fsbl/bootimage/* 目录下生成 *BOOT.bin* 文件。
+依次添加 *fsbl.elf, .bit, u-boot.elf*，其中的 *u-boot.elf* 是在上一个步骤中生成的，最后点击 `Create Image`，会在 *<vivado_project>/<vivado_project>.sdk/fsbl/bootimage/* 目录下生成 *BOOT.bin* 文件。
 
 # 编译内核
 
@@ -215,10 +216,13 @@ make # 或者 make -j8
 
 ~~~bash
 make xilinx_zynq_defconfig
+make -j8
 make UIMAGE_LOADADDR=0x8000 uImage -j8
 ~~~
 
 编译完成后，在目录 *linux-xlnx/arch/arm/boot/* 下生成未经压缩过的内核镜像 *uImage* 文件。
+
+> 下载不同版本的 *linux-xlnx*，编译后可以得到不同内核版本
 
 # 环境变量文件
 
@@ -311,7 +315,7 @@ Starting kernel ...
 Last login: Thu Jan  1 00:00:06 UTC 1970 on tty1
 cat: /var/lib/update-notifier/fsck-at-reboot: No such file or directory
 run-parts: /etc/update-motd.d/98-fsck-at-reboot exited with return code 1
-Welcome to Linaro 12.09 (GNU/Linux 4.9.0-xilinx armv7l)
+Welcome to Linaro 12.09 (GNU/Linux 5.4.0-xilinx-28096-gef412ed37999 armv7l)
 
  * Documentation:  https://wiki.linaro.org/
 root@linaro-ubuntu-desktop:~#
@@ -327,19 +331,19 @@ root@linaro-ubuntu-desktop:~#
 
    解决办法：
 
-   1. dtc 版本与 vivado sdk 版本不对应，换成对应版本的 dtc 就行
+   1. ~~dtc 版本与 vivado sdk 版本不对应，换成对应版本的 dtc 就行~~
    
    2. 修改 *system-top.dts* 中的 `memory`：
    
       将：
 
-~~~
-memory {
+      ~~~
+      memory {
       device_type = "memory";
       reg = <0x0 0x20000000>;
       };
       ~~~
-      
+
       改为：
       
       ~~~
@@ -348,7 +352,7 @@ memory {
       reg = <0x0 0x20000000>;
       };
       ~~~
-   
+
 2. Linux 启动时内存分配失败：
 
    启动时串口输出类似信息：
@@ -364,5 +368,5 @@ memory {
    SF: Detected s25fl128s_64k with page size 256 Bytes, erase size 64 KiB, total 16 MiB
    ~~~
 
-   可以看到 DRAM 为 0，应该是修改 *u-boot-xlnx/include/configs/zynq-common.h* 或 *u-boot-xlnx/include/configs/zynq_pynqz2.h* 的问题，DRAM 的大小应该在设备树文件里面的 `memory` 定义，不要在 *zynq-common.h* 里面用 `#define CONFIG_SYS_SDRAM_SIZE (512 * 1024 * 1024)` 定义
+   可以看到 DRAM 为 0，应该是修改 *u-boot-xlnx/include/configs/zynq-common.h* 或 *u-boot-xlnx/include/configs/zynq_pynqz2.h* 的问题，DRAM 的大小应该在设备树文件里面的 `memory` 定义，不要在 *zynq-common.h* 里面用 `#define CONFIG_SYS_SDRAM_SIZE (512 * 1024 * 1024)` 定义。
 
