@@ -29,7 +29,7 @@
     "hexo-renderer-ejs": "^0.3.0",
     "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-stylus": "^0.3.1",
-    "hexo-server": "^0.2.0",
+    "hexo-server": "^0.2.2",
     "hexo-theme-next-anchor": "^1.0.3"
   },
   "scripts": {

@@ -13,7 +13,7 @@ description:
 >
 > 硬件平台: [PYNQ-Z2](http://www.tul.com.tw/ProductsPYNQ-Z2.html)
 >
-> Vivado版本: 2017.4
+> Vivado版本: 2018.2
 
 <!--more-->
 
@@ -150,26 +150,79 @@ SDK Menu: Xilinx > Repositories > New… `<device-tree-xlnx>` > OK
 
    *zynq_pynqz2_defconfig* 可以参考同目录下的 *u-boot-xlnx/configs/zynq_zybo_defconfig*，稍作修改：
 
-   将：
-
-   ~~~c
-   CONFIG_ARM=y
-   CONFIG_SYS_CONFIG_NAME="zynq_zybo"
-   CONFIG_ARCH_ZYNQ=y
-   CONFIG_SYS_TEXT_BASE=0x4000000
-   CONFIG_DEFAULT_DEVICE_TREE="zynq-zybo"
-   ~~~
-
-   改为：
-
    ~~~c
    CONFIG_ARM=y
    CONFIG_SYS_CONFIG_NAME="zynq_pynqz2"
    CONFIG_ARCH_ZYNQ=y
    CONFIG_SYS_TEXT_BASE=0x4000000
+   CONFIG_SPL_STACK_R_ADDR=0x200000
    CONFIG_DEFAULT_DEVICE_TREE="zynq-pynqz2"
+   CONFIG_DEBUG_UART=y
+   CONFIG_DISTRO_DEFAULTS=y
+   CONFIG_FIT=y
+   CONFIG_FIT_VERBOSE=y
+   CONFIG_FIT_SIGNATURE=y
+   CONFIG_BOOTCOMMAND="run $modeboot || run distro_bootcmd"
+   # CONFIG_DISPLAY_CPUINFO is not set
+   CONFIG_SPL=y
+   CONFIG_SPL_STACK_R=y
+   CONFIG_SPL_OS_BOOT=y
+   CONFIG_SPL_DM_MMC=y
+   CONFIG_SYS_PROMPT="Zynq> "
+   CONFIG_CMD_THOR_DOWNLOAD=y
+   CONFIG_CMD_DFU=y
+   CONFIG_CMD_FPGA_LOADBP=y
+   CONFIG_CMD_FPGA_LOADFS=y
+   CONFIG_CMD_FPGA_LOADMK=y
+   CONFIG_CMD_FPGA_LOADP=y
+   CONFIG_CMD_GPIO=y
+   CONFIG_CMD_I2C=y
+   CONFIG_CMD_MMC=y
+   CONFIG_CMD_SF=y
+   CONFIG_CMD_USB=y
+   # CONFIG_CMD_SETEXPR is not set
+   CONFIG_CMD_TFTPPUT=y
+   CONFIG_CMD_CACHE=y
+   CONFIG_CMD_EXT4_WRITE=y
+   CONFIG_OF_EMBED=y
+   CONFIG_ENV_IS_IN_SPI_FLASH=y
+   CONFIG_NET_RANDOM_ETHADDR=y
+   CONFIG_SPL_DM_SEQ_ALIAS=y
+   CONFIG_DFU_MMC=y
+   CONFIG_DFU_RAM=y
+   CONFIG_FPGA_XILINX=y
+   CONFIG_DM_GPIO=y
+   CONFIG_MMC=y
+   CONFIG_MMC_SDHCI=y
+   CONFIG_MMC_SDHCI_ZYNQ=y
+   CONFIG_SPI_FLASH=y
+   CONFIG_SPI_FLASH_BAR=y
+   CONFIG_SPI_FLASH_SPANSION=y
+   CONFIG_PHY_MARVELL=y
+   CONFIG_PHY_REALTEK=y
+   CONFIG_PHY_XILINX=y
+   CONFIG_ZYNQ_GEM=y
+   CONFIG_ZYNQ_GEM_SPI_MAC_OFFSET=0x20
+   CONFIG_DEBUG_UART_ZYNQ=y
+   CONFIG_DEBUG_UART_BASE=0xe0000000
+   CONFIG_DEBUG_UART_CLOCK=50000000
+   CONFIG_ZYNQ_SERIAL=y
+   CONFIG_ZYNQ_QSPI=y
+   CONFIG_USB=y
+   CONFIG_USB_EHCI=y
+   CONFIG_USB_EHCI_HCD=y
+   CONFIG_USB_EHCI_ZYNQ=y
+   CONFIG_USB_ULPI_VIEWPORT=y
+   CONFIG_USB_ULPI=y
+   CONFIG_USB_STORAGE=y
+   CONFIG_USB_GADGET=y
+   CONFIG_USB_GADGET_MANUFACTURER="Xilinx"
+   CONFIG_USB_GADGET_VENDOR_NUM=0x03fd
+   CONFIG_USB_GADGET_PRODUCT_NUM=0x0300
+   CONFIG_CI_UDC=y
+   CONFIG_USB_GADGET_DOWNLOAD=y
    ~~~
-
+   
    在这里指定了 device tree，因此需要将前一个步骤中生成的 *system-top.dts, pcw.dtsi, pl.dtsi* 复制到 *u-boot-xlnx/arch/arm/dts/* 目录下，将 *system-top.dts* 改名为 *zynq-pynqz2.dts*
 
 在完成这些后，就可以编译 u-boot 了，运行命令：
