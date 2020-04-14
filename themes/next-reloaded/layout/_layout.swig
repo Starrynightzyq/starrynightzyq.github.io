@@ -55,5 +55,9 @@
   {%- if theme.pjax %}
     </div>
   {%- endif %}
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script>
 </body>
 </html>

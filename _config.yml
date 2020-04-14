@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 风满楼
+title: Fitz
 subtitle:
 description: 生命中的全部偶然，其实都是命中注定。
 author: Fitz
@@ -12,7 +12,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://starrynightzyq.github.io
+url: https://blog.leo-fitz.com/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
