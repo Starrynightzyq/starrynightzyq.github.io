@@ -412,4 +412,4 @@ anchor:
   <script type="text/javascript" src="/js/clicklove.js"></script>
 ~~~
 
-![截屏2020-04-15 上午1.48.41](hexo-美化/截屏2020-04-15 上午1.48.41.png)
+![clicklove](hexo-美化/clicklove.png)
