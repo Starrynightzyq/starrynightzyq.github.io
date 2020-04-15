@@ -45,6 +45,15 @@ gulp.task('minify-images', function() {
         {'verbose': true}))
         .pipe(gulp.dest('./public'))
 });
+// // 打印日志
+// gulp.task('script', function() {
+//     gulp.src(['public/**/*.js', 'public/lib/**/*.js'])
+//         .pipe(uglify())
+//         .on('error', function(err) {
+//             gutil.log(gutil.colors.red('[Error]'), err.toString());
+//         })
+//         .pipe('dist/js')
+// })
 // 默认任务
 /*
 gulp.task('default', [

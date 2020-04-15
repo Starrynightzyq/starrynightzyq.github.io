@@ -313,11 +313,19 @@ header{ width: 90%; }
 
 **注意：**本地测试没有效果，需要发布
 
-# gulp 压缩
+# 博客压缩
 
-> 参考 https://zhuanlan.zhihu.com/p/28447279
->
-> https://leaferx.online/2017/06/16/use-gulp-to-minimize/
+1. gulp 压缩
+
+   > 参考:
+   >
+   > https://zhuanlan.zhihu.com/p/28447279
+   >
+   > https://leaferx.online/2017/06/16/use-gulp-to-minimize/
+
+2. [Hexo-all-minifier](https://github.com/chenzhutian/hexo-all-minifier)
+
+   > 参考：[Hexo博客优化之压缩加速](https://blog.cython.top/hexo-opt1.html)
 
 # 代码框设置
 
