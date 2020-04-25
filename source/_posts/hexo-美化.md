@@ -421,3 +421,45 @@ anchor:
 ~~~
 
 ![clicklove](hexo-美化/clicklove.png)
+
+# 修改字体大小
+
+> reference: https://theme-next.iissnan.com/faqs.html#custom-font
+
+在 next 主题配置文件 *_config.yml* 中启用 *variables.styl*：
+
+~~~yaml
+# Define custom file paths.
+# Create your custom files in site directory `source/_data` and uncomment needed files below.
+custom_file_path:
+  #head: source/_data/head.swig
+  #header: source/_data/header.swig
+  #sidebar: source/_data/sidebar.swig
+  #postMeta: source/_data/post-meta.swig
+  #postBodyEnd: source/_data/post-body-end.swig
+  #footer: source/_data/footer.swig
+  #bodyEnd: source/_data/body-end.swig
+  variable: source/_data/variables.styl
+  #mixin: source/_data/mixins.styl
+  style: source/_data/styles.styl
+~~~
+
+在站点目录下的 *source/_data/* 文件夹下新建 *variables.styl*，填写如下内容：
+
+~~~css
+// 标题，修改成你期望的字体族
+$font-family-headings = Georgia, sans
+
+// 修改成你期望的字体族
+$font-family-base = "Microsoft YaHei", Verdana, sans-serif
+
+// 代码字体
+$code-font-family = "Input Mono", "PT Mono", Consolas, Monaco, Menlo, monospace
+
+// 正文字体的大小
+$font-size-base = 16px
+
+// 代码字体的大小
+$code-font-size = 13px
+~~~
+
