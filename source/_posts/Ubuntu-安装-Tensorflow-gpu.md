@@ -2,8 +2,8 @@
 title: Ubuntu 安装 Tensorflow-gpu
 toc: true
 date: 2020-04-29 14:30:28
-categories:
-tags:
+categories: tensorflow
+tags: [tensorflow, Linux, GEEK]
 description:
 ---
 
@@ -90,7 +90,9 @@ description:
 
 ![nvidia-smi](Ubuntu-安装-Tensorflow-gpu/nvidia-smi.png)
 
-**最后我装的是430版本的驱动**
+**最后我装的是 430.50 版本的驱动**
+
+<!--more-->
 
 # 安装 [CUDA](https://developer.nvidia.com/cuda-toolkit) (version 10.0)
 
@@ -142,10 +144,12 @@ nvcc -V
 
 ![la](Ubuntu-安装-Tensorflow-gpu/la.png)
 
-~~~
+~~~bash
 sudo cp -a cuda/lib64/libcudnn* /usr/local/cuda-10.0/lib64/
 sudo cp -a cuda/include/cudnn.h /usr/local/cuda-10.0/include/
 ~~~
+
+**需要注意下这几个文件的权限！！！**
 
 # 测试 CUDA 是否安装成功
 
