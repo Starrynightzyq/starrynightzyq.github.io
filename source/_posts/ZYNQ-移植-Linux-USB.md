@@ -2,7 +2,7 @@
 title: ZYNQ 移植 Linux -- USB
 toc: true
 date: 2020-04-13 14:04:26
-categories: ZYNQ
+categories: ZYNQ 移植 Linux
 tags: [ZYNQ, FPGA, Linux]
 description:
 ---

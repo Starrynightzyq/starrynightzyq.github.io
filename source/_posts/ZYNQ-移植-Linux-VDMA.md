@@ -2,8 +2,8 @@
 title: ZYNQ 移植 Linux -- VDMA
 toc: true
 date: 2020-04-09 18:25:42
-categories:
-tags:
+categories: ZYNQ 移植 Linux
+tags: [ZYNQ, FPGA, Linux]
 description:
 ---
 

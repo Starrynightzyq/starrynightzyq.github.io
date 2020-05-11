@@ -2,7 +2,7 @@
 title: ZYNQ 移植 Linux
 toc: true
 date: 2020-03-30 21:10:20
-categories: ZYNQ
+categories: ZYNQ 移植 Linux
 tags: [ZYNQ, FPGA, Linux]
 description:
 ---

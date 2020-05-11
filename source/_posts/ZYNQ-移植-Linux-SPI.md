@@ -2,7 +2,7 @@
 title: ZYNQ 移植 Linux -- SPI
 toc: true
 date: 2020-05-05 09:59:36
-categories: ZYNQ
+categories: ZYNQ 移植 Linux
 tags: [ZYNQ, FPGA, Linux]
 description:
 ---
@@ -10,6 +10,8 @@ description:
 # 修改 vivado 工程，启用 PS-SPI
 
 ![vivado SPI](ZYNQ-移植-Linux-SPI/SPI_enable-1588644338828.png)
+
+<!--more-->
 
 # 重新生成 BOOT.bin
 
@@ -30,16 +32,22 @@ description:
    		compatible = "spidev";
    		reg = <0>; /*chipselect 0*/
    		spi-max-frequency = <50000000>;
+   		spi-cpol;
+           spi-cpha;
    	};
    	spidev@1 {
    		compatible = "spidev";
    		reg = <1>; /*chipselect 1*/
    		spi-max-frequency = <50000000>;
+   		spi-cpol;
+           spi-cpha;
    	};
    	spidev@2 {
    		compatible = "spidev";
    		reg = <2>; /*chipselect 2*/
    		spi-max-frequency = <50000000>;
+   		spi-cpol;
+           spi-cpha;
    	};
    };
    ~~~
@@ -47,6 +55,22 @@ description:
    其中 `reg = <*>;` 为片选信号，可以控制 `SPIO_SS*` 引脚；
 
    `is-decoded-cs = <0>;` 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；
+
+   **!!!** `spi-cpol; spi-cpha;` 这两行一定要加！
+
+   修改 *top.dts* 中的 `aliases`：
+
+   ~~~c
+   	aliases {
+   		ethernet0 = &gem0;
+   		i2c0 = &i2c0;
+   		serial0 = &uart0;
+   		spi0 = &qspi;
+   		spi1 = &spi0;
+   	};
+   ~~~
+
+   添加了 `spi1 = &spi0;`
 
 3. 重新编译设备树：
 
@@ -90,4 +114,18 @@ xilinx@pynq:~$ ls /dev/spi*
 
 
 # 用户程序测试
+
+linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 *linux-xlnx/tools/spi/spidev_test.c*，编译命令如下：
+
+~~~bash
+arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test
+~~~
+
+将生成的 *spidev_test* 拷贝到 ZYNQ 中，运行 `./spidev_test`，可以看到 SPI 接口上产生了正确的波形：
+
+![SPI-WAVE](ZYNQ-移植-Linux-SPI/SPI_WAVE.png)
+
+
+
+
 
