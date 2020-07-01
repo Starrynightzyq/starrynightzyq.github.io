@@ -259,3 +259,8 @@ options fbtft_device name=adafruit18 busnum=1 gpios=reset:1014,dc:1015 rotate=90
    ~~~bash
    mplayer -vo fbdev:/dev/fb0 -zoom -x 160 -y 80 -nosound test.mp4
    ~~~
+   
+   <div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
+     <iframe src="//player.bilibili.com/player.html?aid=243218293&bvid=BV1ae411W731&cid=189943254&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"></iframe>
+   </div>
+

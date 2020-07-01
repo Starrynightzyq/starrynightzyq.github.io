@@ -7,6 +7,18 @@ tags: [tensorflow, Linux, GEEK]
 description:
 ---
 
+> **更正!!!**
+>
+> tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：
+>
+> | Software      | Version                |
+> | :------------ | :--------------------- |
+> | nvidia driver | nvidia-440.82          |
+> | Python        | 3.6.9                  |
+> | tensorflow    | tensorflow-gpu==1.15.3 |
+> | cuDNN         | 7.6.4                  |
+> | CUDA          | 10.1(V10.1.243)        |
+
 # 安装 NVIDIA 显卡驱动
 
 1. 下载 NVIDIA 显卡对应的[驱动](https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/)，下载后的文件格式为 *.run*
