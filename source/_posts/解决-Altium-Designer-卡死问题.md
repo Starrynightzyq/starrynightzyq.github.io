@@ -19,11 +19,11 @@ description:
 
 点击右上角的设置小齿轮，然后在 System-> Account Management 中改为 "No,…”，如下图：
 
-![ad1](解决-Altium-Designer-卡死问题/ad1.jpg)
+![ad1](解决-Altium-Designer-卡死问题/ad_1.jpg)
 
 在 System -> Installation 的 "Check frequency” 改为 “Never”，如下图：
 
-![ad2](解决-Altium-Designer-卡死问题/ad2.jpg)
+![ad2](解决-Altium-Designer-卡死问题/ad_2.jpg)
 
 ## 第二步：设置防火墙，禁止 AD 联网
 
