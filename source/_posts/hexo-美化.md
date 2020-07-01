@@ -463,3 +463,7 @@ $font-size-base = 16px
 $code-font-size = 13px
 ~~~
 
+# 侧边栏社交链接设置
+
+参考：[添加阿里图标支持](https://guanqr.com/tech/website/hexo-theme-next-customization/#contents:添加阿里图标支持)
+
