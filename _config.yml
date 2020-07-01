@@ -78,7 +78,10 @@ theme: next-reloaded
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:Starrynightzyq/starrynightzyq.github.io.git
+  repo: 
+    github: git@github.com:Starrynightzyq/starrynightzyq.github.io.git
+    gitee: git@gitee.com:starrynightzyq/Starrynightzyq.git
+    coding: git@e.coding.net:leo-fitz/starrynightzyq/starrynightzyq.git
   branch: master
 
 
@@ -101,5 +104,5 @@ jsonContent:
     categories: false
     tags: true
 
-# all_minifier: true
+all_minifier: true
 
