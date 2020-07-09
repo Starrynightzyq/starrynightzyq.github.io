@@ -80,8 +80,9 @@ deploy:
   type: git
   repo: 
     github: git@github.com:Starrynightzyq/starrynightzyq.github.io.git
-    gitee: git@gitee.com:starrynightzyq/Starrynightzyq.git
-    coding: git@e.coding.net:leo-fitz/starrynightzyq/starrynightzyq.git
+    # gitee: git@gitee.com:starrynightzyq/Starrynightzyq.git
+    # coding: git@e.coding.net:leo-fitz/starrynightzyq/starrynightzyq.git
+    tencent: git@129.211.95.53:/var/git_repos/blog.git
   branch: master
 
 
