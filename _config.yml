@@ -12,7 +12,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://blog.leo-fitz.com/
+url: https://leo-fitz.com/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -107,3 +107,16 @@ jsonContent:
 
 all_minifier: true
 
+# 本地搜索
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+# 阅读时长统计
+symbols_count_time:
+  symbols: true #是否统计字数
+  time: true #是否统计阅读时长
+  total_symbols: true #是否统计总字数
+  total_time: true #是否统计总阅读时长

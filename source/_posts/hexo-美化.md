@@ -465,5 +465,23 @@ $code-font-size = 13px
 
 # 侧边栏社交链接设置
 
-参考：[添加阿里图标支持](https://guanqr.com/tech/website/hexo-theme-next-customization/#contents:添加阿里图标支持)
+> Ref：
+>
+> [添加阿里图标支持](https://guanqr.com/tech/website/hexo-theme-next-customization/#contents:添加阿里图标支持)
+
+# 评论系统-Valine
+
+> Ref:
+>
+> [为你的Hexo加上评论系统-Valine](https://blog.csdn.net/blue_zy/article/details/79071414)
+>
+> [Valine评论系统](https://blog.csdn.net/weixin_43405525/article/details/99228698?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.compare&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.compare)
+>
+> [Hexo博客进阶：为Next主题添加Valine评论系统](https://qianfanguojin.github.io/2019/07/23/Hexo博客进阶：为Next主题添加Valine评论系统/)
+
+# 文章结语
+
+> Ref:
+>
+> [文章结束处添加感谢阅读的提示](https://xian6ge.cn/posts/6d7ed114/#1-%E6%96%87%E7%AB%A0%E7%BB%93%E6%9D%9F%E5%A4%84%E6%B7%BB%E5%8A%A0%E6%84%9F%E8%B0%A2%E9%98%85%E8%AF%BB%E7%9A%84%E6%8F%90%E7%A4%BA)
 

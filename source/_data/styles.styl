@@ -30,7 +30,8 @@ pre { border-radius: 5px;}
 // 修改网站头部颜色
 .header {
     padding: 20px 0;
-    opacity: 0.85;
+    background: rgba(255,255,255,0.85);
+    // opacity: 0.85;
     // color: #fff;
     // background: #49b1f5;
 }
@@ -104,6 +105,14 @@ body {
     background: rgba(0,0,0,0.85);
 }
 
+// 搜索框
+.search-popup {
+  background: rgba(255,255,255,0.85);
+}
+// .search-pop-overlay {
+//   background: rgba(255,255,255,0.85);
+// }
+
 // 修改手机端的页面与左右边的距离
 .main-inner {
   padding-bottom: 80px;
@@ -124,6 +133,15 @@ body {
   url('iconfont.svg?t=1593609710833#iconfont') format('svg'); /* iOS 4.1- */
 }
 
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1594995917984'); /* IE9 */
+  src: url('iconfont.eot?t=1594995917984#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAPgAAsAAAAAB9QAAAOUAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAqDYIMiATYCJAMICwYABCAFhG0HMBvIBsiemjypmRABZeGBBzjBCeLh+/3aue/L7mKWVCPds2okERKhkfAQl1KJZIZIxkvY/V/TlEj4PF8gxaDQH+QfUa7t9N6MmFFs7ITchNvAunyAA4h2NylZDm2unwB/oP9zzHhr0Fl+X7hkJEcCDmw6oKi6o3vnA74DOTA/FfAckQ7kcZ5Ak0FViTWrwxnycpgWiMtYTYJ8TitvKQxVoaxZm4tbSKGarmHHEHAT/n78Q9qBISkyKNm8WKow+bYmWjjAA5xmIIQ3nxnSJjLMAzmxW2tdl4qj81KajGjaKNhXYfBtzeP53N3+4xFECfktoJ/l3hPP5d9qfgJ53F3H66i+pGN76Xsbh3uWovtrWY38dUPsQaVGvnqZ7l5WbScbBKBtd8J33q3CXeJdd8CX39wn2iHaInDj2XIjWANCnuZUl0kN8tVzhmVqBpgNOROjW4J7DFe2q9VdZobH18ul8TM32r2LUktXyk1t/N43rqwJS1tvhW69WOw2oYgNggZ09vrtBJoFmYxrj+ZrDgBCet69PV9buCMXut3zEjN361kez3xSQIEat8Z37nf44v+NVW35py68PvyGEYYhK2NUhx1BTxkXbS3z9Ttdf9dxuEiGwwpSdf3u1821tCvfXdBrmuogjkalIc76sKCw+t+yWvrs/3z4d8+3kKtWAEhz8yM+jNTh8DejC+RtMPzI6WtGzRZeUCWAdBe3TaggimKYYtkh6CXroo2xlHBi+yvbm3Vc+T/h88hvqp5hFdKcupYcbdlVvmmCbKmMQuVtl+K2SHeBqnyErVjPV9BTMByyBNAIPgMH/76/cf5JOw0mG/zlm3PwoX1zErobISD97FRf0hb8WbyeTbkpgC7lOq/WntRHhROaKEADnF3+xtp7QWoOVZnHQlIxAJmqcUSOmYdCswUoVS1Ckznrzc26hVIir2HWCwOhwxskbV4g0+EHkWN+odDnH0odAYcm+0Hfs9lkxOLM00hiUjEsF2PDPVc4Bi5GhUfSYlsKs4KQeKUwMgKoqqRSTKzJpXCOBelZWjsjQ2BUmuegFXMZ2baHKWmeSQrXYzLY7ykrR9V9UT082YGiVSEiYUSFZE+QQeFxCb8zK5Z+/ohoYjZJ2FLWYL4ioYjRO2qpa/ZArKVur7J7+UzkRtPGmICEkMeBVoyZ2BT1IL9+lIkoWJ0+IuzraXDtRF9pfX258wFypCqgSkHDMuVV7FMsuQA=') format('woff2'),
+  url('iconfont.woff?t=1594995917984') format('woff'),
+  url('iconfont.ttf?t=1594995917984') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1594995917984#iconfont') format('svg'); /* iOS 4.1- */
+}
+
 .fa-custom {
   font-family:"iconfont" !important;
   font-size:inherit;
@@ -134,6 +152,9 @@ body {
 
 .bilibili:before {
   content: "\e602";
+}
+.qq:before {
+  content: "\e747";
 }
 
 // page-opacity
