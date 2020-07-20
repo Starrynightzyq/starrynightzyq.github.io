@@ -78,10 +78,10 @@ footer:
 
   # Beian ICP and gongan information for Chinese users. See: http://www.beian.miit.gov.cn, http://www.beian.gov.cn
   beian:
-    enable: false
-    icp:
+    enable: true
+    icp: 苏ICP备20042287号
     # The digit in the num of gongan beian.
-    gongan_id:
+    gongan_id: 
     # The full num of gongan beian.
     gongan_num:
     # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
@@ -95,8 +95,8 @@ footer:
 creative_commons:
   license: by-nc-sa
   sidebar: false
-  post: false
-  language:
+  post: true
+  language: zh
 
 
 # ---------------------------------------------------------------
@@ -357,7 +357,7 @@ text_align:
 mobile_layout_economy: false
 
 # Android Chrome header panel color ($brand-bg / $headband-bg => $black-deep).
-android_chrome_color: "#222"
+android_chrome_color: "#49b1f5"
 
 # Hide sticky headers and color the menu bar on Safari (iOS / macOS).
 safari_rainbow: false
@@ -395,17 +395,17 @@ reading_progress:
 
 # Bookmark Support
 bookmark:
-  enable: false
+  enable: true
   # Customize the color of the bookmark.
-  color: "#222"
+  color: "#49b1f5"
   # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
   # If manual, only save it by clicking the bookmark-icon.
   save: auto
 
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
-  enable: false
-  permalink: https://github.com/yourname
+  enable: true
+  permalink: https://github.com/Starrynightzyq
   title: Follow me on GitHub
 
 
