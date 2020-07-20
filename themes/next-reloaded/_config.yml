@@ -638,7 +638,7 @@ valine:
   verify: false # Verification code
   placeholder: ヾﾉ≧∀≦)o来啊，快活啊!  # Comment box placeholder
   avatar: robohash # Gravatar style
-  guest_info: nick,mail,link # Custom comment header
+  guest_info: nick,mail # Custom comment header
   pageSize: 10 # Pagination size
   language: # Language, available values: en, zh-cn
   visitor: true # Article reading statistic
