@@ -485,3 +485,17 @@ $code-font-size = 13px
 >
 > [文章结束处添加感谢阅读的提示](https://xian6ge.cn/posts/6d7ed114/#1-%E6%96%87%E7%AB%A0%E7%BB%93%E6%9D%9F%E5%A4%84%E6%B7%BB%E5%8A%A0%E6%84%9F%E8%B0%A2%E9%98%85%E8%AF%BB%E7%9A%84%E6%8F%90%E7%A4%BA)
 
+# 数学公式
+
+> Ref:
+>
+> [hexo中插入数学公式](http://stevenshi.me/2017/06/26/hexo-insert-formula/)
+>
+> [Hexo Mathjax双斜线换行失效](https://lanlan2017.github.io/blog/eb86e892/)
+
+> PS:
+>
+> 卸载 `hexo-renderer-marked` 后安装 `hexo-renderer-kramed` 就行了，还需要配置一下主题文件。
+>
+> 具体见 [升级Hexo和NexT主题趟坑小记](https://finisky.github.io/2019/11/27/upgradenext/)
+
