@@ -27,7 +27,7 @@
     "hexo-theme-next-anchor": "^1.0.3"
   },
   "scripts": {
-    "build": "npm run-script build",
+    "build": "npm build",
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",
     "rebuild": "npm run clean && npm install && npm run build",
