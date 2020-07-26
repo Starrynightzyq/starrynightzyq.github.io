@@ -493,3 +493,9 @@ $code-font-size = 13px
 >
 > [Hexo Mathjax双斜线换行失效](https://lanlan2017.github.io/blog/eb86e892/)
 
+> PS:
+>
+> 卸载 `hexo-renderer-marked` 后安装 `hexo-renderer-kramed` 就行了，还需要配置一下主题文件。
+>
+> 具体见 [升级Hexo和NexT主题趟坑小记](https://finisky.github.io/2019/11/27/upgradenext/)
+
