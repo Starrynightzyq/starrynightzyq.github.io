@@ -120,10 +120,3 @@ symbols_count_time:
   time: true #是否统计阅读时长
   total_symbols: true #是否统计总字数
   total_time: true #是否统计总阅读时长
-
-math:
-  engine: 'mathjax' # or 'katex'
-  mathjax:
-    # src: custom_mathjax_source
-    config:
-      # MathJax config
