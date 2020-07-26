@@ -8,7 +8,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "hexo": "^4.2.0",
-    "hexo-asset-image": "^1.0.0",
+    "hexo-asset-image": "git+https://github.com/7ym0n/hexo-asset-image.git",
     "hexo-deployer-git": "^2.1.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.6",
