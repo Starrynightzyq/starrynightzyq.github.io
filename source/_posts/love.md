@@ -14,7 +14,7 @@ description:
 
 > 灵感来自：https://mp.weixin.qq.com/s/ZozqC8chJPQP84gcpju4mQ
 
-原作者用 MATLAB 和 Verilog 实现了心形图案，由于手上电脑没有装可以运行 MATLAB 或者 Verilog 的软件，因此我用 Python 写了一个，最重要的是这个公式：$f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)$，代码如下：
+原作者用 MATLAB 和 Verilog 实现了心形图案，由于手上电脑没有装可以运行 MATLAB 或者 Verilog 的软件，因此我用 Python 写了一个，最重要的是这个公式：`$f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)$`，代码如下：
 
 ~~~python
 import matplotlib.pyplot as plt

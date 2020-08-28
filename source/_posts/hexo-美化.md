@@ -489,13 +489,40 @@ $code-font-size = 13px
 
 > Ref:
 >
-> [hexo中插入数学公式](http://stevenshi.me/2017/06/26/hexo-insert-formula/)
->
-> [Hexo Mathjax双斜线换行失效](https://lanlan2017.github.io/blog/eb86e892/)
+> [next主题的文档](https://github.com/theme-next/hexo-theme-next/blob/master/docs/MATH.md)
 
-> PS:
->
-> 卸载 `hexo-renderer-marked` 后安装 `hexo-renderer-kramed` 就行了，还需要配置一下主题文件。
->
-> 具体见 [升级Hexo和NexT主题趟坑小记](https://finisky.github.io/2019/11/27/upgradenext/)
+办法就是替换Hexo的渲染器，比如在博客目录下执行：
+
+```bash
+npm un hexo-renderer-marked --save
+npm i hexo-renderer-kramed --save # or hexo-renderer-pandoc
+```
+
+hexo-renderer-kramed 渲染器也有缺点，它不支持行内 latex 公式。解决办法是有的，要么在行内自己加上转义符号，要么修改渲染规则。渲染器作者建议是用`把公式标注成代码块，参见[此处](https://duskcloudxu.github.io/2018/07/14/hexo-renderer-kramed与mathJax的兼容问题及解决方法/)。
+
+---
+
+行内数学公式（样式）：
+
+~~~latex
+`$f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)$`
+~~~
+
+行内数学公式（测试）：`$f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)$`
+
+---
+
+行间数学公式（样式）：
+
+~~~latex
+$$
+f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)
+$$
+~~~
+
+行内数学公式（测试）：
+$$
+f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)
+$$
+PS: 行内数学公式使用时需要用 ` 转义。
 
