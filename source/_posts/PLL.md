@@ -3,8 +3,8 @@ title: PLL(Phase-locked loop, 锁相环)
 toc: true
 comments: true
 date: 2020-09-11 18:44:52
-categories: IC-Design
-tags: [IC_design, Analog]
+categories: PLL
+tags: [IC_design, Analog, PLL]
 description:
 ---
 
