@@ -182,3 +182,9 @@ endmodule
 **5 分频仿真结果**
 
 <img src="odd-divider/tb_div5.png" alt="tb_div5" style="zoom:100%; margin: auto;" />
+
+>Reference:
+>
+>[FPGA三分频,五分频,奇数分频](https://blog.csdn.net/lt66ds/article/details/10035187)
+>
+>[基于Verilog的偶数、奇数、半整数分频以及任意分频器设计](https://www.cnblogs.com/xiaoxie2014/p/4135078.html)
