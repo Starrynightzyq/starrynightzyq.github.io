@@ -242,6 +242,12 @@ sudo apt install chrome-gnome-shell
 
 ## **一、持久关闭**
 
+查看当前的默认目标: 
+
+~~~bash
+systemctl get-default
+~~~
+
 执行以下命令，持久关闭Ubuntu桌面版的GUI环境（通过`Ctrl+Alt+F1-F6`快捷键进入命令行界面）：
 
 ```
@@ -270,6 +276,42 @@ sudo service lightdm start
 
 
 参考文献： [1]https://askubuntu.com/questions/800239/how-to-disable-lightdmdisplay-manager-on-ubuntu-16-0-4-lts [2]https://askubuntu.com/questions/365719/i-have-to-restart-lightdm-after-run
+
+> PS：
+>
+> 以上方法适用于 Ubuntu 和 Centos 7
+>
+> Centos 6 使用如下方法：
+>
+> 1. ## **临时关闭**
+>
+>    ~~~bash
+>    init 3 # 临时关闭图形界面（XServer服务也会关闭）
+>    ~~~
+>
+>    ~~~
+>    # 再次开启图形界面用下面其中一个命令
+>    init 5
+>    startx
+>    ~~~
+>
+> 2. ## 开机关闭
+>
+>    ```
+>    vi /etc/inittab
+>    ```
+>
+>    将
+>
+>    ```
+>    id:5:initdefault:
+>    ```
+>
+>    改成
+>
+>    ```
+>    id:3:initdefault:
+>    ```
 
 # 增加 Swap 分区
 
