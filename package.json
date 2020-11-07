@@ -32,6 +32,7 @@
     "reinstall": "npm run clean && npm install",
     "rebuild": "npm run clean && npm install && npm run build",
     "publish": "hexo clean && hexo g && hexo d",
-    "start": "hexo clean && hexo g && hexo s"
+    "start": "hexo clean && hexo g && hexo s",
+    "draft": "hexo clean && hexo g && hexo s --draft"
   }
 }
