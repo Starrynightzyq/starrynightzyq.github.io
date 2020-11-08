@@ -164,7 +164,29 @@ $$
 $$
 由此该结构的 Cadcode 电流镜 P 点允许的最小电压可以做到 $2\Delta$。但由于 M5 的加入增加了功耗。
 
+## Cadence 仿真
 
+### Cascode 结构
+
+<center>
+    <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
+    src="Current-Mirror/CM3.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图2.5 共源共栅电流源结构</div>
+</center>
+
+<center>
+    <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
+    src="Current-Mirror/CM.pdf">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图2.5 共源共栅电流源DC仿真结果</div>
+</center>
 
 
 

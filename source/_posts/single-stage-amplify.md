@@ -1,12 +1,16 @@
 ---
 title: 单级放大器
+categories: Analog
+tags:
+  - IC_design
+  - Analog
+  - Amplify
 toc: true
 comments: true
 date: 2020-11-07 15:24:46
-categories: Analog
-tags: [IC_design, Analog, Amplify]
 description:
 ---
+
 
 单级放大器可以分为四种基本类型：
 
@@ -149,40 +153,43 @@ $$
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
-    padding: 2px;">图2.2 二极管负载的共源极schematic</div>
+    padding: 2px;">图2.3 二极管负载的共源极schematic</div>
 </center>
+
 
 - DC
 
-  | 器件   | 参数    | 值   |
-  | ---- | ---- | ---- |
-  | M0   | L    | 1u   |
-  | M0   | W    | 10u  |
-  | M1   | L    | 1u   |
-  | M2   | W    | 10u  |
-  
+
+| 器件   | 参数    | 值   |
+| ---- | ---- | ---- |
+| M0   | L    | 1u   |
+| M0   | W    | 10u  |
+| M1   | L    | 1u   |
+| M2   | W    | 10u  |
+
   <center>
       <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-      src="single-stage-amplify/amplifier_dc.pdf">
+      src="single-stage-amplify/amplifier_dc_wave.jpg">
       <br>
       <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
       color: #999;
-      padding: 2px;">图2.3 DC 仿真</div>
+      padding: 2px;">图2.6 DC</div>
   </center>
-  
+
+
 - M0 L sweep
 
   M1 参数不变，M0 W 不变，L 从 0.1u - 10u
 
   <center>
       <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-      src="single-stage-amplify/amplifier_L0_sweep.pdf">
+      src="single-stage-amplify/amplifier_L0_sweep.jpg">
       <br>
       <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
       color: #999;
-      padding: 2px;">图2.3 L0 sweep</div>
+      padding: 2px;">图2.7 L0 sweep</div>
   </center>
 
 - M0 W sweep
@@ -191,12 +198,12 @@ $$
 
   <center>
       <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-      src="single-stage-amplify/amplifier_W0_sweep.pdf">
+      src="single-stage-amplify/amplifier_W0_sweep.jpg">
       <br>
       <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
       color: #999;
-      padding: 2px;">图2.3 W0 sweep</div>
+      padding: 2px;">图2.8 W0 sweep</div>
   </center>
 
 - AC
@@ -205,24 +212,24 @@ $$
 
     <center>
         <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-        src="single-stage-amplify/amplifier_ac_gain.pdf">
+        src="single-stage-amplify/amplifier_ac_gain.jpg">
         <br>
         <div style="color:orange; border-bottom: 1px solid #d9d9d9;
         display: inline-block;
         color: #999;
-        padding: 2px;">图2.4 频率-增益曲线</div>
+        padding: 2px;">图2.9 频率-增益曲线</div>
     </center>
 
   - Frequency-Phase
 
     <center>
         <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-        src="single-stage-amplify/amplifier_ac_phase.pdf">
+        src="single-stage-amplify/amplifier_ac_phase.jpg">
         <br>
         <div style="color:orange; border-bottom: 1px solid #d9d9d9;
         display: inline-block;
         color: #999;
-        padding: 2px;">图2.5 频率-相位曲线</div>
+        padding: 2px;">图2.10 频率-相位曲线</div>
     </center>
 
 # 3. 共栅极
