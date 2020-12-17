@@ -323,4 +323,20 @@ endmodule
 
 # Reference
 
+- [Tufts University Cadence AMS-Designer Tutorial](https://wenku.baidu.com/view/cbd263c8192e45361166f5e5.html)
+
 - https://blog.csdn.net/YYP_8020/article/details/107332430
+
+- Cadence Verilog-AMS Language Reference
+
+  $INSTALL_DIR/doc/verilogamsref/verilogamsref.pdf
+
+- Virtuoso AMS Simulator User Guide
+
+  $INSTALL_DIR/doc/amssimug/amssimug.pdf
+
+- Cadence NC-Verilog Simulator Tutorial with SimVision
+
+  $INSTALL_DIR/doc/ncvlogtut/ncvlogtut.pdf
+
+- https://designers-guide.org/index.html
