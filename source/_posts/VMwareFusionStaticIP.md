@@ -1,5 +1,5 @@
 ---
-title: VMwareFusionStaticIP
+title: VMware Fusion 上为虚拟机设置静态 IP
 toc: true
 comments: true
 date: 2020-12-17 14:23:43
