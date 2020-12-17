@@ -23,19 +23,19 @@ ssh-keygen -t rsa -C "youremail@example.com"
 
 # 服务器端的设置（server）
 
-1. 在 */root/.ssh/* 目录下，创建文件 *authorized_keys*：
+1. 在 */<username>/.ssh/* 目录下，创建文件 *authorized_keys*：
 
    ~~~bash
-   touch /root/.ssh/authorized_keys
+   touch /<username>/.ssh/authorized_keys
    ~~~
 
 2. 将 client 的公钥里的内容复制到 server 的 *authorized_keys* 中（server 的 *authorized_keys* 中可以存放多个 client 的公钥，之间用换行隔开就行）。
 
-3. 修改 */root/.ssh* 的权限为 700, *authorized_keys* 的权限为 600 或者更严格的 400，否则登录的时候会提示`server refuse you key`:
+3. 修改 */<username>/.ssh* 的权限为 700, *authorized_keys* 的权限为 600 或者更严格的 400，否则登录的时候会提示`server refuse you key`:
 
    ~~~bash
-   chmod 700 /root/.ssh
-   chmod 600 /root/.ssh/authorized_keys
+   chmod 700 /<username>/.ssh
+   chmod 600 /<username>/.ssh/authorized_keys
    ~~~
 
 4. 修改 ssh 的配置，使其允许秘钥登录：
