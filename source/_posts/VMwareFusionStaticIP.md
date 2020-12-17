@@ -52,3 +52,10 @@ $ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start
 # 虚拟机重新获取配置
 
 可以直接重启 VMware Fusion 和虚拟机系统，也可以直接在虚拟机命令行中执行 `sudo dhclient -v -r eth0`, **eth0** 为对应网卡。
+
+---
+
+**Reference：**
+
+- https://www.jianshu.com/p/af179e61ac7f
+
