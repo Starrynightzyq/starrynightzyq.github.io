@@ -22,7 +22,13 @@ Windows 环境可以参考 [使用VSCode编写LaTeX](https://zhuanlan.zhihu.com/
 
 # 安装 LaTex 环境
 
-阿巴阿巴，这个省略，Windows 可以装 **texlive**，Mac 装 MacTex。
+阿巴阿巴，这个省略，Windows 可以装 **texlive**，Mac 装 [MacTex](https://www.tug.org/mactex/)。
+
+> Mac 可以用 [Homebrew](https://brew.sh/) 安装
+>
+> ~~~bash
+> brew install --cask mactex-no-gui
+> ~~~
 
 # 安装 VSCode 上的 LaTex  插件
 
