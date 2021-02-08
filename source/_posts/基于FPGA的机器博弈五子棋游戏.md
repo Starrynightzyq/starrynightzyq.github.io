@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-02-08 14:05:29
- * @LastEditTime: 2021-02-08 20:15:35
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: /_posts/基于FPGA的机器博弈五子棋游戏.md
--->
 ---
 title: 基于FPGA的机器博弈五子棋游戏
 toc: true
@@ -19,4 +11,7 @@ description: 参加2018第二届全国大学生FPGA创新设计邀请赛的作�
 
 [GitHub项目地址](https://github.com/Starrynightzyq/ZYNQ-PYNQ-Z2-Gobang)
 
-挖坑，待写。
+项目介绍：[openhw](http://www.openhw.org/newsinfo/276533.html?templateId=80809)
+
+~~挖坑，待写。~~
+

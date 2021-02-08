@@ -478,6 +478,8 @@ $code-font-size = 13px
 > [Valine评论系统](https://blog.csdn.net/weixin_43405525/article/details/99228698?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.compare&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.compare)
 >
 > [Hexo博客进阶：为Next主题添加Valine评论系统](https://qianfanguojin.github.io/2019/07/23/Hexo博客进阶：为Next主题添加Valine评论系统/)
+>
+> [Valine评论系统详解(匹配QQ头像)](https://lovelijunyi.gitee.io/posts/e52c.html)
 
 # 评论邮件通知-[Valine-Admin](https://github.com/DesertsP/Valine-Admin)
 

@@ -927,7 +927,7 @@ vendors:
 
   # Internal version: 0.2.8
   # pjax: //cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js
-  pjax:
+  pjax: //cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js
 
   # FancyBox
   # jquery: //cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js
@@ -1001,8 +1001,8 @@ vendors:
   # pace: //cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js
   # pace_css: //cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css
   # pace_css: //cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-minimal.min.css
-  pace:
-  pace_css:
+  pace: //cdn.jsdelivr.net/npm/pace-js@1/pace.min.js
+  pace_css: //cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css
 
   # Internal version: 1.0.0
   # three: //cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js
