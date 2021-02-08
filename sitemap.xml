@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://zhouyuqian.com/2021/02/08/PA/</loc>
+    <loc>https://zhouyuqian.com/2021/02/07/PA/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
@@ -613,13 +613,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/tensorflow/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/verilog/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
@@ -635,6 +628,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/VGA/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/tensorflow/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -811,14 +811,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/tensorflow/</loc>
+    <loc>https://zhouyuqian.com/categories/FPGA%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/FPGA%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://zhouyuqian.com/categories/tensorflow/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
