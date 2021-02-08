@@ -530,3 +530,16 @@ f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)
 $$
 PS: 行内数学公式使用时需要用 ` 转义。
 
+# 自定义 404 页面
+
+自定义含有小游戏的404页面
+
+> https://chennq.com/Hexo/20190922-hexo_next_404page.html
+>
+> https://www.jianshu.com/p/1b819734538f
+
+NGINX 404 配置
+
+> https://leyar.me/create-404-page/
+>
+> https://zhuanlan.zhihu.com/p/269456060
