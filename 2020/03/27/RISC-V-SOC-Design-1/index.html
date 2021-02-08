@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -297,7 +297,7 @@
         <p>使用 vivado blockdesign 搭建，比较直观</p>
 <p><img src="/2020/03/27/RISC-V-SOC-Design-1/ibex_bd.png" alt="ibex_bd"></p>
 <a id="more"></a>
-<h1 id="Memory-Map" class="heading-control"><a href="#Memory-Map" class="headerlink" title="Memory Map"></a>Memory Map<a class="heading-anchor" href="#Memory-Map" aria-hidden="true"></a></h1><p>SOC 搭建参考了 SiFive SOC，因此在 Memory Map 上尽量一致，方便软件移植。</p>
+<h1 id="Memory-Map"><a href="#Memory-Map" class="headerlink" title="Memory Map"></a>Memory Map</h1><p>SOC 搭建参考了 SiFive SOC，因此在 Memory Map 上尽量一致，方便软件移植。</p>
 <div class="table-container">
 <table>
 <thead>
@@ -341,9 +341,9 @@
 </tbody>
 </table>
 </div>
-<h1 id="设计思路" class="heading-control"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路<a class="heading-anchor" href="#设计思路" aria-hidden="true"></a></h1><h2 id="ITCM" class="heading-control"><a href="#ITCM" class="headerlink" title="ITCM"></a>ITCM<a class="heading-anchor" href="#ITCM" aria-hidden="true"></a></h2><p>一般盘片机在启动时，会将 instruction 从 FLASH 读入片上 RAM，然后程序在片上 RAM 中运行，因此启动时会有一个程序加载的过程，即从片外存储 load 到片上存储，因此这里暂时先用 ITCM 模拟这个过程，启动时，将程序从 ITCM load 到 DTCM 中，这个过程需要程序配合。</p>
+<h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><h2 id="ITCM"><a href="#ITCM" class="headerlink" title="ITCM"></a>ITCM</h2><p>一般盘片机在启动时，会将 instruction 从 FLASH 读入片上 RAM，然后程序在片上 RAM 中运行，因此启动时会有一个程序加载的过程，即从片外存储 load 到片上存储，因此这里暂时先用 ITCM 模拟这个过程，启动时，将程序从 ITCM load 到 DTCM 中，这个过程需要程序配合。</p>
 <p>在 load 的过程中，ITCM 在一些时刻会同时被数据总线和指令总线读取，因此 ITCM 使用双端口 RAM。</p>
-<h2 id="CORE" class="heading-control"><a href="#CORE" class="headerlink" title="CORE"></a>CORE<a class="heading-anchor" href="#CORE" aria-hidden="true"></a></h2><p>这里使用的是 <a href="https://github.com/lowRISC/ibex" target="_blank" rel="noopener">ibex</a>，该 core 有单独的数据总线和指令总线，但是为一种私有总线，为了通用，将其转为 AXI4 总线。</p>
+<h2 id="CORE"><a href="#CORE" class="headerlink" title="CORE"></a>CORE</h2><p>这里使用的是 <a target="_blank" rel="noopener" href="https://github.com/lowRISC/ibex">ibex</a>，该 core 有单独的数据总线和指令总线，但是为一种私有总线，为了通用，将其转为 AXI4 总线。</p>
 
     </div>
 
@@ -458,7 +458,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Memory-Map"><span class="nav-number">1.</span> <span class="nav-text">Memory Map</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计思路"><span class="nav-number">2.</span> <span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ITCM"><span class="nav-number">2.1.</span> <span class="nav-text">ITCM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CORE"><span class="nav-number">2.2.</span> <span class="nav-text">CORE</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Memory-Map"><span class="nav-number">1.</span> <span class="nav-text">Memory Map</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ITCM"><span class="nav-number">2.1.</span> <span class="nav-text">ITCM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CORE"><span class="nav-number">2.2.</span> <span class="nav-text">CORE</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -548,14 +548,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

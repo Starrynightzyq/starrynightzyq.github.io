@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -287,14 +287,15 @@
 
       
           <p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<!--more--->
+<p>目前网上主要有两种解决方案如下：</p>
+<h1 id="1-禁止-AD-自动联网"><a href="#1-禁止-AD-自动联网" class="headerlink" title="1. 禁止 AD 自动联网"></a>1. 禁止 AD 自动联网</h1><h2 id="第一步：关闭-AD-自动更新"><a href="#第一步：关闭-AD-自动更新" class="headerlink" title="第一步：关闭 AD 自动更新"></a>第一步：关闭 AD 自动更新</h2><p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 “No,…”，如下图：</p>
+<p><img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_1.jpg" alt="ad1"></p>
+<p>在 System -&gt; Installation 的 “Check frequency” 改为 “Never”，如下图：</p>
+<p><img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_2.jpg" alt="ad2"></p>
+<h2 id="第二步：设置防火墙，禁止-AD-联网"><a href="#第二步：设置防火墙，禁止-AD-联网" class="headerlink" title="第二步：设置防火墙，禁止 AD 联网"></a>第二步：设置防火墙，禁止 AD 联网</h2><p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
+<h1 id="2-删除多余的库"><a href="#2-删除多余的库" class="headerlink" title="2. 删除多余的库"></a>2. 删除多余的库</h1><p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
+
       
     </div>
 
@@ -387,7 +388,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -406,7 +407,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。<br>在 github 上有一个开源工程：<a href="https://github.com/notro/fbtft" target="_blank" rel="noopener">framebuffer</a><br>完整的实现了 framebuffer驱动</p>
+          <p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。<br>在 github 上有一个开源工程：<a target="_blank" rel="noopener" href="https://github.com/notro/fbtft">framebuffer</a><br>完整的实现了 framebuffer驱动</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/#more" rel="contents">
@@ -795,14 +796,14 @@
 </div>
 </blockquote>
 <h1 id="安装-NVIDIA-显卡驱动"><a href="#安装-NVIDIA-显卡驱动" class="headerlink" title="安装 NVIDIA 显卡驱动"></a>安装 NVIDIA 显卡驱动</h1><ol>
-<li><p>下载 NVIDIA 显卡对应的<a href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/" target="_blank" rel="noopener">驱动</a>，下载后的文件格式为 <em>.run</em></p>
+<li><p>下载 NVIDIA 显卡对应的<a target="_blank" rel="noopener" href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p>
 </li>
 <li><p>bios 禁用 secure boot，也就是设置为 disable</p>
 <p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p>
 </li>
 <li><p>禁用 nouveau 开源驱动</p>
 <p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">blacklist </span>nouveau</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
 <p>由于nouveau是在内核中的，还需要更新一下，执行如下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
 <p>之后重启电脑：</p>
@@ -812,8 +813,7 @@
 <p>没有输出代表nouveau被禁用了</p>
 </li>
 <li><p>关闭 GUI 界面，进入命令行模式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
 <li><p>安装 NVIDIA 驱动</p>
 <p>如果以前安装过 nvidia 驱动，需要卸载：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove –purge nvidia*</span><br></pre></td></tr></table></figure>
@@ -832,9 +832,9 @@
 </li>
 <li><p>最后切换回 GUI 界面</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
+<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p>
 </li>
 </ol>
-<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p>
 <p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"></p>
 <p><strong>最后我装的是 430.50 版本的驱动</strong></p>
           <!--noindex-->
@@ -937,7 +937,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>941</span>
+              <span>951</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1057,7 +1057,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.5k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1076,7 +1076,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在之前 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-移植-Linux/" target="_blank" rel="noopener">ZYNQ 移植 Linux</a> 的基础上，下一步就是要移植驱动了，但是每次都把 SD 卡拔下来把驱动拷进去再重新开机太麻烦了，ZYNQ 上有两个 USB 外设，可以配成 Host、Peripheral、OTG 三种模式，因此我们可以将 USB 配置成 Host 模式，这样 ZYNQ 上的 Linux 系统就可以读取 USB 接口上的 U盘了。</p>
+          <p>在之前 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-移植-Linux/">ZYNQ 移植 Linux</a> 的基础上，下一步就是要移植驱动了，但是每次都把 SD 卡拔下来把驱动拷进去再重新开机太麻烦了，ZYNQ 上有两个 USB 外设，可以配成 Host、Peripheral、OTG 三种模式，因此我们可以将 USB 配置成 Host 模式，这样 ZYNQ 上的 Linux 系统就可以读取 USB 接口上的 U盘了。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/#more" rel="contents">
@@ -1196,8 +1196,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a href="https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html" target="_blank" rel="noopener">https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</a></p>
-<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver" target="_blank" rel="noopener">https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</a></p>
+          <p><a target="_blank" rel="noopener" href="https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html">https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver">https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</a></p>
 
       
     </div>
@@ -1311,7 +1311,7 @@
 
       
           <h1 id="Wake-on-Lan-原理"><a href="#Wake-on-Lan-原理" class="headerlink" title="Wake on Lan 原理"></a>Wake on Lan 原理</h1><p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
-<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer" target="_blank" rel="noopener">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model" target="_blank" rel="noopener">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address" target="_blank" rel="noopener">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
+<p>魔术包在<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
 <p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
 <p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
 <h2 id="Magic-Packet"><a href="#Magic-Packet" class="headerlink" title="Magic Packet"></a>Magic Packet</h2><p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
@@ -1321,7 +1321,7 @@
 </li>
 <li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
 <blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Broadcast_address" target="_blank" rel="noopener">广播地址</a>计算方法:</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
 <p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
 <p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
 </blockquote>
@@ -1427,7 +1427,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.9k</span>
+              <span>9.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1448,8 +1448,8 @@
       
           <p>使用传统方式在 ZYNQ 上移植 Linux。</p>
 <blockquote>
-<p>reference: <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841738/Getting+Started" target="_blank" rel="noopener">https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841738/Getting+Started</a></p>
-<p>硬件平台: <a href="http://www.tul.com.tw/ProductsPYNQ-Z2.html" target="_blank" rel="noopener">PYNQ-Z2</a></p>
+<p>reference: <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841738/Getting+Started">https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841738/Getting+Started</a></p>
+<p>硬件平台: <a target="_blank" rel="noopener" href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">PYNQ-Z2</a></p>
 <p>Vivado版本: 2018.2</p>
 </blockquote>
           <!--noindex-->
@@ -1624,14 +1624,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

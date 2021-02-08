@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -292,23 +292,20 @@
 
       
         <p>记录一下 Linux 下的用户、用户组、文件权限等基本知识，不能动不动就 777。</p>
-<p>主要参考了 <a href="https://juejin.im/post/5bad92cd6fb9a05cde1d6076" target="_blank" rel="noopener">一言不合就改成 777 权限？会出人命的！</a></p>
+<p>主要参考了 <a target="_blank" rel="noopener" href="https://juejin.im/post/5bad92cd6fb9a05cde1d6076">一言不合就改成 777 权限？会出人命的！</a></p>
 <a id="more"></a>
-<h1 id="基本操作" class="heading-control"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作<a class="heading-anchor" href="#基本操作" aria-hidden="true"></a></h1><p>在 Linux 中，一个用户是可以属于多个组的，一个组也是可以包含多个用户的。</p>
-<h2 id="用户和用户组" class="heading-control"><a href="#用户和用户组" class="headerlink" title="用户和用户组"></a>用户和用户组<a class="heading-anchor" href="#用户和用户组" aria-hidden="true"></a></h2><ol>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>在 Linux 中，一个用户是可以属于多个组的，一个组也是可以包含多个用户的。</p>
+<h2 id="用户和用户组"><a href="#用户和用户组" class="headerlink" title="用户和用户组"></a>用户和用户组</h2><ol>
 <li><p>查看所有的用户：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cut -d<span class="string">':'</span> -f 1 /etc/passwd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cut -d<span class="string">&#x27;:&#x27;</span> -f 1 /etc/passwd</span><br></pre></td></tr></table></figure>
 <p>结果</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root</span><br><span class="line">daemon</span><br><span class="line">bin</span><br><span class="line">sys</span><br><span class="line">sync</span><br><span class="line">...</span><br><span class="line">sshd</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root</span><br><span class="line">daemon</span><br><span class="line">bin</span><br><span class="line">sys</span><br><span class="line">sync</span><br><span class="line">...</span><br><span class="line">sshd</span><br></pre></td></tr></table></figure></li>
 <li><p>查看所有的用户组：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cut -d<span class="string">':'</span> -f 1 /etc/group</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cut -d<span class="string">&#x27;:&#x27;</span> -f 1 /etc/group</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kmem</span><br><span class="line">dialout</span><br><span class="line">fax</span><br><span class="line">voice</span><br><span class="line">cdrom</span><br><span class="line">floppy</span><br><span class="line">...</span><br><span class="line">lpadmin</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kmem</span><br><span class="line">dialout</span><br><span class="line">fax</span><br><span class="line">voice</span><br><span class="line">cdrom</span><br><span class="line">floppy</span><br><span class="line">...</span><br><span class="line">lpadmin</span><br></pre></td></tr></table></figure>
 <p>结果基本是类似的，因为每个用户在被创建的时候都会自动创建一个同名的组作为其默认的用户组。</p>
-<ol>
+</li>
 <li><p>查看一个用户所属的用户组，这里用 ubuntu 用户演示：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groups ubuntu</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
@@ -335,12 +332,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -G &lt;group&gt; &lt;username&gt;</span><br></pre></td></tr></table></figure>
 <p>如果要添加多个组的话，可以通过 -a 选项指定多个名称：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG &lt;group1,group2,group3..&gt; &lt;username&gt;</span><br></pre></td></tr></table></figure>
-</li>
+<h2 id="文件权限管理"><a href="#文件权限管理" class="headerlink" title="文件权限管理"></a>文件权限管理</h2></li>
 </ol>
-<h2 id="文件权限管理" class="heading-control"><a href="#文件权限管理" class="headerlink" title="文件权限管理"></a>文件权限管理<a class="heading-anchor" href="#文件权限管理" aria-hidden="true"></a></h2><p>首先列出某个目录下文件的详细信息，命令如下：</p>
+<p>首先列出某个目录下文件的详细信息，命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -all</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">total <span class="number">80</span></span><br><span class="line">drwxr-xr-x   <span class="number">7</span> root root  <span class="number">4096</span> Jun <span class="number">21</span> <span class="number">22</span>:<span class="number">16</span> ./</span><br><span class="line">drwxr-xr-x <span class="number">103</span> root root  <span class="number">4096</span> Sep  <span class="number">4</span> <span class="number">18</span>:<span class="number">04</span> ../</span><br><span class="line">drwxr-xr-x   <span class="number">2</span> root root  <span class="number">4096</span> Jul <span class="number">12</span>  <span class="number">2017</span> conf.d/</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">1077</span> Feb <span class="number">12</span>  <span class="number">2017</span> fastcgi.conf</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">1007</span> Feb <span class="number">12</span>  <span class="number">2017</span> fastcgi_params</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">2837</span> Feb <span class="number">12</span>  <span class="number">2017</span> koi-utf</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">2223</span> Feb <span class="number">12</span>  <span class="number">2017</span> koi-win</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">3957</span> Feb <span class="number">12</span>  <span class="number">2017</span> mime.types</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">1505</span> Jun <span class="number">21</span> <span class="number">20</span>:<span class="number">24</span> nginx.conf</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root <span class="number">12288</span> Jun <span class="number">21</span> <span class="number">20</span>:<span class="number">44</span> .nginx.conf.swp</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root   <span class="number">180</span> Feb <span class="number">12</span>  <span class="number">2017</span> proxy_params</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root   <span class="number">636</span> Feb <span class="number">12</span>  <span class="number">2017</span> scgi_params</span><br><span class="line">drwxr-xr-x   <span class="number">2</span> root root  <span class="number">4096</span> Jun <span class="number">21</span> <span class="number">22</span>:<span class="number">42</span> sites-available/</span><br><span class="line">drwxr-xr-x   <span class="number">2</span> root root  <span class="number">4096</span> Jun <span class="number">21</span> <span class="number">19</span>:<span class="number">08</span> sites-enabled/</span><br><span class="line">drwxr-xr-x   <span class="number">2</span> root root  <span class="number">4096</span> Jun <span class="number">21</span> <span class="number">19</span>:<span class="number">08</span> snippets/</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root   <span class="number">664</span> Feb <span class="number">12</span>  <span class="number">2017</span> uwsgi_params</span><br><span class="line">drwxr-xr-x   <span class="number">2</span> root root  <span class="number">4096</span> Jun <span class="number">22</span> <span class="number">02</span>:<span class="number">44</span> vhosts/</span><br><span class="line">-rw-r--r--   <span class="number">1</span> root root  <span class="number">3071</span> Feb <span class="number">12</span>  <span class="number">2017</span> win-utf</span><br></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">total 80</span><br><span class="line">drwxr-xr-x  <span class="number"> 7 </span>root root <span class="number"> 4096 </span>Jun<span class="number"> 21 </span>22:16 ./</span><br><span class="line">drwxr-xr-x<span class="number"> 103 </span>root root <span class="number"> 4096 </span>Sep <span class="number"> 4 </span>18:04 ../</span><br><span class="line">drwxr-xr-x  <span class="number"> 2 </span>root root <span class="number"> 4096 </span>Jul<span class="number"> 12 </span><span class="number"> 2017 </span>conf.d/</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 1077 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>fastcgi.conf</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 1007 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>fastcgi_params</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 2837 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>koi-utf</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 2223 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>koi-win</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 3957 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>mime.types</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 1505 </span>Jun<span class="number"> 21 </span>20:24 nginx.conf</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root<span class="number"> 12288 </span>Jun<span class="number"> 21 </span>20:44 .nginx.conf.swp</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root  <span class="number"> 180 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>proxy_params</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root  <span class="number"> 636 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>scgi_params</span><br><span class="line">drwxr-xr-x  <span class="number"> 2 </span>root root <span class="number"> 4096 </span>Jun<span class="number"> 21 </span>22:42 sites-available/</span><br><span class="line">drwxr-xr-x  <span class="number"> 2 </span>root root <span class="number"> 4096 </span>Jun<span class="number"> 21 </span>19:08 sites-enabled/</span><br><span class="line">drwxr-xr-x  <span class="number"> 2 </span>root root <span class="number"> 4096 </span>Jun<span class="number"> 21 </span>19:08 snippets/</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root  <span class="number"> 664 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>uwsgi_params</span><br><span class="line">drwxr-xr-x  <span class="number"> 2 </span>root root <span class="number"> 4096 </span>Jun<span class="number"> 22 </span>02:44 vhosts/</span><br><span class="line">-rw-r--r--  <span class="number"> 1 </span>root root <span class="number"> 3071 </span>Feb<span class="number"> 12 </span><span class="number"> 2017 </span>win-utf</span><br></pre></td></tr></table></figure>
 <p>一共包括七列：</p>
 <ul>
 <li>第一列是文件的权限信息</li>
@@ -365,14 +362,14 @@
 <p>赋予权限的命令如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod <span class="tag">&lt;<span class="name">permission</span>&gt;</span> <span class="tag">&lt;<span class="name">file</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>例如我要为一个 file.txt 赋予 777 权限，就写成：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod <span class="number">777</span> file.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> chmod <span class="number">777</span> file.txt</span><br></pre></td></tr></table></figure>
 <p>另外我们也可以使用代号来赋予权限，代号有 u、g、o、a 四中，分别代表所有者权限，用户组权限，其他用户权限和所有用户权限，这些代号后面通过 + 和 - 符号来控制权限的添加和移除，再后面跟上权限类型就好，例如：</p>
 <figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod u-<span class="meta">x</span> <span class="meta">file</span>.txt</span><br></pre></td></tr></table></figure>
 <p>就是给所有者移除 x 权限，也就是执行权限。</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod g+w <span class="built_in">file</span>.txt</span><br></pre></td></tr></table></figure>
 <p>就是为用户组添加 w 权限，即写入权限。</p>
 <p>另外如果是文件夹的话还可以对文件夹进行递归赋权限操作，如：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R <span class="number">777</span> share</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> chmod -R <span class="number">777</span> share</span><br></pre></td></tr></table></figure>
 <p>就是将 share 文件夹和其内所有内容都赋予 777 权限。</p>
 </li>
 <li><p>修改文件所属用户和所属用户组</p>
@@ -495,7 +492,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本操作"><span class="nav-number">1.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户和用户组"><span class="nav-number">1.1.</span> <span class="nav-text">用户和用户组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件权限管理"><span class="nav-number">1.2.</span> <span class="nav-text">文件权限管理</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84"><span class="nav-number">1.1.</span> <span class="nav-text">用户和用户组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">文件权限管理</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -585,14 +582,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

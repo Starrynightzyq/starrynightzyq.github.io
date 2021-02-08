@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -294,9 +294,9 @@
 
       
         <blockquote>
-<p>主要参考了：<a href="https://www.jianshu.com/p/ce31ae7da616" target="_blank" rel="noopener">https://www.jianshu.com/p/ce31ae7da616</a></p>
+<p>主要参考了：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ce31ae7da616">https://www.jianshu.com/p/ce31ae7da616</a></p>
 </blockquote>
-<h1 id="挂载点目录简介" class="heading-control"><a href="#挂载点目录简介" class="headerlink" title="挂载点目录简介"></a>挂载点目录简介<a class="heading-anchor" href="#挂载点目录简介" aria-hidden="true"></a></h1><ol>
+<h1 id="挂载点目录简介"><a href="#挂载点目录简介" class="headerlink" title="挂载点目录简介"></a>挂载点目录简介</h1><ol>
 <li><p>Linux 常见的挂载目录结构：</p>
 <p><img src="/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/4241038-2339e498c92de522.jpg" alt="img"></p>
 </li>
@@ -309,10 +309,9 @@
 <li><p>什么 linux 的分区需要有挂载这个动作呢<br>因为 linux 下一切皆文件！换句说法就是 linux 操作系统将系统中的一切都作为文件来管理。在 windows 中我们常见的硬件设备（打印机、网卡、声卡…）、磁盘分区等，在 linux 中统统都被视作文件，对设备、分区的访问就是读写对应的文件。</p>
 </li>
 </ol>
-<h1 id="挂载分区" class="heading-control"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区<a class="heading-anchor" href="#挂载分区" aria-hidden="true"></a></h1><ol>
+<h1 id="挂载分区"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区</h1><ol>
 <li><p>临时挂载：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mount /dev/sda3 /data   <span class="comment"># sda3分区挂载在data目录下</span></span><br><span class="line">$ umount /data            <span class="comment"># 卸载data目录下分区</span></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mount /dev/sda3 /data   <span class="comment"># sda3分区挂载在data目录下</span></span><br><span class="line">$ umount /data            <span class="comment"># 卸载data目录下分区</span></span><br></pre></td></tr></table></figure></li>
 <li><p>开机自动挂载：</p>
 <p>需要修改 <code>/etc/fstab</code></p>
 <blockquote>
@@ -329,8 +328,7 @@
 <li><p>常用命令：</p>
 <ul>
 <li><p>查看硬盘信息：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo fdisk -l</span></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo fdisk -l</span></span><br></pre></td></tr></table></figure></li>
 <li><p>查看磁盘分区的 UUID：</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo blkid</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -450,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#挂载点目录简介"><span class="nav-number">1.</span> <span class="nav-text">挂载点目录简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#挂载分区"><span class="nav-number">2.</span> <span class="nav-text">挂载分区</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E7%82%B9%E7%9B%AE%E5%BD%95%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">挂载点目录简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="nav-number">2.</span> <span class="nav-text">挂载分区</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -540,14 +538,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

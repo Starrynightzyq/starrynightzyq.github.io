@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -30,29 +30,29 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="前一篇文章 PLL(Phase-locked loop, 锁相环) 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%B0%8F%E6%95%B0%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E7%94%B5%E8%8D%B7%E6%B3%B5%E9%94%81%E7%9B%B8%E7%8E%AF%E5%9E%8B%E5%B0%8F%E6%95%B0%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E7%90%86%E6%83%B3%20PFD:CP%20%E5%B7%A5%E4%BD%9C%E6%B3%A2%E5%BD%A2.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E8%BE%B9%E6%B2%BF%E8%A7%A6%E5%8F%91%E7%9A%84%20PFD:CP%20%E7%BB%93%E6%9E%84%E5%9B%BE.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/PFD:CP%20%E4%BC%A0%E8%BE%93%E7%89%B9%E6%80%A7%E6%9B%B2%E7%BA%BF.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/PFD:CP%20%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E4%BD%8D%E5%9C%A8%20s%20%E5%9F%9F%E6%A8%A1%E5%9E%8B.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%B8%B8%E7%94%A8%E6%97%A0%E6%BA%90%E7%8E%AF%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E7%8E%AF%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E4%BD%8D%20s%20%E5%9F%9F%E6%A8%A1%E5%9E%8B.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/VCO%20%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E4%BD%8D%20s%20%E5%9F%9F%E6%A8%A1%E5%9E%8B.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%9F%BA%E4%BA%8E%E5%8F%8C%E6%A8%A1%E9%A2%84%E5%88%86%E9%A2%91%E5%99%A8%E7%9A%84%20P:S%20%E8%AE%A1%E6%95%B0%E5%99%A8%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%9F%BA%E4%BA%8E%202:3%20%E5%88%86%E9%A2%91%E5%99%A8%E9%93%BE%E7%9A%84%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%95%B4%E6%95%B0%E5%88%86%E9%A2%91%E5%99%A8%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E4%BD%8D%20s%20%E5%9F%9F%E6%A8%A1%E5%9E%8B.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/Delta-Sigma%20%E8%B0%83%E5%88%B6%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%B0%8F%E6%95%B0%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%B0%8F%E6%95%B0%E5%88%86%E9%A2%91%E5%99%A8%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E8%A7%A6%E5%8F%91%E5%99%A8%E6%9E%84%E6%88%90%E7%9A%84%E4%BA%8C%E5%88%86%E9%A2%91%E5%99%A8.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/SCL%20%E9%94%81%E5%AD%98%E5%99%A8%E6%9E%84%E6%88%90%E7%9A%84%E9%AB%98%E9%80%9F%E4%BA%8C%E5%88%86%E9%A2%91%E5%99%A8.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%85%B1%E6%BA%90%E6%94%BE%E5%A4%A7%E5%99%A8%E7%BB%93%E6%9E%84%E7%9A%84%E7%BC%93%E5%86%B2%E7%94%B5%E8%B7%AF%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E8%A7%A6%E5%8F%91%E5%99%A8%E6%9E%84%E6%88%90%E7%9A%84%E5%9B%9B%E5%88%86%E9%A2%91%E5%99%A8.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%9B%9B%E5%88%86%E9%A2%91%E5%99%A8%E7%9A%84%E7%BC%93%E5%86%B2%E7%94%B5%E8%B7%AF%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/2:3%20%E5%88%86%E9%A2%91%E5%99%A8%E9%93%BE%E8%B7%AF%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/2:3%20%E5%88%86%E9%A2%91%E5%99%A8%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/TSPC%20%E7%BB%93%E6%9E%84%E7%9A%84%202:3%20%E5%88%86%E9%A2%91%E5%99%A8.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/小数频率综合器系统结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/电荷泵锁相环型小数频率综合器基本结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/理想%20PFD:CP%20工作波形.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/边沿触发的%20PFD:CP%20结构图.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/PFD:CP%20传输特性曲线.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/PFD:CP%20的线性相位在%20s%20域模型.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/常用无源环路滤波器.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/环路滤波器的线性相位%20s%20域模型.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/VCO%20的线性相位%20s%20域模型.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/基于双模预分频器的%20P:S%20计数器结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/基于%202:3%20分频器链的结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/可编程整数分频器的线性相位%20s%20域模型.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/Delta-Sigma%20调制器的工作原理示意图.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/小数频率综合器系统结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/小数分频器结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/触发器构成的二分频器.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/SCL%20锁存器构成的高速二分频器.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/共源放大器结构的缓冲电路结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/触发器构成的四分频器.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/四分频器的缓冲电路结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/2:3%20分频器链路结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/2:3%20分频器结构.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/TSPC%20结构的%202:3%20分频器.png">
 <meta property="article:published_time" content="2020-10-13T08:21:57.000Z">
 <meta property="article:modified_time" content="2021-02-08T06:05:28.853Z">
 <meta property="article:author" content="Fitz">
@@ -60,7 +60,7 @@
 <meta property="article:tag" content="Analog">
 <meta property="article:tag" content="PLL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/%E5%B0%8F%E6%95%B0%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.png">
+<meta name="twitter:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/小数频率综合器系统结构.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/10/13/PLL-2/">
 
@@ -320,9 +320,9 @@
 <p><img src="/2020/10/13/PLL-2/小数频率综合器系统结构.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
 <a id="more"></a>
 <blockquote>
-<p>Reference: <a href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CMFD&amp;dbname=CMFD201801&amp;filename=1017116544.nh&amp;v=grmqatzl4t6TEe1aXvu9C473CDx8comY%25mmd2BdcIonuXqHPUF4bV%25mmd2FqpS36DKm%25mmd2BC1Vdyt" target="_blank" rel="noopener">多模CMOS频率综合器关键模块设计及其整体优化-孙天慧-东南大学</a></p>
+<p>Reference: <a target="_blank" rel="noopener" href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CMFD&amp;dbname=CMFD201801&amp;filename=1017116544.nh&amp;v=grmqatzl4t6TEe1aXvu9C473CDx8comY%25mmd2BdcIonuXqHPUF4bV%25mmd2FqpS36DKm%25mmd2BC1Vdyt">多模CMOS频率综合器关键模块设计及其整体优化-孙天慧-东南大学</a></p>
 </blockquote>
-<h1 id="频率综合器概述" class="heading-control"><a href="#频率综合器概述" class="headerlink" title="频率综合器概述"></a>频率综合器概述<a class="heading-anchor" href="#频率综合器概述" aria-hidden="true"></a></h1><h2 id="频率综合器分类" class="heading-control"><a href="#频率综合器分类" class="headerlink" title="频率综合器分类"></a>频率综合器分类<a class="heading-anchor" href="#频率综合器分类" aria-hidden="true"></a></h2><ul>
+<h1 id="频率综合器概述"><a href="#频率综合器概述" class="headerlink" title="频率综合器概述"></a>频率综合器概述</h1><h2 id="频率综合器分类"><a href="#频率综合器分类" class="headerlink" title="频率综合器分类"></a>频率综合器分类</h2><ul>
 <li><p>直接模拟频率综合器 (<strong>DAS</strong>, Direct Analog Synthesizer)</p>
 <p>原理：DAS 基于一个或多个高稳定度的参考源，通过倍频、分频及混频等方式直接产生多个目标频率信号。</p>
 <p><strong>优点</strong>：较好的相位噪声和频率稳定度；频率切换速度快；</p>
@@ -343,7 +343,7 @@
 <p>原理：同 PLL-FS，主要实现时钟同步。</p>
 </li>
 </ul>
-<h2 id="多模-CMOS-锁相环频率综合器分类" class="heading-control"><a href="#多模-CMOS-锁相环频率综合器分类" class="headerlink" title="多模 CMOS 锁相环频率综合器分类"></a>多模 CMOS 锁相环频率综合器分类<a class="heading-anchor" href="#多模-CMOS-锁相环频率综合器分类" aria-hidden="true"></a></h2><ul>
+<h2 id="多模-CMOS-锁相环频率综合器分类"><a href="#多模-CMOS-锁相环频率综合器分类" class="headerlink" title="多模 CMOS 锁相环频率综合器分类"></a>多模 CMOS 锁相环频率综合器分类</h2><ul>
 <li><p>多个模拟锁相环组合</p>
 <p>功耗大、面积大；</p>
 </li>
@@ -354,9 +354,9 @@
 <li><p>电荷泵锁相环小数频率综合器</p>
 </li>
 </ul>
-<h1 id="小数频率综合器的基本原理" class="heading-control"><a href="#小数频率综合器的基本原理" class="headerlink" title="小数频率综合器的基本原理"></a>小数频率综合器的基本原理<a class="heading-anchor" href="#小数频率综合器的基本原理" aria-hidden="true"></a></h1><h2 id="基本模块" class="heading-control"><a href="#基本模块" class="headerlink" title="基本模块"></a>基本模块<a class="heading-anchor" href="#基本模块" aria-hidden="true"></a></h2><p><img src="/2020/10/13/PLL-2/电荷泵锁相环型小数频率综合器基本结构.png" alt="电荷泵锁相环型小数频率综合器基本结构" style="zoom:30%; margin: auto;"></p>
+<h1 id="小数频率综合器的基本原理"><a href="#小数频率综合器的基本原理" class="headerlink" title="小数频率综合器的基本原理"></a>小数频率综合器的基本原理</h1><h2 id="基本模块"><a href="#基本模块" class="headerlink" title="基本模块"></a>基本模块</h2><p><img src="/2020/10/13/PLL-2/电荷泵锁相环型小数频率综合器基本结构.png" alt="电荷泵锁相环型小数频率综合器基本结构" style="zoom:30%; margin: auto;"></p>
 <p>如上图所示，一个典型的电荷泵锁相环型小数频率综合器包括鉴频鉴相器 (Phase Frequency Detector, PFD)、电荷泵 (Charge Pump, CP)、环路滤波器 (Loop Filter, LF)、压控振荡器 (Voltage Controlled Oscillator, VCO)、可编程整数分频器、$\Delta-\Sigma$ 调制器 (Delta-Sigma Modulator, DSM) 和自动频率校准单元 (Auto-Frequency Calibration, AFC)。</p>
-<h3 id="鉴频鉴相器和电荷泵" class="heading-control"><a href="#鉴频鉴相器和电荷泵" class="headerlink" title="鉴频鉴相器和电荷泵"></a>鉴频鉴相器和电荷泵<a class="heading-anchor" href="#鉴频鉴相器和电荷泵" aria-hidden="true"></a></h3><p><img src="/2020/10/13/PLL-2/理想 PFD:CP 工作波形.png" alt="理想 PFD:CP 工作波形" style="zoom:35%; margin: auto;"></p>
+<h3 id="鉴频鉴相器和电荷泵"><a href="#鉴频鉴相器和电荷泵" class="headerlink" title="鉴频鉴相器和电荷泵"></a>鉴频鉴相器和电荷泵</h3><p><img src="/2020/10/13/PLL-2/理想 PFD:CP 工作波形.png" alt="理想 PFD:CP 工作波形" style="zoom:35%; margin: auto;"></p>
 <p>理想 PFD/CP 工作波形如上图所示。鉴频鉴相器 (PFD) 用以检测参考时钟 $f<em>{ref}$ 和分频器输出 $f</em>{div}$ 的频率差或者相位差，并输出与之形成正比的脉冲信号 UP 和 DN。电荷泵 (CP) 将 UP 和 DN 间的脉宽差值转换为电流脉冲，对环路滤波器进行充放电，产生压控振荡器的控制信号。</p>
 <p><img src="/2020/10/13/PLL-2/边沿触发的 PFD:CP 结构图.png" alt="边沿触发的 PFD:CP 结构图" style="zoom:35%; margin: auto;"></p>
 <p>上图为边沿触发的 PFD/CP 结构图，包括两个带复位端的 D 触发器、一个两输入的与门和连接电荷泵开关的缓冲逻辑单元。由于电荷泵的开关分别采用了 PMOS 管和 NMOS 管，逻辑相反，所以需要在缓冲逻辑单元中对 UP 信号反向。为了使 UP 和 DN 信号到达 CP 开关的延迟保持一致，在缓冲单元中的传输门应尽量与非门保持相同的传输延迟。</p>
@@ -369,7 +369,7 @@
 <script type="math/tex; mode=display">
 K_{PFDCP} = \frac{\overline{I_{out}}}{\Delta \varphi} = \frac{I_{CP}}{2\pi}</script><p>可得到 PFD/CP 的线性相位在 s 域的模型如下图所示：</p>
 <p><img src="/2020/10/13/PLL-2/PFD:CP 的线性相位在 s 域模型.png" alt="PFD:CP 的线性相位在 s 域模型" style="zoom:35%; margin: auto;"></p>
-<h3 id="环路滤波器" class="heading-control"><a href="#环路滤波器" class="headerlink" title="环路滤波器"></a>环路滤波器<a class="heading-anchor" href="#环路滤波器" aria-hidden="true"></a></h3><p>环路滤波器为低通滤波器，其作用是将 CP 输出的电流转换为 VCO 的控制电压，并滤除其高频分量，同时环路滤波器也可以抑制 $\Delta-\Sigma$ 调制器中的带外噪声。在环路滤波器的带宽小于参考时钟频率的 $1/10$ 时，整个环路在 s 域可近似为线性系统。</p>
+<h3 id="环路滤波器"><a href="#环路滤波器" class="headerlink" title="环路滤波器"></a>环路滤波器</h3><p>环路滤波器为低通滤波器，其作用是将 CP 输出的电流转换为 VCO 的控制电压，并滤除其高频分量，同时环路滤波器也可以抑制 $\Delta-\Sigma$ 调制器中的带外噪声。在环路滤波器的带宽小于参考时钟频率的 $1/10$ 时，整个环路在 s 域可近似为线性系统。</p>
 <p>常见的环路滤波器可分为有源滤波器和无源滤波器。有源滤波器功耗大，并会产生有源噪声，因此在锁相环系统中通常会使用无源环路滤波器。一阶无源环路滤波器的电压纹波较大，实际应用中通常使用二阶和三阶无源环路滤波器。其结构如下图所示：</p>
 <p><img src="/2020/10/13/PLL-2/常用无源环路滤波器.png" alt="常用无源环路滤波器" style="zoom:45%; margin: auto;"></p>
 <p>上图二阶无源环路滤波器的传递函数为：</p>
@@ -379,7 +379,7 @@ Z_{LF2}(s) = \frac{V_c}{I_{cp}} = \frac{1+sR_1C_1}{s(sR_1C_1C_2 + C_1 + C_2)}</s
 Z_{LF3} = \frac{1}{s}\frac{1+sR_1C_1}{R_1R_3C_1C_2C_3s^2 + [R_1C_1(C_1+C_3)+R_3C_3(C_1+C_2)]s + (C_1+C_2+C_3)}</script><p>可知该三阶无源环路滤波器有一个零点和三个极点。</p>
 <p>环路滤波器的线性相位 s 域模型如下图所示：</p>
 <p><img src="/2020/10/13/PLL-2/环路滤波器的线性相位 s 域模型.png" alt="环路滤波器的线性相位 s 域模型" style="zoom:25%; margin: auto;"></p>
-<h3 id="压控振荡器" class="heading-control"><a href="#压控振荡器" class="headerlink" title="压控振荡器"></a>压控振荡器<a class="heading-anchor" href="#压控振荡器" aria-hidden="true"></a></h3><p>VCO 的输出频率随输入控制电压单调变化，理想 VCO 的输入输出关系为：</p>
+<h3 id="压控振荡器"><a href="#压控振荡器" class="headerlink" title="压控振荡器"></a>压控振荡器</h3><p>VCO 的输出频率随输入控制电压单调变化，理想 VCO 的输入输出关系为：</p>
 <script type="math/tex; mode=display">
 \omega _{out}(t) = \omega _0 + K_{VCO} \cdot v_c(t)</script><p>根据相位和频率在时域中的积分关系，可得 VCO 的输出相位为：</p>
 <script type="math/tex; mode=display">
@@ -389,7 +389,7 @@ Z_{LF3} = \frac{1}{s}\frac{1+sR_1C_1}{R_1R_3C_1C_2C_3s^2 + [R_1C_1(C_1+C_3)+R_3C
 <script type="math/tex; mode=display">
 \frac{\varphi _{res}}{v_c} (s) = \frac{K_{VCO}}{s}</script><p>VCO 的线性相位 s 域模型如下图所示：</p>
 <p><img src="/2020/10/13/PLL-2/VCO 的线性相位 s 域模型.png" alt="VCO 的线性相位 s 域模型" style="zoom:30%; margin: auto;"></p>
-<h3 id="可编程整数分频器" class="heading-control"><a href="#可编程整数分频器" class="headerlink" title="可编程整数分频器"></a>可编程整数分频器<a class="heading-anchor" href="#可编程整数分频器" aria-hidden="true"></a></h3><p>可编程整数分频器位于锁相环的反馈回路中，将 VCO 输出的振荡信号进行分频后，输出给 PFD 与参考时钟比较，而形成环路。可编程整数分频器工作在整个 PLL 的<strong>最高频率</strong>处。常用的电路结构有：基于双模预分频的 P/S 计数器结构和 2/3 分频器链结构。</p>
+<h3 id="可编程整数分频器"><a href="#可编程整数分频器" class="headerlink" title="可编程整数分频器"></a>可编程整数分频器</h3><p>可编程整数分频器位于锁相环的反馈回路中，将 VCO 输出的振荡信号进行分频后，输出给 PFD 与参考时钟比较，而形成环路。可编程整数分频器工作在整个 PLL 的<strong>最高频率</strong>处。常用的电路结构有：基于双模预分频的 P/S 计数器结构和 2/3 分频器链结构。</p>
 <p><img src="/2020/10/13/PLL-2/基于双模预分频器的 P:S 计数器结构.png" alt="基于双模预分频器的 P:S 计数器结构" style="zoom:40%; margin: auto;"></p>
 <p>基于双模预分频器的 P/S 计数器结构如上图所示，这种结构的分频器总分频比为：</p>
 <script type="math/tex; mode=display">
@@ -400,23 +400,23 @@ M = (N+1)\cdot S + N\cdot (P-S) = N\cdot P + S</script><p><img src="/2020/10/13/
 M = 2^n + 2^{n-1} \cdot P_{n-1} + 2^{n-2} \cdot P_{n-2} + \dots + 2 \cdot P_{0}</script><p>n 级 2/2 分频器链的分频比范围为 $2^n \sim 2^{n+1}-1$，此外可以通过组合逻辑电路拓展分频比范围。</p>
 <p>可编程整数分频器的线性相位 s 域模型如下图所示：</p>
 <p><img src="/2020/10/13/PLL-2/可编程整数分频器的线性相位 s 域模型.png" alt="可编程整数分频器的线性相位 s 域模型" style="zoom:25%; margin: auto;"></p>
-<h3 id="Delta-Sigma-调制器" class="heading-control"><a href="#Delta-Sigma-调制器" class="headerlink" title="$\Delta - \Sigma$ 调制器"></a>$\Delta - \Sigma$ 调制器<a class="heading-anchor" href="#Delta-Sigma-调制器" aria-hidden="true"></a></h3><p>小数频率综合器中的小数分频器是通过“动态分频比”来实现的，在环路锁定时两个输入信号仍存在相位差。$\Delta - \Sigma$ 调制器可以将瞬时分频比随机化，在实现小数分频的同时，进行量化噪声的整形。</p>
+<h3 id="Delta-Sigma-调制器"><a href="#Delta-Sigma-调制器" class="headerlink" title="$\Delta - \Sigma$ 调制器"></a>$\Delta - \Sigma$ 调制器</h3><p>小数频率综合器中的小数分频器是通过“动态分频比”来实现的，在环路锁定时两个输入信号仍存在相位差。$\Delta - \Sigma$ 调制器可以将瞬时分频比随机化，在实现小数分频的同时，进行量化噪声的整形。</p>
 <p><img src="/2020/10/13/PLL-2/Delta-Sigma 调制器的工作原理示意图.png" alt="Delta-Sigma 调制器的工作原理示意图" style="zoom:45%; margin: auto;"></p>
 <p>$\Delta - \Sigma$ 调制器的工作原理如上图所示，小数分频器的分频比分为整数部分 $N$ 和小数部分 $a$，小数部分通过 $\Delta - \Sigma$ 调制器进行量化后，与整数部分相加，得到瞬时分频比。$\Delta - \Sigma$ 调制器将带内噪声推向带外，实现噪声整形，而带外的量化噪声可以通过环路滤波器进行抑制，从而改善小数频率综合器的输出相位噪声。</p>
 <p>$\Delta - \Sigma$ 调制器对环路的线性相位 s 域模型没有影响，但会引入量化噪声。</p>
-<h3 id="自动频率校准单元" class="heading-control"><a href="#自动频率校准单元" class="headerlink" title="自动频率校准单元"></a>自动频率校准单元<a class="heading-anchor" href="#自动频率校准单元" aria-hidden="true"></a></h3><p>在目标频率发生变化后，环路断开 AFC 开始工作，搜索到目标自频率后，AFC 停止工作且接通环路。因此 AFC 对环路的线性相位 s 域模型没有影响。</p>
-<h2 id="环路线性化模型和传递函数" class="heading-control"><a href="#环路线性化模型和传递函数" class="headerlink" title="环路线性化模型和传递函数"></a>环路线性化模型和传递函数<a class="heading-anchor" href="#环路线性化模型和传递函数" aria-hidden="true"></a></h2><p>根据上面对电荷泵锁相环中每个模块的分析，可得其在 s 域的线性化模型为：</p>
+<h3 id="自动频率校准单元"><a href="#自动频率校准单元" class="headerlink" title="自动频率校准单元"></a>自动频率校准单元</h3><p>在目标频率发生变化后，环路断开 AFC 开始工作，搜索到目标自频率后，AFC 停止工作且接通环路。因此 AFC 对环路的线性相位 s 域模型没有影响。</p>
+<h2 id="环路线性化模型和传递函数"><a href="#环路线性化模型和传递函数" class="headerlink" title="环路线性化模型和传递函数"></a>环路线性化模型和传递函数</h2><p>根据上面对电荷泵锁相环中每个模块的分析，可得其在 s 域的线性化模型为：</p>
 <p>根据上图可得锁相环系统的开环传递函数为：</p>
 <script type="math/tex; mode=display">
 H_{OL}(s) = \frac{I_{CP}\cdot K_{VCO}}{2\pi \cdot N \cdot s} \cdot Z_{LF}(s)</script><p>则其闭环传递函数为：</p>
 <script type="math/tex; mode=display">
 H_{CL}(s) = \frac{H_{OL}/\frac{1}{N}}{1+H_{OL}} = \frac{N \cdot H_{OL}}{1+H_{OL}}</script><p>因此闭环传递函数 $H_{CL}(s)$ 呈低通特性。</p>
-<h2 id="混合型-FIR-噪声滤除计数" class="heading-control"><a href="#混合型-FIR-噪声滤除计数" class="headerlink" title="混合型 FIR 噪声滤除计数"></a>混合型 FIR 噪声滤除计数<a class="heading-anchor" href="#混合型-FIR-噪声滤除计数" aria-hidden="true"></a></h2><h1 id="电路设计" class="heading-control"><a href="#电路设计" class="headerlink" title="电路设计"></a>电路设计<a class="heading-anchor" href="#电路设计" aria-hidden="true"></a></h1><h2 id="系统结构设计" class="heading-control"><a href="#系统结构设计" class="headerlink" title="系统结构设计"></a>系统结构设计<a class="heading-anchor" href="#系统结构设计" aria-hidden="true"></a></h2><p><img src="/2020/10/13/PLL-2/小数频率综合器系统结构.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
+<h2 id="混合型-FIR-噪声滤除计数"><a href="#混合型-FIR-噪声滤除计数" class="headerlink" title="混合型 FIR 噪声滤除计数"></a>混合型 FIR 噪声滤除计数</h2><h1 id="电路设计"><a href="#电路设计" class="headerlink" title="电路设计"></a>电路设计</h1><h2 id="系统结构设计"><a href="#系统结构设计" class="headerlink" title="系统结构设计"></a>系统结构设计</h2><p><img src="/2020/10/13/PLL-2/小数频率综合器系统结构.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
 <p>小数频率综合器系统结构如上图所示，主要包括鉴频鉴相器 (PFD)、电荷泵 (CP)、环路滤波器 (LF)、压控振荡器 (VCO)、可编程整数分频器、$\Delta - \Sigma$ 调制器 (DSM) 和自动频率校准单元 (AFC)，同时采用混合型 FIR 滤波器来抑制 $\Delta - \Sigma$ 调制器的量化噪声。</p>
-<h2 id="小数分频器电路" class="heading-control"><a href="#小数分频器电路" class="headerlink" title="小数分频器电路"></a>小数分频器电路<a class="heading-anchor" href="#小数分频器电路" aria-hidden="true"></a></h2><p>由于 VCO 的输出端直接送到小数分频器的输入端，因此小数分频器工作在整个环路的最高频率处。因此小数分频器的高频部分采用全定制电路实现，而低频模块则采用半定制电路实现。</p>
+<h2 id="小数分频器电路"><a href="#小数分频器电路" class="headerlink" title="小数分频器电路"></a>小数分频器电路</h2><p>由于 VCO 的输出端直接送到小数分频器的输入端，因此小数分频器工作在整个环路的最高频率处。因此小数分频器的高频部分采用全定制电路实现，而低频模块则采用半定制电路实现。</p>
 <p><img src="/2020/10/13/PLL-2/小数分频器结构.png" alt="小数分频器结构" style="zoom:40%; margin: auto;"></p>
 <p>小数分频器的结构如上图所示，主要由高速二分频器、可编程整数分频器和 $\Delta - \Sigma$ 调制器组成，其中可编程整数分频器包括四分频器和 2/3 分频器链。</p>
-<h3 id="高速二分频器" class="heading-control"><a href="#高速二分频器" class="headerlink" title="高速二分频器"></a>高速二分频器<a class="heading-anchor" href="#高速二分频器" aria-hidden="true"></a></h3><p>高速二分频器的作用是对 VCO 输出的频率进行二分频，从而产生<strong>四项正交的本振信号</strong>。</p>
+<h3 id="高速二分频器"><a href="#高速二分频器" class="headerlink" title="高速二分频器"></a>高速二分频器</h3><p>高速二分频器的作用是对 VCO 输出的频率进行二分频，从而产生<strong>四项正交的本振信号</strong>。</p>
 <blockquote>
 <p>PS: I/Q 正交调制</p>
 <p>假设载波为 cos(a)，信号为 cos(b)，传统调制方式直接用载波和信号相乘：</p>
@@ -433,14 +433,14 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)</script></blockquote>
 <p>如上图所示，将触发器的反相输出端 Qn 和数据输入端 D 相连就可以构成一个二分频器。</p>
 <p><img src="/2020/10/13/PLL-2/SCL 锁存器构成的高速二分频器.png" alt="SCL 锁存器构成的高速二分频器" style="zoom:50%; margin: auto;"></p>
 <p>如上图所示，SCL 触发器实际上是由两个 SCL 结构的锁存器级联而成的。</p>
-<h3 id="缓冲电路" class="heading-control"><a href="#缓冲电路" class="headerlink" title="缓冲电路"></a>缓冲电路<a class="heading-anchor" href="#缓冲电路" aria-hidden="true"></a></h3><p>由于高速二分频器直接输出的信号幅度较小，且驱动力不足，直接与后级相连将无法正常工作，因此需要在高速二分频器和后级电路之间加上缓冲电路。对于缓冲电路的要求有：输入电容小、隔离度高以及驱动能力强，这样的缓冲电路不会影响前级电路的正常工作，还可以为后级电路提供较大摆幅的输出信号。</p>
+<h3 id="缓冲电路"><a href="#缓冲电路" class="headerlink" title="缓冲电路"></a>缓冲电路</h3><p>由于高速二分频器直接输出的信号幅度较小，且驱动力不足，直接与后级相连将无法正常工作，因此需要在高速二分频器和后级电路之间加上缓冲电路。对于缓冲电路的要求有：输入电容小、隔离度高以及驱动能力强，这样的缓冲电路不会影响前级电路的正常工作，还可以为后级电路提供较大摆幅的输出信号。</p>
 <p>射频电路中常用的缓存电路有三种：<strong>反相器</strong>、<strong>源级跟随器</strong>和<strong>共源放大器</strong>。</p>
 <p>反相器结构的缓冲电路输出摆幅较大，但其输入阻抗大，会给前级带来很大的负载（<strong>？</strong>），且反相器结构的缓冲电路工作频率较低。</p>
 <p>源级跟随器结构的缓冲电路有输入阻抗大、输出阻抗小的特点，可以轻易实现阻抗变化。但其输出摆幅相较于输入信号，会有一个阈值电压的下降。</p>
 <p>共源放大器结构的缓冲电路其偏置电流可调、工作频率高、反向隔离度好、并且可以抑制共模电流。</p>
 <p><img src="/2020/10/13/PLL-2/共源放大器结构的缓冲电路结构.png" alt="共源放大器结构的缓冲电路结构" style="zoom:35%; margin: auto;"></p>
 <p>共源放大器结构的缓冲电路结构如上图所示，单端输出信号峰峰值 $V<em>{PP}$ 为 $I</em>{SS} \cdot R_{D}$。</p>
-<h3 id="四分频器" class="heading-control"><a href="#四分频器" class="headerlink" title="四分频器"></a>四分频器<a class="heading-anchor" href="#四分频器" aria-hidden="true"></a></h3><p><img src="/2020/10/13/PLL-2/触发器构成的四分频器.png" alt="触发器构成的四分频器" style="zoom:40%; margin: auto;"></p>
+<h3 id="四分频器"><a href="#四分频器" class="headerlink" title="四分频器"></a>四分频器</h3><p><img src="/2020/10/13/PLL-2/触发器构成的四分频器.png" alt="触发器构成的四分频器" style="zoom:40%; margin: auto;"></p>
 <p>与高速二分频器的结构类似，两个完全相同的触发器就可以构成一个四分频器，其结构如上图所示。由于其工作频率范围为 $0.5 \sim 4.0GHz$，因此仍使用 SCL 结构的触发器电路结构来实现。</p>
 <p><img src="/2020/10/13/PLL-2/四分频器的缓冲电路结构.png" alt="四分频器的缓冲电路结构" style="zoom:35%; margin: auto;"></p>
 <p>四分频器的缓冲电路结构如上图所示，四分频器的缓冲电路不仅要起到隔离和驱动的作用，还要实现模拟信号和数字逻辑信号的转换，因此缓冲电路分三级：</p>
@@ -449,7 +449,7 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)</script></blockquote>
 <li>第二级是<strong>带电阻反馈的反相器</strong>，将信号放大至全摆幅，其中的电阻反馈可以稳定输出，并将输出信号的直流工作点固定在翻转阈值附件；</li>
 <li>第三级是驱动后级数字电路的反相器，为后级电路提供更大的驱动能力。</li>
 </ul>
-<h3 id="2-3-分频器" class="heading-control"><a href="#2-3-分频器" class="headerlink" title="2/3 分频器"></a>2/3 分频器<a class="heading-anchor" href="#2-3-分频器" aria-hidden="true"></a></h3><p><img src="/2020/10/13/PLL-2/2:3 分频器链路结构.png" alt="2/3 分频器链路结构" style="zoom:45%; margin: auto;"></p>
+<h3 id="2-3-分频器"><a href="#2-3-分频器" class="headerlink" title="2/3 分频器"></a>2/3 分频器</h3><p><img src="/2020/10/13/PLL-2/2:3 分频器链路结构.png" alt="2/3 分频器链路结构" style="zoom:45%; margin: auto;"></p>
 <p>2/3 分频器链路结构如上图所示，n 级 2/3 分频器链路的分频比范围为 $2^n \sim 2^{n+1}-1$，采用逻辑组合电路可以进一步将分频比拓展至 $2^k \sim 2^{n+1}-1$，因此采用 5 级 2/3 分频器链路，可以实现 $4 \sim 63$ 分频比范围。</p>
 <p><img src="/2020/10/13/PLL-2/2:3 分频器结构.png" alt="2:3 分频器结构" style="zoom:40%; margin: auto;"></p>
 <p>每一级的 2/3 分频器结构如上图所示，有四个锁存器和三个与门构成。其包含两部分，上半部分是预分频逻辑 (Prescaler Logic)，下半部分是周期终止逻辑 (End-of-Cycle Logic)。周期终止逻辑根据分频比控制输入端 P 和模式输入端 $\mathrm{mod}_\mathrm{in}$ 来决定预分频逻辑的分频比。其分频比关系如下：</p>
@@ -475,7 +475,7 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)</script></blockquote>
 </div>
 <p>2/3 分频器链路的最高工作频率为 1GHz，可以采用真单相时钟 (True Single Phase Clocked, TSPC) 逻辑结构来实现，TSPC 逻辑有着结构简单、功耗小，并且只需要单相输入时钟的优点。TSPC 结构实现的 2/3 分频器电路结构如下图所示：</p>
 <p><img src="/2020/10/13/PLL-2/TSPC 结构的 2:3 分频器.png" alt="TSPC 结构的 2:3 分频器" style="zoom:40%; margin: auto;"></p>
-<h3 id="Delta-Sigma-调制器-1" class="heading-control"><a href="#Delta-Sigma-调制器-1" class="headerlink" title="$\Delta-\Sigma$ 调制器"></a>$\Delta-\Sigma$ 调制器<a class="heading-anchor" href="#Delta-Sigma-调制器-1" aria-hidden="true"></a></h3><h2 id="AFC" class="heading-control"><a href="#AFC" class="headerlink" title="AFC"></a>AFC<a class="heading-anchor" href="#AFC" aria-hidden="true"></a></h2>
+<h3 id="Delta-Sigma-调制器-1"><a href="#Delta-Sigma-调制器-1" class="headerlink" title="$\Delta-\Sigma$ 调制器"></a>$\Delta-\Sigma$ 调制器</h3><h2 id="AFC"><a href="#AFC" class="headerlink" title="AFC"></a>AFC</h2>
     </div>
 
     
@@ -589,7 +589,7 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)</script></blockquote>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#频率综合器概述"><span class="nav-number">1.</span> <span class="nav-text">频率综合器概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#频率综合器分类"><span class="nav-number">1.1.</span> <span class="nav-text">频率综合器分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多模-CMOS-锁相环频率综合器分类"><span class="nav-number">1.2.</span> <span class="nav-text">多模 CMOS 锁相环频率综合器分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小数频率综合器的基本原理"><span class="nav-number">2.</span> <span class="nav-text">小数频率综合器的基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本模块"><span class="nav-number">2.1.</span> <span class="nav-text">基本模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#鉴频鉴相器和电荷泵"><span class="nav-number">2.1.1.</span> <span class="nav-text">鉴频鉴相器和电荷泵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环路滤波器"><span class="nav-number">2.1.2.</span> <span class="nav-text">环路滤波器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#压控振荡器"><span class="nav-number">2.1.3.</span> <span class="nav-text">压控振荡器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可编程整数分频器"><span class="nav-number">2.1.4.</span> <span class="nav-text">可编程整数分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delta-Sigma-调制器"><span class="nav-number">2.1.5.</span> <span class="nav-text">$\Delta - \Sigma$ 调制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动频率校准单元"><span class="nav-number">2.1.6.</span> <span class="nav-text">自动频率校准单元</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环路线性化模型和传递函数"><span class="nav-number">2.2.</span> <span class="nav-text">环路线性化模型和传递函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合型-FIR-噪声滤除计数"><span class="nav-number">2.3.</span> <span class="nav-text">混合型 FIR 噪声滤除计数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#电路设计"><span class="nav-number">3.</span> <span class="nav-text">电路设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统结构设计"><span class="nav-number">3.1.</span> <span class="nav-text">系统结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小数分频器电路"><span class="nav-number">3.2.</span> <span class="nav-text">小数分频器电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#高速二分频器"><span class="nav-number">3.2.1.</span> <span class="nav-text">高速二分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓冲电路"><span class="nav-number">3.2.2.</span> <span class="nav-text">缓冲电路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四分频器"><span class="nav-number">3.2.3.</span> <span class="nav-text">四分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-分频器"><span class="nav-number">3.2.4.</span> <span class="nav-text">2&#x2F;3 分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delta-Sigma-调制器-1"><span class="nav-number">3.2.5.</span> <span class="nav-text">$\Delta-\Sigma$ 调制器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFC"><span class="nav-number">3.3.</span> <span class="nav-text">AFC</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">频率综合器概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">频率综合器分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1-CMOS-%E9%94%81%E7%9B%B8%E7%8E%AF%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E5%88%86%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">多模 CMOS 锁相环频率综合器分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E6%95%B0%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">小数频率综合器的基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%9D%97"><span class="nav-number">2.1.</span> <span class="nav-text">基本模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%89%B4%E9%A2%91%E9%89%B4%E7%9B%B8%E5%99%A8%E5%92%8C%E7%94%B5%E8%8D%B7%E6%B3%B5"><span class="nav-number">2.1.1.</span> <span class="nav-text">鉴频鉴相器和电荷泵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">环路滤波器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E6%8E%A7%E6%8C%AF%E8%8D%A1%E5%99%A8"><span class="nav-number">2.1.3.</span> <span class="nav-text">压控振荡器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%95%B4%E6%95%B0%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">可编程整数分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delta-Sigma-%E8%B0%83%E5%88%B6%E5%99%A8"><span class="nav-number">2.1.5.</span> <span class="nav-text">$\Delta - \Sigma$ 调制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E9%A2%91%E7%8E%87%E6%A0%A1%E5%87%86%E5%8D%95%E5%85%83"><span class="nav-number">2.1.6.</span> <span class="nav-text">自动频率校准单元</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E8%B7%AF%E7%BA%BF%E6%80%A7%E5%8C%96%E6%A8%A1%E5%9E%8B%E5%92%8C%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">环路线性化模型和传递函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%9E%8B-FIR-%E5%99%AA%E5%A3%B0%E6%BB%A4%E9%99%A4%E8%AE%A1%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">混合型 FIR 噪声滤除计数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">电路设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.1.</span> <span class="nav-text">系统结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E6%95%B0%E5%88%86%E9%A2%91%E5%99%A8%E7%94%B5%E8%B7%AF"><span class="nav-number">3.2.</span> <span class="nav-text">小数分频器电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9F%E4%BA%8C%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text">高速二分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E7%94%B5%E8%B7%AF"><span class="nav-number">3.2.2.</span> <span class="nav-text">缓冲电路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">3.2.3.</span> <span class="nav-text">四分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">3.2.4.</span> <span class="nav-text">2&#x2F;3 分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delta-Sigma-%E8%B0%83%E5%88%B6%E5%99%A8-1"><span class="nav-number">3.2.5.</span> <span class="nav-text">$\Delta-\Sigma$ 调制器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFC"><span class="nav-number">3.3.</span> <span class="nav-text">AFC</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -679,14 +679,14 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)</script></blockquote>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

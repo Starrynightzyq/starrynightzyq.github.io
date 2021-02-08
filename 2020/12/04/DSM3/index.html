@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -322,14 +322,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="几种-DSM-结构" class="heading-control"><a href="#几种-DSM-结构" class="headerlink" title="几种 DSM 结构"></a>几种 DSM 结构<a class="heading-anchor" href="#几种-DSM-结构" aria-hidden="true"></a></h1><h2 id="传统的-MASH-结构" class="heading-control"><a href="#传统的-MASH-结构" class="headerlink" title="传统的 MASH 结构"></a>传统的 MASH 结构<a class="heading-anchor" href="#传统的-MASH-结构" aria-hidden="true"></a></h2><div align="center">
+        <h1 id="几种-DSM-结构"><a href="#几种-DSM-结构" class="headerlink" title="几种 DSM 结构"></a>几种 DSM 结构</h1><h2 id="传统的-MASH-结构"><a href="#传统的-MASH-结构" class="headerlink" title="传统的 MASH 结构"></a>传统的 MASH 结构</h2><div align="center">
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/EFM.png" alt="EFM" width="350px"></div>
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/MASH.png" alt="MASH" width="350px"></div>
 </div>
 
 
 <p>传统的 MASH 结构如上图所示，其一阶调制器 (first-order error feedback modulator, EFM) 如左边的图所示，其本质上是一个累加器，前一级的 EFM 误差作为后以及的输入。</p>
-<h2 id="HK-MASH-结构" class="heading-control"><a href="#HK-MASH-结构" class="headerlink" title="HK-MASH 结构"></a>HK-MASH 结构<a class="heading-anchor" href="#HK-MASH-结构" aria-hidden="true"></a></h2><div align="center">
+<h2 id="HK-MASH-结构"><a href="#HK-MASH-结构" class="headerlink" title="HK-MASH 结构"></a>HK-MASH 结构</h2><div align="center">
   <img src="/2020/12/04/DSM3/HK_EFM.png" width="400">
 </div>
 
@@ -338,7 +338,7 @@
 <script type="math/tex; mode=display">
 Mean(Y) = Mean(X)/(M-a)</script><p><img src="/2020/12/04/DSM3/HK_MASH_RES.png" alt="HK_MASH_RES" style="zoom:50%;"></p>
 <p>如果想让输出平均值为 $\alpha$，则输入值需要缩放为 $\alpha(M-a)/M$，因此 HK-MASH 结构的 DSM <strong>不支持全范围输入</strong>，并且需要额外的电路来实现这个缩放过程。</p>
-<h2 id="SP-MASH" class="heading-control"><a href="#SP-MASH" class="headerlink" title="SP-MASH"></a>SP-MASH<a class="heading-anchor" href="#SP-MASH" aria-hidden="true"></a></h2><div align="center">
+<h2 id="SP-MASH"><a href="#SP-MASH" class="headerlink" title="SP-MASH"></a>SP-MASH</h2><div align="center">
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/SP_EFM.png" width="350px"></div>
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/SP_MASH.png" width="350px"></div>
 </div>
@@ -346,23 +346,23 @@ Mean(Y) = Mean(X)/(M-a)</script><p><img src="/2020/12/04/DSM3/HK_MASH_RES.png" a
 <p>Spur-Free MASH 的结构如上图所示，相对于原始的 EFM，SP-EFM 增加了一个前一级的量化输出作为本级的输入。该结构的改动几乎不消耗额外的硬件资源，并且输入和输出是相等的，即输入时全范围的。</p>
 <p>为了扩大输出的周期，可以增加除第一级之外的 EFM 的位数，例如上面的结构中，第一级设为 5bit，第二级和第三级设为 9bit，将第一级的量化误差左移 4 位再作为第二级的输入。</p>
 <p>SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级的位宽；$N_1$ 为第一级的输出周期，例如在上面的结构中 $r=9$，$N_1$ 最小等于 2。</p>
-<h1 id="使用-Simulink-仿真" class="heading-control"><a href="#使用-Simulink-仿真" class="headerlink" title="使用 Simulink 仿真"></a>使用 Simulink 仿真<a class="heading-anchor" href="#使用-Simulink-仿真" aria-hidden="true"></a></h1><h2 id="传统的-MASH-结构-1" class="heading-control"><a href="#传统的-MASH-结构-1" class="headerlink" title="传统的 MASH 结构"></a>传统的 MASH 结构<a class="heading-anchor" href="#传统的-MASH-结构-1" aria-hidden="true"></a></h2><div align="center">
+<h1 id="使用-Simulink-仿真"><a href="#使用-Simulink-仿真" class="headerlink" title="使用 Simulink 仿真"></a>使用 Simulink 仿真</h1><h2 id="传统的-MASH-结构-1"><a href="#传统的-MASH-结构-1" class="headerlink" title="传统的 MASH 结构"></a>传统的 MASH 结构</h2><div align="center">
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/Simulink_EFM.jpg" width="260"></div>
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/Simulink_MASH.jpg" width="600"></div>
 </div>
 
 
-<h2 id="HK-MASH" class="heading-control"><a href="#HK-MASH" class="headerlink" title="HK-MASH"></a>HK-MASH<a class="heading-anchor" href="#HK-MASH" aria-hidden="true"></a></h2><div align="center">
+<h2 id="HK-MASH"><a href="#HK-MASH" class="headerlink" title="HK-MASH"></a>HK-MASH</h2><div align="center">
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/Simulink_HK_EFM.jpg" width="260"></div>
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/Simulink_HK_MASH.jpg" width="600"></div>
 </div>
 
-<h2 id="SP-MASH-1" class="heading-control"><a href="#SP-MASH-1" class="headerlink" title="SP-MASH"></a>SP-MASH<a class="heading-anchor" href="#SP-MASH-1" aria-hidden="true"></a></h2><div align="center">
+<h2 id="SP-MASH-1"><a href="#SP-MASH-1" class="headerlink" title="SP-MASH"></a>SP-MASH</h2><div align="center">
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/Simulink_SP_EFM.jpg" width="260"></div>
   <div style="display:inline-block;"><img src="/2020/12/04/DSM3/Simulink_SP_MASH.jpg" width="600"></div>
 </div>
 
-<h1 id="仿真结果-MASH-amp-HK-MASH-amp-SP-MASH" class="heading-control"><a href="#仿真结果-MASH-amp-HK-MASH-amp-SP-MASH" class="headerlink" title="仿真结果 MASH &amp; HK-MASH &amp; SP-MASH"></a>仿真结果 MASH &amp; HK-MASH &amp; SP-MASH<a class="heading-anchor" href="#仿真结果-MASH-amp-HK-MASH-amp-SP-MASH" aria-hidden="true"></a></h1><h2 id="输出序列" class="heading-control"><a href="#输出序列" class="headerlink" title="输出序列"></a>输出序列<a class="heading-anchor" href="#输出序列" aria-hidden="true"></a></h2><div align="center">
+<h1 id="仿真结果-MASH-amp-HK-MASH-amp-SP-MASH"><a href="#仿真结果-MASH-amp-HK-MASH-amp-SP-MASH" class="headerlink" title="仿真结果 MASH &amp; HK-MASH &amp; SP-MASH"></a>仿真结果 MASH &amp; HK-MASH &amp; SP-MASH</h1><h2 id="输出序列"><a href="#输出序列" class="headerlink" title="输出序列"></a>输出序列</h2><div align="center">
   <div align="center">
     <div style="display:inline-block;"><img src="/2020/12/04/DSM3/mash_5bit_16_y.svg" alt="MASH input 16" width="290"></div>
     <div style="display:inline-block;"><img src="/2020/12/04/DSM3/hk_mash_5bit_16_y.svg" alt="HK-MASH input 16" width="290"></div>
@@ -378,7 +378,7 @@ Mean(Y) = Mean(X)/(M-a)</script><p><img src="/2020/12/04/DSM3/HK_MASH_RES.png" a
 
 
 <p>三种 MASH DSM 结构的输出序列如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。</p>
-<h2 id="功率谱密度" class="heading-control"><a href="#功率谱密度" class="headerlink" title="功率谱密度"></a>功率谱密度<a class="heading-anchor" href="#功率谱密度" aria-hidden="true"></a></h2><div align="center">
+<h2 id="功率谱密度"><a href="#功率谱密度" class="headerlink" title="功率谱密度"></a>功率谱密度</h2><div align="center">
   <div align="center">
     <div style="display:inline-block;"><img src="/2020/12/04/DSM3/mash_5bit_16_psd.svg" alt="MASH input 16" width="290"></div>
     <div style="display:inline-block;"><img src="/2020/12/04/DSM3/hk_mash_5bit_16_psd.svg" alt="HK-MASH input 16" width="290"></div>
@@ -394,7 +394,7 @@ Mean(Y) = Mean(X)/(M-a)</script><p><img src="/2020/12/04/DSM3/HK_MASH_RES.png" a
 
 
 <p>三种 MASH DSM 结构的功率谱如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。</p>
-<h1 id="结果分析-amp-思考🤔" class="heading-control"><a href="#结果分析-amp-思考🤔" class="headerlink" title="结果分析&amp;思考🤔"></a>结果分析&amp;思考🤔<a class="heading-anchor" href="#结果分析-amp-思考🤔" aria-hidden="true"></a></h1><ol>
+<h1 id="结果分析-amp-思考🤔"><a href="#结果分析-amp-思考🤔" class="headerlink" title="结果分析&amp;思考🤔"></a>结果分析&amp;思考🤔</h1><ol>
 <li><p>从上面的时序的输出和功率谱密度都可以看出 HK-MASH 结构和 SP-MASH 结构对噪声的整形效果都比传统的 MASH 结构好；</p>
 </li>
 <li><p>传统的 EFM 结构的输出序列的周期为：</p>
@@ -421,7 +421,7 @@ N = \frac{M}{GCD(X, M)}</script><p>其中 $GCD$ 表示最大公约数，$X$ 为�
 </li>
 </ol>
 <p>   上面一行是我自己的仿真结果，下面一行是论文中的结果，输入都为 16。</p>
-<h1 id="参考文献" class="heading-control"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献<a class="heading-anchor" href="#参考文献" aria-hidden="true"></a></h1><p>[1] Y. Liao, X. Fan and Z. Hua, “Influence of LFSR Dither on the Periods of a MASH Digital Delta–Sigma Modulator,” in <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 66, no. 1, pp. 66-70, Jan. 2019, doi: 10.1109/TCSII.2018.2828600.</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Y. Liao, X. Fan and Z. Hua, “Influence of LFSR Dither on the Periods of a MASH Digital Delta–Sigma Modulator,” in <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 66, no. 1, pp. 66-70, Jan. 2019, doi: 10.1109/TCSII.2018.2828600.</p>
 <p>[2] J. Song and I. Park, “Spur-Free MASH Delta-Sigma Modulation,” in <em>IEEE Transactions on Circuits and Systems I: Regular Papers</em>, vol. 57, no. 9, pp. 2426-2437, Sept. 2010, doi: 10.1109/TCSI.2010.2043993.</p>
 
     </div>
@@ -538,7 +538,7 @@ N = \frac{M}{GCD(X, M)}</script><p>其中 $GCD$ 表示最大公约数，$X$ 为�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#几种-DSM-结构"><span class="nav-number">1.</span> <span class="nav-text">几种 DSM 结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的-MASH-结构"><span class="nav-number">1.1.</span> <span class="nav-text">传统的 MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HK-MASH-结构"><span class="nav-number">1.2.</span> <span class="nav-text">HK-MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SP-MASH"><span class="nav-number">1.3.</span> <span class="nav-text">SP-MASH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-Simulink-仿真"><span class="nav-number">2.</span> <span class="nav-text">使用 Simulink 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的-MASH-结构-1"><span class="nav-number">2.1.</span> <span class="nav-text">传统的 MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HK-MASH"><span class="nav-number">2.2.</span> <span class="nav-text">HK-MASH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SP-MASH-1"><span class="nav-number">2.3.</span> <span class="nav-text">SP-MASH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#仿真结果-MASH-amp-HK-MASH-amp-SP-MASH"><span class="nav-number">3.</span> <span class="nav-text">仿真结果 MASH &amp; HK-MASH &amp; SP-MASH</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输出序列"><span class="nav-number">3.1.</span> <span class="nav-text">输出序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功率谱密度"><span class="nav-number">3.2.</span> <span class="nav-text">功率谱密度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结果分析-amp-思考🤔"><span class="nav-number">4.</span> <span class="nav-text">结果分析&amp;思考🤔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D-DSM-%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">几种 DSM 结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84-MASH-%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">传统的 MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HK-MASH-%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">HK-MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SP-MASH"><span class="nav-number">1.3.</span> <span class="nav-text">SP-MASH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Simulink-%E4%BB%BF%E7%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">使用 Simulink 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84-MASH-%E7%BB%93%E6%9E%84-1"><span class="nav-number">2.1.</span> <span class="nav-text">传统的 MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HK-MASH"><span class="nav-number">2.2.</span> <span class="nav-text">HK-MASH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SP-MASH-1"><span class="nav-number">2.3.</span> <span class="nav-text">SP-MASH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C-MASH-amp-HK-MASH-amp-SP-MASH"><span class="nav-number">3.</span> <span class="nav-text">仿真结果 MASH &amp; HK-MASH &amp; SP-MASH</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%BA%8F%E5%88%97"><span class="nav-number">3.1.</span> <span class="nav-text">输出序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%AF%86%E5%BA%A6"><span class="nav-number">3.2.</span> <span class="nav-text">功率谱密度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90-amp-%E6%80%9D%E8%80%83%F0%9F%A4%94"><span class="nav-number">4.</span> <span class="nav-text">结果分析&amp;思考🤔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -628,14 +628,14 @@ N = \frac{M}{GCD(X, M)}</script><p>其中 $GCD$ 表示最大公约数，$X$ 为�
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

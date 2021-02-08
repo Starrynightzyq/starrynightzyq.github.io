@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -297,13 +297,13 @@
       
         <p>锁相环（PLL: Phase-locked loop）是一种利用反馈（Feedback）控制原理实现的频率及相位的同步技术，其作用是将电路输出的时钟与其外部的参考时钟保持同步。当参考时钟的频率或相位发生改变时，锁相回路会检测到这种变化，并且通过其内部的反馈系统来调节输出频率，直到两者重新同步，这种同步又称为“锁相”（Phase-locked）。</p>
 <a id="more"></a>
-<h1 id="时钟与振荡电路" class="heading-control"><a href="#时钟与振荡电路" class="headerlink" title="时钟与振荡电路"></a>时钟与振荡电路<a class="heading-anchor" href="#时钟与振荡电路" aria-hidden="true"></a></h1><p>芯片工作时，通常需要时钟，时钟的周期变化可以通过振荡来产生。振荡电路的形成通常可以分为两类：</p>
+<h1 id="时钟与振荡电路"><a href="#时钟与振荡电路" class="headerlink" title="时钟与振荡电路"></a>时钟与振荡电路</h1><p>芯片工作时，通常需要时钟，时钟的周期变化可以通过振荡来产生。振荡电路的形成通常可以分为两类：</p>
 <ol>
 <li>石英晶体压电效应：电导致晶片的机械变形，而晶片两侧施加机械压力又会产生电，形成振荡。它的谐振频率与晶片的切割方式、几何形状、尺寸有关，可以做得精确，因此其振荡电路可以获得很高的频率稳定度。</li>
 <li>电容Capacity的充电放电：LC振荡电路，能够存储电能，而充放电的电流方向是反的，形成振荡，可通过电压等控制振荡电路的频率。</li>
 </ol>
-<h1 id="PLL-与倍频" class="heading-control"><a href="#PLL-与倍频" class="headerlink" title="PLL 与倍频"></a>PLL 与倍频<a class="heading-anchor" href="#PLL-与倍频" aria-hidden="true"></a></h1><p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
-<h2 id="PLL-锁相环-电路的概要" class="heading-control"><a href="#PLL-锁相环-电路的概要" class="headerlink" title="PLL(锁相环)电路的概要"></a>PLL(锁相环)电路的概要<a class="heading-anchor" href="#PLL-锁相环-电路的概要" aria-hidden="true"></a></h2><p><img src="/2020/09/11/PLL/Pll.png" alt="Pll"></p>
+<h1 id="PLL-与倍频"><a href="#PLL-与倍频" class="headerlink" title="PLL 与倍频"></a>PLL 与倍频</h1><p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
+<h2 id="PLL-锁相环-电路的概要"><a href="#PLL-锁相环-电路的概要" class="headerlink" title="PLL(锁相环)电路的概要"></a>PLL(锁相环)电路的概要</h2><p><img src="/2020/09/11/PLL/Pll.png" alt="Pll"></p>
 <p>PLL 通常由以下几个部分组成：</p>
 <ul>
 <li><p>鉴相鉴频器 PFD（Phase Frequency Detector）：对输入的基准信号（来自频率稳定的晶振）和反馈回路的信号进行频率的比较，输出一个代表两者差异的信号</p>
@@ -320,13 +320,13 @@
 <p><img src="/2020/09/11/PLL/Center.png" alt="PFD"></p>
 <p> (此为利用脉波的边缘做二个信号的比较。如果有相位差存在时，便会产生正或负的脉波输出。)</p>
 <p>此 PD 脉波信号经过回路滤波器(LoopFilter)的积分，便可以得到直流电压 VR，可以控制 VCO 电路。由于控制电压 VR 的变化，VCO 振荡频率会提高。结果使得 <script type="math/tex">f_r=f_o</script>。在两者相位成为一致时，PD 端子会成为高阻抗状态，使 PLL 被锁栓(Lock)。</p>
-<h2 id="回路滤波器的选择方法" class="heading-control"><a href="#回路滤波器的选择方法" class="headerlink" title="回路滤波器的选择方法"></a>回路滤波器的选择方法<a class="heading-anchor" href="#回路滤波器的选择方法" aria-hidden="true"></a></h2><p>回路滤波器的时间常数与 PLL 控制的良否有很大的关系。在基准频率 <script type="math/tex">f_r</script> 为 10kHz 时，输往回路滤波器的脉波周期为 0.1ms。</p>
+<h2 id="回路滤波器的选择方法"><a href="#回路滤波器的选择方法" class="headerlink" title="回路滤波器的选择方法"></a>回路滤波器的选择方法</h2><p>回路滤波器的时间常数与 PLL 控制的良否有很大的关系。在基准频率 <script type="math/tex">f_r</script> 为 10kHz 时，输往回路滤波器的脉波周期为 0.1ms。</p>
 <p>为了保持电压值 VR 而增大回路滤波器的时间常数时，便无法追踪 VCO 的振荡频率的变化。如果时间常数太小时，会在 VR 上出现涟波，使 PLL 的稳定度恶化。</p>
 <p>因此，根据经验，回路滤波器的时间常数，选择大约为基准频率的周期 (1/fr) 的数百倍。</p>
-<h1 id="Reference" class="heading-control"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="heading-anchor" href="#Reference" aria-hidden="true"></a></h1><ol>
-<li><a href="https://blog.csdn.net/u013754317/article/details/52799516" target="_blank" rel="noopener">锁相环PLL（Phase Locked Loop)</a></li>
-<li><a href="https://blog.csdn.net/leoufung/article/details/50268031" target="_blank" rel="noopener">PLL(锁相环)电路原理</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Phase-locked_loop" target="_blank" rel="noopener">Phase-locked loop</a></li>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013754317/article/details/52799516">锁相环PLL（Phase Locked Loop)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/leoufung/article/details/50268031">PLL(锁相环)电路原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Phase-locked_loop">Phase-locked loop</a></li>
 </ol>
 
     </div>
@@ -442,7 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#时钟与振荡电路"><span class="nav-number">1.</span> <span class="nav-text">时钟与振荡电路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PLL-与倍频"><span class="nav-number">2.</span> <span class="nav-text">PLL 与倍频</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLL-锁相环-电路的概要"><span class="nav-number">2.1.</span> <span class="nav-text">PLL(锁相环)电路的概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回路滤波器的选择方法"><span class="nav-number">2.2.</span> <span class="nav-text">回路滤波器的选择方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%B6%E9%92%9F%E4%B8%8E%E6%8C%AF%E8%8D%A1%E7%94%B5%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">时钟与振荡电路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PLL-%E4%B8%8E%E5%80%8D%E9%A2%91"><span class="nav-number">2.</span> <span class="nav-text">PLL 与倍频</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLL-%E9%94%81%E7%9B%B8%E7%8E%AF-%E7%94%B5%E8%B7%AF%E7%9A%84%E6%A6%82%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">PLL(锁相环)电路的概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8%E7%9A%84%E9%80%89%E6%8B%A9%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">回路滤波器的选择方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -532,14 +532,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

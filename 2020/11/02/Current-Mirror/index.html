@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -302,7 +302,7 @@
       
         <p>在模拟电路中，电流源的设计是基于对基准电流的“复制”，其前提是存在一个<strong>精确</strong>的电流源可以利用。这里讨论电流复制的过程。</p>
 <a id="more"></a>
-<h1 id="一、基本电流镜" class="heading-control"><a href="#一、基本电流镜" class="headerlink" title="一、基本电流镜"></a>一、基本电流镜<a class="heading-anchor" href="#一、基本电流镜" aria-hidden="true"></a></h1><p>两个都工作在饱和区且具有相同栅源电压 ($V_{GS}$) 的相同 MOS 管传输相同的电流 (忽略沟道长度调制，即 $\lambda = 0$)。</p>
+<h1 id="一、基本电流镜"><a href="#一、基本电流镜" class="headerlink" title="一、基本电流镜"></a>一、基本电流镜</h1><p>两个都工作在饱和区且具有相同栅源电压 ($V_{GS}$) 的相同 MOS 管传输相同的电流 (忽略沟道长度调制，即 $\lambda = 0$)。</p>
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/02/Current-Mirror/CM.drawio.svg">
     <br>
@@ -322,11 +322,11 @@ I_{out} = \frac{1}{2} \mu _n C_{ox} (\frac{W}{L})_2 (V_{GS} - V_{TH}) ^2</script
 <script type="math/tex; mode=display">
 I_{out} = \frac{(W/L)_1}{(W/L)_2} I_{REF}</script><p><strong>特性</strong>：可以精确地复制电流而不受工艺和温度的影响。</p>
 <p>电流镜中所有的晶体管都采用<strong>相同的栅长</strong>，及减小由于<strong>源漏区边缘扩散</strong> (<script type="math/tex">I_D</script>) 所产生的误差。因为 <script type="math/tex">L_{drawn}</script> 加倍，但有效沟道长度 <script type="math/tex">L_{eff} = L_{drawn} - 2L_D</script> 并未加倍。<strong>因此电流值之比只能通过调节晶体管的宽度来实现。</strong></p>
-<h1 id="二、共源共栅电流镜-Cascode-Current-Mirror" class="heading-control"><a href="#二、共源共栅电流镜-Cascode-Current-Mirror" class="headerlink" title="二、共源共栅电流镜 (Cascode Current Mirror)"></a>二、共源共栅电流镜 (Cascode Current Mirror)<a class="heading-anchor" href="#二、共源共栅电流镜-Cascode-Current-Mirror" aria-hidden="true"></a></h1><p>在基本电流镜的讨论部分，忽略了沟道长度调制，实际当使用最小长度的晶体管以便通过减小宽度来减小电流源的输出电容时，沟道长度调制会使镜像电流产生较大误差。</p>
+<h1 id="二、共源共栅电流镜-Cascode-Current-Mirror"><a href="#二、共源共栅电流镜-Cascode-Current-Mirror" class="headerlink" title="二、共源共栅电流镜 (Cascode Current Mirror)"></a>二、共源共栅电流镜 (Cascode Current Mirror)</h1><p>在基本电流镜的讨论部分，忽略了沟道长度调制，实际当使用最小长度的晶体管以便通过减小宽度来减小电流源的输出电容时，沟道长度调制会使镜像电流产生较大误差。</p>
 <p>当考虑沟道长度调制后，基本电流镜的公式为：</p>
 <script type="math/tex; mode=display">
 \frac{I_{D2}}{I_{D1}} = \frac{(W/L)_1}{(W/L)_2} \frac{1 + \lambda V_{DS2}}{1 + \lambda V_{DS1}}</script><p>为了抑制沟道长度调制的影响，可以使用共源共栅电流源。</p>
-<h2 id="Cascade-效应" class="heading-control"><a href="#Cascade-效应" class="headerlink" title="Cascade 效应"></a>Cascade 效应<a class="heading-anchor" href="#Cascade-效应" aria-hidden="true"></a></h2><center>
+<h2 id="Cascade-效应"><a href="#Cascade-效应" class="headerlink" title="Cascade 效应"></a>Cascade 效应</h2><center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/02/Current-Mirror/cascode.drawio.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -346,7 +346,7 @@ r_o = \frac{\Delta V_x}{\Delta I_x} = \frac{\Delta V_x}{\Delta V_y / R} = R \fra
 <p>ps:</p>
 <p>Cascode 为垂直级联，与之相对应的是 Cascade 水平级联</p>
 </blockquote>
-<h2 id="基本电路" class="heading-control"><a href="#基本电路" class="headerlink" title="基本电路"></a>基本电路<a class="heading-anchor" href="#基本电路" aria-hidden="true"></a></h2><center>
+<h2 id="基本电路"><a href="#基本电路" class="headerlink" title="基本电路"></a>基本电路</h2><center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/02/Current-Mirror/cascode_cm.drawio.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -373,7 +373,7 @@ V_{GS0} + V_X = V_{GS3} + V_Y</script><p>为了抑制沟道长度调制的影响
 V_N - V_{TH} = {} & V_{GS0} + V_{GS1} - V_{TH} \\
 = {} & (V_{GS0} - V_{TH}) + (V_{GS1} - V_{TH}) + V_{TH}
 \end{split}</script><p>相当于两个过驱动电压加上一个阈值电压。一般 $V_{TH} \approx 0.6 \sim 0.7 V$，从而限制了 P 点电压的摆幅，导致该结构的 Cascode 电流镜仅适用于高电压工作，不适合低压工作。</p>
-<h2 id="低电压共源共栅结构" class="heading-control"><a href="#低电压共源共栅结构" class="headerlink" title="低电压共源共栅结构"></a>低电压共源共栅结构<a class="heading-anchor" href="#低电压共源共栅结构" aria-hidden="true"></a></h2><p>为了降低 X 点的电压，直接将 M1 的漏端接到 X 点，而为了保证 M2 和 M1 同时工作在饱和区，由此需要对 M2 单独做偏置。</p>
+<h2 id="低电压共源共栅结构"><a href="#低电压共源共栅结构" class="headerlink" title="低电压共源共栅结构"></a>低电压共源共栅结构</h2><p>为了降低 X 点的电压，直接将 M1 的漏端接到 X 点，而为了保证 M2 和 M1 同时工作在饱和区，由此需要对 M2 单独做偏置。</p>
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/02/Current-Mirror/lv_cascode_cm.drawio.svg">
     <br>
@@ -403,7 +403,7 @@ V_2 = V_{gs} + \Delta</script><p>—&gt;</p>
 I_5 = \frac{1}{2} k' (\frac{W}{L})_5 \Delta ^2 _5</script><p>—&gt;</p>
 <script type="math/tex; mode=display">
 (\frac{W}{L})_5 = \frac{1}{4}(\frac{W}{L})_2</script><p>由此该结构的 Cadcode 电流镜 P 点允许的最小电压可以做到 $2\Delta$。但由于 M5 的加入增加了功耗。</p>
-<h2 id="Cadence-仿真" class="heading-control"><a href="#Cadence-仿真" class="headerlink" title="Cadence 仿真"></a>Cadence 仿真<a class="heading-anchor" href="#Cadence-仿真" aria-hidden="true"></a></h2><h3 id="Cascode-结构" class="heading-control"><a href="#Cascode-结构" class="headerlink" title="Cascode 结构"></a>Cascode 结构<a class="heading-anchor" href="#Cascode-结构" aria-hidden="true"></a></h3><center>
+<h2 id="Cadence-仿真"><a href="#Cadence-仿真" class="headerlink" title="Cadence 仿真"></a>Cadence 仿真</h2><h3 id="Cascode-结构"><a href="#Cascode-结构" class="headerlink" title="Cascode 结构"></a>Cascode 结构</h3><center>
     <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/02/Current-Mirror/CM3.png">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
@@ -541,7 +541,7 @@ I_5 = \frac{1}{2} k' (\frac{W}{L})_5 \Delta ^2 _5</script><p>—&gt;</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、基本电流镜"><span class="nav-number">1.</span> <span class="nav-text">一、基本电流镜</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、共源共栅电流镜-Cascode-Current-Mirror"><span class="nav-number">2.</span> <span class="nav-text">二、共源共栅电流镜 (Cascode Current Mirror)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cascade-效应"><span class="nav-number">2.1.</span> <span class="nav-text">Cascade 效应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本电路"><span class="nav-number">2.2.</span> <span class="nav-text">基本电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低电压共源共栅结构"><span class="nav-number">2.3.</span> <span class="nav-text">低电压共源共栅结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cadence-仿真"><span class="nav-number">2.4.</span> <span class="nav-text">Cadence 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cascode-结构"><span class="nav-number">2.4.1.</span> <span class="nav-text">Cascode 结构</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E7%94%B5%E6%B5%81%E9%95%9C"><span class="nav-number">1.</span> <span class="nav-text">一、基本电流镜</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B1%E6%BA%90%E5%85%B1%E6%A0%85%E7%94%B5%E6%B5%81%E9%95%9C-Cascode-Current-Mirror"><span class="nav-number">2.</span> <span class="nav-text">二、共源共栅电流镜 (Cascode Current Mirror)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cascade-%E6%95%88%E5%BA%94"><span class="nav-number">2.1.</span> <span class="nav-text">Cascade 效应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%B5%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">基本电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8E%E7%94%B5%E5%8E%8B%E5%85%B1%E6%BA%90%E5%85%B1%E6%A0%85%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">低电压共源共栅结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cadence-%E4%BB%BF%E7%9C%9F"><span class="nav-number">2.4.</span> <span class="nav-text">Cadence 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cascode-%E7%BB%93%E6%9E%84"><span class="nav-number">2.4.1.</span> <span class="nav-text">Cascode 结构</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -631,14 +631,14 @@ I_5 = \frac{1}{2} k' (\frac{W}{L})_5 \Delta ^2 _5</script><p>—&gt;</p>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

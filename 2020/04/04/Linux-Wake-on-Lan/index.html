@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -291,18 +291,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Wake-on-Lan-原理" class="heading-control"><a href="#Wake-on-Lan-原理" class="headerlink" title="Wake on Lan 原理"></a>Wake on Lan 原理<a class="heading-anchor" href="#Wake-on-Lan-原理" aria-hidden="true"></a></h1><p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
-<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer" target="_blank" rel="noopener">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model" target="_blank" rel="noopener">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address" target="_blank" rel="noopener">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
+        <h1 id="Wake-on-Lan-原理"><a href="#Wake-on-Lan-原理" class="headerlink" title="Wake on Lan 原理"></a>Wake on Lan 原理</h1><p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
+<p>魔术包在<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
 <p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
 <p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
-<h2 id="Magic-Packet" class="heading-control"><a href="#Magic-Packet" class="headerlink" title="Magic Packet"></a>Magic Packet<a class="heading-anchor" href="#Magic-Packet" aria-hidden="true"></a></h2><p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
+<h2 id="Magic-Packet"><a href="#Magic-Packet" class="headerlink" title="Magic Packet"></a>Magic Packet</h2><p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
 <p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
-<h1 id="注意事项" class="heading-control"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项<a class="heading-anchor" href="#注意事项" aria-hidden="true"></a></h1><ol>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol>
 <li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p>
 </li>
 <li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
 <blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Broadcast_address" target="_blank" rel="noopener">广播地址</a>计算方法:</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
 <p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
 <p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
 </blockquote>
@@ -312,12 +312,11 @@
 <blockquote>
 <p>启动者(电脑A) —————-&gt; 被远程开启的电脑(电脑B)</p>
 </blockquote>
-<h1 id="被远程开启的电脑-电脑B-设置" class="heading-control"><a href="#被远程开启的电脑-电脑B-设置" class="headerlink" title="被远程开启的电脑(电脑B) 设置"></a>被远程开启的电脑(电脑B) 设置<a class="heading-anchor" href="#被远程开启的电脑-电脑B-设置" aria-hidden="true"></a></h1><ol>
+<h1 id="被远程开启的电脑-电脑B-设置"><a href="#被远程开启的电脑-电脑B-设置" class="headerlink" title="被远程开启的电脑(电脑B) 设置"></a>被远程开启的电脑(电脑B) 设置</h1><ol>
 <li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p>
 </li>
 <li><p>在 Linux 系统中安装 ethtool：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
 <li><p>查看 WOL 是否打开：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
 <p>例如：</p>
@@ -331,11 +330,10 @@
 <p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p>
 </li>
 </ol>
-<h1 id="启动者-电脑A-设置" class="heading-control"><a href="#启动者-电脑A-设置" class="headerlink" title="启动者(电脑A) 设置"></a>启动者(电脑A) 设置<a class="heading-anchor" href="#启动者-电脑A-设置" aria-hidden="true"></a></h1><p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
+<h1 id="启动者-电脑A-设置"><a href="#启动者-电脑A-设置" class="headerlink" title="启动者(电脑A) 设置"></a>启动者(电脑A) 设置</h1><p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
 <ol>
 <li><p>安装 wakeonlan：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
 <li><p>启动 B 电脑：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
 <p>例如：</p>
@@ -344,8 +342,8 @@
 </ol>
 <blockquote>
 <p>Reference: </p>
-<p><a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/29100480" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/29100480</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wake-on-LAN">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29100480">https://zhuanlan.zhihu.com/p/29100480</a></p>
 </blockquote>
 
     </div>
@@ -460,7 +458,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Wake-on-Lan-原理"><span class="nav-number">1.</span> <span class="nav-text">Wake on Lan 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Magic-Packet"><span class="nav-number">1.1.</span> <span class="nav-text">Magic Packet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">2.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#被远程开启的电脑-电脑B-设置"><span class="nav-number">3.</span> <span class="nav-text">被远程开启的电脑(电脑B) 设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动者-电脑A-设置"><span class="nav-number">4.</span> <span class="nav-text">启动者(电脑A) 设置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Wake-on-Lan-%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Wake on Lan 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Magic-Packet"><span class="nav-number">1.1.</span> <span class="nav-text">Magic Packet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A2%AB%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%90%AF%E7%9A%84%E7%94%B5%E8%84%91-%E7%94%B5%E8%84%91B-%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">被远程开启的电脑(电脑B) 设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%80%85-%E7%94%B5%E8%84%91A-%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">启动者(电脑A) 设置</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -550,14 +548,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

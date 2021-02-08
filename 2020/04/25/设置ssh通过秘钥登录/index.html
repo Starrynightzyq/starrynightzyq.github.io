@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -272,7 +272,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>941</span>
+              <span>951</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -293,32 +293,28 @@
       
         <p>无论是个人的 VPS 还是企业允许公网访问的服务器，如果开放 22 端口的 SSH 密码登录验证方式，被众多黑客暴力猜解捅破菊花也可能是经常发生的惨剧。企业可以通过防火墙来做限制，普通用户也可能借助修改 22 端口和强化弱口令等方式防护，但目前相对安全和简单的方案则是让 SSH 使用密钥登录并禁止口令登录。</p>
 <a id="more"></a>
-<h1 id="本地电脑的设置（client）" class="heading-control"><a href="#本地电脑的设置（client）" class="headerlink" title="本地电脑的设置（client）"></a>本地电脑的设置（client）<a class="heading-anchor" href="#本地电脑的设置（client）" aria-hidden="true"></a></h1><p>生成 rsa 秘钥对</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"youremail@example.com"</span></span><br></pre></td></tr></table></figure>
+<h1 id="本地电脑的设置（client）"><a href="#本地电脑的设置（client）" class="headerlink" title="本地电脑的设置（client）"></a>本地电脑的设置（client）</h1><p>生成 rsa 秘钥对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;youremail@example.com&quot;</span></span><br></pre></td></tr></table></figure>
 <p>会在 <em>~/.ssh/</em> 目录下生成 <em>id_rsa</em> 和 <em>id_rsa.pub</em> 两个文件，分别为私钥和公钥。</p>
-<h1 id="服务器端的设置（server）" class="heading-control"><a href="#服务器端的设置（server）" class="headerlink" title="服务器端的设置（server）"></a>服务器端的设置（server）<a class="heading-anchor" href="#服务器端的设置（server）" aria-hidden="true"></a></h1><ol>
+<h1 id="服务器端的设置（server）"><a href="#服务器端的设置（server）" class="headerlink" title="服务器端的设置（server）"></a>服务器端的设置（server）</h1><ol>
 <li><p>在 <em>/<username>/.ssh/</username></em> 目录下，创建文件 <em>authorized_keys</em>：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch /&lt;username&gt;/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch /&lt;username&gt;/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></li>
 <li><p>将 client 的公钥里的内容复制到 server 的 <em>authorized_keys</em> 中（server 的 <em>authorized_keys</em> 中可以存放多个 client 的公钥，之间用换行隔开就行）。</p>
 </li>
 <li><p>修改 <em>/<username>/.ssh</username></em> 的权限为 700, <em>authorized_keys</em> 的权限为 600 或者更严格的 400，否则登录的时候会提示<code>server refuse you key</code>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 700 /&lt;username&gt;/.ssh</span><br><span class="line">chmod 600 /&lt;username&gt;/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 700 /&lt;username&gt;/.ssh</span><br><span class="line">chmod 600 /&lt;username&gt;/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></li>
 <li><p>修改 ssh 的配置，使其允许秘钥登录：</p>
 <p>编辑 <em>/etc/ssh/sshd_config</em> 文件，修改如下内容：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">RSAAuthentication</span> <span class="literal">yes</span></span><br><span class="line"><span class="string">PubkeyAuthentication</span> <span class="literal">yes</span></span><br><span class="line"><span class="string">AuthorizedKeysFile</span>      <span class="string">.ssh/authorized_keys</span></span><br></pre></td></tr></table></figure>
 <p>另外，请留意 root 用户能否通过 SSH 登录，最好进制 root 用户通过 SSH 登录：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">PermitRootLogin</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">PermitRootLogin</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure></li>
 <li><p>重启 SSH 服务：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></table></figure>
 <p>这时查看一下是否可以使用秘钥登录，如果可以就可以禁用密码登录</p>
 </li>
 <li><p>修改 ssh 的配置，禁用密码登录：</p>
 <p>编辑 <em>/etc/ssh/sshd_config</em> 文件，修改如下内容：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">PasswordAuthentication</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">PasswordAuthentication</span> <span class="literal">no</span></span><br></pre></td></tr></table></figure></li>
 <li><p>最后重启 SSH 服务：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></table></figure>
 </li>
@@ -436,7 +432,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本地电脑的设置（client）"><span class="nav-number">1.</span> <span class="nav-text">本地电脑的设置（client）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务器端的设置（server）"><span class="nav-number">2.</span> <span class="nav-text">服务器端的设置（server）</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%94%B5%E8%84%91%E7%9A%84%E8%AE%BE%E7%BD%AE%EF%BC%88client%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">本地电脑的设置（client）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E7%9A%84%E8%AE%BE%E7%BD%AE%EF%BC%88server%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">服务器端的设置（server）</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -526,14 +522,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

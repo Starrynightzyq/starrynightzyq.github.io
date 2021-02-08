@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -307,10 +307,10 @@
 <a id="more"></a>
 <blockquote>
 <p>Reference:</p>
-<p><a href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CDFD&amp;dbname=CDFDLAST2020&amp;filename=1020716365.nh&amp;v=9gG9zJPy1pyL%25mmd2BNFc3B4ib7qfNZGDrB9Q5%25mmd2FYZlVysxZvVCYIVvIJQd0gDPf71zaqg" target="_blank" rel="noopener">高性能射频毫米波频率源集成电路研究-张净植-电子科技大学</a></p>
+<p><a target="_blank" rel="noopener" href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CDFD&amp;dbname=CDFDLAST2020&amp;filename=1020716365.nh&amp;v=9gG9zJPy1pyL%25mmd2BNFc3B4ib7qfNZGDrB9Q5%25mmd2FYZlVysxZvVCYIVvIJQd0gDPf71zaqg">高性能射频毫米波频率源集成电路研究-张净植-电子科技大学</a></p>
 </blockquote>
-<h1 id="方案一：直接采用工作在毫米波频段的锁相环" class="heading-control"><a href="#方案一：直接采用工作在毫米波频段的锁相环" class="headerlink" title="方案一：直接采用工作在毫米波频段的锁相环"></a>方案一：直接采用工作在毫米波频段的锁相环<a class="heading-anchor" href="#方案一：直接采用工作在毫米波频段的锁相环" aria-hidden="true"></a></h1><p><img src="/2020/10/23/PLL-3/image-20201023111423329.png" alt="毫米波锁相环" style="zoom:35%; margin: auto;"></p>
-<h2 id="优缺点分析" class="heading-control"><a href="#优缺点分析" class="headerlink" title="优缺点分析"></a>优缺点分析<a class="heading-anchor" href="#优缺点分析" aria-hidden="true"></a></h2><ul>
+<h1 id="方案一：直接采用工作在毫米波频段的锁相环"><a href="#方案一：直接采用工作在毫米波频段的锁相环" class="headerlink" title="方案一：直接采用工作在毫米波频段的锁相环"></a>方案一：直接采用工作在毫米波频段的锁相环</h1><p><img src="/2020/10/23/PLL-3/image-20201023111423329.png" alt="毫米波锁相环" style="zoom:35%; margin: auto;"></p>
+<h2 id="优缺点分析"><a href="#优缺点分析" class="headerlink" title="优缺点分析"></a>优缺点分析</h2><ul>
 <li><p>优点：</p>
 <p>由于锁相环的存在，其对 VCO 表现为高通特性，故而可以滤除 VCO 在锁相环带内的相位噪声；</p>
 </li>
@@ -321,16 +321,16 @@
 <p>与此同时，所有采用此方案的频率源工作带宽均小于 30%，难以满足宽带要求(相对带宽大于 50%)。这是由于，该方案需要 VCO 工作在毫米波频段，难以实现较大的带宽。在工作频率和带宽的双重严格要求下，此 VCO 的设计难度极大，因而未有较好的相关成果发表。</p>
 </li>
 </ul>
-<h2 id="相关研究成果" class="heading-control"><a href="#相关研究成果" class="headerlink" title="相关研究成果"></a>相关研究成果<a class="heading-anchor" href="#相关研究成果" aria-hidden="true"></a></h2><h3 id="1-双-VCO-方案" class="heading-control"><a href="#1-双-VCO-方案" class="headerlink" title="1. 双 VCO 方案"></a>1. 双 VCO 方案<a class="heading-anchor" href="#1-双-VCO-方案" aria-hidden="true"></a></h3><p><img src="/2020/10/23/PLL-3/image-20201023160724357.png" alt="Xilinx 7.4-14 GHz 锁相环" style="zoom:100%; margin: auto;"></p>
+<h2 id="相关研究成果"><a href="#相关研究成果" class="headerlink" title="相关研究成果"></a>相关研究成果</h2><h3 id="1-双-VCO-方案"><a href="#1-双-VCO-方案" class="headerlink" title="1. 双 VCO 方案"></a>1. 双 VCO 方案</h3><p><img src="/2020/10/23/PLL-3/image-20201023160724357.png" alt="Xilinx 7.4-14 GHz 锁相环" style="zoom:100%; margin: auto;"></p>
 <p>Xilinx 18 年发布了一款可覆盖 7.4-14 GHz 的宽带锁相环，采用 16-nm FinFET 工艺，实现了 54 $fs_{rms}$的时钟抖动。该方案为了实现宽带输出要求，在芯片中集成了两颗 VCO，一颗工作在高频段，另一颗工作在低频段，从而有效地扩展了总带宽。这个方案是一种对带宽和噪声很好的折衷方案，通过牺牲一定的芯片面积和系统复杂度，换取了不错的带宽和相位噪声特性。然而，也因为使用了两颗 VCO，使得该方案无法成为完美的解决方案。</p>
-<h3 id="2-Sub-sampling-锁相环方案" class="heading-control"><a href="#2-Sub-sampling-锁相环方案" class="headerlink" title="2. Sub-sampling 锁相环方案"></a>2. Sub-sampling 锁相环方案<a class="heading-anchor" href="#2-Sub-sampling-锁相环方案" aria-hidden="true"></a></h3><p><img src="/2020/10/23/PLL-3/image-20201023162857827.png" alt="澳门大学 25.4-29.5GHz 锁相环" style="zoom:67%; margin: auto;"></p>
+<h3 id="2-Sub-sampling-锁相环方案"><a href="#2-Sub-sampling-锁相环方案" class="headerlink" title="2. Sub-sampling 锁相环方案"></a>2. Sub-sampling 锁相环方案</h3><p><img src="/2020/10/23/PLL-3/image-20201023162857827.png" alt="澳门大学 25.4-29.5GHz 锁相环" style="zoom:67%; margin: auto;"></p>
 <p>澳门大学于 2019 年发布了一款工作在 25.4-29.5 GHz 的锁相环，采用 Sub-sampling 锁相环方案，实现了 71 $fs_{rms}$的时钟抖动,同时仅消耗 10.2 mW 的功耗。Sub-sampling 锁相环是另一种比较好的解决方案，因为其去掉了环路中的分频器，相比于传统锁相环，该锁相环不产生分频器噪声，继而降低了环路总噪声。同时，该 Sub-sampling 鉴相器具有极高的增益，可以最大程度地抑制环路内电荷泵噪声。因此，Sub-sampling 锁相环有着极佳的带内噪声特性。</p>
 <p>但该方案仍有一些明显不足。首先是其输出相对带宽较低。澳门大学的这款锁相环其相对带宽只有 14.9%；其次，Sub-sampling 锁相环固有的采样方式，使其仅能实现整数分频，进一步限制了该锁相环的应用空间。现有很多工作对该锁相环的小数分频方法进行了探索，取得了一定成果，但技术仍不成熟，分频精度和相位噪声均未达到理想结果。</p>
-<h3 id="3-耦合锁相环方案" class="heading-control"><a href="#3-耦合锁相环方案" class="headerlink" title="3. 耦合锁相环方案"></a>3. 耦合锁相环方案<a class="heading-anchor" href="#3-耦合锁相环方案" aria-hidden="true"></a></h3><p><img src="/2020/10/23/PLL-3/image-20201023172600531.png" alt="Oregon State University 28 GHz 锁相环" style="zoom:60%; margin: auto;"></p>
+<h3 id="3-耦合锁相环方案"><a href="#3-耦合锁相环方案" class="headerlink" title="3. 耦合锁相环方案"></a>3. 耦合锁相环方案</h3><p><img src="/2020/10/23/PLL-3/image-20201023172600531.png" alt="Oregon State University 28 GHz 锁相环" style="zoom:60%; margin: auto;"></p>
 <p>Oregon State University 在 2018 年发布了一款 28 GHz 耦合锁相环。这种锁相环主要目的是实现不同电路板上的本振信号同步，从而支持大规模相控阵应用。通过这种耦合，不仅能实现相位上的同步，其特殊的环路响应使得其具备相位噪声滤波效应。然后此方案主要针对特殊应用而设计的，固然通过耦合后相位噪声可以得到改善,但若使用在其他应用中,这种相位噪声的改善无法弥补其功耗和面积上的损失。</p>
-<h1 id="方案二：低频信号源级联单个毫米波倍频器" class="heading-control"><a href="#方案二：低频信号源级联单个毫米波倍频器" class="headerlink" title="方案二：低频信号源级联单个毫米波倍频器"></a>方案二：低频信号源级联单个毫米波倍频器<a class="heading-anchor" href="#方案二：低频信号源级联单个毫米波倍频器" aria-hidden="true"></a></h1><p><img src="/2020/10/23/PLL-3/image-20201023173357398.png" alt="低频信号源级联单个毫米波倍频器" style="zoom:30%; margin: auto;"></p>
+<h1 id="方案二：低频信号源级联单个毫米波倍频器"><a href="#方案二：低频信号源级联单个毫米波倍频器" class="headerlink" title="方案二：低频信号源级联单个毫米波倍频器"></a>方案二：低频信号源级联单个毫米波倍频器</h1><p><img src="/2020/10/23/PLL-3/image-20201023173357398.png" alt="低频信号源级联单个毫米波倍频器" style="zoom:30%; margin: auto;"></p>
 <p>该方案使用低频率的频率源作为输入，并用倍频器将低频信号倍频值毫米波频段。</p>
-<h2 id="优缺点分析-1" class="heading-control"><a href="#优缺点分析-1" class="headerlink" title="优缺点分析"></a>优缺点分析<a class="heading-anchor" href="#优缺点分析-1" aria-hidden="true"></a></h2><ul>
+<h2 id="优缺点分析-1"><a href="#优缺点分析-1" class="headerlink" title="优缺点分析"></a>优缺点分析</h2><ul>
 <li><p>优点：</p>
 <p>规避了高频 VCO 的需求。在 VCO 工作在低频时，可以获得较好的相位噪声特性，且倍频器的引入几乎不会恶化 VCO 的相位噪声特性，因而可以在毫米波频段获得较好的相位噪声特性。</p>
 </li>
@@ -341,16 +341,16 @@
 <p>因而，现阶段对于此方案的研究还主要局限在窄带毫米波频率源中。</p>
 </li>
 </ul>
-<h2 id="相关研究成果-1" class="heading-control"><a href="#相关研究成果-1" class="headerlink" title="相关研究成果"></a>相关研究成果<a class="heading-anchor" href="#相关研究成果-1" aria-hidden="true"></a></h2><h3 id="1-注入锁定倍频器" class="heading-control"><a href="#1-注入锁定倍频器" class="headerlink" title="1. 注入锁定倍频器"></a>1. 注入锁定倍频器<a class="heading-anchor" href="#1-注入锁定倍频器" aria-hidden="true"></a></h3><p><img src="/2020/10/23/PLL-3/image-20201023174340701.png" alt="Delft 60 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
+<h2 id="相关研究成果-1"><a href="#相关研究成果-1" class="headerlink" title="相关研究成果"></a>相关研究成果</h2><h3 id="1-注入锁定倍频器"><a href="#1-注入锁定倍频器" class="headerlink" title="1. 注入锁定倍频器"></a>1. 注入锁定倍频器</h3><p><img src="/2020/10/23/PLL-3/image-20201023174340701.png" alt="Delft 60 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
 <p>Delft University of Technology 在 2008 年首先尝试了该方法实现了 60 GHz 注入锁定倍频器。在该设计中，作者使用了注入锁定的方式实现三倍频器的效果。由于需要正交输出, 作者首先设计了一个 R-C 多相滤波(Polyphase filter, PPF)，将输入的 20 GHz 差分信号转变成正交信号；然后，将生成的正交信号注入至耦合的正交注入锁定振荡器中。由于注入锁定振荡器工作在 60 GHz 频率附近，其输入信号在经过非线性变换后，产生的三次谐波用以锁定注入锁定振荡器，因此，此时的注入锁定振荡器将受迫振荡于输入信号的三次谐波处，从而实现了三倍频的效果。该芯片可工作在 56-65 GHz 的频率范围内，且具备良好的相位噪声跟踪特性，即倍频器本身几乎不引入额外的相位噪声。</p>
-<h3 id="2-多级倍频器级联方案" class="heading-control"><a href="#2-多级倍频器级联方案" class="headerlink" title="2. 多级倍频器级联方案"></a>2. 多级倍频器级联方案<a class="heading-anchor" href="#2-多级倍频器级联方案" aria-hidden="true"></a></h3><p>LG 公司与 2017 年发布了的一款注入锁定倍频器，用于 5G 多通道相控阵系统，其采用两级注入锁定三倍频器级联，获得了九倍频特性，将 3.11 GHz 的输入信号 9 倍频至 28 GHz，取得了极佳的相位噪声特性。</p>
+<h3 id="2-多级倍频器级联方案"><a href="#2-多级倍频器级联方案" class="headerlink" title="2. 多级倍频器级联方案"></a>2. 多级倍频器级联方案</h3><p>LG 公司与 2017 年发布了的一款注入锁定倍频器，用于 5G 多通道相控阵系统，其采用两级注入锁定三倍频器级联，获得了九倍频特性，将 3.11 GHz 的输入信号 9 倍频至 28 GHz，取得了极佳的相位噪声特性。</p>
 <p>同样，该方案在宽带方面具有先天性的不足，需要较多方法进行弥补。</p>
-<h3 id="3-校准方案" class="heading-control"><a href="#3-校准方案" class="headerlink" title="3. 校准方案"></a>3. 校准方案<a class="heading-anchor" href="#3-校准方案" aria-hidden="true"></a></h3><p>注入锁定倍频器存在锁定带宽不足，容易失锁等问题。因此，近年来，学术界和工业界均投入大量的精力，对注入锁定倍频器的调谐和校准进行研究。</p>
+<h3 id="3-校准方案"><a href="#3-校准方案" class="headerlink" title="3. 校准方案"></a>3. 校准方案</h3><p>注入锁定倍频器存在锁定带宽不足，容易失锁等问题。因此，近年来，学术界和工业界均投入大量的精力，对注入锁定倍频器的调谐和校准进行研究。</p>
 <p><img src="/2020/10/23/PLL-3/image-20201024082112428.png" alt="Virginia Tech 28 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
 <p>在诸多发表的用于校准的文章中，Virginia Tech 在 2016 年发布的一款工作在 28 GHz 的注入锁定三倍频器尤为突出，如上图所示。由于注入锁定倍频器在锁定时具有恒定输出包络，而当失锁时，其输出呈现为类调幅信号。因此，该工作通过对倍频器的输出进行包络检波，从而根据输出的包络情况判断注入锁定倍频器是否失锁。最后，通过数字控制电路调整注入锁定倍频器的调谐电压，从而建立反馈环路使倍频器保持锁定。虽然该电路具有较好的稳定性和相位噪声特性，但其工作带宽也仅为 11.4%。</p>
-<h1 id="方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果" class="heading-control"><a href="#方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果" class="headerlink" title="方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果"></a>方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果<a class="heading-anchor" href="#方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果" aria-hidden="true"></a></h1><p><img src="/2020/10/23/PLL-3/image-20201023223800311.png" alt="低频信号源级联多个毫米波倍频器" style="zoom:33%; margin: auto;"></p>
+<h1 id="方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果"><a href="#方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果" class="headerlink" title="方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果"></a>方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果</h1><p><img src="/2020/10/23/PLL-3/image-20201023223800311.png" alt="低频信号源级联多个毫米波倍频器" style="zoom:33%; margin: auto;"></p>
 <p>该方案采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果。</p>
-<h2 id="优缺点分析-2" class="heading-control"><a href="#优缺点分析-2" class="headerlink" title="优缺点分析"></a>优缺点分析<a class="heading-anchor" href="#优缺点分析-2" aria-hidden="true"></a></h2><ul>
+<h2 id="优缺点分析-2"><a href="#优缺点分析-2" class="headerlink" title="优缺点分析"></a>优缺点分析</h2><ul>
 <li><p>优势：</p>
 <p>输入信号不仅工作在低频处，其带宽同样较窄，因而可以设计出极低相位噪声的输入信号。</p>
 </li>
@@ -359,10 +359,10 @@
 <p>因为采用了此复杂的架构，芯片功耗较大。另一方面，芯片存在低频、高频两个输出端口，通常需要一个多路复用器将两路合并方能使用，而此多路复用器同样需要具备 80% 的带宽, 亦难以实现。</p>
 </li>
 </ul>
-<h2 id="相关研究成果-2" class="heading-control"><a href="#相关研究成果-2" class="headerlink" title="相关研究成果"></a>相关研究成果<a class="heading-anchor" href="#相关研究成果-2" aria-hidden="true"></a></h2><h3 id="香港科技大学-21-48-GHz-宽带注入锁定频率源" class="heading-control"><a href="#香港科技大学-21-48-GHz-宽带注入锁定频率源" class="headerlink" title="香港科技大学 21-48 GHz 宽带注入锁定频率源"></a>香港科技大学 21-48 GHz 宽带注入锁定频率源<a class="heading-anchor" href="#香港科技大学-21-48-GHz-宽带注入锁定频率源" aria-hidden="true"></a></h3><p><img src="/2020/10/23/PLL-3/image-20201023222435774.png" alt="香港科技大学 21-48 GHz 宽带注入锁定频率源" style="zoom:55%; margin: auto;"></p>
+<h2 id="相关研究成果-2"><a href="#相关研究成果-2" class="headerlink" title="相关研究成果"></a>相关研究成果</h2><h3 id="香港科技大学-21-48-GHz-宽带注入锁定频率源"><a href="#香港科技大学-21-48-GHz-宽带注入锁定频率源" class="headerlink" title="香港科技大学 21-48 GHz 宽带注入锁定频率源"></a>香港科技大学 21-48 GHz 宽带注入锁定频率源</h3><p><img src="/2020/10/23/PLL-3/image-20201023222435774.png" alt="香港科技大学 21-48 GHz 宽带注入锁定频率源" style="zoom:55%; margin: auto;"></p>
 <p>该方案由香港科技大学于 2014 年提出，工作原理如图所示。首先，使用一个 4.5-6.1 GHz 的低频小数分频锁相环产生输入信号；之后，对此信号进行除三除四双模分频，从而第一次展宽信号带宽，且产生正交输出；继而，将此信号注入一个三倍频器，该倍频器使用了一个锁相环来做校正，从而防止失锁；该倍频器的输出再次经过一个三倍频器，完成第二次倍频；最后，该倍频器的输出分别采用一个三倍频器和一个二倍频器对输入信号进行倍频，最终得到了覆盖 21-48 GHz 的毫米波宽带频率源。 </p>
 <p>从该结构可以看出，整个系统共对输入信号进行了两次带宽展宽。第一次，通过除三除四双模分频器，将输入的 4.5-6.1 GHz 信号转变为 1.1- 2.0 GHz 的信号，带宽从 30.2% 变为 58.1%。第二次，采用输出的三倍频和二倍频，对输入信号进行了不同处理，此时，带宽从 57.7% 变为 80.2%。</p>
-<h1 id="各方案性能对比" class="heading-control"><a href="#各方案性能对比" class="headerlink" title="各方案性能对比"></a>各方案性能对比<a class="heading-anchor" href="#各方案性能对比" aria-hidden="true"></a></h1><div class="table-container">
+<h1 id="各方案性能对比"><a href="#各方案性能对比" class="headerlink" title="各方案性能对比"></a>各方案性能对比</h1><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -561,7 +561,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#方案一：直接采用工作在毫米波频段的锁相环"><span class="nav-number">1.</span> <span class="nav-text">方案一：直接采用工作在毫米波频段的锁相环</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点分析"><span class="nav-number">1.1.</span> <span class="nav-text">优缺点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关研究成果"><span class="nav-number">1.2.</span> <span class="nav-text">相关研究成果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-双-VCO-方案"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 双 VCO 方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Sub-sampling-锁相环方案"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. Sub-sampling 锁相环方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-耦合锁相环方案"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 耦合锁相环方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案二：低频信号源级联单个毫米波倍频器"><span class="nav-number">2.</span> <span class="nav-text">方案二：低频信号源级联单个毫米波倍频器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点分析-1"><span class="nav-number">2.1.</span> <span class="nav-text">优缺点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关研究成果-1"><span class="nav-number">2.2.</span> <span class="nav-text">相关研究成果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-注入锁定倍频器"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 注入锁定倍频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多级倍频器级联方案"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 多级倍频器级联方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-校准方案"><span class="nav-number">2.2.3.</span> <span class="nav-text">3. 校准方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果"><span class="nav-number">3.</span> <span class="nav-text">方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点分析-2"><span class="nav-number">3.1.</span> <span class="nav-text">优缺点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关研究成果-2"><span class="nav-number">3.2.</span> <span class="nav-text">相关研究成果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#香港科技大学-21-48-GHz-宽带注入锁定频率源"><span class="nav-number">3.2.1.</span> <span class="nav-text">香港科技大学 21-48 GHz 宽带注入锁定频率源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#各方案性能对比"><span class="nav-number">4.</span> <span class="nav-text">各方案性能对比</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A%E7%9B%B4%E6%8E%A5%E9%87%87%E7%94%A8%E5%B7%A5%E4%BD%9C%E5%9C%A8%E6%AF%AB%E7%B1%B3%E6%B3%A2%E9%A2%91%E6%AE%B5%E7%9A%84%E9%94%81%E7%9B%B8%E7%8E%AF"><span class="nav-number">1.</span> <span class="nav-text">方案一：直接采用工作在毫米波频段的锁相环</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">优缺点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C"><span class="nav-number">1.2.</span> <span class="nav-text">相关研究成果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%8C-VCO-%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 双 VCO 方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Sub-sampling-%E9%94%81%E7%9B%B8%E7%8E%AF%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. Sub-sampling 锁相环方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%80%A6%E5%90%88%E9%94%81%E7%9B%B8%E7%8E%AF%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 耦合锁相环方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9A%E4%BD%8E%E9%A2%91%E4%BF%A1%E5%8F%B7%E6%BA%90%E7%BA%A7%E8%81%94%E5%8D%95%E4%B8%AA%E6%AF%AB%E7%B1%B3%E6%B3%A2%E5%80%8D%E9%A2%91%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">方案二：低频信号源级联单个毫米波倍频器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90-1"><span class="nav-number">2.1.</span> <span class="nav-text">优缺点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C-1"><span class="nav-number">2.2.</span> <span class="nav-text">相关研究成果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B3%A8%E5%85%A5%E9%94%81%E5%AE%9A%E5%80%8D%E9%A2%91%E5%99%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 注入锁定倍频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A4%9A%E7%BA%A7%E5%80%8D%E9%A2%91%E5%99%A8%E7%BA%A7%E8%81%94%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 多级倍频器级联方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A0%A1%E5%87%86%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.3.</span> <span class="nav-text">3. 校准方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%B8%89%EF%BC%9A%E9%87%87%E7%94%A8%E5%A4%9A%E4%B8%AA%E5%80%8D%E9%A2%91%E5%99%A8%E5%85%B1%E5%90%8C%E5%8D%8F%E4%BD%9C%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E4%BA%A7%E7%94%9F%E6%AF%AB%E7%B1%B3%E6%B3%A2%E5%AE%BD%E5%B8%A6%E4%BF%A1%E5%8F%B7%EF%BC%8C%E5%AE%9E%E7%8E%B0%E4%BA%86%E5%B8%A6%E5%AE%BD%E5%B1%95%E5%AE%BD%E7%9A%84%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90-2"><span class="nav-number">3.1.</span> <span class="nav-text">优缺点分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%A0%94%E7%A9%B6%E6%88%90%E6%9E%9C-2"><span class="nav-number">3.2.</span> <span class="nav-text">相关研究成果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%99%E6%B8%AF%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6-21-48-GHz-%E5%AE%BD%E5%B8%A6%E6%B3%A8%E5%85%A5%E9%94%81%E5%AE%9A%E9%A2%91%E7%8E%87%E6%BA%90"><span class="nav-number">3.2.1.</span> <span class="nav-text">香港科技大学 21-48 GHz 宽带注入锁定频率源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%84%E6%96%B9%E6%A1%88%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">各方案性能对比</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -651,14 +651,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

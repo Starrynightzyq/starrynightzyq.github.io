@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -280,7 +280,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -299,12 +299,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。<br>在 github 上有一个开源工程：<a href="https://github.com/notro/fbtft" target="_blank" rel="noopener">framebuffer</a><br>完整的实现了 framebuffer驱动</p>
+        <p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。<br>在 github 上有一个开源工程：<a target="_blank" rel="noopener" href="https://github.com/notro/fbtft">framebuffer</a><br>完整的实现了 framebuffer驱动</p>
 <a id="more"></a>
 <blockquote>
 <p>ref:</p>
-<p><a href="http://www.waveshare.net/wiki/1.3inch_LCD_HAT" target="_blank" rel="noopener">http://www.waveshare.net/wiki/1.3inch_LCD_HAT</a></p>
-<p><a href="https://krystof.io/mirroring-raspberry-pi-hdmi-video-to-a-st7789-1-3-inch-lcd-display/" target="_blank" rel="noopener">https://krystof.io/mirroring-raspberry-pi-hdmi-video-to-a-st7789-1-3-inch-lcd-display/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.waveshare.net/wiki/1.3inch_LCD_HAT">http://www.waveshare.net/wiki/1.3inch_LCD_HAT</a></p>
+<p><a target="_blank" rel="noopener" href="https://krystof.io/mirroring-raspberry-pi-hdmi-video-to-a-st7789-1-3-inch-lcd-display/">https://krystof.io/mirroring-raspberry-pi-hdmi-video-to-a-st7789-1-3-inch-lcd-display/</a></p>
 </blockquote>
 <p>使用的屏幕分辨率 80*160，驱动芯片是 ST7735s，屏幕上除了 SPI 接口外，还有 RES、DC、BLK 三个接口</p>
 <p><img src="/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/0.96inch_lcd_module_spi.png" alt="spi-oled"></p>
@@ -312,18 +312,17 @@
 <p>注：与传统的SPI协议不同的地方是：由于是只需要显示，故而将从机发往主机的数据线进行了隐藏</p>
 </blockquote>
 <p>RESX：复位，模块上电时拉低，通常情况下置1；<br>CSX：从机片选， 仅当CS为低电平时，芯片才会被使能。<br>D/CX：芯片的数据/命令控制引脚，当DC = 0时写命令，当DC = 1时写数据<br>SDA：传输的数据，即RGB数据；<br>SCL：SPI通信时钟；<br>对于SPI通信而言，数据是有传输时序的，即时钟相位（CPHA）与时钟极性(CPOL)的组合：<br>CPHA的高低决定串行同步时钟是在第一时钟跳变沿还是第二个时钟跳变沿数据被采集，当CPHL = 0，在第一个跳变沿进行数据采集；<br>CPOL的高低决定串行同步时钟的空闲状态电平，CPOL = 0，为低电平。<br>从图中可以看出，当SCLK第一个下降沿时开始传输数据，一个时钟周期传输8bit数据，使用SPI0，按位传输,高位在前,低位在后。</p>
-<h1 id="修改-Vivado-工程" class="heading-control"><a href="#修改-Vivado-工程" class="headerlink" title="修改 Vivado 工程"></a>修改 Vivado 工程<a class="heading-anchor" href="#修改-Vivado-工程" aria-hidden="true"></a></h1><p>可以看出需要一个 SPI 接口和两个 GPIO 口，GPIO 口用来控制 RESX 和 D/CX 信号，BlockDesign 如图：</p>
+<h1 id="修改-Vivado-工程"><a href="#修改-Vivado-工程" class="headerlink" title="修改 Vivado 工程"></a>修改 Vivado 工程</h1><p>可以看出需要一个 SPI 接口和两个 GPIO 口，GPIO 口用来控制 RESX 和 D/CX 信号，BlockDesign 如图：</p>
 <p><img src="/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/vivado-fb.png" alt="vivado-bd"></p>
 <p>其实驱动可以用 zynq 的 EMIO 的，但是一直没驱动起来，就用了 AXI-GPIO</p>
-<h1 id="重新生成-BOOT-bin" class="heading-control"><a href="#重新生成-BOOT-bin" class="headerlink" title="重新生成 BOOT.bin"></a>重新生成 BOOT.bin<a class="heading-anchor" href="#重新生成-BOOT-bin" aria-hidden="true"></a></h1><p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin，步骤参考 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA-BOOT-bin" target="_blank" rel="noopener">ZYNQ 移植 Linux-创建 BOOT.bin</a></p>
-<h1 id="修改-device-tree" class="heading-control"><a href="#修改-device-tree" class="headerlink" title="修改 device-tree"></a>修改 device-tree<a class="heading-anchor" href="#修改-device-tree" aria-hidden="true"></a></h1><p>在上一篇 <a href="https://blog.leo-fitz.com/2020/05/05/ZYNQ-移植-Linux-SPI/" target="_blank" rel="noopener">ZYNQ 移植 Linux — SPI</a> 的基础上就增加了一个 AXI-GPIO，这部分的 dtc 可以直接使用 sdk 生成，无需修改，步骤参考 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">ZYNQ 移植 Linux-创建设备树文件</a></p>
-<h1 id="配置内核" class="heading-control"><a href="#配置内核" class="headerlink" title="配置内核"></a>配置内核<a class="heading-anchor" href="#配置内核" aria-hidden="true"></a></h1><ol>
+<h1 id="重新生成-BOOT-bin"><a href="#重新生成-BOOT-bin" class="headerlink" title="重新生成 BOOT.bin"></a>重新生成 BOOT.bin</h1><p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin，步骤参考 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA-BOOT-bin">ZYNQ 移植 Linux-创建 BOOT.bin</a></p>
+<h1 id="修改-device-tree"><a href="#修改-device-tree" class="headerlink" title="修改 device-tree"></a>修改 device-tree</h1><p>在上一篇 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/05/05/ZYNQ-移植-Linux-SPI/">ZYNQ 移植 Linux — SPI</a> 的基础上就增加了一个 AXI-GPIO，这部分的 dtc 可以直接使用 sdk 生成，无需修改，步骤参考 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">ZYNQ 移植 Linux-创建设备树文件</a></p>
+<h1 id="配置内核"><a href="#配置内核" class="headerlink" title="配置内核"></a>配置内核</h1><ol>
 <li><p>AXI-GPIO 配置</p>
-<p>在上一篇 <a href="https://blog.leo-fitz.com/2020/05/05/ZYNQ-移植-Linux-SPI/" target="_blank" rel="noopener">ZYNQ 移植 Linux — SPI</a> 的基础上需要启用 AXI-GPIO 的驱动，步骤参考 xilinx-wiki：</p>
-<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841846/AXI+GPIO" target="_blank" rel="noopener">AXI GPIO</a></p>
+<p>在上一篇 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/05/05/ZYNQ-移植-Linux-SPI/">ZYNQ 移植 Linux — SPI</a> 的基础上需要启用 AXI-GPIO 的驱动，步骤参考 xilinx-wiki：</p>
+<p><a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841846/AXI+GPIO">AXI GPIO</a></p>
 <p>修改内核配置文件，启用如下配置：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">CONFIG_GPIO_SYSFS</span>=y</span><br><span class="line"><span class="attr">CONFIG_SYSFS</span>=y</span><br><span class="line"><span class="attr">CONFIG_GPIO_XILINX</span>=y (for axi_gpio)</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">CONFIG_GPIO_SYSFS</span>=y</span><br><span class="line"><span class="attr">CONFIG_SYSFS</span>=y</span><br><span class="line"><span class="attr">CONFIG_GPIO_XILINX</span>=y (for axi_gpio)</span><br></pre></td></tr></table></figure></li>
 <li><p>fbtft 配置</p>
 <p>打开配置菜单，在 <em>linux-xlnx/</em> 目录下运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
@@ -341,29 +340,29 @@
 <p>其中在第二个命令输出的 log 中会说生成的 <em>.ko</em> 文件的位置，将生成的内核 uImage 拷贝到内存卡，<em>.ko</em> 文件拷贝到 U盘 中。</p>
 </li>
 </ol>
-<h1 id="加载驱动" class="heading-control"><a href="#加载驱动" class="headerlink" title="加载驱动"></a>加载驱动<a class="heading-anchor" href="#加载驱动" aria-hidden="true"></a></h1><p>使用新的 <em>devicetree.dtb, uImage, BOOT.bin</em> 启动后，可以在 <em>/dev</em> 目录下看到 gpio 设备和 spi 设备，</p>
-<h2 id="测试-GPIO" class="heading-control"><a href="#测试-GPIO" class="headerlink" title="测试 GPIO"></a>测试 GPIO<a class="heading-anchor" href="#测试-GPIO" aria-hidden="true"></a></h2><p>先测试下 gpio 是否工作正常，步骤可以参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841846/AXI+GPIO" target="_blank" rel="noopener">xilinx-wiki — AXI GPIO</a></p>
+<h1 id="加载驱动"><a href="#加载驱动" class="headerlink" title="加载驱动"></a>加载驱动</h1><p>使用新的 <em>devicetree.dtb, uImage, BOOT.bin</em> 启动后，可以在 <em>/dev</em> 目录下看到 gpio 设备和 spi 设备，</p>
+<h2 id="测试-GPIO"><a href="#测试-GPIO" class="headerlink" title="测试 GPIO"></a>测试 GPIO</h2><p>先测试下 gpio 是否工作正常，步骤可以参考 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841846/AXI+GPIO">xilinx-wiki — AXI GPIO</a></p>
 <p>在 <em>/sys/class/gpio</em> 目录下执行 <code>ls -all</code> 命令可以看到 gpio 设备的信息：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">xilinx@pynq:/sys/class/gpio$ ls -all</span><br><span class="line">total 0</span><br><span class="line">drwxr-xr-x  2 root root    0 May 11 15:11 .</span><br><span class="line">drwxr-xr-x 48 root root    0 Jan 28  2018 ..</span><br><span class="line">--w-------  1 root root 4096 May 11 15:11 <span class="built_in">export</span></span><br><span class="line">lrwxrwxrwx  1 root root    0 May 11 15:11 gpiochip1014 -&gt; ../../devices/soc0/amba_pl/41210000.gpio/gpio/gpiochip1014</span><br><span class="line">lrwxrwxrwx  1 root root    0 May 11 15:11 gpiochip1016 -&gt; ../../devices/soc0/amba_pl/41200000.gpio/gpio/gpiochip1016</span><br><span class="line">lrwxrwxrwx  1 root root    0 May 11 15:11 gpiochip1020 -&gt; ../../devices/soc0/amba_pl/41200000.gpio/gpio/gpiochip1020</span><br><span class="line">lrwxrwxrwx  1 root root    0 May 11 15:11 gpiochip896 -&gt; ../../devices/soc0/amba/e000a000.gpio/gpio/gpiochip896</span><br><span class="line">--w-------  1 root root 4096 May 11 15:11 unexport</span><br></pre></td></tr></table></figure>
 <p>我的 DC 和 RST 引脚是接在了 <em>gpiochip1014</em> 上了，这里 gpio 的编号是怎么来的还没完全搞明白，不过可以通过 gpio 设备的地址来确定</p>
 <p>接下来对 gpio 的电平，测一下 fpga 管脚上的电平是不是按预期的变化，在 <em>/sys/class/gpio</em> 目录下执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> 1014 &gt; <span class="built_in">export</span> <span class="comment"># gpiochip1014 的第一个管脚</span></span><br><span class="line"><span class="built_in">echo</span> 1015 &gt; <span class="built_in">export</span> <span class="comment"># gpiochip1014 的第二个管脚</span></span><br><span class="line"><span class="comment"># 这时在 /sys/class/gpio 目录下应该会产生 gpio1014 gpio1015 两个目录</span></span><br><span class="line"><span class="built_in">echo</span> out &gt; gpio1014/direction <span class="comment"># 设置 gpio 方向为输出</span></span><br><span class="line"><span class="built_in">echo</span> out &gt; gpio1015/direction</span><br><span class="line"><span class="built_in">echo</span> 1 &gt; gpio1014/value <span class="comment"># 在第一个管脚上输出高电平</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; gpio1015/value <span class="comment"># 在第二个管脚上输出高电平</span></span><br><span class="line"><span class="built_in">echo</span> 0 &gt; gpio1014/value <span class="comment"># 在第一个管脚上输出低电平</span></span><br><span class="line"><span class="built_in">echo</span> 0 &gt; gpio1015/value <span class="comment"># 在第二个管脚上输出低电平</span></span><br></pre></td></tr></table></figure>
 <p>接在 DC 和 RST 上的两个 gpio 管脚应该会按预期输出电平</p>
-<h2 id="加载-fbtft-驱动" class="heading-control"><a href="#加载-fbtft-驱动" class="headerlink" title="加载 fbtft 驱动"></a>加载 fbtft 驱动<a class="heading-anchor" href="#加载-fbtft-驱动" aria-hidden="true"></a></h2><p><em>.ko</em> 文件放在了 U盘里，首先将 U盘 挂载上，然后进入 <em>.ko</em> 文件所在位置，如何在 zynq 上挂载 U盘 可以参考 <a href="https://blog.leo-fitz.com/2020/04/13/ZYNQ-移植-Linux-USB/" target="_blank" rel="noopener">ZYNQ 移植 Linux — USB</a></p>
+<h2 id="加载-fbtft-驱动"><a href="#加载-fbtft-驱动" class="headerlink" title="加载 fbtft 驱动"></a>加载 fbtft 驱动</h2><p><em>.ko</em> 文件放在了 U盘里，首先将 U盘 挂载上，然后进入 <em>.ko</em> 文件所在位置，如何在 zynq 上挂载 U盘 可以参考 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/04/13/ZYNQ-移植-Linux-USB/">ZYNQ 移植 Linux — USB</a></p>
 <p>使用如下命令加载驱动：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo insmod fbtft_device.ko name=adafruit18 busnum=1 gpios=<span class="string">"reset:1014,dc:1015"</span> rotate=90 custom=1 height=160 width=80</span><br><span class="line">sudo insmod fb_st7735r.ko</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo insmod fbtft_device.ko name=adafruit18 busnum=1 gpios=<span class="string">&quot;reset:1014,dc:1015&quot;</span> rotate=90 custom=1 height=160 width=80</span><br><span class="line">sudo insmod fb_st7735r.ko</span><br></pre></td></tr></table></figure>
 <p>如果成功了屏幕应该就会有显示了，在 <em>/dev</em> 目录下会产生 <em>fb0</em> 设备，不成功可以用 <code>dmesg</code> 命令查看内核 log，看下报错信息。</p>
 <p>到这步还出现了个小问题，就是 fbtft 里面提供的 st7735 驱动是 160x128 分辨率的，而我的屏幕是 160x80 分辨率的，虽然已经在 fbtft_device.ko 的参数里制定了自定义的分辨率，但是屏幕的内容就显示不全，上面内容的冒到屏幕外了，下面还有一点屏幕空白，这应该是显示区域的起点错了，导致显示区域偏屏幕上方，看了下 st7735 的手册，发现这个芯片工作的逻辑是先发送要刷新区域的位置，然后再发送显示的内容：</p>
 <p><img src="/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/st7735-y.png" alt="y"></p>
 <p><img src="/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/st7789-y1.png" alt="y1"></p>
 <p>然后就在驱动代码里找啊找，在 <em>linux-xlnx/drivers/staging/fbtft/fb_st7735r.c</em> 文件里找到了 <code>static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)</code> 这个函数，这应该就是发送显示区域的函数了，给 <code>ys</code> 和 <code>ye</code> 加了一个偏移，完美，显示区域到了屏幕中央了：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">set_addr_win</span><span class="params">(struct fbtft_par *par, <span class="keyword">int</span> xs, <span class="keyword">int</span> ys, <span class="keyword">int</span> xe, <span class="keyword">int</span> ye)</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">trueys += <span class="number">0x18</span>; <span class="comment">// (128-80)/2</span></span><br><span class="line">trueye += <span class="number">0x18</span>;</span><br><span class="line"></span><br><span class="line">truewrite_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS,</span><br><span class="line">truetrue  xs &gt;&gt; <span class="number">8</span>, xs &amp; <span class="number">0xFF</span>, xe &gt;&gt; <span class="number">8</span>, xe &amp; <span class="number">0xFF</span>);</span><br><span class="line"></span><br><span class="line">truewrite_reg(par, MIPI_DCS_SET_PAGE_ADDRESS,</span><br><span class="line">truetrue  ys &gt;&gt; <span class="number">8</span>, ys &amp; <span class="number">0xFF</span>, ye &gt;&gt; <span class="number">8</span>, ye &amp; <span class="number">0xFF</span>);</span><br><span class="line"></span><br><span class="line">truewrite_reg(par, MIPI_DCS_WRITE_MEMORY_START);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="开机自动加载驱动" class="heading-control"><a href="#开机自动加载驱动" class="headerlink" title="开机自动加载驱动"></a>开机自动加载驱动<a class="heading-anchor" href="#开机自动加载驱动" aria-hidden="true"></a></h1><blockquote>
+<h1 id="开机自动加载驱动"><a href="#开机自动加载驱动" class="headerlink" title="开机自动加载驱动"></a>开机自动加载驱动</h1><blockquote>
 <p>ref: </p>
-<p><a href="https://blog.csdn.net/hunanchenxingyu/article/details/47292327" target="_blank" rel="noopener">https://blog.csdn.net/hunanchenxingyu/article/details/47292327</a></p>
-<p><a href="http://www.waveshare.net/wiki/1.3inch_LCD_HAT" target="_blank" rel="noopener">http://www.waveshare.net/wiki/1.3inch_LCD_HAT</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hunanchenxingyu/article/details/47292327">https://blog.csdn.net/hunanchenxingyu/article/details/47292327</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.waveshare.net/wiki/1.3inch_LCD_HAT">http://www.waveshare.net/wiki/1.3inch_LCD_HAT</a></p>
 </blockquote>
-<h2 id="将驱动放到-rootfs-的内核目录下" class="heading-control"><a href="#将驱动放到-rootfs-的内核目录下" class="headerlink" title="将驱动放到 rootfs 的内核目录下"></a>将驱动放到 rootfs 的内核目录下<a class="heading-anchor" href="#将驱动放到-rootfs-的内核目录下" aria-hidden="true"></a></h2><p>将 <em>fbtft_device.ko</em>、<em>fb_st7735r.ko</em> 放到 <em>/lib/modules/<code>uname -r</code>/</em> 对应目录下：</p>
+<h2 id="将驱动放到-rootfs-的内核目录下"><a href="#将驱动放到-rootfs-的内核目录下" class="headerlink" title="将驱动放到 rootfs 的内核目录下"></a>将驱动放到 rootfs 的内核目录下</h2><p>将 <em>fbtft_device.ko</em>、<em>fb_st7735r.ko</em> 放到 <em>/lib/modules/<code>uname -r</code>/</em> 对应目录下：</p>
 <p>具体在 <code>/lib/modules/&lt;uname -r&gt;/kernel/drivers/staging/fbtft/</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xilinx@pynq:/lib/modules/4.14.0-xilinx-00001-gbba05abe65f5-dirty/kernel/drivers/staging/fbtft$ ls</span><br><span class="line">fb_ili9486.ko  fb_st7735r.ko  fb_st7789v.ko  fbtft_device.ko  flexfb.ko</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -377,18 +376,17 @@
 </blockquote>
 <p>可以用 <code>modprobe</code> 命令测试是否可以加载，用法（在任意目录下执行）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">modprobe xxx.ko        <span class="comment">#加载某个模块</span></span><br><span class="line">modprobe -r xxx.ko     <span class="comment">#卸载某个模块</span></span><br></pre></td></tr></table></figure>
-<h2 id="启用模块" class="heading-control"><a href="#启用模块" class="headerlink" title="启用模块"></a>启用模块<a class="heading-anchor" href="#启用模块" aria-hidden="true"></a></h2><p>编辑文件 <em>/etc/modules</em>，添加如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fb_st7735r</span><br><span class="line">fbtft_device</span><br></pre></td></tr></table></figure>
-<h2 id="新建配置文件，配置-fbtft" class="heading-control"><a href="#新建配置文件，配置-fbtft" class="headerlink" title="新建配置文件，配置 fbtft"></a>新建配置文件，配置 fbtft<a class="heading-anchor" href="#新建配置文件，配置-fbtft" aria-hidden="true"></a></h2><p>新建配置文件 <em>/etc/modprobe.d/fbtft.conf</em>，内容如下：</p>
+<h2 id="启用模块"><a href="#启用模块" class="headerlink" title="启用模块"></a>启用模块</h2><p>编辑文件 <em>/etc/modules</em>，添加如下：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fb_st7735r</span><br><span class="line">fbtft_device</span><br></pre></td></tr></table></figure>
+<h2 id="新建配置文件，配置-fbtft"><a href="#新建配置文件，配置-fbtft" class="headerlink" title="新建配置文件，配置 fbtft"></a>新建配置文件，配置 fbtft</h2><p>新建配置文件 <em>/etc/modprobe.d/fbtft.conf</em>，内容如下：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options fbtft_device <span class="attribute">name</span>=adafruit18 <span class="attribute">busnum</span>=1 <span class="attribute">gpios</span>=reset:1014,dc:1015 <span class="attribute">rotate</span>=90 <span class="attribute">custom</span>=1 <span class="attribute">height</span>=160 <span class="attribute">width</span>=80</span><br></pre></td></tr></table></figure>
 <p>上面 3 步完成后重启，应该就可以看到屏幕被点亮并显示了 console，说明驱动被自动加载了</p>
-<h1 id="使用" class="heading-control"><a href="#使用" class="headerlink" title="使用"></a>使用<a class="heading-anchor" href="#使用" aria-hidden="true"></a></h1><blockquote>
-<p>ref: <a href="https://github.com/notro/fbtft/wiki/Framebuffer-use" target="_blank" rel="noopener">https://github.com/notro/fbtft/wiki/Framebuffer-use</a></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><blockquote>
+<p>ref: <a target="_blank" rel="noopener" href="https://github.com/notro/fbtft/wiki/Framebuffer-use">https://github.com/notro/fbtft/wiki/Framebuffer-use</a></p>
 </blockquote>
 <ol>
 <li><p>显示图像化界面</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FRAMEBUFFER=/dev/fb0 startx</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FRAMEBUFFER=/dev/fb0 startx</span><br></pre></td></tr></table></figure></li>
 <li><p>播放视频</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mplayer -vo fbdev:/dev/fb0 -zoom -x 160 -y 80 -nosound test.mp4</span><br></pre></td></tr></table></figure>
 <div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
@@ -511,7 +509,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#修改-Vivado-工程"><span class="nav-number">1.</span> <span class="nav-text">修改 Vivado 工程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重新生成-BOOT-bin"><span class="nav-number">2.</span> <span class="nav-text">重新生成 BOOT.bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改-device-tree"><span class="nav-number">3.</span> <span class="nav-text">修改 device-tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置内核"><span class="nav-number">4.</span> <span class="nav-text">配置内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加载驱动"><span class="nav-number">5.</span> <span class="nav-text">加载驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-GPIO"><span class="nav-number">5.1.</span> <span class="nav-text">测试 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载-fbtft-驱动"><span class="nav-number">5.2.</span> <span class="nav-text">加载 fbtft 驱动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开机自动加载驱动"><span class="nav-number">6.</span> <span class="nav-text">开机自动加载驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#将驱动放到-rootfs-的内核目录下"><span class="nav-number">6.1.</span> <span class="nav-text">将驱动放到 rootfs 的内核目录下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用模块"><span class="nav-number">6.2.</span> <span class="nav-text">启用模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建配置文件，配置-fbtft"><span class="nav-number">6.3.</span> <span class="nav-text">新建配置文件，配置 fbtft</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-Vivado-%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">修改 Vivado 工程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90-BOOT-bin"><span class="nav-number">2.</span> <span class="nav-text">重新生成 BOOT.bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-device-tree"><span class="nav-number">3.</span> <span class="nav-text">修改 device-tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%86%85%E6%A0%B8"><span class="nav-number">4.</span> <span class="nav-text">配置内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8"><span class="nav-number">5.</span> <span class="nav-text">加载驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-GPIO"><span class="nav-number">5.1.</span> <span class="nav-text">测试 GPIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD-fbtft-%E9%A9%B1%E5%8A%A8"><span class="nav-number">5.2.</span> <span class="nav-text">加载 fbtft 驱动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8"><span class="nav-number">6.</span> <span class="nav-text">开机自动加载驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E9%A9%B1%E5%8A%A8%E6%94%BE%E5%88%B0-rootfs-%E7%9A%84%E5%86%85%E6%A0%B8%E7%9B%AE%E5%BD%95%E4%B8%8B"><span class="nav-number">6.1.</span> <span class="nav-text">将驱动放到 rootfs 的内核目录下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="nav-number">6.2.</span> <span class="nav-text">启用模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E9%85%8D%E7%BD%AE-fbtft"><span class="nav-number">6.3.</span> <span class="nav-text">新建配置文件，配置 fbtft</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">使用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -601,14 +599,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

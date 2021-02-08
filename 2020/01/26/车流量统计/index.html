@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -276,7 +276,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -296,8 +296,8 @@
 
       
         <blockquote>
-<p>项目地址：<a href="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection" target="_blank" rel="noopener">https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection</a></p>
-<p>改进版（带 GUI 界面）：<a href="https://github.com/LeiWang1999/VehicleFlowDetection" target="_blank" rel="noopener">https://github.com/LeiWang1999/VehicleFlowDetection</a></p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection">https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection</a></p>
+<p>改进版（带 GUI 界面）：<a target="_blank" rel="noopener" href="https://github.com/LeiWang1999/VehicleFlowDetection">https://github.com/LeiWang1999/VehicleFlowDetection</a></p>
 <p>效果展示：</p>
 <ul>
 <li><p>检测：</p>
@@ -309,31 +309,30 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<h1 id="准备" class="heading-control"><a href="#准备" class="headerlink" title="准备"></a>准备<a class="heading-anchor" href="#准备" aria-hidden="true"></a></h1><h2 id="安装tensorflow" class="heading-control"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow<a class="heading-anchor" href="#安装tensorflow" aria-hidden="true"></a></h2><p>参考<a href="https://tensorflow.juejin.im/install/install_mac.html" target="_blank" rel="noopener">在 macOS 中安装 TensorFlow</a></p>
-<h2 id="安装OpenCV" class="heading-control"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV<a class="heading-anchor" href="#安装OpenCV" aria-hidden="true"></a></h2><ol>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="安装tensorflow"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow</h2><p>参考<a target="_blank" rel="noopener" href="https://tensorflow.juejin.im/install/install_mac.html">在 macOS 中安装 TensorFlow</a></p>
+<h2 id="安装OpenCV"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV</h2><ol>
 <li><p>Homebrew安装OpenCV</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install opencv</span><br></pre></td></tr></table></figure>
 <p>最新版本的<code>opencv</code>已经不分<code>opencv3</code>了，而是在目录下分成<code>python2</code>和<code>python3</code>版本的文件夹。<br>安装好的<code>opencv</code>库在<code>/usr/local/Cellar/opencv/</code>。</p>
 </li>
 <li><p>将OpenCV链接到Python的site-packages目录下</p>
 <p>首先需要找到自己Python安装位置，可以用如下方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开Python</span></span><br><span class="line">python3</span><br><span class="line"><span class="comment"># 通过sys查看Python安装路径</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.path)</span><br><span class="line">[<span class="string">''</span>, <span class="string">'/Library/Frameworks/Python.framework/Versions/3.7/lib/python37.zip'</span>, <span class="string">'/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7'</span>, <span class="string">'/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload'</span>, <span class="string">'/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开Python</span></span><br><span class="line">python3</span><br><span class="line"><span class="comment"># 通过sys查看Python安装路径</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.path)</span><br><span class="line">[<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python37.zip&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages&#x27;</span>]</span><br></pre></td></tr></table></figure>
 <p>可以看到最后一行就是site-packages的路径。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入site-packages目录</span></span><br><span class="line"><span class="built_in">cd</span> /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages</span><br><span class="line"><span class="comment"># 建立软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/Cellar/opencv/4.2.0_1/lib/python3.7/site-packages/cv2/python-3.7/cv2.cpython-37m-darwin.so cv2.so</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入site-packages目录</span></span><br><span class="line"><span class="built_in">cd</span> /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages</span><br><span class="line"><span class="comment"># 建立软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/Cellar/opencv/4.2.0_1/lib/python3.7/site-packages/cv2/python-3.7/cv2.cpython-37m-darwin.so cv2.so</span><br></pre></td></tr></table></figure></li>
 <li><p>依赖包</p>
 <p>我们这时测试一下OpenCV是否可用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> cv2</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">'numpy'</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">ImportError: numpy.core.multiarray failed to <span class="keyword">import</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> cv2</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;numpy&#x27;</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">ImportError: numpy.core.multiarray failed to <span class="keyword">import</span></span><br></pre></td></tr></table></figure>
 <p>缺少numpy</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装numpy</span></span><br><span class="line">pip3 install --upgrade numpy</span><br></pre></td></tr></table></figure>
 <p>成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</span><br><span class="line">[Clang 6.0 (clang-600.0.57)] on darwin</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import cv2</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</span><br><span class="line">[Clang 6.0 (clang-600.0.57)] on darwin</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import cv2</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>真不该手贱接下这个项目，完全没有头绪！</p>
 </blockquote>
-<h1 id="准确率" class="heading-control"><a href="#准确率" class="headerlink" title="准确率"></a>准确率<a class="heading-anchor" href="#准确率" aria-hidden="true"></a></h1><p>目前检测 VisDrone 数据集的正确率已经比较高了</p>
+</li>
+</ol>
+<h1 id="准确率"><a href="#准确率" class="headerlink" title="准确率"></a>准确率</h1><p>目前检测 VisDrone 数据集的正确率已经比较高了</p>
 <p><img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/mAP/mAP.png" alt="mAP"></p>
 
     </div>
@@ -448,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装tensorflow"><span class="nav-number">1.1.</span> <span class="nav-text">安装tensorflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装OpenCV"><span class="nav-number">1.2.</span> <span class="nav-text">安装OpenCV</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准确率"><span class="nav-number">2.</span> <span class="nav-text">准确率</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85tensorflow"><span class="nav-number">1.1.</span> <span class="nav-text">安装tensorflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85OpenCV"><span class="nav-number">1.2.</span> <span class="nav-text">安装OpenCV</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E7%8E%87"><span class="nav-number">2.</span> <span class="nav-text">准确率</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -538,14 +537,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

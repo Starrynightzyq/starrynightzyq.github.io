@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -298,14 +298,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="修改-vivado-工程，启用-PS-SPI" class="heading-control"><a href="#修改-vivado-工程，启用-PS-SPI" class="headerlink" title="修改 vivado 工程，启用 PS-SPI"></a>修改 vivado 工程，启用 PS-SPI<a class="heading-anchor" href="#修改-vivado-工程，启用-PS-SPI" aria-hidden="true"></a></h1><p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"></p>
+        <h1 id="修改-vivado-工程，启用-PS-SPI"><a href="#修改-vivado-工程，启用-PS-SPI" class="headerlink" title="修改 vivado 工程，启用 PS-SPI"></a>修改 vivado 工程，启用 PS-SPI</h1><p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"></p>
 <a id="more"></a>
-<h1 id="重新生成-BOOT-bin" class="heading-control"><a href="#重新生成-BOOT-bin" class="headerlink" title="重新生成 BOOT.bin"></a>重新生成 BOOT.bin<a class="heading-anchor" href="#重新生成-BOOT-bin" aria-hidden="true"></a></h1><p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
-<h1 id="修改-device-tree" class="heading-control"><a href="#修改-device-tree" class="headerlink" title="修改 device-tree"></a>修改 device-tree<a class="heading-anchor" href="#修改-device-tree" aria-hidden="true"></a></h1><ol>
-<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6" target="_blank" rel="noopener">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 {</code>，这个是 SDK 自动生成的设备树；</p>
+<h1 id="重新生成-BOOT-bin"><a href="#重新生成-BOOT-bin" class="headerlink" title="重新生成 BOOT.bin"></a>重新生成 BOOT.bin</h1><p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
+<h1 id="修改-device-tree"><a href="#修改-device-tree" class="headerlink" title="修改 device-tree"></a>修改 device-tree</h1><ol>
+<li><p>首先参考<a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p>
 </li>
-<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 {</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">"okay"</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">"spidev"</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-<span class="built_in">max</span>-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">"spidev"</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-<span class="built_in">max</span>-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">"spidev"</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-<span class="built_in">max</span>-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
 <p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
 <p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
@@ -315,20 +315,20 @@
 </li>
 <li><p>重新编译设备树：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
-</li>
+<h1 id="配置内核"><a href="#配置内核" class="headerlink" title="配置内核"></a>配置内核</h1></li>
 </ol>
-<h1 id="配置内核" class="heading-control"><a href="#配置内核" class="headerlink" title="配置内核"></a>配置内核<a class="heading-anchor" href="#配置内核" aria-hidden="true"></a></h1><p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver" target="_blank" rel="noopener">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
 <p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_CADENCE.png" alt="SPI_CADENCE"></p>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver" target="_blank" rel="noopener">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
 <p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/CONFIG_SPI_XILINX.png" alt="CONFIG_SPI_XILINX"></p>
-<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133" target="_blank" rel="noopener">forums.xilinx</a> 上看到的一个回答：</p>
+<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a target="_blank" rel="noopener" href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
 <p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/USER_MODE_SPI.png" alt="USER_MODE_SPI"></p>
 <p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em> </p>
 <p>最后重新编译内核：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
 <p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
-<h1 id="用户程序测试" class="heading-control"><a href="#用户程序测试" class="headerlink" title="用户程序测试"></a>用户程序测试<a class="heading-anchor" href="#用户程序测试" aria-hidden="true"></a></h1><p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
+<h1 id="用户程序测试"><a href="#用户程序测试" class="headerlink" title="用户程序测试"></a>用户程序测试</h1><p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
 <p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
 <p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_WAVE.png" alt="SPI-WAVE"></p>
@@ -446,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#修改-vivado-工程，启用-PS-SPI"><span class="nav-number">1.</span> <span class="nav-text">修改 vivado 工程，启用 PS-SPI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重新生成-BOOT-bin"><span class="nav-number">2.</span> <span class="nav-text">重新生成 BOOT.bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改-device-tree"><span class="nav-number">3.</span> <span class="nav-text">修改 device-tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置内核"><span class="nav-number">4.</span> <span class="nav-text">配置内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户程序测试"><span class="nav-number">5.</span> <span class="nav-text">用户程序测试</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-vivado-%E5%B7%A5%E7%A8%8B%EF%BC%8C%E5%90%AF%E7%94%A8-PS-SPI"><span class="nav-number">1.</span> <span class="nav-text">修改 vivado 工程，启用 PS-SPI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90-BOOT-bin"><span class="nav-number">2.</span> <span class="nav-text">重新生成 BOOT.bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-device-tree"><span class="nav-number">3.</span> <span class="nav-text">修改 device-tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%86%85%E6%A0%B8"><span class="nav-number">4.</span> <span class="nav-text">配置内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E6%B5%8B%E8%AF%95"><span class="nav-number">5.</span> <span class="nav-text">用户程序测试</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -536,14 +536,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

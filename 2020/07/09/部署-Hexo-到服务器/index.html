@@ -4,7 +4,7 @@
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#49b1f5">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
@@ -292,24 +292,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="部署到服务器" class="heading-control"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器<a class="heading-anchor" href="#部署到服务器" aria-hidden="true"></a></h1><blockquote>
+        <h1 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h1><blockquote>
 <p>Ref:</p>
-<p><a href="https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/" target="_blank" rel="noopener">Hexo博客进阶：将Hexo部署到云服务器</a></p>
+<p><a target="_blank" rel="noopener" href="https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/">Hexo博客进阶：将Hexo部署到云服务器</a></p>
 </blockquote>
-<h1 id="no-www和www跳转" class="heading-control"><a href="#no-www和www跳转" class="headerlink" title="no-www和www跳转"></a>no-www和www跳转<a class="heading-anchor" href="#no-www和www跳转" aria-hidden="true"></a></h1><blockquote>
+<h1 id="no-www和www跳转"><a href="#no-www和www跳转" class="headerlink" title="no-www和www跳转"></a>no-www和www跳转</h1><blockquote>
 <p>Ref:</p>
-<p><a href="https://www.jianshu.com/p/cec753473ec9" target="_blank" rel="noopener">nginx实现no-www和www跳转</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cec753473ec9">nginx实现no-www和www跳转</a></p>
 </blockquote>
-<h1 id="强制-HTTPs-跳转" class="heading-control"><a href="#强制-HTTPs-跳转" class="headerlink" title="强制 HTTPs 跳转"></a>强制 HTTPs 跳转<a class="heading-anchor" href="#强制-HTTPs-跳转" aria-hidden="true"></a></h1><h2 id="首先查看-Nginx-是否有-SSL-支持模块" class="heading-control"><a href="#首先查看-Nginx-是否有-SSL-支持模块" class="headerlink" title="首先查看 Nginx 是否有 SSL 支持模块"></a>首先查看 Nginx 是否有 SSL 支持模块<a class="heading-anchor" href="#首先查看-Nginx-是否有-SSL-支持模块" aria-hidden="true"></a></h2><p>使用命令：</p>
+<h1 id="强制-HTTPs-跳转"><a href="#强制-HTTPs-跳转" class="headerlink" title="强制 HTTPs 跳转"></a>强制 HTTPs 跳转</h1><h2 id="首先查看-Nginx-是否有-SSL-支持模块"><a href="#首先查看-Nginx-是否有-SSL-支持模块" class="headerlink" title="首先查看 Nginx 是否有 SSL 支持模块"></a>首先查看 Nginx 是否有 SSL 支持模块</h2><p>使用命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -V</span><br></pre></td></tr></table></figure>
 <p>看输出中是否有：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">configure arguments:</span><br><span class="line"><span class="string">...</span></span><br><span class="line"><span class="params">--with-http_ssl_module</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
-<p>如果没有，则需要重新编译 nginx，增加 SSL 支持模块，参考<a href="https://www.codelast.com/原创-为nginx添加ssl支持模块/" target="_blank" rel="noopener">为nginx添加SSL支持模块</a>。</p>
-<h1 id="申请-amp-下载证书（略）" class="heading-control"><a href="#申请-amp-下载证书（略）" class="headerlink" title="申请&amp;下载证书（略）"></a>申请&amp;下载证书（略）<a class="heading-anchor" href="#申请-amp-下载证书（略）" aria-hidden="true"></a></h1><h1 id="上传证书" class="heading-control"><a href="#上传证书" class="headerlink" title="上传证书"></a>上传证书<a class="heading-anchor" href="#上传证书" aria-hidden="true"></a></h1><p>在 Nginx 的安装目录 <em>/etc/nginx/</em> 下创建 cert 目录，并将证书文件（SSL Key 和 CSR 文件）上传到 cert 目录中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">configure arguments:</span><br><span class="line">...</span><br><span class="line">--with-http_ssl_module</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>如果没有，则需要重新编译 nginx，增加 SSL 支持模块，参考<a target="_blank" rel="noopener" href="https://www.codelast.com/原创-为nginx添加ssl支持模块/">为nginx添加SSL支持模块</a>。</p>
+<h1 id="申请-amp-下载证书（略）"><a href="#申请-amp-下载证书（略）" class="headerlink" title="申请&amp;下载证书（略）"></a>申请&amp;下载证书（略）</h1><h1 id="上传证书"><a href="#上传证书" class="headerlink" title="上传证书"></a>上传证书</h1><p>在 Nginx 的安装目录 <em>/etc/nginx/</em> 下创建 cert 目录，并将证书文件（SSL Key 和 CSR 文件）上传到 cert 目录中。</p>
 <blockquote>
 <p>可以用 <code>whereis nginx</code> 查看 Nginx 安装目录</p>
 </blockquote>
-<h1 id="配置-Nginx" class="heading-control"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx<a class="heading-anchor" href="#配置-Nginx" aria-hidden="true"></a></h1><p>修改默认配置文件 <em>/etc/nginx/sites-available/default</em> :</p>
+<h1 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h1><p>修改默认配置文件 <em>/etc/nginx/sites-available/default</em> :</p>
 <figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">    # SSL configuration</span></span><br><span class="line"><span class="comment">    #</span></span><br><span class="line">    listen <span class="number">443</span> ssl default_server;</span><br><span class="line">    listen [::]:<span class="number">443</span> ssl default_server;</span><br><span class="line"><span class="comment">    #</span></span><br><span class="line"></span><br><span class="line"><span class="comment">    # 定义服务器的默认网站根目录位置</span></span><br><span class="line">    root /var/www/hexo;</span><br><span class="line">    </span><br><span class="line"><span class="comment">    # ssl</span></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate cert/<span class="number">1</span>_example.com_bundle.crt;</span><br><span class="line">    ssl_certificate_key cert/<span class="number">2</span>_example.com.key;</span><br><span class="line">    ssl_session_timeout <span class="number">5</span>m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1<span class="number">.1</span> TLSv1<span class="number">.2</span>;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line"><span class="comment">    # Add index.php to the list if you are using PHP</span></span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name example.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line"><span class="comment">        # First attempt to serve request as file, then</span></span><br><span class="line"><span class="comment">        # as directory, then fall back to displaying a 404.</span></span><br><span class="line">        try_files $uri $uri/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重定向，强制 https &amp; no-www 访问</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen *:<span class="number">80</span>;</span><br><span class="line">    listen *:<span class="number">443</span> ssl; </span><br><span class="line">    listen [::]:<span class="number">80</span>;</span><br><span class="line">    listen [::]:<span class="number">443</span> ssl; </span><br><span class="line">    server_name www.example.com;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">301</span> https://example.com$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen *:<span class="number">80</span>;</span><br><span class="line">    listen [::]:<span class="number">80</span>;</span><br><span class="line">    server_name example.com;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">301</span> https://example.com$request_uri;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>修改配置后，使用如下命令，检查配置是否正确：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
@@ -317,7 +317,7 @@
 <a id="more"></a>
 <blockquote>
 <p>这里需要注意下，导入新的证书后需要重启而不是重载，nginx -s reload是普通修改配置重载。</p>
-<h2 id="Nginx日常操作命令" class="heading-control"><a href="#Nginx日常操作命令" class="headerlink" title="Nginx日常操作命令"></a>Nginx日常操作命令<a class="heading-anchor" href="#Nginx日常操作命令" aria-hidden="true"></a></h2><ul>
+<h2 id="Nginx日常操作命令"><a href="#Nginx日常操作命令" class="headerlink" title="Nginx日常操作命令"></a>Nginx日常操作命令</h2><ul>
 <li><code>nginx -t</code> 测试配置文件</li>
 <li><code>nginx -s reload</code> 修改配置后重载生效</li>
 <li><code>nginx -s reopen</code> 重新打开日志文件</li>
@@ -326,12 +326,12 @@
 <li>查看 Nginx 进程 <code>ps -ef | grep nginx</code></li>
 </ul>
 </blockquote>
-<h1 id="参考资料" class="heading-control"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料<a class="heading-anchor" href="#参考资料" aria-hidden="true"></a></h1><ol>
-<li><p><a href="https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/" target="_blank" rel="noopener">Hexo博客进阶：将Hexo部署到云服务器</a></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><p><a target="_blank" rel="noopener" href="https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/">Hexo博客进阶：将Hexo部署到云服务器</a></p>
 </li>
-<li><p><a href="https://juejin.im/post/5c0144036fb9a04a102f046a" target="_blank" rel="noopener">nginx配置ssl实现https访问 小白文</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5c0144036fb9a04a102f046a">nginx配置ssl实现https访问 小白文</a></p>
 </li>
-<li><a href="https://www.jianshu.com/p/cec753473ec9" target="_blank" rel="noopener">nginx实现no-www和www跳转</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cec753473ec9">nginx实现no-www和www跳转</a></li>
 </ol>
 
     </div>
@@ -447,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#部署到服务器"><span class="nav-number">1.</span> <span class="nav-text">部署到服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#no-www和www跳转"><span class="nav-number">2.</span> <span class="nav-text">no-www和www跳转</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#强制-HTTPs-跳转"><span class="nav-number">3.</span> <span class="nav-text">强制 HTTPs 跳转</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先查看-Nginx-是否有-SSL-支持模块"><span class="nav-number">3.1.</span> <span class="nav-text">首先查看 Nginx 是否有 SSL 支持模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#申请-amp-下载证书（略）"><span class="nav-number">4.</span> <span class="nav-text">申请&amp;下载证书（略）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传证书"><span class="nav-number">5.</span> <span class="nav-text">上传证书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置-Nginx"><span class="nav-number">6.</span> <span class="nav-text">配置 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx日常操作命令"><span class="nav-number">6.1.</span> <span class="nav-text">Nginx日常操作命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">部署到服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#no-www%E5%92%8Cwww%E8%B7%B3%E8%BD%AC"><span class="nav-number">2.</span> <span class="nav-text">no-www和www跳转</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6-HTTPs-%E8%B7%B3%E8%BD%AC"><span class="nav-number">3.</span> <span class="nav-text">强制 HTTPs 跳转</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E6%9F%A5%E7%9C%8B-Nginx-%E6%98%AF%E5%90%A6%E6%9C%89-SSL-%E6%94%AF%E6%8C%81%E6%A8%A1%E5%9D%97"><span class="nav-number">3.1.</span> <span class="nav-text">首先查看 Nginx 是否有 SSL 支持模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7-amp-%E4%B8%8B%E8%BD%BD%E8%AF%81%E4%B9%A6%EF%BC%88%E7%95%A5%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">申请&amp;下载证书（略）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%B9%A6"><span class="nav-number">5.</span> <span class="nav-text">上传证书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Nginx"><span class="nav-number">6.</span> <span class="nav-text">配置 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">6.1.</span> <span class="nav-text">Nginx日常操作命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -537,14 +537,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">137k</span>
+    <span title="站点总字数">140k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:05</span>
+    <span title="站点阅读时长">2:07</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2

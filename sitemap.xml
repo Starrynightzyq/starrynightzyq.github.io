@@ -44,14 +44,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/01/26/%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1/</loc>
+    <loc>https://zhouyuqian.com/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/</loc>
+    <loc>https://zhouyuqian.com/2020/01/26/%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
@@ -219,14 +219,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</loc>
+    <loc>https://zhouyuqian.com/2020/03/11/Ubuntu-18-04-%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E9%97%AE%E9%A2%98/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/03/11/Ubuntu-18-04-%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E9%97%AE%E9%A2%98/</loc>
+    <loc>https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
@@ -303,14 +303,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</loc>
+    <loc>https://zhouyuqian.com/2020/03/10/Linux-%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/03/10/Linux-%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</loc>
+    <loc>https://zhouyuqian.com/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</loc>
     
     <lastmod>2021-02-08</lastmod>
     
@@ -424,6 +424,27 @@
 
   
   <url>
+    <loc>https://zhouyuqian.com/tags/Software/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Cadence/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/IC-design/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/tags/Linux/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
@@ -432,13 +453,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/GEEK/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/IC-design/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -467,20 +481,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/DSM/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/Software/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/Cadence/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -599,13 +599,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/HLS/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/Ubuntu/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
@@ -620,7 +613,28 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/%E9%9A%8F%E7%AC%94/</loc>
+    <loc>https://zhouyuqian.com/tags/verilog/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E9%A1%B9%E7%9B%AE/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/VGA/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/HLS/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -635,6 +649,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/%E7%BE%8E%E5%8C%96/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -656,13 +677,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -710,21 +724,14 @@
     <priority>0.6</priority>
   </url>
   
-  <url>
-    <loc>https://zhouyuqian.com/tags/verilog/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/VGA/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/Software/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>https://zhouyuqian.com/categories/Linux/</loc>
@@ -742,13 +749,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/categories/Delta-Sigma/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/Software/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -811,6 +811,13 @@
   </url>
   
   <url>
+    <loc>https://zhouyuqian.com/categories/FPGA%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-02-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/categories/FPGA/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
@@ -825,13 +832,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2021-02-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/categories/hexo/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
@@ -839,7 +839,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/FPGA%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://zhouyuqian.com/categories/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2021-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
