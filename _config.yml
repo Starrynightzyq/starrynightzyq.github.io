@@ -34,6 +34,8 @@ default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: 
   enable: true # Open external links in new tab
+  field: site # Apply to the whole site
+  exclude: ''
 filename_case: 0
 render_drafts: false
 post_asset_folder: true
