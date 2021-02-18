@@ -90,33 +90,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Config static IP address on Ubuntu 18.04</title>
-    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
-    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
-<a id="more"></a>
-<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
-</blockquote>
-<p>结果如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
-<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
-<p>然后是配置生效：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>电流镜-1</title>
     <url>/2020/11/02/Current-Mirror/</url>
     <content><![CDATA[<p>在模拟电路中，电流源的设计是基于对基准电流的“复制”，其前提是存在一个<strong>精确</strong>的电流源可以利用。这里讨论电流复制的过程。</p>
@@ -257,6 +230,33 @@ I_5 = \frac{1}{2} k' (\frac{W}{L})_5 \Delta ^2 _5</script><p>—&gt;</p>
       </tags>
   </entry>
   <entry>
+    <title>Config static IP address on Ubuntu 18.04</title>
+    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
+    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
+<a id="more"></a>
+<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
+</blockquote>
+<p>结果如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
+<p>然后是配置生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Delta-Sigma Modulator</title>
     <url>/2020/11/26/DSM/</url>
     <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 $1/10$, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
@@ -329,9 +329,6 @@ y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2</script><p>MASH 结构
       </categories>
       <tags>
         <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-        <tag>DSM</tag>
       </tags>
   </entry>
   <entry>
@@ -398,9 +395,6 @@ Y[n] = X[n] + e_3[n]*(1-z^{-1})^3</script><p>可以看到最终输出的噪声�
       </categories>
       <tags>
         <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-        <tag>DSM</tag>
       </tags>
   </entry>
   <entry>
@@ -513,9 +507,6 @@ N = \frac{M}{GCD(X, M)}</script><p>其中 $GCD$ 表示最大公约数，$X$ 为�
       </categories>
       <tags>
         <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-        <tag>DSM</tag>
       </tags>
   </entry>
   <entry>
@@ -539,19 +530,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}</script><p>频率分辨率（即频率的变化�
 <h2 id="DDS-算法的-Verilog-实现"><a href="#DDS-算法的-Verilog-实现" class="headerlink" title="DDS 算法的 Verilog 实现"></a>DDS 算法的 Verilog 实现</h2><blockquote>
 <p>待完成</p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>DSP</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>DSP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FIR</title>
-    <url>/2020/10/03/DSP-FIR/</url>
-    <content><![CDATA[<p>数字滤波器是从原始信号中提取用户所需要的信息，滤除不需要的信号成分。根据信号与干扰的不同关系，可以从时域、频域或变换域（同态）进行信号滤波设计。</p>
 ]]></content>
       <categories>
         <category>DSP</category>
@@ -672,10 +650,89 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}</script><p>频率分辨率（即频率的变化�
       </tags>
   </entry>
   <entry>
+    <title>FIR</title>
+    <url>/2020/10/03/DSP-FIR/</url>
+    <content><![CDATA[<p>数字滤波器是从原始信号中提取用户所需要的信息，滤除不需要的信号成分。根据信号与干扰的不同关系，可以从时域、频域或变换域（同态）进行信号滤波设计。</p>
+]]></content>
+      <categories>
+        <category>DSP</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux-Learning</title>
     <url>/2019/02/12/Linux-Learning/</url>
     <content><![CDATA[<p>磁盘分区工具：gparted</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Linux Wake on Lan</title>
+    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
+    <content><![CDATA[<h1 id="Wake-on-Lan-原理"><a href="#Wake-on-Lan-原理" class="headerlink" title="Wake on Lan 原理"></a>Wake on Lan 原理</h1><p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
+<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
+<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
+<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
+<h2 id="Magic-Packet"><a href="#Magic-Packet" class="headerlink" title="Magic Packet"></a>Magic Packet</h2><p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
+<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol>
+<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p>
+</li>
+<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
+<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
+<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
+</blockquote>
+</li>
+</ol>
+<a id="more"></a>
+<blockquote>
+<p>启动者(电脑A) —————-&gt; 被远程开启的电脑(电脑B)</p>
+</blockquote>
+<h1 id="被远程开启的电脑-电脑B-设置"><a href="#被远程开启的电脑-电脑B-设置" class="headerlink" title="被远程开启的电脑(电脑B) 设置"></a>被远程开启的电脑(电脑B) 设置</h1><ol>
+<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p>
+</li>
+<li><p>在 Linux 系统中安装 ethtool：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
+<li><p>查看 WOL 是否打开：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
+<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p>
+</li>
+<li><p>打开 WOL：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
+<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p>
+</li>
+</ol>
+<h1 id="启动者-电脑A-设置"><a href="#启动者-电脑A-设置" class="headerlink" title="启动者(电脑A) 设置"></a>启动者(电脑A) 设置</h1><p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
+<ol>
+<li><p>安装 wakeonlan：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 B 电脑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>Reference: </p>
+<p><a href="https://en.wikipedia.org/wiki/Wake-on-LAN">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/29100480">https://zhuanlan.zhihu.com/p/29100480</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux Samba Server</title>
@@ -749,72 +806,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}</script><p>频率分辨率（即频率的变化�
 ]]></content>
       <categories>
         <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux Wake on Lan</title>
-    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
-    <content><![CDATA[<h1 id="Wake-on-Lan-原理"><a href="#Wake-on-Lan-原理" class="headerlink" title="Wake on Lan 原理"></a>Wake on Lan 原理</h1><p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
-<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
-<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
-<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
-<h2 id="Magic-Packet"><a href="#Magic-Packet" class="headerlink" title="Magic Packet"></a>Magic Packet</h2><p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
-<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
-<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol>
-<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p>
-</li>
-<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
-<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
-<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
-</blockquote>
-</li>
-</ol>
-<a id="more"></a>
-<blockquote>
-<p>启动者(电脑A) —————-&gt; 被远程开启的电脑(电脑B)</p>
-</blockquote>
-<h1 id="被远程开启的电脑-电脑B-设置"><a href="#被远程开启的电脑-电脑B-设置" class="headerlink" title="被远程开启的电脑(电脑B) 设置"></a>被远程开启的电脑(电脑B) 设置</h1><ol>
-<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p>
-</li>
-<li><p>在 Linux 系统中安装 ethtool：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
-<li><p>查看 WOL 是否打开：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
-<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p>
-</li>
-<li><p>打开 WOL：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
-<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p>
-</li>
-</ol>
-<h1 id="启动者-电脑A-设置"><a href="#启动者-电脑A-设置" class="headerlink" title="启动者(电脑A) 设置"></a>启动者(电脑A) 设置</h1><p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
-<ol>
-<li><p>安装 wakeonlan：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
-<li><p>启动 B 电脑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>Reference: </p>
-<p><a href="https://en.wikipedia.org/wiki/Wake-on-LAN">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/29100480">https://zhuanlan.zhihu.com/p/29100480</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>GEEK</category>
       </categories>
       <tags>
         <tag>Linux</tag>
@@ -922,6 +913,37 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}</script><p>频率分辨率（即频率的变化�
       </tags>
   </entry>
   <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python"><a href="#opencv-python" class="headerlink" title="opencv-python"></a>opencv-python</h1><ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p>
+</li>
+</ul>
+<h1 id="proxychains-ng"><a href="#proxychains-ng" class="headerlink" title="proxychains-ng"></a>proxychains-ng</h1><ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -973,37 +995,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}</script><p>频率分辨率（即频率的变化�
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python"><a href="#opencv-python" class="headerlink" title="opencv-python"></a>opencv-python</h1><ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p>
-</li>
-</ul>
-<h1 id="proxychains-ng"><a href="#proxychains-ng" class="headerlink" title="proxychains-ng"></a>proxychains-ng</h1><ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -1246,10 +1237,18 @@ x_1 +  & 5x_2 - & 9x_3 - & 8x_4 & = & 0
       </tags>
   </entry>
   <entry>
-    <title>PA</title>
-    <url>/2021/02/07/PA/</url>
-    <content><![CDATA[<p>test1 </p>
+    <title>Power Amplifier -- 基础知识</title>
+    <url>/2021/02/08/PA/</url>
+    <content><![CDATA[<h1 id="无线发射机结构"><a href="#无线发射机结构" class="headerlink" title="无线发射机结构"></a>无线发射机结构</h1><p>无线发射机按结构类型主要分为三种：直接上变频、超外插和直接数字调制。</p>
 ]]></content>
+      <categories>
+        <category>PA</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
+      </tags>
   </entry>
   <entry>
     <title>PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器</title>
@@ -1635,8 +1634,6 @@ K_{cp} = \frac{I_{cp}}{2\pi}</script><h1 id="常用电荷泵设计"><a href="#�
       </categories>
       <tags>
         <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
       </tags>
   </entry>
   <entry>
@@ -1683,6 +1680,65 @@ K_{cp} = \frac{I_{cp}}{2\pi}</script><h1 id="常用电荷泵设计"><a href="#�
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TSPC</title>
+    <url>/2020/11/17/TSPC/</url>
+    <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
+<p><img src="/2020/11/17/TSPC/image-20201118103158126.png" alt="image-20201118103158126" style="zoom:50%;"></p>
+<a id="more"></a>
+<h1 id="TSPC-基本结构"><a href="#TSPC-基本结构" class="headerlink" title="TSPC 基本结构"></a>TSPC 基本结构</h1><p>TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反相器，M4-M6 构成了第二级时钟控制反相器，M7-M9 构成了第二级时钟控制反相器。</p>
+<p>当时钟 CLK 由高变低后，第一级时钟控制反相器的输出 A 反相跟随数据输入 D，第二级时钟控制反相器的输出 B 被拉升至电源电平，由于 M9 和 M8 分别被 B 和 CLK 关闭，因此第三级时钟控制反相器的输出 C 维持前一时刻的电平，数据输出 Q 也维持前一时刻电平不变。</p>
+<p>当 CLK 由低变高后，D 维持不变，M3 关断，A 点电平不变。若 A 点为高，则 M5 导通，同时 M6、M4 由于 CLK 分别是关断和导通，因此 B 点被拉至地电平；若 A 点为低，M5 关断，M6、M4 由于 CLK 分别为导通和关断，因此 B 被拉至高电平，实现了对 A 的反相跟随。此时 M8 由于 CLK 导通，M7、M9 构成一个反相器，输出 Qn。经过三级反相后，Qn 与 D 反相。</p>
+<p>将 M1-M3 看作第一级，M4-M9 看作第二级，在 CLK 为低时，对第一级进行预充电时，第二级的输出保持不变。因此，当 CLK 为高电平时，第一级进行评估，而第二级检测，而当 CLK 为低电平时，第一级进行复位，而第二级进行存储[1]。</p>
+<p>由于 TSPC 完全以节点寄生电容来存储电平，因此<strong>不能工作在太低的频率下</strong>，在文献[1]中提到，如果时钟周期过长，则由于亚阈值导通以及源极和漏极结引起的晶体管泄漏会破坏存储状态。在高温下，此问题通常会变得更加严重，需要仔细模拟。根据经验，对于低于100 MHz的时钟速率，需要考虑这些影响。</p>
+<h1 id="四分频电路"><a href="#四分频电路" class="headerlink" title="四分频电路"></a>四分频电路</h1><p><img src="/2020/11/17/TSPC/image-20201118111946326.png" alt="image-20201118111946326" style="zoom:50%;"></p>
+<p>文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。</p>
+<p>尽管工作在很高的频率，但该电路任然使用的是常规的基带晶体管而非 RF 晶体管，从而减小了电路面积以及寄生电容，从而实现了更快，更高效的电路。NMOS 和 PMOS 晶体管的长宽比分别为 16.7 和 23.9。</p>
+<h2 id="仿真"><a href="#仿真" class="headerlink" title="仿真"></a>仿真</h2><p>TSPC 的电路图如下所示：</p>
+<p><img src="/2020/11/17/TSPC/tspc1.png" alt="tspc1" style="zoom:75%;"></p>
+<p>TestBench 如下所示：</p>
+<p><img src="/2020/11/17/TSPC/tspc3_tb.png" alt="tspc3_tb" style="zoom:75%;"></p>
+<p>输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：</p>
+<p><img src="/2020/11/17/TSPC/tspc3_wave.svg" alt="tspc3_wave"></p>
+<p>输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：</p>
+<p><img src="/2020/11/17/TSPC/tspc3_wave_50M.svg" alt="tspc3_wave_50M"></p>
+<p>将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：</p>
+<p><img src="/2020/11/17/TSPC/tspc3_wave_50M_600m.svg" alt="tspc3_wave_50M_600m"></p>
+<h1 id="2-3-双模分频电路"><a href="#2-3-双模分频电路" class="headerlink" title="2/3 双模分频电路"></a>2/3 双模分频电路</h1><p><img src="/2020/11/17/TSPC/image-20201118113039866.png" alt="image-20201118113039866" style="zoom:35%;"></p>
+<p>文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。</p>
+<h2 id="2-3-分频电路原理"><a href="#2-3-分频电路原理" class="headerlink" title="2/3 分频电路原理"></a>2/3 分频电路原理</h2><p><img src="/2020/11/17/TSPC/divider23.png" alt="divider23" style="zoom:40%;"></p>
+<p>上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。</p>
+<h2 id="TSPC-中嵌入逻辑功能"><a href="#TSPC-中嵌入逻辑功能" class="headerlink" title="TSPC 中嵌入逻辑功能"></a>TSPC 中嵌入逻辑功能</h2><p><img src="/2020/11/17/TSPC/TSPC_logic.drawio.svg" alt="TSPC_logic" style="zoom:60%;"></p>
+<p>可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><ul>
+<li><p>Measured sensitivity curves as a function of the input frequency and the backgate voltages. VBN: NMOS, VBP: PMOS backgate voltage, respectively.</p>
+<p>测量各输入频率下所需要的最小输入电压</p>
+</li>
+<li><p>Measured current consumption as a function of the input frequency and the backgate voltages.</p>
+<p>测量电流消耗与输入频率时间的关系</p>
+</li>
+<li><p>Measured sensitivity of the self-resonance frequency on the operation points and the simulated transfer characteristic of the transistors for multiple backgate bias voltages. The trendlines were obtained for the whole dataset and their slope may vary once the dataset is narrowed for a variable.</p>
+<p>自谐振频率灵敏度</p>
+</li>
+<li><p>Measured phase noise for multiple backgate bias voltages.</p>
+<p>相位噪声</p>
+</li>
+<li><p>Measured output swing on a 50 Ω load as a function of input frequency and the backgate voltages.</p>
+<p>在50负载下测得的输出摆幅和输入频率的关系</p>
+</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] B. Razavi, “TSPC Logic [A Circuit for All Seasons],” in <em>IEEE Solid-State Circuits Magazine</em>, vol. 8, no. 4, pp. 10-13, Fall 2016, doi: 10.1109/MSSC.2016.2603228.</p>
+<p>[2] Z. Tibenszky, C. Carta and F. Ellinger, “A 0.35 mW 70 GHz Divide-by-4 TSPC Frequency Divider on 22 nm FD-SOI CMOS Technology,” <em>2020 IEEE Radio Frequency Integrated Circuits Symposium (RFIC)</em>, Los Angeles, CA, USA, 2020, pp. 243-246, doi: 10.1109/RFIC49505.2020.9218362.</p>
+<p>[3] I. Lawang, A. Tudsorn and S. Tooprakai, “1V High Speed E-TSPC 2/3 Prescalers,” <em>2019 5th International Conference on Engineering, Applied Sciences and Technology (ICEAST)</em>, Luang Prabang, Laos, 2019, pp. 1-4, doi: 10.1109/ICEAST.2019.8802598.</p>
+<p>[4] 尹江伟. 应用于OFDM UWB系统的高速分频器研究与设计[D].复旦大学,2009.</p>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -1746,67 +1802,6 @@ K_{cp} = \frac{I_{cp}}{2\pi}</script><h1 id="常用电荷泵设计"><a href="#�
         <tag>FPGA</tag>
         <tag>RISC-V</tag>
         <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TSPC</title>
-    <url>/2020/11/17/TSPC/</url>
-    <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
-<p><img src="/2020/11/17/TSPC/image-20201118103158126.png" alt="image-20201118103158126" style="zoom:50%;"></p>
-<a id="more"></a>
-<h1 id="TSPC-基本结构"><a href="#TSPC-基本结构" class="headerlink" title="TSPC 基本结构"></a>TSPC 基本结构</h1><p>TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反相器，M4-M6 构成了第二级时钟控制反相器，M7-M9 构成了第二级时钟控制反相器。</p>
-<p>当时钟 CLK 由高变低后，第一级时钟控制反相器的输出 A 反相跟随数据输入 D，第二级时钟控制反相器的输出 B 被拉升至电源电平，由于 M9 和 M8 分别被 B 和 CLK 关闭，因此第三级时钟控制反相器的输出 C 维持前一时刻的电平，数据输出 Q 也维持前一时刻电平不变。</p>
-<p>当 CLK 由低变高后，D 维持不变，M3 关断，A 点电平不变。若 A 点为高，则 M5 导通，同时 M6、M4 由于 CLK 分别是关断和导通，因此 B 点被拉至地电平；若 A 点为低，M5 关断，M6、M4 由于 CLK 分别为导通和关断，因此 B 被拉至高电平，实现了对 A 的反相跟随。此时 M8 由于 CLK 导通，M7、M9 构成一个反相器，输出 Qn。经过三级反相后，Qn 与 D 反相。</p>
-<p>将 M1-M3 看作第一级，M4-M9 看作第二级，在 CLK 为低时，对第一级进行预充电时，第二级的输出保持不变。因此，当 CLK 为高电平时，第一级进行评估，而第二级检测，而当 CLK 为低电平时，第一级进行复位，而第二级进行存储[1]。</p>
-<p>由于 TSPC 完全以节点寄生电容来存储电平，因此<strong>不能工作在太低的频率下</strong>，在文献[1]中提到，如果时钟周期过长，则由于亚阈值导通以及源极和漏极结引起的晶体管泄漏会破坏存储状态。在高温下，此问题通常会变得更加严重，需要仔细模拟。根据经验，对于低于100 MHz的时钟速率，需要考虑这些影响。</p>
-<h1 id="四分频电路"><a href="#四分频电路" class="headerlink" title="四分频电路"></a>四分频电路</h1><p><img src="/2020/11/17/TSPC/image-20201118111946326.png" alt="image-20201118111946326" style="zoom:50%;"></p>
-<p>文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。</p>
-<p>尽管工作在很高的频率，但该电路任然使用的是常规的基带晶体管而非 RF 晶体管，从而减小了电路面积以及寄生电容，从而实现了更快，更高效的电路。NMOS 和 PMOS 晶体管的长宽比分别为 16.7 和 23.9。</p>
-<h2 id="仿真"><a href="#仿真" class="headerlink" title="仿真"></a>仿真</h2><p>TSPC 的电路图如下所示：</p>
-<p><img src="/2020/11/17/TSPC/tspc1.png" alt="tspc1" style="zoom:75%;"></p>
-<p>TestBench 如下所示：</p>
-<p><img src="/2020/11/17/TSPC/tspc3_tb.png" alt="tspc3_tb" style="zoom:75%;"></p>
-<p>输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：</p>
-<p><img src="/2020/11/17/TSPC/tspc3_wave.svg" alt="tspc3_wave"></p>
-<p>输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：</p>
-<p><img src="/2020/11/17/TSPC/tspc3_wave_50M.svg" alt="tspc3_wave_50M"></p>
-<p>将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：</p>
-<p><img src="/2020/11/17/TSPC/tspc3_wave_50M_600m.svg" alt="tspc3_wave_50M_600m"></p>
-<h1 id="2-3-双模分频电路"><a href="#2-3-双模分频电路" class="headerlink" title="2/3 双模分频电路"></a>2/3 双模分频电路</h1><p><img src="/2020/11/17/TSPC/image-20201118113039866.png" alt="image-20201118113039866" style="zoom:35%;"></p>
-<p>文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。</p>
-<h2 id="2-3-分频电路原理"><a href="#2-3-分频电路原理" class="headerlink" title="2/3 分频电路原理"></a>2/3 分频电路原理</h2><p><img src="/2020/11/17/TSPC/divider23.png" alt="divider23" style="zoom:40%;"></p>
-<p>上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。</p>
-<h2 id="TSPC-中嵌入逻辑功能"><a href="#TSPC-中嵌入逻辑功能" class="headerlink" title="TSPC 中嵌入逻辑功能"></a>TSPC 中嵌入逻辑功能</h2><p><img src="/2020/11/17/TSPC/TSPC_logic.drawio.svg" alt="TSPC_logic" style="zoom:60%;"></p>
-<p>可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><ul>
-<li><p>Measured sensitivity curves as a function of the input frequency and the backgate voltages. VBN: NMOS, VBP: PMOS backgate voltage, respectively.</p>
-<p>测量各输入频率下所需要的最小输入电压</p>
-</li>
-<li><p>Measured current consumption as a function of the input frequency and the backgate voltages.</p>
-<p>测量电流消耗与输入频率时间的关系</p>
-</li>
-<li><p>Measured sensitivity of the self-resonance frequency on the operation points and the simulated transfer characteristic of the transistors for multiple backgate bias voltages. The trendlines were obtained for the whole dataset and their slope may vary once the dataset is narrowed for a variable.</p>
-<p>自谐振频率灵敏度</p>
-</li>
-<li><p>Measured phase noise for multiple backgate bias voltages.</p>
-<p>相位噪声</p>
-</li>
-<li><p>Measured output swing on a 50 Ω load as a function of input frequency and the backgate voltages.</p>
-<p>在50负载下测得的输出摆幅和输入频率的关系</p>
-</li>
-</ul>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] B. Razavi, “TSPC Logic [A Circuit for All Seasons],” in <em>IEEE Solid-State Circuits Magazine</em>, vol. 8, no. 4, pp. 10-13, Fall 2016, doi: 10.1109/MSSC.2016.2603228.</p>
-<p>[2] Z. Tibenszky, C. Carta and F. Ellinger, “A 0.35 mW 70 GHz Divide-by-4 TSPC Frequency Divider on 22 nm FD-SOI CMOS Technology,” <em>2020 IEEE Radio Frequency Integrated Circuits Symposium (RFIC)</em>, Los Angeles, CA, USA, 2020, pp. 243-246, doi: 10.1109/RFIC49505.2020.9218362.</p>
-<p>[3] I. Lawang, A. Tudsorn and S. Tooprakai, “1V High Speed E-TSPC 2/3 Prescalers,” <em>2019 5th International Conference on Engineering, Applied Sciences and Technology (ICEAST)</em>, Luang Prabang, Laos, 2019, pp. 1-4, doi: 10.1109/ICEAST.2019.8802598.</p>
-<p>[4] 尹江伟. 应用于OFDM UWB系统的高速分频器研究与设计[D].复旦大学,2009.</p>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
       </tags>
   </entry>
   <entry>
@@ -1892,159 +1887,6 @@ K_{cp} = \frac{I_{cp}}{2\pi}</script><h1 id="常用电荷泵设计"><a href="#�
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 安装 Tensorflow-gpu</title>
-    <url>/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</url>
-    <content><![CDATA[<blockquote>
-<p><strong>更正!!!</strong></p>
-<p>tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Software</th>
-<th style="text-align:left">Version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">nvidia driver</td>
-<td style="text-align:left">nvidia-440.82</td>
-</tr>
-<tr>
-<td style="text-align:left">Python</td>
-<td style="text-align:left">3.6.9</td>
-</tr>
-<tr>
-<td style="text-align:left">tensorflow</td>
-<td style="text-align:left">tensorflow-gpu==1.15.3</td>
-</tr>
-<tr>
-<td style="text-align:left">cuDNN</td>
-<td style="text-align:left">7.6.4</td>
-</tr>
-<tr>
-<td style="text-align:left">CUDA</td>
-<td style="text-align:left">10.1(V10.1.243)</td>
-</tr>
-</tbody>
-</table>
-</div>
-</blockquote>
-<h1 id="安装-NVIDIA-显卡驱动"><a href="#安装-NVIDIA-显卡驱动" class="headerlink" title="安装 NVIDIA 显卡驱动"></a>安装 NVIDIA 显卡驱动</h1><ol>
-<li><p>下载 NVIDIA 显卡对应的<a href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p>
-</li>
-<li><p>bios 禁用 secure boot，也就是设置为 disable</p>
-<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p>
-</li>
-<li><p>禁用 nouveau 开源驱动</p>
-<p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
-<p>由于nouveau是在内核中的，还需要更新一下，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
-<p>之后重启电脑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
-<p>重启后查看禁用是否成功：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
-<p>没有输出代表nouveau被禁用了</p>
-</li>
-<li><p>关闭 GUI 界面，进入命令行模式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
-<li><p>安装 NVIDIA 驱动</p>
-<p>如果以前安装过 nvidia 驱动，需要卸载：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get autoremove –purge nvidia*</span><br></pre></td></tr></table></figure>
-<p>首先给驱动文件增加可执行权限：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA-Linux-*******.run</span><br></pre></td></tr></table></figure>
-<p>然后执行安装：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo sh ./NVIDIA-Linux-*******.run -no-opengl-files</span><br></pre></td></tr></table></figure>
-<p><strong>安装完成后重启 !!!</strong></p>
-<blockquote>
-<p><strong>–no-opengl-files</strong> 参数必须加否则会循环登录，也就是 loop login</p>
-</blockquote>
-<p>参数介绍：</p>
-<blockquote>
-<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要；<br>–no-x-check 安装驱动时不检查 X服务；<br>–no-nouveau-check 安装驱动时不检查 nouveau；<br>后面两个参数可不加。</p>
-</blockquote>
-</li>
-<li><p>最后切换回 GUI 界面</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
-<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p>
-</li>
-</ol>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"></p>
-<p><strong>最后我装的是 430.50 版本的驱动</strong></p>
-<a id="more"></a>
-<h1 id="安装-CUDA-version-10-0"><a href="#安装-CUDA-version-10-0" class="headerlink" title="安装 CUDA (version 10.0)"></a>安装 <a href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1><p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/version.png" alt="version"></p>
-<p>我要装的是 Tensorflow-gpu 1.14.0，因此我安装 CUDA10.0 和 cuDNN7.4</p>
-<p>下载 CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/download.png" alt="download"></p>
-<p>运行如下命令安装</p>
-<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_&lt;<span class="keyword">version</span>&gt;_linux.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
-<p>安装过程中会有一些选项，<strong>显卡驱动不要装 !!!</strong> 因为之前已经装过了</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/installer.png" alt="installer"></p>
-<p>安装完成输出的 log 会有提示</p>
-<p>最后将cuda添加到系统环境中</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
-<p>检查是否安装成功：</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
-<h1 id="安装-cudnn-version-7-4-2"><a href="#安装-cudnn-version-7-4-2" class="headerlink" title="安装 cudnn (version 7.4.2)"></a>安装 cudnn (version 7.4.2)</h1><p>下载 <a href="https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10">cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0</a></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cudnn-download.png" alt="cudnn-download"></p>
-<p>解压后，会得到一个名为 <em>cuda</em> 的文件夹，将问价拷贝到 cuda 的安装目录下</p>
-<p><strong>注意!!!  <em>cuda/lib64</em> 里的文件有链接的结构，如下，不能直接 cp，使用 <code>-a</code> 参数可以保持软链接结构</strong></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/la.png" alt="la"></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp -a cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda-10.0/lib64/</span><br><span class="line">sudo cp -a cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda-10.0/include/</span><br></pre></td></tr></table></figure>
-<p><strong>需要注意下这几个文件的权限！！！</strong></p>
-<h1 id="测试-CUDA-是否安装成功"><a href="#测试-CUDA-是否安装成功" class="headerlink" title="测试 CUDA 是否安装成功"></a>测试 CUDA 是否安装成功</h1><ol>
-<li><p>切换到测试目录下：</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/cuda-10.0/</span>samples<span class="regexp">/1_Utilities/</span>deviceQuery</span><br></pre></td></tr></table></figure></li>
-<li><p>编译</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo make</span></span><br></pre></td></tr></table></figure></li>
-<li><p>进行测试，运行文件</p>
-<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line"><span class="string">./deviceQuery</span></span><br></pre></td></tr></table></figure>
-<p>会看到类似这种结果：</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/deviceQuery.png" alt="deviceQuery"></p>
-</li>
-</ol>
-<h1 id="安装多个版本的-cuda"><a href="#安装多个版本的-cuda" class="headerlink" title="安装多个版本的 cuda"></a>安装多个版本的 cuda</h1><p>因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cuda.png" alt="cuda"></p>
-<p>使用命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rm -rf cuda <span class="comment"># 删除原来的软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/cuda-&lt;version&gt; /usr/<span class="built_in">local</span>/cuda <span class="comment"># 建立新的软链接</span></span><br></pre></td></tr></table></figure>
-<p>注意环境变量的修改，可以将 cuda-<version> 修改为 cuda 这种通用形式</version></p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
-<p>最后查看当前的 cuda 版本</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
-<p>如果确实软链接修改成功了，环境变量也改好了，版本依旧没有切换，尝试<strong>重启</strong>一下</p>
-<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>参考<a href="https://www.tensorflow.org/install/pip">使用 pip 安装 TensorFlow</a></p>
-<h1 id="坑！！！"><a href="#坑！！！" class="headerlink" title="坑！！！"></a>坑！！！</h1><ol>
-<li><p><code>Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR</code></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/error1.png" alt="error1"></p>
-<p>这个报错可能是 tensorflow 和 cuda 版本不符合，但如果已经按照<a href="https://www.tensorflow.org/install/source#gpu">推荐列表</a>里的对应关系安装了 tensorflow 和 cuda，任然这样报错就可能是 tensorflow 占用的显存过多，进程直接被系统 kill 了，因此可以对 tensorflow 的显存进行限制。</p>
-<blockquote>
-<p>参考：<a href="http://www.cnblogs.com/darkknightzh/p/6591923.html">http://www.cnblogs.com/darkknightzh/p/6591923.html</a></p>
-</blockquote>
-<ul>
-<li><p>定量设置显存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=<span class="number">0.7</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) </span><br></pre></td></tr></table></figure>
-<p>在程序开始的地方加上这两行，这样运行TensorFlow程序时，每个使用的GPU中，占用的显存都不超过总显存的0.7。</p>
-</li>
-<li><p>按需设置显存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(allow_growth=<span class="literal">True</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))   </span><br></pre></td></tr></table></figure>
-<p>这样设置以后，程序就会按需占用GPU显存。</p>
-</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>tensorflow</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-        <tag>tensorflow</tag>
       </tags>
   </entry>
   <entry>
@@ -2234,6 +2076,159 @@ K_{cp} = \frac{I_{cp}}{2\pi}</script><h1 id="常用电荷泵设计"><a href="#�
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>软件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu 安装 Tensorflow-gpu</title>
+    <url>/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</url>
+    <content><![CDATA[<blockquote>
+<p><strong>更正!!!</strong></p>
+<p>tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Software</th>
+<th style="text-align:left">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">nvidia driver</td>
+<td style="text-align:left">nvidia-440.82</td>
+</tr>
+<tr>
+<td style="text-align:left">Python</td>
+<td style="text-align:left">3.6.9</td>
+</tr>
+<tr>
+<td style="text-align:left">tensorflow</td>
+<td style="text-align:left">tensorflow-gpu==1.15.3</td>
+</tr>
+<tr>
+<td style="text-align:left">cuDNN</td>
+<td style="text-align:left">7.6.4</td>
+</tr>
+<tr>
+<td style="text-align:left">CUDA</td>
+<td style="text-align:left">10.1(V10.1.243)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h1 id="安装-NVIDIA-显卡驱动"><a href="#安装-NVIDIA-显卡驱动" class="headerlink" title="安装 NVIDIA 显卡驱动"></a>安装 NVIDIA 显卡驱动</h1><ol>
+<li><p>下载 NVIDIA 显卡对应的<a href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p>
+</li>
+<li><p>bios 禁用 secure boot，也就是设置为 disable</p>
+<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p>
+</li>
+<li><p>禁用 nouveau 开源驱动</p>
+<p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
+<p>由于nouveau是在内核中的，还需要更新一下，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
+<p>之后重启电脑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+<p>重启后查看禁用是否成功：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
+<p>没有输出代表nouveau被禁用了</p>
+</li>
+<li><p>关闭 GUI 界面，进入命令行模式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
+<li><p>安装 NVIDIA 驱动</p>
+<p>如果以前安装过 nvidia 驱动，需要卸载：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get autoremove –purge nvidia*</span><br></pre></td></tr></table></figure>
+<p>首先给驱动文件增加可执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA-Linux-*******.run</span><br></pre></td></tr></table></figure>
+<p>然后执行安装：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo sh ./NVIDIA-Linux-*******.run -no-opengl-files</span><br></pre></td></tr></table></figure>
+<p><strong>安装完成后重启 !!!</strong></p>
+<blockquote>
+<p><strong>–no-opengl-files</strong> 参数必须加否则会循环登录，也就是 loop login</p>
+</blockquote>
+<p>参数介绍：</p>
+<blockquote>
+<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要；<br>–no-x-check 安装驱动时不检查 X服务；<br>–no-nouveau-check 安装驱动时不检查 nouveau；<br>后面两个参数可不加。</p>
+</blockquote>
+</li>
+<li><p>最后切换回 GUI 界面</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
+<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p>
+</li>
+</ol>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"></p>
+<p><strong>最后我装的是 430.50 版本的驱动</strong></p>
+<a id="more"></a>
+<h1 id="安装-CUDA-version-10-0"><a href="#安装-CUDA-version-10-0" class="headerlink" title="安装 CUDA (version 10.0)"></a>安装 <a href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1><p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/version.png" alt="version"></p>
+<p>我要装的是 Tensorflow-gpu 1.14.0，因此我安装 CUDA10.0 和 cuDNN7.4</p>
+<p>下载 CUDA <a href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/download.png" alt="download"></p>
+<p>运行如下命令安装</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_&lt;<span class="keyword">version</span>&gt;_linux.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
+<p>安装过程中会有一些选项，<strong>显卡驱动不要装 !!!</strong> 因为之前已经装过了</p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/installer.png" alt="installer"></p>
+<p>安装完成输出的 log 会有提示</p>
+<p>最后将cuda添加到系统环境中</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
+<p>检查是否安装成功：</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
+<h1 id="安装-cudnn-version-7-4-2"><a href="#安装-cudnn-version-7-4-2" class="headerlink" title="安装 cudnn (version 7.4.2)"></a>安装 cudnn (version 7.4.2)</h1><p>下载 <a href="https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10">cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0</a></p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cudnn-download.png" alt="cudnn-download"></p>
+<p>解压后，会得到一个名为 <em>cuda</em> 的文件夹，将问价拷贝到 cuda 的安装目录下</p>
+<p><strong>注意!!!  <em>cuda/lib64</em> 里的文件有链接的结构，如下，不能直接 cp，使用 <code>-a</code> 参数可以保持软链接结构</strong></p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/la.png" alt="la"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp -a cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda-10.0/lib64/</span><br><span class="line">sudo cp -a cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda-10.0/include/</span><br></pre></td></tr></table></figure>
+<p><strong>需要注意下这几个文件的权限！！！</strong></p>
+<h1 id="测试-CUDA-是否安装成功"><a href="#测试-CUDA-是否安装成功" class="headerlink" title="测试 CUDA 是否安装成功"></a>测试 CUDA 是否安装成功</h1><ol>
+<li><p>切换到测试目录下：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/cuda-10.0/</span>samples<span class="regexp">/1_Utilities/</span>deviceQuery</span><br></pre></td></tr></table></figure></li>
+<li><p>编译</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo make</span></span><br></pre></td></tr></table></figure></li>
+<li><p>进行测试，运行文件</p>
+<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line"><span class="string">./deviceQuery</span></span><br></pre></td></tr></table></figure>
+<p>会看到类似这种结果：</p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/deviceQuery.png" alt="deviceQuery"></p>
+</li>
+</ol>
+<h1 id="安装多个版本的-cuda"><a href="#安装多个版本的-cuda" class="headerlink" title="安装多个版本的 cuda"></a>安装多个版本的 cuda</h1><p>因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：</p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cuda.png" alt="cuda"></p>
+<p>使用命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rm -rf cuda <span class="comment"># 删除原来的软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/cuda-&lt;version&gt; /usr/<span class="built_in">local</span>/cuda <span class="comment"># 建立新的软链接</span></span><br></pre></td></tr></table></figure>
+<p>注意环境变量的修改，可以将 cuda-<version> 修改为 cuda 这种通用形式</version></p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
+<p>最后查看当前的 cuda 版本</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
+<p>如果确实软链接修改成功了，环境变量也改好了，版本依旧没有切换，尝试<strong>重启</strong>一下</p>
+<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>参考<a href="https://www.tensorflow.org/install/pip">使用 pip 安装 TensorFlow</a></p>
+<h1 id="坑！！！"><a href="#坑！！！" class="headerlink" title="坑！！！"></a>坑！！！</h1><ol>
+<li><p><code>Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR</code></p>
+<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/error1.png" alt="error1"></p>
+<p>这个报错可能是 tensorflow 和 cuda 版本不符合，但如果已经按照<a href="https://www.tensorflow.org/install/source#gpu">推荐列表</a>里的对应关系安装了 tensorflow 和 cuda，任然这样报错就可能是 tensorflow 占用的显存过多，进程直接被系统 kill 了，因此可以对 tensorflow 的显存进行限制。</p>
+<blockquote>
+<p>参考：<a href="http://www.cnblogs.com/darkknightzh/p/6591923.html">http://www.cnblogs.com/darkknightzh/p/6591923.html</a></p>
+</blockquote>
+<ul>
+<li><p>定量设置显存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=<span class="number">0.7</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) </span><br></pre></td></tr></table></figure>
+<p>在程序开始的地方加上这两行，这样运行TensorFlow程序时，每个使用的GPU中，占用的显存都不超过总显存的0.7。</p>
+</li>
+<li><p>按需设置显存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(allow_growth=<span class="literal">True</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))   </span><br></pre></td></tr></table></figure>
+<p>这样设置以后，程序就会按需占用GPU显存。</p>
+</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>tensorflow</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+        <tag>tensorflow</tag>
       </tags>
   </entry>
   <entry>
@@ -3254,28 +3249,6 @@ f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)</script><p>PS: 行内数学公�
       </tags>
   </entry>
   <entry>
-    <title>我的第一个博客</title>
-    <url>/2018/01/13/my-first-blog/</url>
-    <content><![CDATA[<p>期末考终于结束了，终于可以愉快地学习了，很久之前就想搭建一个博客，记录自己的学习过程，对比了几种方案，Hexo+GitHub最简单（最重要是免费），于是试了一下。</p>
-<a id="more"></a>
-<p>参考了如下几个网站：</p>
-<h2 id="1-建站"><a href="#1-建站" class="headerlink" title="1. 建站"></a>1. 建站</h2><blockquote>
-<p><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">好记的博客</a><br><a href="http://www.lovebxm.com/2017/05/30/buildBlog/">可能是最详细的 Hexo + GitHub Pages 搭建博客的教程</a><br><a href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
-</blockquote>
-<h2 id="2-优化"><a href="#2-优化" class="headerlink" title="2. 优化"></a>2. 优化</h2><blockquote>
-<p><a href="http://blog.junyu.io/posts/0005-next-theme-settings.html#sociallinksandicons">浚宇的博客</a></p>
-<p><a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html">reuixiy</a></p>
-<p><a href="https://www.jianshu.com/p/30bf702f533c">Next主题个性化之自动更换背景图片</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>FPGA 实现任意奇数分频</title>
     <url>/2020/10/06/odd-divider/</url>
     <content><![CDATA[<p>在做 FPGA 设计时，需要不同频率的时钟，通常会使用 Xilinx 提供 MMCM/PLL 时钟 IP 分频或者倍频得到。偶数分频很简单，只需要用一个以 分频数/2 为最大值的计数器控制输出时钟翻转即可。但奇数分频不能用这种方法来实现，以 3 分频为例，其每个周期的高电平时间占原始时钟的 1.5 个周期，计数器无法计数 0.5 个时钟周期。</p>
@@ -3308,6 +3281,28 @@ f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)</script><p>PS: 行内数学公�
       <tags>
         <tag>FPGA</tag>
         <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一个博客</title>
+    <url>/2018/01/13/my-first-blog/</url>
+    <content><![CDATA[<p>期末考终于结束了，终于可以愉快地学习了，很久之前就想搭建一个博客，记录自己的学习过程，对比了几种方案，Hexo+GitHub最简单（最重要是免费），于是试了一下。</p>
+<a id="more"></a>
+<p>参考了如下几个网站：</p>
+<h2 id="1-建站"><a href="#1-建站" class="headerlink" title="1. 建站"></a>1. 建站</h2><blockquote>
+<p><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">好记的博客</a><br><a href="http://www.lovebxm.com/2017/05/30/buildBlog/">可能是最详细的 Hexo + GitHub Pages 搭建博客的教程</a><br><a href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
+</blockquote>
+<h2 id="2-优化"><a href="#2-优化" class="headerlink" title="2. 优化"></a>2. 优化</h2><blockquote>
+<p><a href="http://blog.junyu.io/posts/0005-next-theme-settings.html#sociallinksandicons">浚宇的博客</a></p>
+<p><a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html">reuixiy</a></p>
+<p><a href="https://www.jianshu.com/p/30bf702f533c">Next主题个性化之自动更换背景图片</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -3517,8 +3512,6 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}</script><p>由等�
       </categories>
       <tags>
         <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>Amplify</tag>
       </tags>
   </entry>
   <entry>
