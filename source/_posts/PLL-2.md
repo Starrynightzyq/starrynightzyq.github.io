@@ -3,7 +3,7 @@ title: PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器
 toc: true
 comments: true
 date: 2020-10-13 16:21:57
-categories: PLL
+updated: 2020-10-24 09:43:18categories: PLL
 tags: [IC_design, Analog, PLL]
 description:
 ---

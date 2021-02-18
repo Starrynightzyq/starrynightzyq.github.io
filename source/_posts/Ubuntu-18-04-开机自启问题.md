@@ -3,7 +3,7 @@ title: Ubuntu 18.04 开机自启问题
 toc: true
 date: 2020-03-11 18:07:19
 categories: GEEK
-tags: [GEEK, Linux]
+updated: 2020-03-12 15:22:31tags: [GEEK, Linux]
 description:
 ---
 

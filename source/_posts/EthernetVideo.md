@@ -3,7 +3,7 @@ title: 以太网视频传输
 toc: true
 comments: true
 date: 2020-07-31 10:52:11
-categories: Ethernet
+updated: 2020-08-02 18:30:10categories: Ethernet
 tags: [ZYNQ, FPGA, Linux, UDP]
 description:
 ---

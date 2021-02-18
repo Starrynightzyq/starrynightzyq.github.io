@@ -3,7 +3,7 @@ title: ZYNQ 移植 Linux -- Frame Buffer
 toc: true
 date: 2020-05-11 23:44:24
 categories: ZYNQ 移植 Linux
-tags: [ZYNQ, FPGA, Linux]
+updated: 2020-07-01 21:03:37tags: [ZYNQ, FPGA, Linux]
 description:
 ---
 

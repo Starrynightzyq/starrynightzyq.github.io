@@ -3,7 +3,7 @@ title: Xilinx-Petalinux-Learning
 toc: true
 date: 2019-02-12 17:31:45
 categories: FPGA
-tags: ZYNQ
+updated: 2020-03-12 15:22:31tags: ZYNQ
 description: 学习 ZYNQ Linux 移植
 ---
 

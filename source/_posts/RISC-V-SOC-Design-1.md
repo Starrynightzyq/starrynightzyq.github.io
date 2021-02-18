@@ -3,7 +3,7 @@ title: RISC-V SOC Design (1)
 toc: true
 date: 2020-03-27 21:39:24
 categories: RISC-V
-tags: [RISC-V, FPGA, 毕业设计]
+updated: 2020-03-27 22:28:32tags: [RISC-V, FPGA, 毕业设计]
 description:
 ---
 

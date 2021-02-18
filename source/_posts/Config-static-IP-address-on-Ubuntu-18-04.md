@@ -3,7 +3,7 @@ title: Config static IP address on Ubuntu 18.04
 toc: true
 date: 2020-03-21 14:14:19
 categories: Linux
-tags: [Linux, GEEK]
+updated: 2020-03-21 17:30:13tags: [Linux, GEEK]
 description:
 ---
 

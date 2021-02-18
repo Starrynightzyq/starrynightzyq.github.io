@@ -3,7 +3,7 @@ title: 分频器--锁存器
 toc: true
 comments: true
 date: 2020-09-23 16:20:31
-categories: PLL
+updated: 2020-09-25 11:01:11categories: PLL
 tags: [IC_design, Analog, PLL]
 description:
 ---

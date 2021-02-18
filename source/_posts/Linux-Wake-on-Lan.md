@@ -3,7 +3,7 @@ title: Linux Wake on Lan
 toc: true
 date: 2020-04-04 22:08:59
 categories: GEEK
-tags: [Linux, GEEK]
+updated: 2020-04-09 18:02:44tags: [Linux, GEEK]
 description:
 ---
 

@@ -3,7 +3,7 @@ title: MAC开发问题记录
 toc: true
 date: 2020-03-04 13:49:06
 categories: GEEK
-tags: [GEEK, MAC]
+updated: 2020-03-06 17:17:01tags: [GEEK, MAC]
 description: 记录 MAC 环境下开发遇到的问题
 
 ---

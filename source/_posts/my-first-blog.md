@@ -1,8 +1,12 @@
 ---
 title: 我的第一个博客
+toc: true
+comments: true
 date: 2018-01-13 00:08:59
+updated: 2020-03-12 15:22:31
 tags: 随笔
 categories: 随笔
+description:
 ---
 
 期末考终于结束了，终于可以愉快地学习了，很久之前就想搭建一个博客，记录自己的学习过程，对比了几种方案，Hexo+GitHub最简单（最重要是免费），于是试了一下。

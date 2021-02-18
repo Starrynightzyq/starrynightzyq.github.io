@@ -3,7 +3,7 @@ title: TSPC
 categories: PLL
 tags:
   - IC_design
-  - Analog
+updated: 2020-11-26 14:43:24  - Analog
   - PLL
 toc: true
 comments: true

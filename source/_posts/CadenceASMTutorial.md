@@ -3,7 +3,7 @@ title: Cadence ASM Tutorial
 toc: true
 comments: true
 date: 2020-12-16 11:25:31
-categories: Software
+updated: 2020-12-17 19:09:56categories: Software
 tags: [Software, Cadence, IC_design]
 description:
 ---

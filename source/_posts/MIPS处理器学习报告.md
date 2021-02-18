@@ -3,7 +3,7 @@ title: MIPS处理器学习报告
 toc: true
 date: 2018-12-19 17:45:34
 categories: MIPS32学习
-tags: [FPGA, MPIS32, 课程设计]
+updated: 2018-12-19 19:01:14tags: [FPGA, MPIS32, 课程设计]
 description: MIPS32课设的报告
 ---
 

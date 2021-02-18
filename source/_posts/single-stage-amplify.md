@@ -3,7 +3,7 @@ title: 单级放大器
 categories: Analog
 tags:
   - IC_design
-  - Analog
+updated: 2020-11-08 19:13:38  - Analog
   - Amplify
 toc: true
 comments: true

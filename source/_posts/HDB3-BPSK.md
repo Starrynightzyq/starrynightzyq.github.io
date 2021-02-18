@@ -3,7 +3,7 @@ title: HDB3&BPSK
 toc: true
 date: 2018-12-24 10:06:33
 categories: 课设
-tags: [HDB3, BPSK, FPGA, 通信原理]
+updated: 2019-01-24 21:49:57tags: [HDB3, BPSK, FPGA, 通信原理]
 description: 音频AD采集->HDB3编码->BPSK调制->传输
 ---
 

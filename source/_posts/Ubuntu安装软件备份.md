@@ -3,7 +3,7 @@ title: Ubuntu安装软件备份
 toc: true
 date: 2020-02-05 15:18:27
 categories: GEEK
-tags: [Ubuntu, Linux, 软件]
+updated: 2020-11-07 15:21:15tags: [Ubuntu, Linux, 软件]
 description: 安装Ubuntu后要安装的一些软件
 ---
 

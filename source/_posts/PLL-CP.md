@@ -3,7 +3,7 @@ title: PLL-CP
 categories: PLL
 tags:
   - IC_design
-  - Analog
+updated: 2020-11-26 14:42:55  - Analog
   - PLL
 toc: true
 comments: true

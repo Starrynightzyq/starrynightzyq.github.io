@@ -3,7 +3,7 @@ title: ZYNQ 移植 Linux -- SPI
 toc: true
 date: 2020-05-05 09:59:36
 categories: ZYNQ 移植 Linux
-tags: [ZYNQ, FPGA, Linux]
+updated: 2020-05-11 23:38:53tags: [ZYNQ, FPGA, Linux]
 description:
 ---
 

@@ -3,7 +3,7 @@ title: 电流镜-1
 toc: true
 comments: true
 date: 2020-11-02 21:26:09
-categories: Analog
+updated: 2020-11-08 19:13:38categories: Analog
 tags: [IC_design, Analog, CM]
 description:
 ---

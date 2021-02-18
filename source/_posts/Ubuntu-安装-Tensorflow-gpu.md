@@ -3,7 +3,7 @@ title: Ubuntu 安装 Tensorflow-gpu
 toc: true
 date: 2020-04-29 14:30:28
 categories: tensorflow
-tags: [tensorflow, Linux, GEEK]
+updated: 2020-07-01 21:03:37tags: [tensorflow, Linux, GEEK]
 description:
 ---
 

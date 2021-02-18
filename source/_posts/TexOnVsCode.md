@@ -3,7 +3,7 @@ title: 使用 VSCode 编写 LaTeX — Mac 篇
 toc: true
 comments: true
 date: 2020-12-09 10:01:54
-categories: GEEK
+updated: 2021-02-07 01:11:36categories: GEEK
 tags: [GEEK, LaTex, MAC]
 description:
 ---
