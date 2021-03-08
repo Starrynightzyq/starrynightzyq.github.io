@@ -268,14 +268,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</loc>
+    <loc>https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</loc>
+    <loc>https://zhouyuqian.com/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
@@ -438,6 +438,13 @@
 
   
   <url>
+    <loc>https://zhouyuqian.com/tags/FPGA/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/tags/PA/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
@@ -459,27 +466,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/FPGA/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/Linux/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/GEEK/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/Software/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
@@ -495,6 +481,20 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/CM/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Linux/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/GEEK/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -550,20 +550,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Matlab/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/MPIS32/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
@@ -572,6 +558,20 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Matlab/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -697,13 +697,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Altium-Designer/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
@@ -712,6 +705,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/OpenWrt/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Altium-Designer/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -734,13 +734,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/Linux/</loc>
-    <lastmod>2021-03-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/categories/Software/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
@@ -749,6 +742,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/categories/Analog/</loc>
+    <lastmod>2021-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/Linux/</loc>
     <lastmod>2021-03-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
