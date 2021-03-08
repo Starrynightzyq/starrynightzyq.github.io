@@ -3,7 +3,8 @@ title: Ubuntu安装软件备份
 toc: true
 date: 2020-02-05 15:18:27
 categories: GEEK
-updated: 2020-11-07 15:21:15tags: [Ubuntu, Linux, 软件]
+updated: 2020-11-07 15:21:15
+tags: [Ubuntu, Linux, 软件]
 description: 安装Ubuntu后要安装的一些软件
 ---
 
@@ -182,7 +183,7 @@ plugins=( [plugins...] sublime) # 修改~/.zshrc
 
 Ubuntu 18.04 LTS与Ubuntu 16.04 LTS默认使用的桌面不一样，18.04为gnome3。
 
-## 安装gnome-tweak-tool
+## ~~安装gnome-tweak-tool~~
 
 ~~~bash
 sudo apt-get install gnome-tweak-tool
@@ -235,6 +236,24 @@ sudo apt install chrome-gnome-shell
 - [Flatabulous](https://github.com/anmoljagetia/Flatabulous) 
 - [arc-theme](https://github.com/horst3180/arc-theme)
 - [flat-remix-gnome](https://github.com/daniruiz/flat-remix-gnome)
+
+## Ubuntu $\times$ KDE
+
+### 安装 KDE
+
+~~~bash
+sudo apt-get install kubuntu-desktop
+~~~
+
+一路 OK，`Default display manager` 选 `sddm`，然后重启。
+
+### 美化
+
+监视器：[gotop](https://github.com/cjbassi/gotop)
+
+终端：[konsole](https://konsole.kde.org/)
+
+主题：[Orchis-kde](https://github.com/vinceliuice/Orchis-kde)
 
 # 关闭图形化界面
 
