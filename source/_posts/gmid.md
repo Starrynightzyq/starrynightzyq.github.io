@@ -1,9 +1,9 @@
 ---
-title: grid 设计方法
+title: gmid 设计方法
 toc: true
 comments: true
 date: 2021-03-10 10:34:12
-updated: 2021-03-10 10:34:12
+updated: 2021-03-16 10:34:12
 categories: Analog
 tags: [gmid, Analog, IC_design]
 description:
@@ -24,6 +24,7 @@ description:
 $$
 V_{ov} = V_{gs} - V_{T}
 $$
+
 <img src="gmid/image-20210310201310417.png" alt="image-20210310201310417" style="zoom:50%;" />
 
 在不同的 $V_{ds}$ 和 $V_{gs}$ 下，NMOS 管会工作在不同的区域：
@@ -31,6 +32,7 @@ $$
 - 截止区：
 
   $V_{ov}<0$ ( or $V_{gs} < V_{T}$ )，
+  
   $$
   I_{D} = 0
   $$
@@ -38,6 +40,7 @@ $$
 - 线性区：
 
   $V_{ov}>0$ and $V_{ds} < V_{dsat}$，
+  
   $$
   I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}[2V_{ov}V_{DS}-V_{DS}^2]
   $$
@@ -49,6 +52,7 @@ $$
 - 饱和区：
 
   $V_{ov}>0$ and $V_{ds} > V_{dsat}$，
+  
   $$
   I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L} V_{ov}^2
   $$

@@ -3,7 +3,8 @@ title: hexo 美化
 toc: true
 date: 2020-03-06 13:15:51
 categories: hexo
-updated: 2021-02-08 22:36:23tags: [hexo, GEEK, 美化]
+updated: 2021-03-16 22:36:23
+tags: [hexo, GEEK, 美化]
 description: 美化hexo及next主题
 ---
 
@@ -496,15 +497,18 @@ Valine Admin 是 [Valine 评论系统](https://deserts.io/diy-a-comment-system/)
 > Ref:
 >
 > [next主题的文档](https://github.com/theme-next/hexo-theme-next/blob/master/docs/MATH.md)
+> [Hexo Next主题渲染 Latex 公式的配置方法](https://roro4ever.github.io/2019/12/01/hexo-Next%E4%B8%BB%E9%A2%98%E6%B8%B2%E6%9F%93-latex-%E5%85%AC%E5%BC%8F%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/hexo-next%E4%B8%BB%E9%A2%98%E6%B8%B2%E6%9F%93-latex-%E5%85%AC%E5%BC%8F%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/)
 
 办法就是替换Hexo的渲染器，比如在博客目录下执行：
 
 ```bash
 npm un hexo-renderer-marked --save
-npm i hexo-renderer-kramed --save # or hexo-renderer-pandoc
+npm i hexo-renderer-pandoc --save # or hexo-renderer-kramed
 ```
 
-hexo-renderer-kramed 渲染器也有缺点，它不支持行内 latex 公式。解决办法是有的，要么在行内自己加上转义符号，要么修改渲染规则。渲染器作者建议是用`把公式标注成代码块，参见[此处](https://duskcloudxu.github.io/2018/07/14/hexo-renderer-kramed与mathJax的兼容问题及解决方法/)。
+~~hexo-renderer-kramed 渲染器也有缺点，它不支持行内 latex 公式。解决办法是有的，要么在行内自己加上转义符号，要么修改渲染规则。渲染器作者建议是用`把公式标注成代码块，参见[此处](https://duskcloudxu.github.io/2018/07/14/hexo-renderer-kramed与mathJax的兼容问题及解决方法/)。~~
+
+hexo-renderer-pandoc 支持行内数学公式，不用转义。
 
 ---
 
@@ -530,7 +534,7 @@ $$
 $$
 f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)
 $$
-PS: 行内数学公式使用时需要用 ` 转义。
+~~PS: 行内数学公式使用时需要用 ` 转义。~~
 
 # 自定义 404 页面
 
