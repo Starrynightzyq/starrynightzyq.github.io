@@ -35,8 +35,8 @@
 <meta property="article:published_time" content="2020-04-13T06:04:26.000Z">
 <meta property="article:modified_time" content="2020-05-11T15:38:53.000Z">
 <meta property="article:author" content="Fitz">
-<meta property="article:tag" content="FPGA">
 <meta property="article:tag" content="Linux">
+<meta property="article:tag" content="FPGA">
 <meta property="article:tag" content="ZYNQ">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/menuconfig.png">
@@ -298,25 +298,31 @@
         <p>在之前 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-移植-Linux/">ZYNQ 移植 Linux</a> 的基础上，下一步就是要移植驱动了，但是每次都把 SD 卡拔下来把驱动拷进去再重新开机太麻烦了，ZYNQ 上有两个 USB 外设，可以配成 Host、Peripheral、OTG 三种模式，因此我们可以将 USB 配置成 Host 模式，这样 ZYNQ 上的 Linux 系统就可以读取 USB 接口上的 U盘了。</p>
 <a id="more"></a>
 <blockquote>
-<p> Reference:</p>
-<p><a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8">https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly">https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly</a></p>
+<p>Reference:</p>
+<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode</p>
+<p>https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8</p>
+<p>https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly</p>
 </blockquote>
 <p>这里现在只写了 Host 模式的配置，其他模式的配置可以参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8">ZYNQ学习之路8.USB总线学习(一)</a> 和 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a>。</p>
-<h1 id="配置内核"><a href="#配置内核" class="headerlink" title="配置内核"></a>配置内核</h1><p>按照 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中的步骤，需要对内核进行如下配置：</p>
+<h1 id="配置内核">配置内核</h1>
+<p>按照 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中的步骤，需要对内核进行如下配置：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Device</span> Drivers</span><br><span class="line"><span class="attribute">USB</span> support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">Support</span> for Host-side USB</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">EHCI</span> HCD (USB <span class="number">2</span>.<span class="number">0</span>) support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">USB</span> Mass Storage support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">ChipIdea</span> Highspeed Dual Role Controller</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">ChipIdea</span> host controller</span><br><span class="line">        <span class="attribute">USB</span> Physical Layer drivers ---&gt;</span><br><span class="line">        <span class="section">&lt;*&gt;</span> <span class="attribute">Generic</span> ULPI Transceiver Driver</span><br></pre></td></tr></table></figure>
 <p>不过这些在 <em>xilinx_zynq_defconfig</em> 这个文件里好像都配置好了，不过还是按照步骤来一遍：</p>
 <p>在 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E7%BC%96%E8%AF%91%E5%86%85%E6%A0%B8">编译内核</a> 这一步，先运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
 <p>使用这种类似图像界面配置：</p>
-<p><img src="/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/menuconfig.png" alt="menuconfig"></p>
+<figure>
+<img src="/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/menuconfig.png" alt="menuconfig"><figcaption aria-hidden="true">menuconfig</figcaption>
+</figure>
 <p>然后 <code>&lt;Load&gt;</code> 配置文件：</p>
-<p><img src="/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/load.png" alt="load"></p>
-<p> 配置文件的路径是 <em>arch/arm/configs/xilinx_zynq_defconfig</em>，按照上面的要求进行配置，最后 <code>&lt;Save&gt;</code>，然后 <code>&lt;Exit&gt;</code></p>
+<figure>
+<img src="/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/load.png" alt="load"><figcaption aria-hidden="true">load</figcaption>
+</figure>
+<p>配置文件的路径是 <em>arch/arm/configs/xilinx_zynq_defconfig</em>，按照上面的要求进行配置，最后 <code>&lt;Save&gt;</code>，然后 <code>&lt;Exit&gt;</code></p>
 <p>然后重新编译内核：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
-<h1 id="修改设备树"><a href="#修改设备树" class="headerlink" title="修改设备树"></a>修改设备树</h1><p>之前的在这里被坑了一下，<a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 写的不太明白，像我这种菜鸡没看懂怎么去修改设备树，后来在 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly">stackoverflow</a> 上找到了一篇文章解决了问题。</p>
+<h1 id="修改设备树">修改设备树</h1>
+<p>之前的在这里被坑了一下，<a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 写的不太明白，像我这种菜鸡没看懂怎么去修改设备树，后来在 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly">stackoverflow</a> 上找到了一篇文章解决了问题。</p>
 <p>在前一篇的 <a target="_blank" rel="noopener" href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a> 步骤中，会生成 <em>system-top.dts, pcw.dtsi, pl.dtsi</em> 三个文件，需要修改 <em>system-top.dts, pcw.dtsi</em> 这两个文件：</p>
 <p>修改 <em>pcw.dtsi</em> ：</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CAUTION: This file is automatically generated by Xilinx.</span></span><br><span class="line"><span class="comment"> * Version:</span></span><br><span class="line"><span class="comment"> * Today is: Thu Apr  9 12:48:12 2020</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class">/ &#123;</span></span><br><span class="line"><span class="class">    <span class="class">cpus </span>&#123;</span></span><br><span class="line"><span class="class">        <span class="class">cpu@0 </span>&#123;</span></span><br><span class="line"><span class="class">            operating-points = <span class="params">&lt;<span class="number">650000</span> <span class="number">1000000</span> <span class="number">325000</span> <span class="number">1000000</span>&gt;</span>;</span></span><br><span class="line"><span class="class">        &#125;;</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;gem0</span> &#123;</span><br><span class="line">    phy-mode = <span class="string">&quot;rgmii-id&quot;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    xlnx,ptp-enet-clock = <span class="params">&lt;<span class="number">0x6750918</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;i2c0</span> &#123;</span><br><span class="line">    clock-frequency = <span class="params">&lt;<span class="number">400000</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;intc</span> &#123;</span><br><span class="line">    num_cpus = <span class="params">&lt;<span class="number">2</span>&gt;</span>;</span><br><span class="line">    num_interrupts = <span class="params">&lt;<span class="number">96</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;qspi</span> &#123;</span><br><span class="line">    is-dual = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</span><br><span class="line">    num-cs = <span class="params">&lt;<span class="number">1</span>&gt;</span>;</span><br><span class="line">    spi-rx-bus-width = <span class="params">&lt;<span class="number">4</span>&gt;</span>;</span><br><span class="line">    spi-tx-bus-width = <span class="params">&lt;<span class="number">4</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;sdhci0</span> &#123;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    xlnx,has-cd = <span class="params">&lt;<span class="number">0x1</span>&gt;</span>;</span><br><span class="line">    xlnx,has-power = <span class="params">&lt;<span class="number">0x0</span>&gt;</span>;</span><br><span class="line">    xlnx,has-wp = <span class="params">&lt;<span class="number">0x0</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;uart0</span> &#123;</span><br><span class="line">    device_type = <span class="string">&quot;serial&quot;</span>;</span><br><span class="line">    port-number = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;usb0</span> &#123;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    dr_mode = <span class="string">&quot;host&quot;</span>;</span><br><span class="line">    phy_type = <span class="string">&quot;ulpi&quot;</span>;</span><br><span class="line">    usb-phy = <span class="params">&lt;<span class="variable">&amp;usb_phy0</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;clkc</span> &#123;</span><br><span class="line">    fclk-enable = <span class="params">&lt;<span class="number">0x7</span>&gt;</span>;</span><br><span class="line">    ps-clk-frequency = <span class="params">&lt;<span class="number">50000000</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -325,10 +331,12 @@
 <p>可以看到，在 <em>pcw.dtsi</em> 中修改了 <em>usb0</em> 这一项，设置了 <code>dr_mode</code> 为 <code>host</code>，设置了 <code>usb-phy</code> 为 <code>usb_phy0</code>，然后在 <em>system-top.dts</em> 对 <code>usb_phy0</code> 进行了定义，这个与 <a target="_blank" rel="noopener" href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中略有不同，其实是在 <em>zynq-7000.dtsi</em> 文件中对 <code>usb0</code> 有定义，而 <em>pcw.dtsi</em> 中对 <code>usb0</code> 的是一个覆盖定义(表述不是很准确，等我后面再去查一下 dts 的语法)。</p>
 <p>然后重新编译设备树：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>最后将内核 <em>uImage</em> 和 设备树 <em>devicetree.dtb</em> 拷贝到 SD 卡重新启动 ZYNQ，在将 U盘插入 USB 口后，可以看到 <em>/dev/</em> 下多了 <em>sda</em> 设备，将其挂载，便可读写 U盘的文件了：</p>
+<h1 id="最后">最后</h1>
+<p>最后将内核 <em>uImage</em> 和 设备树 <em>devicetree.dtb</em> 拷贝到 SD 卡重新启动 ZYNQ，在将 U盘插入 USB 口后，可以看到 <em>/dev/</em> 下多了 <em>sda</em> 设备，将其挂载，便可读写 U盘的文件了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount /dev/sda1 /mnt</span><br></pre></td></tr></table></figure>
 <p>通过访问 <em>/mnt</em> 文件夹就可以访问 U盘的文件了。</p>
-<h1 id="主要问题总结"><a href="#主要问题总结" class="headerlink" title="主要问题总结"></a>主要问题总结</h1><ul>
+<h1 id="主要问题总结">主要问题总结</h1>
+<ul>
 <li>不熟悉设备树编写的规则，卡了好久；</li>
 </ul>
 
@@ -367,8 +375,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/FPGA/" <i class="fa fa-tag"></i> FPGA</a>
               <a href="/tags/Linux/" <i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/FPGA/" <i class="fa fa-tag"></i> FPGA</a>
               <a href="/tags/ZYNQ/" <i class="fa fa-tag"></i> ZYNQ</a>
           </div>
 
@@ -535,12 +543,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

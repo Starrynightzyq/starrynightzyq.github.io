@@ -23,12 +23,12 @@
     var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="gm&#x2F;id 设计方法的优点 gm&#x2F;Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷； gm&#x2F;Id方法是一种look-up table方法； gm&#x2F;Id方法为短沟道器件电路设计提供了比公式手算更准确的初值； gm&#x2F;Id方法为亚阈值设计提供了有力的工具。">
+  <meta name="description" content="gm&#x2F;id 设计方法的优点  gm&#x2F;Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷； gm&#x2F;Id方法是一种look-up table方法； gm&#x2F;Id方法为短沟道器件电路设计提供了比公式手算更准确的初值； gm&#x2F;Id方法为亚阈值设计提供了有力的工具。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="grid 设计方法">
+<meta property="og:title" content="gmid 设计方法">
 <meta property="og:url" content="https://zhouyuqian.com/2021/03/10/gmid/index.html">
 <meta property="og:site_name" content="Fitz&#39;s Blog">
-<meta property="og:description" content="gm&#x2F;id 设计方法的优点 gm&#x2F;Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷； gm&#x2F;Id方法是一种look-up table方法； gm&#x2F;Id方法为短沟道器件电路设计提供了比公式手算更准确的初值； gm&#x2F;Id方法为亚阈值设计提供了有力的工具。">
+<meta property="og:description" content="gm&#x2F;id 设计方法的优点  gm&#x2F;Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷； gm&#x2F;Id方法是一种look-up table方法； gm&#x2F;Id方法为短沟道器件电路设计提供了比公式手算更准确的初值； gm&#x2F;Id方法为亚阈值设计提供了有力的工具。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhouyuqian.com/2021/03/10/gmid/image-20210310201310417.png">
 <meta property="og:image" content="https://zhouyuqian.com/2021/03/10/gmid/image-20210310202752762.png">
@@ -53,8 +53,8 @@
 <meta property="article:published_time" content="2021-03-10T02:34:12.000Z">
 <meta property="article:modified_time" content="2021-03-10T02:34:12.000Z">
 <meta property="article:author" content="Fitz">
-<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="gmid">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://zhouyuqian.com/2021/03/10/gmid/image-20210310201310417.png">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>grid 设计方法 | Fitz's Blog</title>
+  <title>gmid 设计方法 | Fitz's Blog</title>
   
 
 
@@ -238,7 +238,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          grid 设计方法
+          gmid 设计方法
         </h1>
 
         <div class="post-meta">
@@ -261,7 +261,7 @@
             </span>
 
           
-            <span id="/2021/03/10/gmid/" class="post-meta-item leancloud_visitors" data-flag-title="grid 设计方法" title="阅读次数">
+            <span id="/2021/03/10/gmid/" class="post-meta-item leancloud_visitors" data-flag-title="gmid 设计方法" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -287,14 +287,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -306,110 +306,128 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="gm-id-设计方法的优点"><a href="#gm-id-设计方法的优点" class="headerlink" title="gm/id 设计方法的优点"></a>gm/id 设计方法的优点</h1><ul>
+        <h1 id="gmid-设计方法的优点">gm/id 设计方法的优点</h1>
+<ul>
 <li>gm/Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷；</li>
 <li>gm/Id方法是一种look-up table方法；</li>
 <li>gm/Id方法为短沟道器件电路设计提供了比公式手算更准确的初值；</li>
 <li>gm/Id方法为亚阈值设计提供了有力的工具。</li>
 </ul>
 <a id="more"></a>
-<h1 id="长沟道模型回顾"><a href="#长沟道模型回顾" class="headerlink" title="长沟道模型回顾"></a>长沟道模型回顾</h1><p>在长沟道期间中，$V_{ov}$ 表示过驱动电压：</p>
-<script type="math/tex; mode=display">
-V_{ov} = V_{gs} - V_{T}</script><p><img src="/2021/03/10/gmid/image-20210310201310417.png" alt="image-20210310201310417" style="zoom:50%;"></p>
-<p>在不同的 $V<em>{ds}$ 和 $V</em>{gs}$ 下，NMOS 管会工作在不同的区域：</p>
+<h1 id="长沟道模型回顾">长沟道模型回顾</h1>
+<p>在长沟道期间中，<span class="math inline">\(V_{ov}\)</span> 表示过驱动电压： <span class="math display">\[
+V_{ov} = V_{gs} - V_{T}
+\]</span></p>
+<p><img src="/2021/03/10/gmid/image-20210310201310417.png" alt="image-20210310201310417" style="zoom:50%;"></p>
+<p>在不同的 <span class="math inline">\(V_{ds}\)</span> 和 <span class="math inline">\(V_{gs}\)</span> 下，NMOS 管会工作在不同的区域：</p>
 <ul>
 <li><p>截止区：</p>
-<p>$V<em>{ov}&lt;0$ ( or $V</em>{gs} &lt; V_{T}$ )，</p>
-<script type="math/tex; mode=display">
-I_{D} = 0</script></li>
+<p><span class="math inline">\(V_{ov}&lt;0\)</span> ( or <span class="math inline">\(V_{gs} &lt; V_{T}\)</span> )，</p>
+<p><span class="math display">\[
+I_{D} = 0
+\]</span></p></li>
 <li><p>线性区：</p>
-<p>$V<em>{ov}&gt;0$ and $V</em>{ds} &lt; V_{dsat}$，</p>
-<script type="math/tex; mode=display">
-I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}[2V_{ov}V_{DS}-V_{DS}^2]</script><script type="math/tex; mode=display">
-R_{on} = \frac{\partial V_{ds}}{\partial I_D}</script></li>
+<p><span class="math inline">\(V_{ov}&gt;0\)</span> and <span class="math inline">\(V_{ds} &lt; V_{dsat}\)</span>，</p>
+<p><span class="math display">\[
+I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}[2V_{ov}V_{DS}-V_{DS}^2]
+\]</span></p>
+<p><span class="math display">\[
+R_{on} = \frac{\partial V_{ds}}{\partial I_D}
+\]</span></p></li>
 <li><p>饱和区：</p>
-<p>$V<em>{ov}&gt;0$ and $V</em>{ds} &gt; V_{dsat}$，</p>
-<script type="math/tex; mode=display">
-I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L} V_{ov}^2</script></li>
+<p><span class="math inline">\(V_{ov}&gt;0\)</span> and <span class="math inline">\(V_{ds} &gt; V_{dsat}\)</span>，</p>
+<p><span class="math display">\[
+I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L} V_{ov}^2
+\]</span></p></li>
 </ul>
 <p><img src="/2021/03/10/gmid/image-20210310202752762.png" alt="image-20210310202752762" style="zoom:50%;"></p>
 <p><img src="/2021/03/10/gmid/image-20210310202909324.png" alt="image-20210310202909324" style="zoom:50%;"></p>
-<p>在<strong>饱和区</strong>，$I<em>D$ 是 $V</em>{ov}$ 的函数，小信号模型中的 $g_m$ 被定义为：</p>
-<script type="math/tex; mode=display">
-g_m = \frac{\partial I_D}{\partial V_{ov}} = \mu C_{ox}\frac{W}{L} V_{ov}</script><p>可以得到：</p>
-<script type="math/tex; mode=display">
-\frac{g_m}{I_D} = \frac{2}{V_{ov}}</script><p>上述公式表明了 $g<em>m/I_D$ 和 $V</em>{ov}$ 之间的关系。</p>
+<p>在<strong>饱和区</strong>，<span class="math inline">\(I_D\)</span> 是 <span class="math inline">\(V_{ov}\)</span> 的函数，小信号模型中的 <span class="math inline">\(g_m\)</span> 被定义为： <span class="math display">\[
+g_m = \frac{\partial I_D}{\partial V_{ov}} = \mu C_{ox}\frac{W}{L} V_{ov}
+\]</span> 可以得到： <span class="math display">\[
+\frac{g_m}{I_D} = \frac{2}{V_{ov}}
+\]</span> 上述公式表明了 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(V_{ov}\)</span> 之间的关系。</p>
 <p><img src="/2021/03/10/gmid/image-20210310213132752.png" alt="image-20210310213132752" style="zoom:50%;"></p>
-<p>定义晶体管的截止频率 (transit frequency) $f_T$:</p>
-<script type="math/tex; mode=display">
-f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}}</script><p>其中 $C<em>{gs} = \frac{2}{3}C</em>{ox}WL$，则：</p>
-<script type="math/tex; mode=display">
-f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{2\mu V_{ov}}{3L^2}</script><p>从上面的等式中我们可以得到 $g_m$  和 $f_T$ 之间的约束，Fig. 9 将其表示出来。</p>
-<h1 id="传统的-V-ov-设计方法"><a href="#传统的-V-ov-设计方法" class="headerlink" title="传统的 $V_{ov}$ 设计方法"></a>传统的 $V_{ov}$ 设计方法</h1><p><img src="/2021/03/10/gmid/image-20210310203850046.png" alt="image-20210310203850046" style="zoom:50%;"></p>
-<p>在上图的电路中，假设 $V_{ov} = 300 mV, I_D=1mA$，则：</p>
-<script type="math/tex; mode=display">
-v_{out} = -i_s \cdot R_L=-v_{in} \cdot g_m \cdot 1k\Omega</script><script type="math/tex; mode=display">
-g_m = 2\frac{I_D}{V_{ov}} = \frac{2\cdot 1mA}{300 mV} = 6.7 \frac{mA}{V}</script><p>可以得到增益为：</p>
-<script type="math/tex; mode=display">
-\frac{v_{out}}{v_{in}}= -g_m \cdot R_L = -6.7\frac{mA}{V}\cdot 1k\Omega = -6.7 \frac{V}{V}</script><p>在上面的结构中假设要求带宽 $500MHz$，增益为 10，基于 $V_{ov}$ 的设计流程如下：</p>
-<ol>
-<li><p>为了保证增益，首先可以计算 $g_m$：</p>
-<script type="math/tex; mode=display">
-g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V</script></li>
-<li><p>输入极点在 $500MHz$，可以以此计算 $C_{gs}$：</p>
-<script type="math/tex; mode=display">
-C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF</script></li>
-<li><p>可以计算出截止频率：</p>
-<script type="math/tex; mode=display">
-f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz</script></li>
-<li><p>通过 Fig. 9 可以知道：</p>
-<script type="math/tex; mode=display">
-V_{ov} \geq 75 mV</script></li>
-<li><p>由此通过 Fig. 9 可以知道：</p>
-<script type="math/tex; mode=display">
-g_m/I_D \leq 26 mS/mA</script></li>
-<li><p>最终可以得到：</p>
-<script type="math/tex; mode=display">
-I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{26mS/mA}=385\mu A</script></li>
+<p>定义晶体管的截止频率 (transit frequency) <span class="math inline">\(f_T\)</span>: <span class="math display">\[
+f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}}
+\]</span> 其中 <span class="math inline">\(C_{gs} = \frac{2}{3}C_{ox}WL\)</span>，则： <span class="math display">\[
+f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{2\mu V_{ov}}{3L^2}
+\]</span> 从上面的等式中我们可以得到 <span class="math inline">\(g_m\)</span> 和 <span class="math inline">\(f_T\)</span> 之间的约束，Fig. 9 将其表示出来。</p>
+<h1 id="传统的-v_ov-设计方法">传统的 <span class="math inline">\(V_{ov}\)</span> 设计方法</h1>
+<p><img src="/2021/03/10/gmid/image-20210310203850046.png" alt="image-20210310203850046" style="zoom:50%;"></p>
+<p>在上图的电路中，假设 <span class="math inline">\(V_{ov} = 300 mV, I_D=1mA\)</span>，则： <span class="math display">\[
+v_{out} = -i_s \cdot R_L=-v_{in} \cdot g_m \cdot 1k\Omega
+\]</span></p>
+<p><span class="math display">\[
+g_m = 2\frac{I_D}{V_{ov}} = \frac{2\cdot 1mA}{300 mV} = 6.7 \frac{mA}{V}
+\]</span></p>
+<p>可以得到增益为： <span class="math display">\[
+\frac{v_{out}}{v_{in}}= -g_m \cdot R_L = -6.7\frac{mA}{V}\cdot 1k\Omega = -6.7 \frac{V}{V}
+\]</span> 在上面的结构中假设要求带宽 <span class="math inline">\(500MHz\)</span>，增益为 10，基于 <span class="math inline">\(V_{ov}\)</span> 的设计流程如下：</p>
+<ol type="1">
+<li><p>为了保证增益，首先可以计算 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
+g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V
+\]</span></p></li>
+<li><p>输入极点在 <span class="math inline">\(500MHz\)</span>，可以以此计算 <span class="math inline">\(C_{gs}\)</span>： <span class="math display">\[
+C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF
+\]</span></p></li>
+<li><p>可以计算出截止频率： <span class="math display">\[
+f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz
+\]</span></p></li>
+<li><p>通过 Fig. 9 可以知道： <span class="math display">\[
+V_{ov} \geq 75 mV
+\]</span></p></li>
+<li><p>由此通过 Fig. 9 可以知道： <span class="math display">\[
+g_m/I_D \leq 26 mS/mA
+\]</span></p></li>
+<li><p>最终可以得到： <span class="math display">\[
+I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{26mS/mA}=385\mu A
+\]</span></p></li>
 </ol>
-<h1 id="基于-V-ov-设计方法的缺点"><a href="#基于-V-ov-设计方法的缺点" class="headerlink" title="基于 $V_{ov}$ 设计方法的缺点"></a>基于 $V_{ov}$ 设计方法的缺点</h1><p><img src="/2021/03/10/gmid/image-20210310220510541.png" alt="image-20210310220510541" style="zoom:50%;"></p>
+<h1 id="基于-v_ov-设计方法的缺点">基于 <span class="math inline">\(V_{ov}\)</span> 设计方法的缺点</h1>
+<p><img src="/2021/03/10/gmid/image-20210310220510541.png" alt="image-20210310220510541" style="zoom:50%;"></p>
 <p><img src="/2021/03/10/gmid/image-20210310220527243.png" alt="image-20210310220527243" style="zoom:50%;"></p>
-<p>从 Fig.12 可以看出，长沟道模型在 $V<em>{ov}$ 较小 (弱反型区) 时 $g_m/I_D$ 与 $V</em>{ov}$ 的关系预测值与仿真值相差较大，在亚阈值区 ($V_{ov} &lt;0$) 则完全失效。</p>
-<p>从 Fig.12 可以看出，长沟道模型预测的 $f<em>T$ 与 $V</em>{ov}$ 的关系与仿真值相差较大。</p>
-<h1 id="基于-g-m-I-D-的设计方法"><a href="#基于-g-m-I-D-的设计方法" class="headerlink" title="基于 $g_m/I_D$ 的设计方法"></a>基于 $g_m/I_D$ 的设计方法</h1><p>由于 $g<em>m/I_D$ 与 $V</em>{ov}$ 之间存在关系，则可以用 $g<em>m/I_D$ 取代 $V</em>{ov}$ 来表示与 $f_T$ 的关系，原来 Fig.9 的关系可以用 Fig.14 来表示。</p>
+<p>从 Fig.12 可以看出，长沟道模型在 <span class="math inline">\(V_{ov}\)</span> 较小 (弱反型区) 时 <span class="math inline">\(g_m/I_D\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 的关系预测值与仿真值相差较大，在亚阈值区 (<span class="math inline">\(V_{ov} &lt;0\)</span>) 则完全失效。</p>
+<p>从 Fig.12 可以看出，长沟道模型预测的 <span class="math inline">\(f_T\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 的关系与仿真值相差较大。</p>
+<h1 id="基于-g_mi_d-的设计方法">基于 <span class="math inline">\(g_m/I_D\)</span> 的设计方法</h1>
+<p>由于 <span class="math inline">\(g_m/I_D\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 之间存在关系，则可以用 <span class="math inline">\(g_m/I_D\)</span> 取代 <span class="math inline">\(V_{ov}\)</span> 来表示与 <span class="math inline">\(f_T\)</span> 的关系，原来 Fig.9 的关系可以用 Fig.14 来表示。</p>
 <p><img src="/2021/03/10/gmid/image-20210310221848963.png" alt="image-20210310221848963" style="zoom:50%;"></p>
-<h2 id="设计流程"><a href="#设计流程" class="headerlink" title="设计流程"></a>设计流程</h2><p>在 Fig.8 的结构中假设要求带宽 $500MHz$，增益为 10，基于 $g_m/I_D$ 的设计流程如下：</p>
-<ol>
-<li><p>为了保证增益，首先可以计算 $g_m$：</p>
-<script type="math/tex; mode=display">
-g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V</script></li>
-<li><p>输入极点在 $500MHz$，可以以此计算 $C_{gs}$：</p>
-<script type="math/tex; mode=display">
-C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF</script></li>
-<li><p>可以计算出截止频率：</p>
-<script type="math/tex; mode=display">
-f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz</script></li>
-<li><p>通过 Fig.14 可以知道：</p>
-<script type="math/tex; mode=display">
-g_m/I_D \leq 17.5 mS/mA</script></li>
-<li><p>最终：</p>
-<script type="math/tex; mode=display">
-I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{17.5mS/mA}=570\mu A</script></li>
+<h2 id="设计流程">设计流程</h2>
+<p>在 Fig.8 的结构中假设要求带宽 <span class="math inline">\(500MHz\)</span>，增益为 10，基于 <span class="math inline">\(g_m/I_D\)</span> 的设计流程如下：</p>
+<ol type="1">
+<li><p>为了保证增益，首先可以计算 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
+g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V
+\]</span></p></li>
+<li><p>输入极点在 <span class="math inline">\(500MHz\)</span>，可以以此计算 <span class="math inline">\(C_{gs}\)</span>： <span class="math display">\[
+C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF
+\]</span></p></li>
+<li><p>可以计算出截止频率： <span class="math display">\[
+f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz
+\]</span></p></li>
+<li><p>通过 Fig.14 可以知道： <span class="math display">\[
+g_m/I_D \leq 17.5 mS/mA
+\]</span></p></li>
+<li><p>最终： <span class="math display">\[
+I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{17.5mS/mA}=570\mu A
+\]</span></p></li>
 </ol>
 <p><img src="/2021/03/10/gmid/image-20210311101408375.png" alt="image-20210311101408375" style="zoom:50%;"></p>
-<p>Fig.16 是不同的 $L$ 下，$f_T$ 与 $g_m/I_D$ 的关系，<strong>越大的 $L$ 通常意味着晶体管更慢</strong>。这就意味着要是没有其他的限制，我们就会选择最小的 $L$，这样晶体管速度最快，面积也最小。因此还需要一个限制会影响 $L$ 的选取，这个限制就是 $r_0$。</p>
-<h2 id="考虑-r-0"><a href="#考虑-r-0" class="headerlink" title="考虑 $r_0$"></a>考虑 $r_0$</h2><p><img src="/2021/03/10/gmid/image-20210311095357398.png" alt="image-20210311095357398" style="zoom:50%;"></p>
-<p>从上图可以看到 $r_0$ 相当于一个和 $R_L$ 并联的负载，但我们考虑 $R_L \to \infty $ 时，可以忽略 $R_L$ 只考虑 $r_0$。则：</p>
-<script type="math/tex; mode=display">
-Intrinsic \ \ Gain = g_mr_0 (\frac{V}{V})</script><p><strong>$Intrinsic \ \ Gain$ 是晶体管可以达到的最大增益</strong>。</p>
+<p>Fig.16 是不同的 <span class="math inline">\(L\)</span> 下，<span class="math inline">\(f_T\)</span> 与 <span class="math inline">\(g_m/I_D\)</span> 的关系，<strong>越大的 <span class="math inline">\(L\)</span> 通常意味着晶体管更慢</strong>。这就意味着要是没有其他的限制，我们就会选择最小的 <span class="math inline">\(L\)</span>，这样晶体管速度最快，面积也最小。因此还需要一个限制会影响 <span class="math inline">\(L\)</span> 的选取，这个限制就是 <span class="math inline">\(r_0\)</span>。</p>
+<h2 id="考虑-r_0">考虑 <span class="math inline">\(r_0\)</span></h2>
+<p><img src="/2021/03/10/gmid/image-20210311095357398.png" alt="image-20210311095357398" style="zoom:50%;"></p>
+<p>从上图可以看到 <span class="math inline">\(r_0\)</span> 相当于一个和 <span class="math inline">\(R_L\)</span> 并联的负载，但我们考虑 $R_L $ 时，可以忽略 <span class="math inline">\(R_L\)</span> 只考虑 <span class="math inline">\(r_0\)</span>。则： <span class="math display">\[
+Intrinsic \ \ Gain = g_mr_0 (\frac{V}{V})
+\]</span> <strong><span class="math inline">\(Intrinsic \ \ Gain\)</span> 是晶体管可以达到的最大增益</strong>。</p>
 <p><img src="/2021/03/10/gmid/image-20210311100239741.png" alt="image-20210311100239741" style="zoom:50%;"></p>
-<p>从 Fig.19 中可以看到不同的 $L$ 对应不同的 $g_mr_0(Intrinsic \ \ Gain)$。</p>
-<p>由于 $r<em>0$ 与 $V</em>{ds}$ 有关，这里的假设是 $V<em>{ds} = V</em>{DD}/2$。</p>
-<h2 id="考虑-W"><a href="#考虑-W" class="headerlink" title="考虑 $W$"></a>考虑 $W$</h2><p>通过 Fig.16 和  Fig.19 可以确定 $L$ 和 $g_m/I_D$：为了满足增益的要求，通过 Fig.19 确定了 $L$；为了满足 $f_T$ 的要求，通过 Fig.16 确定了 $g_m/I_D$；通过 $g_m/I_D$ 和 $g_m$ 确定了 $I_D$。最后剩下的没有确定的量就是 $W$。</p>
+<p>从 Fig.19 中可以看到不同的 <span class="math inline">\(L\)</span> 对应不同的 <span class="math inline">\(g_mr_0(Intrinsic \ \ Gain)\)</span>。</p>
+<p>由于 <span class="math inline">\(r_0\)</span> 与 <span class="math inline">\(V_{ds}\)</span> 有关，这里的假设是 <span class="math inline">\(V_{ds} = V_{DD}/2\)</span>。</p>
+<h2 id="考虑-w">考虑 <span class="math inline">\(W\)</span></h2>
+<p>通过 Fig.16 和 Fig.19 可以确定 <span class="math inline">\(L\)</span> 和 <span class="math inline">\(g_m/I_D\)</span>：为了满足增益的要求，通过 Fig.19 确定了 <span class="math inline">\(L\)</span>；为了满足 <span class="math inline">\(f_T\)</span> 的要求，通过 Fig.16 确定了 <span class="math inline">\(g_m/I_D\)</span>；通过 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(g_m\)</span> 确定了 <span class="math inline">\(I_D\)</span>。最后剩下的没有确定的量就是 <span class="math inline">\(W\)</span>。</p>
 <p><img src="/2021/03/10/gmid/image-20210311102457544.png" alt="image-20210311102457544" style="zoom:50%;"></p>
 <p><img src="/2021/03/10/gmid/image-20210311104821336.png" alt="image-20210311104821336" style="zoom:50%;"></p>
-<p>在 Fig.21 中，由于 $V<em>b$ 和 $V</em>{DS}$ 相等，因此 a 和 b 的 $g<em>m$ 、$C</em>{gs}$ 相同，而 b 由于并联了两个晶体管，由此 $I<em>D$ 是 a 的两倍，c 和 b 等价。由此只要保证 $g_m$-to-$I_D$ 和 $g_m$-to-$C</em>{gs}$ 的比率相等，W 变为原来的 N 倍，$I_D$ 也变为原来的 N 倍，而 $g_m/I_D$ 和 $f_T$ 不变。</p>
-<h1 id="A-Top-to-Bottom-Design-Example"><a href="#A-Top-to-Bottom-Design-Example" class="headerlink" title="A Top-to-Bottom Design Example"></a>A Top-to-Bottom Design Example</h1><p><img src="/2021/03/10/gmid/image-20210311095035057.png" alt="image-20210311095035057" style="zoom:50%;"></p>
+<p>在 Fig.21 中，由于 <span class="math inline">\(V_b\)</span> 和 <span class="math inline">\(V_{DS}\)</span> 相等，因此 a 和 b 的 <span class="math inline">\(g_m\)</span> 、<span class="math inline">\(C_{gs}\)</span> 相同，而 b 由于并联了两个晶体管，由此 <span class="math inline">\(I_D\)</span> 是 a 的两倍，c 和 b 等价。由此只要保证 <span class="math inline">\(g_m\)</span>-to-<span class="math inline">\(I_D\)</span> 和 <span class="math inline">\(g_m\)</span>-to-<span class="math inline">\(C_{gs}\)</span> 的比率相等，W 变为原来的 N 倍，<span class="math inline">\(I_D\)</span> 也变为原来的 N 倍，而 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(f_T\)</span> 不变。</p>
+<h1 id="a-top-to-bottom-design-example">A Top-to-Bottom Design Example</h1>
+<p><img src="/2021/03/10/gmid/image-20210311095035057.png" alt="image-20210311095035057" style="zoom:50%;"></p>
 <p>设计一个差分放大器，结构如 Fig.23 所示，要求：</p>
 <ul>
 <li>Gain of ≈ 10</li>
@@ -418,65 +436,78 @@ Intrinsic \ \ Gain = g_mr_0 (\frac{V}{V})</script><p><strong>$Intrinsic \ \ Gain
 <li>Be driven by a 300Ω</li>
 <li>Lowest possible power</li>
 </ul>
-<h2 id="搭建电路"><a href="#搭建电路" class="headerlink" title="搭建电路"></a>搭建电路</h2><p><img src="/2021/03/10/gmid/OPA.png" alt="OPA"></p>
-<h2 id="获取晶体管参数"><a href="#获取晶体管参数" class="headerlink" title="获取晶体管参数"></a>获取晶体管参数</h2><p>通过 cadence 仿真并用 MATLAB 处理数据并画出图形。</p>
-<center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ft_or_gmro.svg">    
-  <br>    
-  <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 25: Fruquency and Gain Tradeoff
-  </div> 
-</center>
+<h2 id="搭建电路">搭建电路</h2>
+<figure>
+<img src="/2021/03/10/gmid/OPA.png" alt="OPA"><figcaption aria-hidden="true">OPA</figcaption>
+</figure>
+<h2 id="获取晶体管参数">获取晶体管参数</h2>
+<p>通过 cadence 仿真并用 MATLAB 处理数据并画出图形。</p>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ft_or_gmro.svg"><br>
+<br><br>
 
-<center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/lamdba.svg">    
-  <br>    
-  <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 26
-  </div> 
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 25: Fruquency and Gain Tradeoff
+</div>
 </center>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/lamdba.svg"><br>
+<br><br>
 
-<center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ld_W_L_gmid.svg">    
-  <br>    
-  <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 27
-  </div> 
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 26
+</div>
 </center>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ld_W_L_gmid.svg"><br>
+<br><br>
 
-<center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/Vov.svg">    
-  <br>    
-  <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 28
-  </div> 
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 27
+</div>
 </center>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/Vov.svg"><br>
+<br><br>
 
-<h2 id="选择参数"><a href="#选择参数" class="headerlink" title="选择参数"></a>选择参数</h2><ol>
-<li><p>首先确定 $L$，通过 Fig.25，选取 $L=340n m$，在 $g_m$ 选取中等值 (15) 时，Intrinsic Gain 大约是 100，这意味着它只会对整体增益产生10％的影响。</p>
-<script type="math/tex; mode=display">
-L = 340n</script></li>
-<li><p>下一步是计算 R 的值：</p>
-<script type="math/tex; mode=display">
-R = \frac{1}{2\pi \times C_L \times 200MHz} = 800 \Omega</script></li>
-<li><p>因此通过增益可以确定 $g_m$：</p>
-<script type="math/tex; mode=display">
-g_m = \frac{Gain}{R}= 12.5mS</script></li>
-<li><p>由于 200MHz 并不是唯一的一个极点，300Ω 的输入电阻与 $C_{gs}$ 会产生第二个极点，为了减少第二个极点对系统的影响，将第二个极点设置在第一个极点的10倍处：</p>
-<script type="math/tex; mode=display">
-C_{gs} = \frac{1}{2\pi \times 300\Omega \times 2GHz} = 265 fF</script></li>
-<li><p>有了 $g<em>m$ 和 $C</em>{gs}$，可以计算出截止频率：</p>
-<script type="math/tex; mode=display">
-f_{T} = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{12.5mS}{265fF}=7.5GHz</script></li>
-<li><p>有了 $L$ 和 $f_T$，通过 Fig.25 可以得到 $g_m/I_D$：</p>
-<script type="math/tex; mode=display">
-g_m/I_D = 15mS/mA</script></li>
-<li><p>有了 $g_m/I_D$ 和 $g_m$，可以计算出 $I_D$：</p>
-<script type="math/tex; mode=display">
-I_D = \frac{g_m}{g_m/I_D}= \frac{12.5}{15}\approx 0.83mA</script></li>
-<li><p>最后，通过 Fig.27 找出对应的 $I_D/(W/L)$ 为 $2.2046e-06$，因此可以计算出 $W/L = 376$：</p>
-<script type="math/tex; mode=display">
-W = 128um</script></li>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 28
+</div>
+</center>
+<h2 id="选择参数">选择参数</h2>
+<ol type="1">
+<li><p>首先确定 <span class="math inline">\(L\)</span>，通过 Fig.25，选取 <span class="math inline">\(L=340n m\)</span>，在 <span class="math inline">\(g_m\)</span> 选取中等值 (15) 时，Intrinsic Gain 大约是 100，这意味着它只会对整体增益产生10％的影响。 <span class="math display">\[
+L = 340n
+\]</span></p></li>
+<li><p>下一步是计算 R 的值： <span class="math display">\[
+R = \frac{1}{2\pi \times C_L \times 200MHz} = 800 \Omega
+\]</span></p></li>
+<li><p>因此通过增益可以确定 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
+g_m = \frac{Gain}{R}= 12.5mS
+\]</span></p></li>
+<li><p>由于 200MHz 并不是唯一的一个极点，300Ω 的输入电阻与 <span class="math inline">\(C_{gs}\)</span> 会产生第二个极点，为了减少第二个极点对系统的影响，将第二个极点设置在第一个极点的10倍处： <span class="math display">\[
+C_{gs} = \frac{1}{2\pi \times 300\Omega \times 2GHz} = 265 fF
+\]</span></p></li>
+<li><p>有了 <span class="math inline">\(g_m\)</span> 和 <span class="math inline">\(C_{gs}\)</span>，可以计算出截止频率： <span class="math display">\[
+f_{T} = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{12.5mS}{265fF}=7.5GHz
+\]</span></p></li>
+<li><p>有了 <span class="math inline">\(L\)</span> 和 <span class="math inline">\(f_T\)</span>，通过 Fig.25 可以得到 <span class="math inline">\(g_m/I_D\)</span>： <span class="math display">\[
+g_m/I_D = 15mS/mA
+\]</span></p></li>
+<li><p>有了 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(g_m\)</span>，可以计算出 <span class="math inline">\(I_D\)</span>： <span class="math display">\[
+I_D = \frac{g_m}{g_m/I_D}= \frac{12.5}{15}\approx 0.83mA
+\]</span></p></li>
+<li><p>最后，通过 Fig.27 找出对应的 <span class="math inline">\(I_D/(W/L)\)</span> 为 <span class="math inline">\(2.2046e-06\)</span>，因此可以计算出 <span class="math inline">\(W/L = 376\)</span>： <span class="math display">\[
+W = 128um
+\]</span></p></li>
 </ol>
-<h2 id="仿真结果"><a href="#仿真结果" class="headerlink" title="仿真结果"></a>仿真结果</h2><p><img src="/2021/03/10/gmid/db.svg" alt="db"></p>
+<h2 id="仿真结果">仿真结果</h2>
+<figure>
+<img src="/2021/03/10/gmid/db.svg" alt="db"><figcaption aria-hidden="true">db</figcaption>
+</figure>
 <p>仿真的结果显示增益为 18.7 dB，带宽为 164.4 MHz。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1] <a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1slW1U4P">Stanford ee214b的课件</a></p>
+<h1 id="reference">Reference</h1>
+<p>[1] <a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1slW1U4P">Stanford ee214b的课件</a></p>
 
     </div>
 
@@ -502,7 +533,7 @@ W = 128um</script></li>
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zhouyuqian.com/2021/03/10/gmid/" title="grid 设计方法">https://zhouyuqian.com/2021/03/10/gmid/</a>
+    <a href="https://zhouyuqian.com/2021/03/10/gmid/" title="gmid 设计方法">https://zhouyuqian.com/2021/03/10/gmid/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -513,8 +544,8 @@ W = 128um</script></li>
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/gmid/" <i class="fa fa-tag"></i> gmid</a>
           </div>
 
@@ -591,7 +622,7 @@ W = 128um</script></li>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gm-id-%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">gm&#x2F;id 设计方法的优点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%BF%E6%B2%9F%E9%81%93%E6%A8%A1%E5%9E%8B%E5%9B%9E%E9%A1%BE"><span class="nav-number">2.</span> <span class="nav-text">长沟道模型回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84-V-ov-%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">传统的 $V_{ov}$ 设计方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-V-ov-%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">基于 $V_{ov}$ 设计方法的缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-g-m-I-D-%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">基于 $g_m&#x2F;I_D$ 的设计方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">设计流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91-r-0"><span class="nav-number">5.2.</span> <span class="nav-text">考虑 $r_0$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91-W"><span class="nav-number">5.3.</span> <span class="nav-text">考虑 $W$</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-Top-to-Bottom-Design-Example"><span class="nav-number">6.</span> <span class="nav-text">A Top-to-Bottom Design Example</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E7%94%B5%E8%B7%AF"><span class="nav-number">6.1.</span> <span class="nav-text">搭建电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%99%B6%E4%BD%93%E7%AE%A1%E5%8F%82%E6%95%B0"><span class="nav-number">6.2.</span> <span class="nav-text">获取晶体管参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%8F%82%E6%95%B0"><span class="nav-number">6.3.</span> <span class="nav-text">选择参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C"><span class="nav-number">6.4.</span> <span class="nav-text">仿真结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gmid-%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">gm&#x2F;id 设计方法的优点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%BF%E6%B2%9F%E9%81%93%E6%A8%A1%E5%9E%8B%E5%9B%9E%E9%A1%BE"><span class="nav-number">2.</span> <span class="nav-text">长沟道模型回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84-v_ov-%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">传统的 \(V_{ov}\) 设计方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-v_ov-%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">基于 \(V_{ov}\) 设计方法的缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-g_mi_d-%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">基于 \(g_m&#x2F;I_D\) 的设计方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">设计流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91-r_0"><span class="nav-number">5.2.</span> <span class="nav-text">考虑 \(r_0\)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91-w"><span class="nav-number">5.3.</span> <span class="nav-text">考虑 \(W\)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#a-top-to-bottom-design-example"><span class="nav-number">6.</span> <span class="nav-text">A Top-to-Bottom Design Example</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E7%94%B5%E8%B7%AF"><span class="nav-number">6.1.</span> <span class="nav-text">搭建电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%99%B6%E4%BD%93%E7%AE%A1%E5%8F%82%E6%95%B0"><span class="nav-number">6.2.</span> <span class="nav-text">获取晶体管参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%8F%82%E6%95%B0"><span class="nav-number">6.3.</span> <span class="nav-text">选择参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C"><span class="nav-number">6.4.</span> <span class="nav-text">仿真结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -681,12 +712,12 @@ W = 128um</script></li>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

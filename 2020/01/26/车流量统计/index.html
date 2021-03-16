@@ -23,12 +23,12 @@
     var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="项目地址：https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq&#x2F;Drone_Vehicle_Flow_Detection 改进版（带 GUI 界面）：https:&#x2F;&#x2F;github.com&#x2F;LeiWang1999&#x2F;VehicleFlowDetection 效果展示：  检测：   计数：">
+  <meta name="description" content="项目地址：https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq&#x2F;Drone_Vehicle_Flow_Detection 改进版（带 GUI 界面）：https:&#x2F;&#x2F;github.com&#x2F;LeiWang1999&#x2F;VehicleFlowDetection 效果展示：  检测：  detect  计数：  count">
 <meta property="og:type" content="article">
 <meta property="og:title" content="车流量统计">
 <meta property="og:url" content="https://zhouyuqian.com/2020/01/26/%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1/index.html">
 <meta property="og:site_name" content="Fitz&#39;s Blog">
-<meta property="og:description" content="项目地址：https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq&#x2F;Drone_Vehicle_Flow_Detection 改进版（带 GUI 界面）：https:&#x2F;&#x2F;github.com&#x2F;LeiWang1999&#x2F;VehicleFlowDetection 效果展示：  检测：   计数：">
+<meta property="og:description" content="项目地址：https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq&#x2F;Drone_Vehicle_Flow_Detection 改进版（带 GUI 界面）：https:&#x2F;&#x2F;github.com&#x2F;LeiWang1999&#x2F;VehicleFlowDetection 效果展示：  检测：  detect  计数：  count">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/detect.gif">
 <meta property="og:image" content="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/counting.gif">
@@ -296,25 +296,29 @@
 
       
         <blockquote>
-<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection">https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection</a></p>
-<p>改进版（带 GUI 界面）：<a target="_blank" rel="noopener" href="https://github.com/LeiWang1999/VehicleFlowDetection">https://github.com/LeiWang1999/VehicleFlowDetection</a></p>
+<p>项目地址：https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection</p>
+<p>改进版（带 GUI 界面）：https://github.com/LeiWang1999/VehicleFlowDetection</p>
 <p>效果展示：</p>
 <ul>
 <li><p>检测：</p>
-<p><img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/detect.gif" alt="detect"></p>
-</li>
+<figure>
+<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/detect.gif" alt="detect"><figcaption aria-hidden="true">detect</figcaption>
+</figure></li>
 <li><p>计数：</p>
-<p><img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/counting.gif" alt="count"></p>
-</li>
+<figure>
+<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/counting.gif" alt="count"><figcaption aria-hidden="true">count</figcaption>
+</figure></li>
 </ul>
 </blockquote>
 <a id="more"></a>
-<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><h2 id="安装tensorflow"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow</h2><p>参考<a target="_blank" rel="noopener" href="https://tensorflow.juejin.im/install/install_mac.html">在 macOS 中安装 TensorFlow</a></p>
-<h2 id="安装OpenCV"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV</h2><ol>
+<h1 id="准备">准备</h1>
+<h2 id="安装tensorflow">安装tensorflow</h2>
+<p>参考<a target="_blank" rel="noopener" href="https://tensorflow.juejin.im/install/install_mac.html">在 macOS 中安装 TensorFlow</a></p>
+<h2 id="安装opencv">安装OpenCV</h2>
+<ol type="1">
 <li><p>Homebrew安装OpenCV</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install opencv</span><br></pre></td></tr></table></figure>
-<p>最新版本的<code>opencv</code>已经不分<code>opencv3</code>了，而是在目录下分成<code>python2</code>和<code>python3</code>版本的文件夹。<br>安装好的<code>opencv</code>库在<code>/usr/local/Cellar/opencv/</code>。</p>
-</li>
+<p>最新版本的<code>opencv</code>已经不分<code>opencv3</code>了，而是在目录下分成<code>python2</code>和<code>python3</code>版本的文件夹。 安装好的<code>opencv</code>库在<code>/usr/local/Cellar/opencv/</code>。</p></li>
 <li><p>将OpenCV链接到Python的site-packages目录下</p>
 <p>首先需要找到自己Python安装位置，可以用如下方法：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开Python</span></span><br><span class="line">python3</span><br><span class="line"><span class="comment"># 通过sys查看Python安装路径</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.path)</span><br><span class="line">[<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python37.zip&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages&#x27;</span>]</span><br></pre></td></tr></table></figure>
@@ -329,11 +333,13 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</span><br><span class="line">[Clang 6.0 (clang-600.0.57)] on darwin</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import cv2</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>真不该手贱接下这个项目，完全没有头绪！</p>
-</blockquote>
-</li>
+</blockquote></li>
 </ol>
-<h1 id="准确率"><a href="#准确率" class="headerlink" title="准确率"></a>准确率</h1><p>目前检测 VisDrone 数据集的正确率已经比较高了</p>
-<p><img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/mAP/mAP.png" alt="mAP"></p>
+<h1 id="准确率">准确率</h1>
+<p>目前检测 VisDrone 数据集的正确率已经比较高了</p>
+<figure>
+<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/mAP/mAP.png" alt="mAP"><figcaption aria-hidden="true">mAP</figcaption>
+</figure>
 
     </div>
 
@@ -447,7 +453,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85tensorflow"><span class="nav-number">1.1.</span> <span class="nav-text">安装tensorflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85OpenCV"><span class="nav-number">1.2.</span> <span class="nav-text">安装OpenCV</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E7%8E%87"><span class="nav-number">2.</span> <span class="nav-text">准确率</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85tensorflow"><span class="nav-number">1.1.</span> <span class="nav-text">安装tensorflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85opencv"><span class="nav-number">1.2.</span> <span class="nav-text">安装OpenCV</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E7%8E%87"><span class="nav-number">2.</span> <span class="nav-text">准确率</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -537,12 +543,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

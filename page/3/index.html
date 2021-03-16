@@ -267,14 +267,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -527,36 +527,56 @@
 
       
           <p>在用 FPGA 进行图像处理时，通常的作法是接一个显示器，查看输出结果，不过这也太不方便了，手上的这块 <a target="_blank" rel="noopener" href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">PYNQ-Z2</a> 带有千兆以太网口，就想着用以太网传输视频，这样就可以抛弃笨重的显示器了。由于 Lei 同学已经完成了裸机的方案（见<a target="_blank" rel="noopener" href="http://leiblog.wang/Ethernet-Video/">千兆以太网视频传输</a>）,并且之前已经在 ZYNQ 上移植了 Linux 系统，那就做一个运行在 Linux 系统上的以太网图像传输吧。其实这样做起来更简单，网上可以参考的也一大堆。</p>
-<p><strong><em>GitHub Repository :</em></strong> <a target="_blank" rel="noopener" href="https://github.com/Starrynightzyq/streaming-udp-video">https://github.com/Starrynightzyq/streaming-udp-video</a></p>
+<p><strong><em>GitHub Repository :</em></strong> https://github.com/Starrynightzyq/streaming-udp-video</p>
 <p>这个工程是用 C++ 写的，UDP 传输，依赖 OpenCV2，在 Mac 与 Linux 以及 ZYNQ 上都测试通过了。</p>
 <!---more-->
-<p>由于是为了验证图像算法的正确性，需要对输出的图像进行一些分析，因此我想得到的是原始的图像数据而不是压缩后的数据，稍微计算了一下，$ 640 \times 480 \times 24bit $ 大小，30fps 的帧率的视频码率是 27.648MBps，用千兆网传输足够了。</p>
-<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ul>
-<li>[ ] 优化数据包结构，做物理包和逻辑包的区分，便于传输不同大小和格式的图像。目前包结构为 4 字节的 id 加上 1200 字节的图像数据，对图像大小和格式有很强的依赖性；</li>
-<li>[ ] 增加原始图像传输和压缩图像传输的切换功能，在不需要原始图像的时候传输压缩后的图像，减小网络压力；</li>
-<li>[ ] 使用 TCP 传输图像的大小和格式等配置信息，这样接收端就不需要手动设置这些数据了，实现接收端的自动化；</li>
-<li>[ ] 根据网络环境动态调整数据包大小；</li>
-<li>[ ] 加密，接收端目前接收任意数据；</li>
+<p>由于是为了验证图像算法的正确性，需要对输出的图像进行一些分析，因此我想得到的是原始的图像数据而不是压缩后的数据，稍微计算了一下，$ 640  24bit $ 大小，30fps 的帧率的视频码率是 27.648MBps，用千兆网传输足够了。</p>
+<h2 id="todo">TODO</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled>
+优化数据包结构，做物理包和逻辑包的区分，便于传输不同大小和格式的图像。目前包结构为 4 字节的 id 加上 1200 字节的图像数据，对图像大小和格式有很强的依赖性；</li>
+<li><input type="checkbox" disabled>
+增加原始图像传输和压缩图像传输的切换功能，在不需要原始图像的时候传输压缩后的图像，减小网络压力；</li>
+<li><input type="checkbox" disabled>
+使用 TCP 传输图像的大小和格式等配置信息，这样接收端就不需要手动设置这些数据了，实现接收端的自动化；</li>
+<li><input type="checkbox" disabled>
+根据网络环境动态调整数据包大小；</li>
+<li><input type="checkbox" disabled>
+加密，接收端目前接收任意数据；</li>
 </ul>
 <p><strong>由于之前没有系统地学习过计算机网络的知识，这次补了一下。</strong></p>
-<h1 id="UDP-or-TCP"><a href="#UDP-or-TCP" class="headerlink" title="UDP or TCP"></a>UDP or TCP</h1><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_protocol_suite">TCP/IP 协议族</a>映射到 OSI 模型中分为 4 层，从下往上分别是：网络访问(链接)层(Network Access(link) layer)、网络互连层(internet layer)、传输层(transport layer)、应用层(application layer)。TCP 和 UDP 工作在传输层。</p>
-<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>TCP(Transmission Control Protocol) 是一种面向连接的、可靠的、基于字节流的传输层通信协议。TCP协议的运行可划分为三个阶段：连接创建(<em>connection establishment</em>)、数据传送（<em>data transfer</em>）和连接终止（<em>connection termination</em>）。</p>
-<h2 id="连接创建"><a href="#连接创建" class="headerlink" title="连接创建"></a>连接创建</h2><p>TCP用三次握手（或称三路握手，three-way handshake）过程创建一个连接:</p>
-<ol>
-<li>客户端通过向服务器端发送一个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/传输控制协议#建立通路">SYN</a>来创建一个主动打开，作为三次<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/握手_(技术">握手</a>)的一部分。客户端把这段连接的序号设定为随机数<strong>A</strong>。</li>
+<h1 id="udp-or-tcp">UDP or TCP</h1>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_protocol_suite">TCP/IP 协议族</a>映射到 OSI 模型中分为 4 层，从下往上分别是：网络访问(链接)层(Network Access(link) layer)、网络互连层(internet layer)、传输层(transport layer)、应用层(application layer)。TCP 和 UDP 工作在传输层。</p>
+<h1 id="tcp">TCP</h1>
+<p>TCP(Transmission Control Protocol) 是一种面向连接的、可靠的、基于字节流的传输层通信协议。TCP协议的运行可划分为三个阶段：连接创建(<em>connection establishment</em>)、数据传送（<em>data transfer</em>）和连接终止（<em>connection termination</em>）。</p>
+<h2 id="连接创建">连接创建</h2>
+<p>TCP用三次握手（或称三路握手，three-way handshake）过程创建一个连接:</p>
+<ol type="1">
+<li>客户端通过向服务器端发送一个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/传输控制协议#建立通路">SYN</a>来创建一个主动打开，作为三次<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/握手_(技术)">握手</a>的一部分。客户端把这段连接的序号设定为随机数<strong>A</strong>。</li>
 <li>服务器端应当为一个合法的SYN回送一个SYN/ACK。ACK的确认码应为<strong>A+1</strong>，SYN/ACK包本身又有一个随机产生的序号<strong>B</strong>。</li>
 <li>最后，客户端再发送一个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/確認訊息">ACK</a>。此时包的序号被设定为<strong>A+1</strong>，而ACK的确认码则为<strong>B+1</strong>。当服务端收到这个ACK的时候，就完成了三次握手，并进入了连接创建状态。</li>
 </ol>
-<p>如果服务器端接到了客户端发的SYN后回了SYN-ACK后客户端掉线了，服务器端没有收到客户端回来的ACK，那么，这个连接处于一个中间状态，既没成功，也没失败。于是，服务器端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻倍，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s才知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 63s，TCP才会断开这个连接。使用三个TCP参数来调整行为：tcp_synack_retries 减少重试次数；tcp_max_syn_backlog，增大SYN连接数；tcp_abort_on_overflow决定超出能力时的行为。<br><img src="/2020/07/31/EthernetVideo/tcp3.png" alt="three-way handshake"></p>
-<h2 id="数据传输"><a href="#数据传输" class="headerlink" title="数据传输"></a>数据传输</h2><p>在TCP的数据传送状态，很多重要的机制保证了TCP的可靠性和强壮性。它们包括：使用序号，对收到的TCP报文段进行排序以及检测重复的数据；使用校验和检测报文段的错误，即无错传输；使用确认和计时器来检测和纠正丢包或延时；流控制（Flow control）；拥塞控制（Congestion control）；丢失包的重传。</p>
-<h2 id="连接终止"><a href="#连接终止" class="headerlink" title="连接终止"></a>连接终止</h2><p>连接终止使用了四路握手过程（或称四次握手，four-way handshake），在这个过程中连接的每一侧都独立地被终止。当一个端点要停止它这一侧的连接，就向对侧发送FIN，对侧回复ACK表示确认。因此，拆掉一侧的连接过程需要一对FIN和ACK，分别由两侧端点发出。</p>
-<p><img src="/2020/07/31/EthernetVideo/tcp4.png" alt="four-way handshake"></p>
-<h2 id="TCP-包头结构"><a href="#TCP-包头结构" class="headerlink" title="TCP 包头结构"></a>TCP 包头结构</h2><p><img src="/2020/07/31/EthernetVideo/tcp-head.png" alt="tcp-head"></p>
+<p>如果服务器端接到了客户端发的SYN后回了SYN-ACK后客户端掉线了，服务器端没有收到客户端回来的ACK，那么，这个连接处于一个中间状态，既没成功，也没失败。于是，服务器端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻倍，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s才知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 63s，TCP才会断开这个连接。使用三个TCP参数来调整行为：tcp_synack_retries 减少重试次数；tcp_max_syn_backlog，增大SYN连接数；tcp_abort_on_overflow决定超出能力时的行为。 <img src="/2020/07/31/EthernetVideo/tcp3.png" alt="three-way handshake"></p>
+<h2 id="数据传输">数据传输</h2>
+<p>在TCP的数据传送状态，很多重要的机制保证了TCP的可靠性和强壮性。它们包括：使用序号，对收到的TCP报文段进行排序以及检测重复的数据；使用校验和检测报文段的错误，即无错传输；使用确认和计时器来检测和纠正丢包或延时；流控制（Flow control）；拥塞控制（Congestion control）；丢失包的重传。</p>
+<h2 id="连接终止">连接终止</h2>
+<p>连接终止使用了四路握手过程（或称四次握手，four-way handshake），在这个过程中连接的每一侧都独立地被终止。当一个端点要停止它这一侧的连接，就向对侧发送FIN，对侧回复ACK表示确认。因此，拆掉一侧的连接过程需要一对FIN和ACK，分别由两侧端点发出。</p>
+<figure>
+<img src="/2020/07/31/EthernetVideo/tcp4.png" alt="four-way handshake"><figcaption aria-hidden="true">four-way handshake</figcaption>
+</figure>
+<h2 id="tcp-包头结构">TCP 包头结构</h2>
+<figure>
+<img src="/2020/07/31/EthernetVideo/tcp-head.png" alt="tcp-head"><figcaption aria-hidden="true">tcp-head</figcaption>
+</figure>
 <p>源端口 16位；目标端口 16位；序列号 32位；回应序号 32位；TCP头长度 4位；reserved 3位；控制代码 9位；窗口大小 16位；偏移量 16位；校验和 16位；选项 32位(可选)；</p>
 <p>这样我们得出了TCP包头的最小长度，为20字节。</p>
-<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><p>UDP 是一个简单的面向数据报的通信协议。UDP 只提供数据的不可靠传递，它一旦把应用程序发给网络层的数据发送出去，就不保留数据备份（所以 UDP 有时候也被认为是不可靠的数据报协议）。UDP 在 IP 数据报的头部仅仅加入了复用和数据校验字段。</p>
+<h1 id="udp">UDP</h1>
+<p>UDP 是一个简单的面向数据报的通信协议。UDP 只提供数据的不可靠传递，它一旦把应用程序发给网络层的数据发送出去，就不保留数据备份（所以 UDP 有时候也被认为是不可靠的数据报协议）。UDP 在 IP 数据报的头部仅仅加入了复用和数据校验字段。</p>
 <p>UDP 适用于不需要或在程序中执行错误检查和纠正的应用，它避免了协议栈中此类处理的开销。对时间有较高要求的应用程序通常使用 UDP，因为丢弃数据包比等待或重传导致延迟更可取。</p>
-<h2 id="UDP-的分组结构"><a href="#UDP-的分组结构" class="headerlink" title="UDP 的分组结构"></a>UDP 的分组结构</h2><p><img src="/2020/07/31/EthernetVideo/udp-head.png" alt="udp-head"></p>
+<h2 id="udp-的分组结构">UDP 的分组结构</h2>
+<figure>
+<img src="/2020/07/31/EthernetVideo/udp-head.png" alt="udp-head"><figcaption aria-hidden="true">udp-head</figcaption>
+</figure>
 <p>UDP 头部包含了以下几个数据：</p>
 <ul>
 <li>两个十六位的端口号，分别为源端口（可选字段）和目标端口；</li>
@@ -564,9 +584,11 @@
 <li>整个数据报文的检验和（IPv4 可选 字段），该字段用于发现头部信息和数据中的错误；</li>
 </ul>
 <p>因此 UDP 的头部开销小，只有 8 字节，相比 TCP 的至少 20 字节要少得多，在传输数据报文时是很高效的。</p>
-<h2 id="UDP数据分包大小的原则与一些思考"><a href="#UDP数据分包大小的原则与一些思考" class="headerlink" title="UDP数据分包大小的原则与一些思考"></a>UDP数据分包大小的原则与一些思考</h2><p>编写程序时不可避免遇到一个疑惑，一次发多大的数据包为宜？理论上IP数据报最大长度是65535字节，这是由IP首部16比特总长度字段所限制，去除20字节的IP首部和8个字节的UDP首部，UDP数据报中用户数据的最长长度为65507字节，但是，大多数实现所提供的长度比这个最大值小。</p>
-<p>以太网 IP 层的最大传输单元 (Maximum Transmission Unit,MTU) 为 1500 字节。如果以分包大小应该使在 IP 层不再进行分包为宜作为原则，那么因为 UDP 数据报的首部 8 字节，IP 首部 20 字节，所以 UDP 数据报的数据区最大长度为 1472 字节。如果说 IP 数据报大于 1500 字节,大于 MTU，这个时候发送方 IP 层就需要分片，把数据报分成若干片,使每一片都小于 MTU，而接收方 IP 层则需要进行数据报的重组，这样就会多做许多事情。而更严重的是，由于 UDP 的特性，当某一片数据传送中丢失时，接收方便无法重组数据报，将导致丢弃整个 UDP 数据报。因此，在普通的局域网环境下，建议将 UDP 的数据控制在 1472 字节以下为好，以降低丢包率。<br>进行 Internet 编程时则不同，因为 Internet 上的路由器可能会将 MTU 设为不同的值，鉴于 Internet 上的标准 MTU 值为 576 字节，建议在进行 Internet 的 UDP 编程时，最好将 UDP 的数据长度控件在 548 字节 (576-8-20) 以内。</p>
-<h1 id="TCP与UDP区别总结："><a href="#TCP与UDP区别总结：" class="headerlink" title="TCP与UDP区别总结："></a>TCP与UDP区别总结：</h1><ol>
+<h2 id="udp数据分包大小的原则与一些思考">UDP数据分包大小的原则与一些思考</h2>
+<p>编写程序时不可避免遇到一个疑惑，一次发多大的数据包为宜？理论上IP数据报最大长度是65535字节，这是由IP首部16比特总长度字段所限制，去除20字节的IP首部和8个字节的UDP首部，UDP数据报中用户数据的最长长度为65507字节，但是，大多数实现所提供的长度比这个最大值小。</p>
+<p>以太网 IP 层的最大传输单元 (Maximum Transmission Unit,MTU) 为 1500 字节。如果以分包大小应该使在 IP 层不再进行分包为宜作为原则，那么因为 UDP 数据报的首部 8 字节，IP 首部 20 字节，所以 UDP 数据报的数据区最大长度为 1472 字节。如果说 IP 数据报大于 1500 字节,大于 MTU，这个时候发送方 IP 层就需要分片，把数据报分成若干片,使每一片都小于 MTU，而接收方 IP 层则需要进行数据报的重组，这样就会多做许多事情。而更严重的是，由于 UDP 的特性，当某一片数据传送中丢失时，接收方便无法重组数据报，将导致丢弃整个 UDP 数据报。因此，在普通的局域网环境下，建议将 UDP 的数据控制在 1472 字节以下为好，以降低丢包率。 进行 Internet 编程时则不同，因为 Internet 上的路由器可能会将 MTU 设为不同的值，鉴于 Internet 上的标准 MTU 值为 576 字节，建议在进行 Internet 的 UDP 编程时，最好将 UDP 的数据长度控件在 548 字节 (576-8-20) 以内。</p>
+<h1 id="tcp与udp区别总结">TCP与UDP区别总结：</h1>
+<ol type="1">
 <li>TCP 面向连接（如打电话要先拨号建立连接）；UDP 是无连接的，即发送数据之前不需要建立连接；</li>
 <li>TCP 提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达；UDP尽最大努力交付，即不保证可靠交付；</li>
 <li>TCP 面向字节流，实际上是 TCP 把数据看成一连串无结构的字节流；UDP 是面向报文的；UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 IP 电话，实时视频会议等）；</li>
@@ -574,12 +596,13 @@
 <li>TCP 首部开销 20 字节；UDP 的首部开销小，只有 8 个字节；</li>
 <li>TCP 的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道；</li>
 </ol>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Internet_protocol_suite">https://en.wikipedia.org/wiki/Internet_protocol_suite</a></li>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">https://en.wikipedia.org/wiki/Transmission_Control_Protocol</a></li>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">https://en.wikipedia.org/wiki/User_Datagram_Protocol</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.fundebug.com/2019/03/22/differences-of-tcp-and-udp/">https://blog.fundebug.com/2019/03/22/differences-of-tcp-and-udp/</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6287787.html">https://www.cnblogs.com/skyfsm/p/6287787.html</a></li>
+<h1 id="reference">Reference</h1>
+<ul>
+<li>https://en.wikipedia.org/wiki/Internet_protocol_suite</li>
+<li>https://en.wikipedia.org/wiki/Transmission_Control_Protocol</li>
+<li>https://en.wikipedia.org/wiki/User_Datagram_Protocol</li>
+<li>https://blog.fundebug.com/2019/03/22/differences-of-tcp-and-udp/</li>
+<li>https://www.cnblogs.com/skyfsm/p/6287787.html</li>
 </ul>
 
       
@@ -693,24 +716,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h1><blockquote>
+          <h1 id="部署到服务器">部署到服务器</h1>
+<blockquote>
 <p>Ref:</p>
 <p><a target="_blank" rel="noopener" href="https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/">Hexo博客进阶：将Hexo部署到云服务器</a></p>
 </blockquote>
-<h1 id="no-www和www跳转"><a href="#no-www和www跳转" class="headerlink" title="no-www和www跳转"></a>no-www和www跳转</h1><blockquote>
+<h1 id="no-www和www跳转">no-www和www跳转</h1>
+<blockquote>
 <p>Ref:</p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/cec753473ec9">nginx实现no-www和www跳转</a></p>
 </blockquote>
-<h1 id="强制-HTTPs-跳转"><a href="#强制-HTTPs-跳转" class="headerlink" title="强制 HTTPs 跳转"></a>强制 HTTPs 跳转</h1><h2 id="首先查看-Nginx-是否有-SSL-支持模块"><a href="#首先查看-Nginx-是否有-SSL-支持模块" class="headerlink" title="首先查看 Nginx 是否有 SSL 支持模块"></a>首先查看 Nginx 是否有 SSL 支持模块</h2><p>使用命令：</p>
+<h1 id="强制-https-跳转">强制 HTTPs 跳转</h1>
+<h2 id="首先查看-nginx-是否有-ssl-支持模块">首先查看 Nginx 是否有 SSL 支持模块</h2>
+<p>使用命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -V</span><br></pre></td></tr></table></figure>
 <p>看输出中是否有：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">configure arguments:</span><br><span class="line">...</span><br><span class="line">--with-http_ssl_module</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>如果没有，则需要重新编译 nginx，增加 SSL 支持模块，参考<a target="_blank" rel="noopener" href="https://www.codelast.com/原创-为nginx添加ssl支持模块/">为nginx添加SSL支持模块</a>。</p>
-<h1 id="申请-amp-下载证书（略）"><a href="#申请-amp-下载证书（略）" class="headerlink" title="申请&amp;下载证书（略）"></a>申请&amp;下载证书（略）</h1><h1 id="上传证书"><a href="#上传证书" class="headerlink" title="上传证书"></a>上传证书</h1><p>在 Nginx 的安装目录 <em>/etc/nginx/</em> 下创建 cert 目录，并将证书文件（SSL Key 和 CSR 文件）上传到 cert 目录中。</p>
+<h1 id="申请下载证书略">申请&amp;下载证书（略）</h1>
+<h1 id="上传证书">上传证书</h1>
+<p>在 Nginx 的安装目录 <em>/etc/nginx/</em> 下创建 cert 目录，并将证书文件（SSL Key 和 CSR 文件）上传到 cert 目录中。</p>
 <blockquote>
 <p>可以用 <code>whereis nginx</code> 查看 Nginx 安装目录</p>
 </blockquote>
-<h1 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h1><p>修改默认配置文件 <em>/etc/nginx/sites-available/default</em> :</p>
+<h1 id="配置-nginx">配置 Nginx</h1>
+<p>修改默认配置文件 <em>/etc/nginx/sites-available/default</em> :</p>
 <figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">    # SSL configuration</span></span><br><span class="line"><span class="comment">    #</span></span><br><span class="line">    listen <span class="number">443</span> ssl default_server;</span><br><span class="line">    listen [::]:<span class="number">443</span> ssl default_server;</span><br><span class="line"><span class="comment">    #</span></span><br><span class="line"></span><br><span class="line"><span class="comment">    # 定义服务器的默认网站根目录位置</span></span><br><span class="line">    root /var/www/hexo;</span><br><span class="line">    </span><br><span class="line"><span class="comment">    # ssl</span></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate cert/<span class="number">1</span>_example.com_bundle.crt;</span><br><span class="line">    ssl_certificate_key cert/<span class="number">2</span>_example.com.key;</span><br><span class="line">    ssl_session_timeout <span class="number">5</span>m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1<span class="number">.1</span> TLSv1<span class="number">.2</span>;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line"><span class="comment">    # Add index.php to the list if you are using PHP</span></span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name example.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line"><span class="comment">        # First attempt to serve request as file, then</span></span><br><span class="line"><span class="comment">        # as directory, then fall back to displaying a 404.</span></span><br><span class="line">        try_files $uri $uri/ =<span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重定向，强制 https &amp; no-www 访问</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen *:<span class="number">80</span>;</span><br><span class="line">    listen *:<span class="number">443</span> ssl; </span><br><span class="line">    listen [::]:<span class="number">80</span>;</span><br><span class="line">    listen [::]:<span class="number">443</span> ssl; </span><br><span class="line">    server_name www.example.com;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">301</span> https://example.com$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen *:<span class="number">80</span>;</span><br><span class="line">    listen [::]:<span class="number">80</span>;</span><br><span class="line">    server_name example.com;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">301</span> https://example.com$request_uri;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>修改配置后，使用如下命令，检查配置是否正确：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
@@ -815,7 +845,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>377</span>
+              <span>383</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -837,12 +867,20 @@
           <p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
 <!--more--->
 <p>目前网上主要有两种解决方案如下：</p>
-<h1 id="1-禁止-AD-自动联网"><a href="#1-禁止-AD-自动联网" class="headerlink" title="1. 禁止 AD 自动联网"></a>1. 禁止 AD 自动联网</h1><h2 id="第一步：关闭-AD-自动更新"><a href="#第一步：关闭-AD-自动更新" class="headerlink" title="第一步：关闭 AD 自动更新"></a>第一步：关闭 AD 自动更新</h2><p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 “No,…”，如下图：</p>
-<p><img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_1.jpg" alt="ad1"></p>
-<p>在 System -&gt; Installation 的 “Check frequency” 改为 “Never”，如下图：</p>
-<p><img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_2.jpg" alt="ad2"></p>
-<h2 id="第二步：设置防火墙，禁止-AD-联网"><a href="#第二步：设置防火墙，禁止-AD-联网" class="headerlink" title="第二步：设置防火墙，禁止 AD 联网"></a>第二步：设置防火墙，禁止 AD 联网</h2><p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
-<h1 id="2-删除多余的库"><a href="#2-删除多余的库" class="headerlink" title="2. 删除多余的库"></a>2. 删除多余的库</h1><p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
+<h1 id="禁止-ad-自动联网">1. 禁止 AD 自动联网</h1>
+<h2 id="第一步关闭-ad-自动更新">第一步：关闭 AD 自动更新</h2>
+<p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 "No,…”，如下图：</p>
+<figure>
+<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_1.jpg" alt="ad1"><figcaption aria-hidden="true">ad1</figcaption>
+</figure>
+<p>在 System -&gt; Installation 的 "Check frequency” 改为 “Never”，如下图：</p>
+<figure>
+<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_2.jpg" alt="ad2"><figcaption aria-hidden="true">ad2</figcaption>
+</figure>
+<h2 id="第二步设置防火墙禁止-ad-联网">第二步：设置防火墙，禁止 AD 联网</h2>
+<p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
+<h1 id="删除多余的库">2. 删除多余的库</h1>
+<p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
 
       
     </div>
@@ -955,7 +993,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。<br>在 github 上有一个开源工程：<a target="_blank" rel="noopener" href="https://github.com/notro/fbtft">framebuffer</a><br>完整的实现了 framebuffer驱动</p>
+          <p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。 在 github 上有一个开源工程：<a target="_blank" rel="noopener" href="https://github.com/notro/fbtft">framebuffer</a> 完整的实现了 framebuffer驱动</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/#more" rel="contents">
@@ -1076,6 +1114,7 @@
 
       
           
+
       
     </div>
 
@@ -1168,7 +1207,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1187,7 +1226,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="修改-vivado-工程，启用-PS-SPI"><a href="#修改-vivado-工程，启用-PS-SPI" class="headerlink" title="修改 vivado 工程，启用 PS-SPI"></a>修改 vivado 工程，启用 PS-SPI</h1><p><img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"></p>
+          <h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
+</figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/#more" rel="contents">
@@ -1288,7 +1330,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1310,45 +1352,42 @@
           <blockquote>
 <p><strong>更正!!!</strong></p>
 <p>tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
-<th style="text-align:left">Software</th>
-<th style="text-align:left">Version</th>
+<tr class="header">
+<th style="text-align: left;">Software</th>
+<th style="text-align: left;">Version</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left">nvidia driver</td>
-<td style="text-align:left">nvidia-440.82</td>
+<tr class="odd">
+<td style="text-align: left;">nvidia driver</td>
+<td style="text-align: left;">nvidia-440.82</td>
 </tr>
-<tr>
-<td style="text-align:left">Python</td>
-<td style="text-align:left">3.6.9</td>
+<tr class="even">
+<td style="text-align: left;">Python</td>
+<td style="text-align: left;">3.6.9</td>
 </tr>
-<tr>
-<td style="text-align:left">tensorflow</td>
-<td style="text-align:left">tensorflow-gpu==1.15.3</td>
+<tr class="odd">
+<td style="text-align: left;">tensorflow</td>
+<td style="text-align: left;">tensorflow-gpu==1.15.3</td>
 </tr>
-<tr>
-<td style="text-align:left">cuDNN</td>
-<td style="text-align:left">7.6.4</td>
+<tr class="even">
+<td style="text-align: left;">cuDNN</td>
+<td style="text-align: left;">7.6.4</td>
 </tr>
-<tr>
-<td style="text-align:left">CUDA</td>
-<td style="text-align:left">10.1(V10.1.243)</td>
+<tr class="odd">
+<td style="text-align: left;">CUDA</td>
+<td style="text-align: left;">10.1(V10.1.243)</td>
 </tr>
 </tbody>
 </table>
-</div>
 </blockquote>
-<h1 id="安装-NVIDIA-显卡驱动"><a href="#安装-NVIDIA-显卡驱动" class="headerlink" title="安装 NVIDIA 显卡驱动"></a>安装 NVIDIA 显卡驱动</h1><ol>
-<li><p>下载 NVIDIA 显卡对应的<a target="_blank" rel="noopener" href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p>
-</li>
+<h1 id="安装-nvidia-显卡驱动">安装 NVIDIA 显卡驱动</h1>
+<ol type="1">
+<li><p>下载 NVIDIA 显卡对应的<a target="_blank" rel="noopener" href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p></li>
 <li><p>bios 禁用 secure boot，也就是设置为 disable</p>
-<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p>
-</li>
+<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p></li>
 <li><p>禁用 nouveau 开源驱动</p>
 <p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
@@ -1358,8 +1397,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
 <p>重启后查看禁用是否成功：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
-<p>没有输出代表nouveau被禁用了</p>
-</li>
+<p>没有输出代表nouveau被禁用了</p></li>
 <li><p>关闭 GUI 界面，进入命令行模式</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
 <li><p>安装 NVIDIA 驱动</p>
@@ -1375,15 +1413,15 @@
 </blockquote>
 <p>参数介绍：</p>
 <blockquote>
-<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要；<br>–no-x-check 安装驱动时不检查 X服务；<br>–no-nouveau-check 安装驱动时不检查 nouveau；<br>后面两个参数可不加。</p>
-</blockquote>
-</li>
+<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要； –no-x-check 安装驱动时不检查 X服务； –no-nouveau-check 安装驱动时不检查 nouveau； 后面两个参数可不加。</p>
+</blockquote></li>
 <li><p>最后切换回 GUI 界面</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
-<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p>
-</li>
+<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p></li>
 </ol>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"></p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"><figcaption aria-hidden="true">nvidia-smi</figcaption>
+</figure>
 <p><strong>最后我装的是 430.50 版本的驱动</strong></p>
           <!--noindex-->
             <div class="post-button">
@@ -1677,12 +1715,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

@@ -297,16 +297,19 @@
 </blockquote>
 <a id="more"></a>
 <blockquote>
-<p><strong>reference:</strong> <a target="_blank" rel="noopener" href="https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/">https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</a></p>
+<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
 </blockquote>
-<h1 id="安装-Samba"><a href="#安装-Samba" class="headerlink" title="安装 Samba"></a>安装 Samba</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
+<h1 id="安装-samba">安装 Samba</h1>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
 <p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
 <p>结果类似这样：</p>
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h1><p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
-<h1 id="创建-Samba-用户和目录"><a href="#创建-Samba-用户和目录" class="headerlink" title="创建 Samba 用户和目录"></a>创建 Samba 用户和目录</h1><ol>
+<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
+<ol type="1">
 <li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
 <p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
@@ -340,7 +343,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
 <p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
-<h1 id="配置-Samba-共享："><a href="#配置-Samba-共享：" class="headerlink" title="配置 Samba 共享："></a>配置 Samba 共享：</h1></li>
+<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
 </ol>
 <p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
@@ -470,7 +473,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Samba"><span class="nav-number">1.</span> <span class="nav-text">安装 Samba</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">2.</span> <span class="nav-text">配置防火墙</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Samba-%E7%94%A8%E6%88%B7%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">创建 Samba 用户和目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Samba-%E5%85%B1%E4%BA%AB%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">配置 Samba 共享：</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-samba"><span class="nav-number">1.</span> <span class="nav-text">安装 Samba</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">2.</span> <span class="nav-text">配置防火墙</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-samba-%E7%94%A8%E6%88%B7%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">创建 Samba 用户和目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-samba-%E5%85%B1%E4%BA%AB"><span class="nav-number">4.</span> <span class="nav-text">配置 Samba 共享：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -560,12 +563,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

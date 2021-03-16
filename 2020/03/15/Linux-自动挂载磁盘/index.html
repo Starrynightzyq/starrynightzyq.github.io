@@ -23,12 +23,12 @@
     var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="主要参考了：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;ce31ae7da616  挂载点目录简介 Linux 常见的挂载目录结构：">
+  <meta name="description" content="主要参考了：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;ce31ae7da616  挂载点目录简介  Linux 常见的挂载目录结构：  img">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 自动挂载磁盘">
 <meta property="og:url" content="https://zhouyuqian.com/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/index.html">
 <meta property="og:site_name" content="Fitz&#39;s Blog">
-<meta property="og:description" content="主要参考了：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;ce31ae7da616  挂载点目录简介 Linux 常见的挂载目录结构：">
+<meta property="og:description" content="主要参考了：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;ce31ae7da616  挂载点目录简介  Linux 常见的挂载目录结构：  img">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhouyuqian.com/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/4241038-2339e498c92de522.jpg">
 <meta property="article:published_time" content="2020-03-15T14:17:19.000Z">
@@ -294,22 +294,23 @@
 
       
         <blockquote>
-<p>主要参考了：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ce31ae7da616">https://www.jianshu.com/p/ce31ae7da616</a></p>
+<p>主要参考了：https://www.jianshu.com/p/ce31ae7da616</p>
 </blockquote>
-<h1 id="挂载点目录简介"><a href="#挂载点目录简介" class="headerlink" title="挂载点目录简介"></a>挂载点目录简介</h1><ol>
+<h1 id="挂载点目录简介">挂载点目录简介</h1>
+<ol type="1">
 <li><p>Linux 常见的挂载目录结构：</p>
-<p><img src="/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/4241038-2339e498c92de522.jpg" alt="img"></p>
-</li>
+<figure>
+<img src="/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/4241038-2339e498c92de522.jpg" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure></li>
 </ol>
 <a id="more"></a>
-<ol>
+<ol start="2" type="1">
 <li><p>常见挂载目录说明：</p>
-<p><code>/</code> 根目录，存放系统命令和用户数据等（如果下面挂载点没有单独的分区，它们都将在根目录的分区中）<br><code>/boot</code> boot loader 的静态链接文件，存放与Linux启动相关的程序<br><code>/home</code> 用户目录，存放普通用户的数据<br><code>/tmp</code> 临时文件<br><code>/usr</code> 是Linux系统存放软件的地方,如有可能应将最大空间分给它<br><code>/usr/local</code> 自已安装程序安装在此<br><code>/var</code> 不断变化的数据，服务器的一些服务、日志放在下面<br><code>/opt</code> （Option可选的）附加的应用程序软件包<br><code>/bin</code> 基本命令执行文<br><code>/dev</code> 设备文件<br><code>/etc</code> 主机特定的系统配置<br><code>/lib</code> 基本共享库以及内核模块<br><code>/media</code> 用于移动介质的挂载点<br><code>/mnt</code> 用于临时挂载文件系统或者别的硬件设备（如光驱、软驱）<br><code>/proc</code> 系统信息的虚拟目录(2.4 和 2.6 内核)，这些信息是在内存中，由系统自己产生的<br><code>/root</code> root 用户的目录<br><code>/sbin</code> 基本系统命令执行文件<br><code>/sys</code> 系统信息的虚拟目录(2.6 内核)<br><code>/srv</code> 系统提供的用于 service 的数据<br><code>/usr/X1186</code> X-Windows目录，存放一些X-Windows的配置文件<br><code>/usr/include</code> 系统头文件，存储一些C语言的头文件<br><code>/usr/src</code> Linux内核源代码，Linux系统所安装的内核源代码都保存在此<br><code>/usr/bin</code> 对/bin目录的一些补充<br><code>/usr/sbin</code> 对/sbin目录的一些补充<br><code>/lost+found</code> 这个目录在大多数情况下都是空的。但是如果你正在工作突然停电，或是没有用正常方式关机，在你重新启动机器的时候，有些文件就会找不到应该存放的地方，对于这些文件，系统将他们放在这个目录下。</p>
-</li>
-<li><p>什么 linux 的分区需要有挂载这个动作呢<br>因为 linux 下一切皆文件！换句说法就是 linux 操作系统将系统中的一切都作为文件来管理。在 windows 中我们常见的硬件设备（打印机、网卡、声卡…）、磁盘分区等，在 linux 中统统都被视作文件，对设备、分区的访问就是读写对应的文件。</p>
-</li>
+<p><code>/</code> 根目录，存放系统命令和用户数据等（如果下面挂载点没有单独的分区，它们都将在根目录的分区中） <code>/boot</code> boot loader 的静态链接文件，存放与Linux启动相关的程序 <code>/home</code> 用户目录，存放普通用户的数据 <code>/tmp</code> 临时文件 <code>/usr</code> 是Linux系统存放软件的地方,如有可能应将最大空间分给它 <code>/usr/local</code> 自已安装程序安装在此 <code>/var</code> 不断变化的数据，服务器的一些服务、日志放在下面 <code>/opt</code> （Option可选的）附加的应用程序软件包 <code>/bin</code> 基本命令执行文 <code>/dev</code> 设备文件 <code>/etc</code> 主机特定的系统配置 <code>/lib</code> 基本共享库以及内核模块 <code>/media</code> 用于移动介质的挂载点 <code>/mnt</code> 用于临时挂载文件系统或者别的硬件设备（如光驱、软驱） <code>/proc</code> 系统信息的虚拟目录(2.4 和 2.6 内核)，这些信息是在内存中，由系统自己产生的 <code>/root</code> root 用户的目录 <code>/sbin</code> 基本系统命令执行文件 <code>/sys</code> 系统信息的虚拟目录(2.6 内核) <code>/srv</code> 系统提供的用于 service 的数据 <code>/usr/X1186</code> X-Windows目录，存放一些X-Windows的配置文件 <code>/usr/include</code> 系统头文件，存储一些C语言的头文件 <code>/usr/src</code> Linux内核源代码，Linux系统所安装的内核源代码都保存在此 <code>/usr/bin</code> 对/bin目录的一些补充 <code>/usr/sbin</code> 对/sbin目录的一些补充 <code>/lost+found</code> 这个目录在大多数情况下都是空的。但是如果你正在工作突然停电，或是没有用正常方式关机，在你重新启动机器的时候，有些文件就会找不到应该存放的地方，对于这些文件，系统将他们放在这个目录下。</p></li>
+<li><p>什么 linux 的分区需要有挂载这个动作呢 因为 linux 下一切皆文件！换句说法就是 linux 操作系统将系统中的一切都作为文件来管理。在 windows 中我们常见的硬件设备（打印机、网卡、声卡...）、磁盘分区等，在 linux 中统统都被视作文件，对设备、分区的访问就是读写对应的文件。</p></li>
 </ol>
-<h1 id="挂载分区"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区</h1><ol>
+<h1 id="挂载分区">挂载分区</h1>
+<ol type="1">
 <li><p>临时挂载：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mount /dev/sda3 /data   <span class="comment"># sda3分区挂载在data目录下</span></span><br><span class="line">$ umount /data            <span class="comment"># 卸载data目录下分区</span></span><br></pre></td></tr></table></figure></li>
 <li><p>开机自动挂载：</p>
@@ -319,21 +320,18 @@
 </blockquote>
 <p><strong>Sample:</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UUID=8CBA-F92C /samba/users exfat         defaults     0          1</span><br><span class="line">&lt;fs spec&gt;      &lt;fs file&gt;    &lt;fs vfstype&gt;  &lt;fs mntops&gt;  &lt;fs freq&gt;  &lt;fs passno&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>参数说明：</strong><br><code>&lt;fs spec&gt;</code>：分区定位，可以给 UUID 或 LABEL，例如：UUID=6E9ADAC29ADA85CD或LABEL=software，建议不要用 <code>/dev/sda1</code> 这种格式，重新启动可能会导致磁盘顺序变化<br><code>&lt;fs file&gt;</code>：具体挂载点的位置，例如：<code>/samba/users</code>，必须是一个<strong>已经存在的目录</strong>，挂载后不会影响原先目录下的文件，卸载该分区后可以看到原先目录下的文件没有变化<br><code>&lt;fs vfstype&gt;</code>：挂载磁盘类型，linux 分区一般为 ext4，windows 分区一般为 ntfs<br><code>&lt;fs mntops&gt;</code>：挂载参数，一般为 defaults<br><code>&lt;fs freq&gt;</code>：磁盘检查，默认为0。能否被 dump 备份指令作用：在 Linux 当中，可以利用 dump 这个指令来进行系统的备份的。而 dump 指令则会针对 /etc/fstab 的设定值，去选择是否要将该 partition 进行备份的动作呢！ 0 代表不要做 dump 备份， 1 代表要进行 dump 的动作。 2 也代表要做 dump 备份动作， 不过，该 partition 重要度比 1 小。<br><code>&lt;fs passno&gt;</code>：磁盘检查，默认为0，不需要检查。是否以 fsck 检验扇区：开机的过程中，系统预设会以 fsck 检验我们的 partition 内的 filesystem 是否完整 (clean)。 不过，某些 filesystem 是不需要检验的，例如虚拟内存 swap ，或者是特殊档案系统， 例如 /proc 与 /sys 等等。所以，在这个字段中，我们可以设定是否要以 fsck 检验该 filesystem 喔。 0 是不要检验， 1 是要检验， 2 也是要检验，不过 1 会比较早被检验啦！ 一般来说，根目录设定为 1 ，其它的要检验的 filesystem 都设定为 2 就好了。</p>
+<p><strong>参数说明：</strong> <code>&lt;fs spec&gt;</code>：分区定位，可以给 UUID 或 LABEL，例如：UUID=6E9ADAC29ADA85CD或LABEL=software，建议不要用 <code>/dev/sda1</code> 这种格式，重新启动可能会导致磁盘顺序变化 <code>&lt;fs file&gt;</code>：具体挂载点的位置，例如：<code>/samba/users</code>，必须是一个<strong>已经存在的目录</strong>，挂载后不会影响原先目录下的文件，卸载该分区后可以看到原先目录下的文件没有变化 <code>&lt;fs vfstype&gt;</code>：挂载磁盘类型，linux 分区一般为 ext4，windows 分区一般为 ntfs <code>&lt;fs mntops&gt;</code>：挂载参数，一般为 defaults <code>&lt;fs freq&gt;</code>：磁盘检查，默认为0。能否被 dump 备份指令作用：在 Linux 当中，可以利用 dump 这个指令来进行系统的备份的。而 dump 指令则会针对 /etc/fstab 的设定值，去选择是否要将该 partition 进行备份的动作呢！ 0 代表不要做 dump 备份， 1 代表要进行 dump 的动作。 2 也代表要做 dump 备份动作， 不过，该 partition 重要度比 1 小。 <code>&lt;fs passno&gt;</code>：磁盘检查，默认为0，不需要检查。是否以 fsck 检验扇区：开机的过程中，系统预设会以 fsck 检验我们的 partition 内的 filesystem 是否完整 (clean)。 不过，某些 filesystem 是不需要检验的，例如虚拟内存 swap ，或者是特殊档案系统， 例如 /proc 与 /sys 等等。所以，在这个字段中，我们可以设定是否要以 fsck 检验该 filesystem 喔。 0 是不要检验， 1 是要检验， 2 也是要检验，不过 1 会比较早被检验啦！ 一般来说，根目录设定为 1 ，其它的要检验的 filesystem 都设定为 2 就好了。</p>
 <p><strong>检查：</strong></p>
 <p>修改完 <code>/etc/fstab</code> 文件后，运行以下命令检查配置是否正确：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
-<p>如果配置不正确可能会导致系统无法正常启动。</p>
-</li>
+<p>如果配置不正确可能会导致系统无法正常启动。</p></li>
 <li><p>常用命令：</p>
 <ul>
 <li><p>查看硬盘信息：</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo fdisk -l</span></span><br></pre></td></tr></table></figure></li>
 <li><p>查看磁盘分区的 UUID：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo blkid</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo blkid</span></span><br></pre></td></tr></table></figure></li>
+</ul></li>
 </ol>
 
     </div>
@@ -538,12 +536,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

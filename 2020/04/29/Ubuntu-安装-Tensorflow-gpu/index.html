@@ -23,12 +23,12 @@
     var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="更正!!! tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：     Software Version     nvidia driver nvidia-440.82   Python 3.6.9   tensorflow tensorfl">
+  <meta name="description" content="更正!!! tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：    Software Version     nvidia driver nvidia-440.82   Python 3.6.9   tensorflow tensorflo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu 安装 Tensorflow-gpu">
 <meta property="og:url" content="https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/index.html">
 <meta property="og:site_name" content="Fitz&#39;s Blog">
-<meta property="og:description" content="更正!!! tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：     Software Version     nvidia driver nvidia-440.82   Python 3.6.9   tensorflow tensorfl">
+<meta property="og:description" content="更正!!! tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：    Software Version     nvidia driver nvidia-440.82   Python 3.6.9   tensorflow tensorflo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png">
 <meta property="og:image" content="https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/version.png">
@@ -283,7 +283,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,45 +305,42 @@
         <blockquote>
 <p><strong>更正!!!</strong></p>
 <p>tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
-<th style="text-align:left">Software</th>
-<th style="text-align:left">Version</th>
+<tr class="header">
+<th style="text-align: left;">Software</th>
+<th style="text-align: left;">Version</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left">nvidia driver</td>
-<td style="text-align:left">nvidia-440.82</td>
+<tr class="odd">
+<td style="text-align: left;">nvidia driver</td>
+<td style="text-align: left;">nvidia-440.82</td>
 </tr>
-<tr>
-<td style="text-align:left">Python</td>
-<td style="text-align:left">3.6.9</td>
+<tr class="even">
+<td style="text-align: left;">Python</td>
+<td style="text-align: left;">3.6.9</td>
 </tr>
-<tr>
-<td style="text-align:left">tensorflow</td>
-<td style="text-align:left">tensorflow-gpu==1.15.3</td>
+<tr class="odd">
+<td style="text-align: left;">tensorflow</td>
+<td style="text-align: left;">tensorflow-gpu==1.15.3</td>
 </tr>
-<tr>
-<td style="text-align:left">cuDNN</td>
-<td style="text-align:left">7.6.4</td>
+<tr class="even">
+<td style="text-align: left;">cuDNN</td>
+<td style="text-align: left;">7.6.4</td>
 </tr>
-<tr>
-<td style="text-align:left">CUDA</td>
-<td style="text-align:left">10.1(V10.1.243)</td>
+<tr class="odd">
+<td style="text-align: left;">CUDA</td>
+<td style="text-align: left;">10.1(V10.1.243)</td>
 </tr>
 </tbody>
 </table>
-</div>
 </blockquote>
-<h1 id="安装-NVIDIA-显卡驱动"><a href="#安装-NVIDIA-显卡驱动" class="headerlink" title="安装 NVIDIA 显卡驱动"></a>安装 NVIDIA 显卡驱动</h1><ol>
-<li><p>下载 NVIDIA 显卡对应的<a target="_blank" rel="noopener" href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p>
-</li>
+<h1 id="安装-nvidia-显卡驱动">安装 NVIDIA 显卡驱动</h1>
+<ol type="1">
+<li><p>下载 NVIDIA 显卡对应的<a target="_blank" rel="noopener" href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p></li>
 <li><p>bios 禁用 secure boot，也就是设置为 disable</p>
-<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p>
-</li>
+<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p></li>
 <li><p>禁用 nouveau 开源驱动</p>
 <p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
@@ -353,8 +350,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
 <p>重启后查看禁用是否成功：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
-<p>没有输出代表nouveau被禁用了</p>
-</li>
+<p>没有输出代表nouveau被禁用了</p></li>
 <li><p>关闭 GUI 界面，进入命令行模式</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
 <li><p>安装 NVIDIA 驱动</p>
@@ -370,39 +366,52 @@
 </blockquote>
 <p>参数介绍：</p>
 <blockquote>
-<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要；<br>–no-x-check 安装驱动时不检查 X服务；<br>–no-nouveau-check 安装驱动时不检查 nouveau；<br>后面两个参数可不加。</p>
-</blockquote>
-</li>
+<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要； –no-x-check 安装驱动时不检查 X服务； –no-nouveau-check 安装驱动时不检查 nouveau； 后面两个参数可不加。</p>
+</blockquote></li>
 <li><p>最后切换回 GUI 界面</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
-<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p>
-</li>
+<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p></li>
 </ol>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"></p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/nvidia-smi.png" alt="nvidia-smi"><figcaption aria-hidden="true">nvidia-smi</figcaption>
+</figure>
 <p><strong>最后我装的是 430.50 版本的驱动</strong></p>
 <a id="more"></a>
-<h1 id="安装-CUDA-version-10-0"><a href="#安装-CUDA-version-10-0" class="headerlink" title="安装 CUDA (version 10.0)"></a>安装 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1><p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/version.png" alt="version"></p>
+<h1 id="安装-cuda-version-10.0">安装 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1>
+<p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/version.png" alt="version"><figcaption aria-hidden="true">version</figcaption>
+</figure>
 <p>我要装的是 Tensorflow-gpu 1.14.0，因此我安装 CUDA10.0 和 cuDNN7.4</p>
-<p>下载 CUDA <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/download.png" alt="download"></p>
+<p>下载 CUDA https://developer.nvidia.com/cuda-toolkit-archive</p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/download.png" alt="download"><figcaption aria-hidden="true">download</figcaption>
+</figure>
 <p>运行如下命令安装</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_&lt;<span class="keyword">version</span>&gt;_linux.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
 <p>安装过程中会有一些选项，<strong>显卡驱动不要装 !!!</strong> 因为之前已经装过了</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/installer.png" alt="installer"></p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/installer.png" alt="installer"><figcaption aria-hidden="true">installer</figcaption>
+</figure>
 <p>安装完成输出的 log 会有提示</p>
 <p>最后将cuda添加到系统环境中</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
 <p>检查是否安装成功：</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
-<h1 id="安装-cudnn-version-7-4-2"><a href="#安装-cudnn-version-7-4-2" class="headerlink" title="安装 cudnn (version 7.4.2)"></a>安装 cudnn (version 7.4.2)</h1><p>下载 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10">cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0</a></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cudnn-download.png" alt="cudnn-download"></p>
+<h1 id="安装-cudnn-version-7.4.2">安装 cudnn (version 7.4.2)</h1>
+<p>下载 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10">cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0</a></p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cudnn-download.png" alt="cudnn-download"><figcaption aria-hidden="true">cudnn-download</figcaption>
+</figure>
 <p>解压后，会得到一个名为 <em>cuda</em> 的文件夹，将问价拷贝到 cuda 的安装目录下</p>
-<p><strong>注意!!!  <em>cuda/lib64</em> 里的文件有链接的结构，如下，不能直接 cp，使用 <code>-a</code> 参数可以保持软链接结构</strong></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/la.png" alt="la"></p>
+<p><strong>注意!!! <em>cuda/lib64</em> 里的文件有链接的结构，如下，不能直接 cp，使用 <code>-a</code> 参数可以保持软链接结构</strong></p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/la.png" alt="la"><figcaption aria-hidden="true">la</figcaption>
+</figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp -a cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda-10.0/lib64/</span><br><span class="line">sudo cp -a cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda-10.0/include/</span><br></pre></td></tr></table></figure>
 <p><strong>需要注意下这几个文件的权限！！！</strong></p>
-<h1 id="测试-CUDA-是否安装成功"><a href="#测试-CUDA-是否安装成功" class="headerlink" title="测试 CUDA 是否安装成功"></a>测试 CUDA 是否安装成功</h1><ol>
+<h1 id="测试-cuda-是否安装成功">测试 CUDA 是否安装成功</h1>
+<ol type="1">
 <li><p>切换到测试目录下：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/cuda-10.0/</span>samples<span class="regexp">/1_Utilities/</span>deviceQuery</span><br></pre></td></tr></table></figure></li>
 <li><p>编译</p>
@@ -410,11 +419,15 @@
 <li><p>进行测试，运行文件</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./deviceQuery</span></span><br></pre></td></tr></table></figure>
 <p>会看到类似这种结果：</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/deviceQuery.png" alt="deviceQuery"></p>
-</li>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/deviceQuery.png" alt="deviceQuery"><figcaption aria-hidden="true">deviceQuery</figcaption>
+</figure></li>
 </ol>
-<h1 id="安装多个版本的-cuda"><a href="#安装多个版本的-cuda" class="headerlink" title="安装多个版本的 cuda"></a>安装多个版本的 cuda</h1><p>因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：</p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cuda.png" alt="cuda"></p>
+<h1 id="安装多个版本的-cuda">安装多个版本的 cuda</h1>
+<p>因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：</p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cuda.png" alt="cuda"><figcaption aria-hidden="true">cuda</figcaption>
+</figure>
 <p>使用命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -rf cuda <span class="comment"># 删除原来的软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/cuda-&lt;version&gt; /usr/<span class="built_in">local</span>/cuda <span class="comment"># 建立新的软链接</span></span><br></pre></td></tr></table></figure>
 <p>注意环境变量的修改，可以将 cuda-<version> 修改为 cuda 这种通用形式</version></p>
@@ -422,25 +435,26 @@
 <p>最后查看当前的 cuda 版本</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
 <p>如果确实软链接修改成功了，环境变量也改好了，版本依旧没有切换，尝试<strong>重启</strong>一下</p>
-<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>参考<a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/pip">使用 pip 安装 TensorFlow</a></p>
-<h1 id="坑！！！"><a href="#坑！！！" class="headerlink" title="坑！！！"></a>坑！！！</h1><ol>
+<h1 id="安装-tensorflow">安装 tensorflow</h1>
+<p>参考<a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/pip">使用 pip 安装 TensorFlow</a></p>
+<h1 id="坑">坑！！！</h1>
+<ol type="1">
 <li><p><code>Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR</code></p>
-<p><img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/error1.png" alt="error1"></p>
+<figure>
+<img src="/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/error1.png" alt="error1"><figcaption aria-hidden="true">error1</figcaption>
+</figure>
 <p>这个报错可能是 tensorflow 和 cuda 版本不符合，但如果已经按照<a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/source#gpu">推荐列表</a>里的对应关系安装了 tensorflow 和 cuda，任然这样报错就可能是 tensorflow 占用的显存过多，进程直接被系统 kill 了，因此可以对 tensorflow 的显存进行限制。</p>
 <blockquote>
-<p>参考：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/darkknightzh/p/6591923.html">http://www.cnblogs.com/darkknightzh/p/6591923.html</a></p>
+<p>参考：http://www.cnblogs.com/darkknightzh/p/6591923.html</p>
 </blockquote>
 <ul>
 <li><p>定量设置显存</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=<span class="number">0.7</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) </span><br></pre></td></tr></table></figure>
-<p>在程序开始的地方加上这两行，这样运行TensorFlow程序时，每个使用的GPU中，占用的显存都不超过总显存的0.7。</p>
-</li>
+<p>在程序开始的地方加上这两行，这样运行TensorFlow程序时，每个使用的GPU中，占用的显存都不超过总显存的0.7。</p></li>
 <li><p>按需设置显存</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(allow_growth=<span class="literal">True</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))   </span><br></pre></td></tr></table></figure>
-<p>这样设置以后，程序就会按需占用GPU显存。</p>
-</li>
-</ul>
-</li>
+<p>这样设置以后，程序就会按需占用GPU显存。</p></li>
+</ul></li>
 </ol>
 
     </div>
@@ -556,7 +570,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-NVIDIA-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">安装 NVIDIA 显卡驱动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-CUDA-version-10-0"><span class="nav-number">2.</span> <span class="nav-text">安装 CUDA (version 10.0)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cudnn-version-7-4-2"><span class="nav-number">3.</span> <span class="nav-text">安装 cudnn (version 7.4.2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-CUDA-%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F"><span class="nav-number">4.</span> <span class="nav-text">测试 CUDA 是否安装成功</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84-cuda"><span class="nav-number">5.</span> <span class="nav-text">安装多个版本的 cuda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-tensorflow"><span class="nav-number">6.</span> <span class="nav-text">安装 tensorflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%91%EF%BC%81%EF%BC%81%EF%BC%81"><span class="nav-number">7.</span> <span class="nav-text">坑！！！</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">安装 NVIDIA 显卡驱动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cuda-version-10.0"><span class="nav-number">2.</span> <span class="nav-text">安装 CUDA (version 10.0)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cudnn-version-7.4.2"><span class="nav-number">3.</span> <span class="nav-text">安装 cudnn (version 7.4.2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-cuda-%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F"><span class="nav-number">4.</span> <span class="nav-text">测试 CUDA 是否安装成功</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84-cuda"><span class="nav-number">5.</span> <span class="nav-text">安装多个版本的 cuda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-tensorflow"><span class="nav-number">6.</span> <span class="nav-text">安装 tensorflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%91"><span class="nav-number">7.</span> <span class="nav-text">坑！！！</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -646,12 +660,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

@@ -293,21 +293,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="shell：zsh"><a href="#shell：zsh" class="headerlink" title="shell：zsh"></a>shell：zsh</h1><ol>
+        <h1 id="shellzsh">shell：zsh</h1>
+<ol type="1">
 <li><p>安装zsh</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure></li>
 <li><p>查看shell列表</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure></li>
 <li><p>切换shell为zsh</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<p><strong>chsh 命令是改变登陆shell，需要重启才能看到效果。</strong></p>
-</li>
+<p><strong>chsh 命令是改变登陆shell，需要重启才能看到效果。</strong></p></li>
 <li><p>安装<a target="_blank" rel="noopener" href="https://ohmyz.sh/">oh-my-zsh</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">&quot;<span class="subst">$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)</span>&quot;</span></span><br></pre></td></tr></table></figure></li>
 <li><p>安装oh-my-zsh插件</p>
 <ul>
-<li><p>git # 自带</p>
-</li>
+<li><p>git # 自带</p></li>
 <li><p>extract # 自带</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plugins=( [plugins...] extract) <span class="comment"># 修改~/.zshrc</span></span><br></pre></td></tr></table></figure></li>
 <li><p><a target="_blank" rel="noopener" href="https://github.com/wting/autojump">autojump</a></p>
@@ -319,139 +318,145 @@
 <li><p><a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-syntax-highlighting</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plugins=( [plugins...] zsh-syntax-highlighting) <span class="comment"># 修改~/.zshrc</span></span><br></pre></td></tr></table></figure></li>
-<li>sublime</li>
-</ul>
-</li>
+<li><p>sublime</p></li>
+</ul></li>
 </ol>
-<h1 id="MarkDown编辑器：Typaro"><a href="#MarkDown编辑器：Typaro" class="headerlink" title="MarkDown编辑器：Typaro"></a>MarkDown编辑器：<a target="_blank" rel="noopener" href="https://typora.io/">Typaro</a></h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># or run:</span></span><br><span class="line"><span class="comment"># sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span></span><br><span class="line">wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"><span class="comment"># add Typora&#x27;s repository</span></span><br><span class="line">sudo add-apt-repository <span class="string">&#x27;deb https://typora.io/linux ./&#x27;</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># install typora</span></span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
-<h1 id="中文输入法：搜狗输入法"><a href="#中文输入法：搜狗输入法" class="headerlink" title="中文输入法：搜狗输入法"></a>中文输入法：搜狗输入法</h1><blockquote>
-<p>reference <a target="_blank" rel="noopener" href="https://blog.csdn.net/lupengCSDN/article/details/80279177">https://blog.csdn.net/lupengCSDN/article/details/80279177</a></p>
+<h1 id="markdown编辑器typaro">MarkDown编辑器：<a target="_blank" rel="noopener" href="https://typora.io/">Typaro</a></h1>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># or run:</span></span><br><span class="line"><span class="comment"># sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span></span><br><span class="line">wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"><span class="comment"># add Typora&#x27;s repository</span></span><br><span class="line">sudo add-apt-repository <span class="string">&#x27;deb https://typora.io/linux ./&#x27;</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># install typora</span></span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+<h1 id="中文输入法搜狗输入法">中文输入法：搜狗输入法</h1>
+<blockquote>
+<p>reference https://blog.csdn.net/lupengCSDN/article/details/80279177</p>
 </blockquote>
-<ol>
+<ol type="1">
 <li><p>首先，安装Fcitx输入框架</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install fcitx</span><br></pre></td></tr></table></figure></li>
 <li><p>安装 <a target="_blank" rel="noopener" href="https://pinyin.sogou.com/linux/?r=pinyin">搜狗拼音</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i sogou.deb </span><br></pre></td></tr></table></figure>
 <p>如果遇到依赖问题，执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -f</span><br></pre></td></tr></table></figure>
-<p>后，重新安装。</p>
-</li>
+<p>后，重新安装。</p></li>
 </ol>
 <p><strong>乱码问题</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcitx -r <span class="comment"># 重启fcitx框架</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pidof fcitx|xargs <span class="built_in">kill</span></span><br><span class="line">fcitx &amp;</span><br><span class="line">sogou-qimpanel &amp;</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.config &amp;&amp; rm -rf SogouPY* sogou*</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
 <p><code>ctrl</code> +<code>space</code>切换两次输入法</p>
-<h1 id="文本编辑器：sublime-text-3"><a href="#文本编辑器：sublime-text-3" class="headerlink" title="文本编辑器：sublime text 3"></a>文本编辑器：<a target="_blank" rel="noopener" href="https://www.sublimetext.com/docs/3/linux_repositories.html">sublime text 3</a></h1><p>Install the GPG key:</p>
+<h1 id="文本编辑器sublime-text-3">文本编辑器：<a target="_blank" rel="noopener" href="https://www.sublimetext.com/docs/3/linux_repositories.html">sublime text 3</a></h1>
+<p>Install the GPG key:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
 <p>Ensure apt is set up to work with https sources:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https</span><br></pre></td></tr></table></figure>
 <p>Select the channel to use:</p>
 <ul>
 <li><p>Stable</p>
-<p><code>echo &quot;deb https://download.sublimetext.com/ apt/stable/&quot; | sudo tee /etc/apt/sources.list.d/sublime-text.list</code></p>
-</li>
+<p><code>echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list</code></p></li>
 <li><p>Dev</p>
-<p><code>echo &quot;deb https://download.sublimetext.com/ apt/dev/&quot; | sudo tee /etc/apt/sources.list.d/sublime-text.list</code></p>
-</li>
+<p><code>echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/sources.list.d/sublime-text.list</code></p></li>
 </ul>
 <p>Update apt sources and install Sublime Text</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install sublime-text</span><br></pre></td></tr></table></figure>
 <p>在<code>~/.zshrc</code> <code>plugins</code>里面添加<code>sublime</code>插件</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">plugins</span>=( [plugins...] sublime) <span class="comment"># 修改~/.zshrc</span></span><br></pre></td></tr></table></figure>
 <p>之后就可以用<code>subl</code>启动 sublime text 3 了</p>
-<h1 id="实时监控网速：NetSpeed"><a href="#实时监控网速：NetSpeed" class="headerlink" title="实时监控网速：NetSpeed"></a>实时监控网速：NetSpeed</h1><p>直接在<code>Ubuntu Software</code>里面搜索安装。</p>
-<h1 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h1><p>Ubuntu 18.04 LTS与Ubuntu 16.04 LTS默认使用的桌面不一样，18.04为gnome3。</p>
-<h2 id="安装gnome-tweak-tool"><a href="#安装gnome-tweak-tool" class="headerlink" title="安装gnome-tweak-tool"></a><del>安装gnome-tweak-tool</del></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnome-tweak-tool</span><br></pre></td></tr></table></figure>
+<h1 id="实时监控网速netspeed">实时监控网速：NetSpeed</h1>
+<p>直接在<code>Ubuntu Software</code>里面搜索安装。</p>
+<h1 id="美化">美化</h1>
+<p>Ubuntu 18.04 LTS与Ubuntu 16.04 LTS默认使用的桌面不一样，18.04为gnome3。</p>
+<h2 id="安装gnome-tweak-tool"><del>安装gnome-tweak-tool</del></h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnome-tweak-tool</span><br></pre></td></tr></table></figure>
 <p>安装gnome-shell</p>
 <blockquote>
-<p>参考<a target="_blank" rel="noopener" href="http://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/">http://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/</a></p>
+<p>参考http://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install chrome-gnome-shell</span><br></pre></td></tr></table></figure>
 <p>拓展：</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/307/dash-to-dock/">dash to dock</a>  优化 Ubuntu 默认的 dock</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/19/user-themes/">User Themes</a>    自定义 shell 主题</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/97/coverflow-alt-tab/">Coverflow Alt-Tab</a>  优化 Ubuntu 默认窗口切换动作</p>
-<p><em><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1250/gnome-global-application-menu/">Gnome Global Application Menu</a>  将当前程序的菜单项提取到状态栏</em></p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/104/netspeed/">NetSpeed</a>    显示网速插件</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/779/clipboard-indicator/">Clipboard Indicator</a>  提供剪切板历史记录功能</p>
-<p><em><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/442/drop-down-terminal/">Drop Down Terminal</a>    可以从屏幕上快速弹出一个终端</em></p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/72/recent-items/">Recent Items</a>          快速打开最近打开过的文件</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/8/places-status-indicator/">Places Status Indicator</a>  利用下拉菜单快速打开驱动器上的常用位置</p>
-<p><em><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/885/dynamic-top-bar/">Dynamic Top Bar</a>      动态调整状态栏透明度</em></p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/545/hide-top-bar/">Hide top bar</a>    隐藏顶栏, 可以设置为鼠标靠近屏幕上边沿时显示顶栏</p>
-<p><a href="Top Panel Workspace Scroll">Top Panel Workspace Scroll</a>    快速切换工作区</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1015/gravatar/">Gravatar</a>    把你的 Ubuntu 用户头像设置成你的 Gravatar 头像.</p>
-<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1031/topicons/">TopIcons Plus</a>    将传统托盘图标移动到顶部面板 (Wine 程序救星)</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/307/dash-to-dock/">dash to dock</a> 优化 Ubuntu 默认的 dock</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/19/user-themes/">User Themes</a> 自定义 shell 主题</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/97/coverflow-alt-tab/">Coverflow Alt-Tab</a> 优化 Ubuntu 默认窗口切换动作</p>
+<p><em><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1250/gnome-global-application-menu/">Gnome Global Application Menu</a> 将当前程序的菜单项提取到状态栏</em></p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/104/netspeed/">NetSpeed</a> 显示网速插件</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/779/clipboard-indicator/">Clipboard Indicator</a> 提供剪切板历史记录功能</p>
+<p><em><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/442/drop-down-terminal/">Drop Down Terminal</a> 可以从屏幕上快速弹出一个终端</em></p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/72/recent-items/">Recent Items</a> 快速打开最近打开过的文件</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/8/places-status-indicator/">Places Status Indicator</a> 利用下拉菜单快速打开驱动器上的常用位置</p>
+<p><em><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/885/dynamic-top-bar/">Dynamic Top Bar</a> 动态调整状态栏透明度</em></p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/545/hide-top-bar/">Hide top bar</a> 隐藏顶栏, 可以设置为鼠标靠近屏幕上边沿时显示顶栏</p>
+<p><a href="Top%20Panel%20Workspace%20Scroll">Top Panel Workspace Scroll</a> 快速切换工作区</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1015/gravatar/">Gravatar</a> 把你的 Ubuntu 用户头像设置成你的 Gravatar 头像.</p>
+<p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1031/topicons/">TopIcons Plus</a> 将传统托盘图标移动到顶部面板 (Wine 程序救星)</p>
 <p>按下 <code>Alt</code> + <code>F2</code>,输入 <code>r</code>，回车重启 gnome。</p>
-<h2 id="主题-amp-图标"><a href="#主题-amp-图标" class="headerlink" title="主题&amp;图标"></a>主题&amp;图标</h2><p>我比较喜欢的是</p>
+<h2 id="主题图标">主题&amp;图标</h2>
+<p>我比较喜欢的是</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/anmoljagetia/Flatabulous">Flatabulous</a> </li>
+<li><a target="_blank" rel="noopener" href="https://github.com/anmoljagetia/Flatabulous">Flatabulous</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/horst3180/arc-theme">arc-theme</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/daniruiz/flat-remix-gnome">flat-remix-gnome</a></li>
 </ul>
-<h2 id="Ubuntu-times-KDE"><a href="#Ubuntu-times-KDE" class="headerlink" title="Ubuntu $\times$ KDE"></a>Ubuntu $\times$ KDE</h2><h3 id="安装-KDE"><a href="#安装-KDE" class="headerlink" title="安装 KDE"></a>安装 KDE</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install kubuntu-desktop</span><br></pre></td></tr></table></figure>
+<h2 id="ubuntu-times-kde">Ubuntu <span class="math inline">\(\times\)</span> KDE</h2>
+<h3 id="安装-kde">安装 KDE</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install kubuntu-desktop</span><br></pre></td></tr></table></figure>
 <p>一路 OK，<code>Default display manager</code> 选 <code>sddm</code>，然后重启。</p>
-<h3 id="美化-1"><a href="#美化-1" class="headerlink" title="美化"></a>美化</h3><p>监视器：<a target="_blank" rel="noopener" href="https://github.com/cjbassi/gotop">gotop</a></p>
+<h3 id="美化-1">美化</h3>
+<p>监视器：<a target="_blank" rel="noopener" href="https://github.com/cjbassi/gotop">gotop</a></p>
 <p>终端：<a target="_blank" rel="noopener" href="https://konsole.kde.org/">konsole</a></p>
 <p>主题：<a target="_blank" rel="noopener" href="https://github.com/vinceliuice/Orchis-kde">Orchis-kde</a></p>
-<h1 id="关闭图形化界面"><a href="#关闭图形化界面" class="headerlink" title="关闭图形化界面"></a>关闭图形化界面</h1><blockquote>
+<h1 id="关闭图形化界面">关闭图形化界面</h1>
+<blockquote>
 <p>参考 <a target="_blank" rel="noopener" href="https://dslztx.github.io/blog/2017/08/27/Ubuntu桌面版关闭GUI环境/">Ubuntu桌面版关闭GUI环境</a></p>
 </blockquote>
-<h2 id="一、持久关闭"><a href="#一、持久关闭" class="headerlink" title="一、持久关闭"></a><strong>一、持久关闭</strong></h2><p>查看当前的默认目标: </p>
+<h2 id="一持久关闭"><strong>一、持久关闭</strong></h2>
+<p>查看当前的默认目标:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl get-default</span><br></pre></td></tr></table></figure>
 <p>执行以下命令，持久关闭Ubuntu桌面版的GUI环境（通过<code>Ctrl+Alt+F1-F6</code>快捷键进入命令行界面）：</p>
 <figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">sudo</span> <span class="string">systemctl</span> <span class="built_in">set-default</span> <span class="string">multi-user</span>.<span class="string">target</span></span><br></pre></td></tr></table></figure>
 <p>执行以下命令，持久开启Ubuntu桌面版的GUI环境（通过<code>Ctrl+Alt+F7</code>快捷键进入GUI界面）：</p>
 <figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">sudo</span> <span class="string">systemctl</span> <span class="built_in">set-default</span> <span class="string">graphical</span>.<span class="string">target</span></span><br></pre></td></tr></table></figure>
-<h2 id="二、临时关闭"><a href="#二、临时关闭" class="headerlink" title="二、临时关闭"></a><strong>二、临时关闭</strong></h2><p>执行以下命令，临时关闭Ubuntu桌面版的GUI环境：</p>
+<h2 id="二临时关闭"><strong>二、临时关闭</strong></h2>
+<p>执行以下命令，临时关闭Ubuntu桌面版的GUI环境：</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service lightdm <span class="built_in">stop</span></span><br></pre></td></tr></table></figure>
 <p>执行以下命令，临时开启Ubuntu桌面版的GUI环境：</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service lightdm <span class="literal">start</span></span><br></pre></td></tr></table></figure>
-<p>参考文献： [1]<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/800239/how-to-disable-lightdmdisplay-manager-on-ubuntu-16-0-4-lts">https://askubuntu.com/questions/800239/how-to-disable-lightdmdisplay-manager-on-ubuntu-16-0-4-lts</a> [2]<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/365719/i-have-to-restart-lightdm-after-run">https://askubuntu.com/questions/365719/i-have-to-restart-lightdm-after-run</a></p>
+<p>参考文献： [1]https://askubuntu.com/questions/800239/how-to-disable-lightdmdisplay-manager-on-ubuntu-16-0-4-lts [2]https://askubuntu.com/questions/365719/i-have-to-restart-lightdm-after-run</p>
 <blockquote>
 <p>PS：</p>
 <p>以上方法适用于 Ubuntu 和 Centos 7</p>
 <p>Centos 6 使用如下方法：</p>
-<ol>
-<li><h2 id="临时关闭"><a href="#临时关闭" class="headerlink" title="临时关闭"></a><strong>临时关闭</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">init 3 <span class="comment"># 临时关闭图形界面（XServer服务也会关闭）</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 再次开启图形界面用下面其中一个命令</span></span><br><span class="line"><span class="attribute">init</span> <span class="number">5</span></span><br><span class="line"><span class="attribute">startx</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><h2 id="开机关闭"><a href="#开机关闭" class="headerlink" title="开机关闭"></a>开机关闭</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/etc/i</span>nittab</span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li><h2 id="临时关闭"><strong>临时关闭</strong></h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">init 3 <span class="comment"># 临时关闭图形界面（XServer服务也会关闭）</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 再次开启图形界面用下面其中一个命令</span></span><br><span class="line"><span class="attribute">init</span> <span class="number">5</span></span><br><span class="line"><span class="attribute">startx</span></span><br></pre></td></tr></table></figure></li>
+<li><h2 id="开机关闭">开机关闭</h2>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/etc/i</span>nittab</span><br></pre></td></tr></table></figure>
 <p>将</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">id</span><span class="selector-pseudo">:5</span><span class="selector-pseudo">:initdefault</span>:</span><br></pre></td></tr></table></figure>
 <p>改成</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">id</span><span class="selector-pseudo">:3</span><span class="selector-pseudo">:initdefault</span>:</span><br></pre></td></tr></table></figure>
-<h1 id="增加-Swap-分区"><a href="#增加-Swap-分区" class="headerlink" title="增加 Swap 分区"></a>增加 Swap 分区</h1></li>
+<h1 id="增加-swap-分区">增加 Swap 分区</h1></li>
 </ol>
 </blockquote>
-<ol>
+<ol type="1">
 <li><p>禁用 swap 功能</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapoff <span class="string">/swapfile</span></span><br></pre></td></tr></table></figure>
-<p>这个命令执行之后，如果你用free命令查看的话会发现swap分区的大小变为了0。</p>
-</li>
+<p>这个命令执行之后，如果你用free命令查看的话会发现swap分区的大小变为了0。</p></li>
 <li><p>增加 /swapfile的大小：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dd <span class="keyword">if</span>=/dev/zero of=/swapfile bs=1M count=30720 oflag=append conv=notrunc</span><br></pre></td></tr></table></figure>
-<p>这个命令会在现有的/swapfile后面追加30GB，加上之前的2GB的swap分区，现在共有32个GB的swap分区了。</p>
-</li>
+<p>这个命令会在现有的/swapfile后面追加30GB，加上之前的2GB的swap分区，现在共有32个GB的swap分区了。</p></li>
 <li><p>设置这个文件为swap分区的挂载点：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkswap /swapfile</span><br></pre></td></tr></table></figure></li>
 <li><p>再次启用swap</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon /swapfile</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon /swapfile</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h1 id="使用-screen-管理你的远程会话"><a href="#使用-screen-管理你的远程会话" class="headerlink" title="使用 screen 管理你的远程会话"></a>使用 screen 管理你的远程会话</h1><ol>
+<h1 id="使用-screen-管理你的远程会话">使用 screen 管理你的远程会话</h1>
+<ol type="1">
 <li><p>新建screen会话</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen</span><br></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ screen + <span class="built_in">command</span></span><br></pre></td></tr></table></figure></li>
 <li><p>在已有screen会话中创建新的窗口</p>
 <p><code>Ctrl</code>+<code>a</code> <code>c</code></p>
-<p>Ctrl键+a键，之后再按下c键，screen 在该会话内生成一个新的窗口并切换到该窗口。</p>
-</li>
+<p>Ctrl键+a键，之后再按下c键，screen 在该会话内生成一个新的窗口并切换到该窗口。</p></li>
 <li><p>detached会话</p>
-<p><code>C-a</code> <code>d</code></p>
-</li>
+<p><code>C-a</code> <code>d</code></p></li>
 <li><p>查看会话</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">screen -ls</span></span><br></pre></td></tr></table></figure></li>
 <li><p>恢复会话</p>
@@ -459,22 +464,25 @@
 <li><p>清除dead会话</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">screen -wipe</span></span><br></pre></td></tr></table></figure></li>
 <li><p>more</p>
-<p>C-a w 显示所有窗口列表<br>C-a C-a 切换到之前显示的窗口<br>C-a c 创建一个新的运行shell的窗口并切换到该窗口<br>C-a n 切换到下一个窗口<br>C-a p 切换到前一个窗口(与C-a n相对)<br>C-a 0..9 切换到窗口0..9<br>C-a a 发送 C-a到当前窗口<br>C-a d 暂时断开screen会话<br>C-a k 杀掉当前窗口</p>
-</li>
+<p>C-a w 显示所有窗口列表 C-a C-a 切换到之前显示的窗口 C-a c 创建一个新的运行shell的窗口并切换到该窗口 C-a n 切换到下一个窗口 C-a p 切换到前一个窗口(与C-a n相对) C-a 0..9 切换到窗口0..9 C-a a 发送 C-a到当前窗口 C-a d 暂时断开screen会话 C-a k 杀掉当前窗口</p></li>
 </ol>
-<h1 id="代替screen：tmux"><a href="#代替screen：tmux" class="headerlink" title="代替screen：tmux"></a>代替screen：tmux</h1><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/10/tmux.html">https://www.ruanyifeng.com/blog/2019/10/tmux.html</a></p>
+<h1 id="代替screentmux">代替screen：tmux</h1>
+<blockquote>
+<p>https://www.ruanyifeng.com/blog/2019/10/tmux.html</p>
 </blockquote>
-<h1 id="监测CPU温度：sensors"><a href="#监测CPU温度：sensors" class="headerlink" title="监测CPU温度：sensors"></a>监测CPU温度：sensors</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> install lm-sensors</span><br></pre></td></tr></table></figure>
+<h1 id="监测cpu温度sensors">监测CPU温度：sensors</h1>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> install lm-sensors</span><br></pre></td></tr></table></figure>
 <p>使用</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">watch</span> -n <span class="number">2</span> sensors</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>-n 2 表示每隔两秒刷新一次</p>
 </blockquote>
-<h1 id="MiniDLNA"><a href="#MiniDLNA" class="headerlink" title="MiniDLNA"></a><a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/MiniDLNA">MiniDLNA</a></h1><blockquote>
+<h1 id="minidlna"><a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/MiniDLNA">MiniDLNA</a></h1>
+<blockquote>
 <p>还没装好</p>
 </blockquote>
-<h1 id="Samba"><a href="#Samba" class="headerlink" title="Samba"></a>Samba</h1>
+<h1 id="samba">Samba</h1>
+
     </div>
 
     
@@ -588,7 +596,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#shell%EF%BC%9Azsh"><span class="nav-number">1.</span> <span class="nav-text">shell：zsh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MarkDown%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%9ATyparo"><span class="nav-number">2.</span> <span class="nav-text">MarkDown编辑器：Typaro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%EF%BC%9A%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">中文输入法：搜狗输入法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%9Asublime-text-3"><span class="nav-number">4.</span> <span class="nav-text">文本编辑器：sublime text 3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E7%9B%91%E6%8E%A7%E7%BD%91%E9%80%9F%EF%BC%9ANetSpeed"><span class="nav-number">5.</span> <span class="nav-text">实时监控网速：NetSpeed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BE%8E%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">美化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85gnome-tweak-tool"><span class="nav-number">6.1.</span> <span class="nav-text">安装gnome-tweak-tool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98-amp-%E5%9B%BE%E6%A0%87"><span class="nav-number">6.2.</span> <span class="nav-text">主题&amp;图标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu-times-KDE"><span class="nav-number">6.3.</span> <span class="nav-text">Ubuntu $\times$ KDE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-KDE"><span class="nav-number">6.3.1.</span> <span class="nav-text">安装 KDE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8E%E5%8C%96-1"><span class="nav-number">6.3.2.</span> <span class="nav-text">美化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2"><span class="nav-number">7.</span> <span class="nav-text">关闭图形化界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%8C%81%E4%B9%85%E5%85%B3%E9%97%AD"><span class="nav-number">7.1.</span> <span class="nav-text">一、持久关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%B4%E6%97%B6%E5%85%B3%E9%97%AD"><span class="nav-number">7.2.</span> <span class="nav-text">二、临时关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E5%85%B3%E9%97%AD"><span class="nav-number">7.3.</span> <span class="nav-text">临时关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E5%85%B3%E9%97%AD"><span class="nav-number">7.4.</span> <span class="nav-text">开机关闭</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0-Swap-%E5%88%86%E5%8C%BA"><span class="nav-number">8.</span> <span class="nav-text">增加 Swap 分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-screen-%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E8%BF%9C%E7%A8%8B%E4%BC%9A%E8%AF%9D"><span class="nav-number">9.</span> <span class="nav-text">使用 screen 管理你的远程会话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E6%9B%BFscreen%EF%BC%9Atmux"><span class="nav-number">10.</span> <span class="nav-text">代替screen：tmux</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%91%E6%B5%8BCPU%E6%B8%A9%E5%BA%A6%EF%BC%9Asensors"><span class="nav-number">11.</span> <span class="nav-text">监测CPU温度：sensors</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MiniDLNA"><span class="nav-number">12.</span> <span class="nav-text">MiniDLNA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Samba"><span class="nav-number">13.</span> <span class="nav-text">Samba</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#shellzsh"><span class="nav-number">1.</span> <span class="nav-text">shell：zsh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#markdown%E7%BC%96%E8%BE%91%E5%99%A8typaro"><span class="nav-number">2.</span> <span class="nav-text">MarkDown编辑器：Typaro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">中文输入法：搜狗输入法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8sublime-text-3"><span class="nav-number">4.</span> <span class="nav-text">文本编辑器：sublime text 3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E7%9B%91%E6%8E%A7%E7%BD%91%E9%80%9Fnetspeed"><span class="nav-number">5.</span> <span class="nav-text">实时监控网速：NetSpeed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BE%8E%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">美化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85gnome-tweak-tool"><span class="nav-number">6.1.</span> <span class="nav-text">安装gnome-tweak-tool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E5%9B%BE%E6%A0%87"><span class="nav-number">6.2.</span> <span class="nav-text">主题&amp;图标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-times-kde"><span class="nav-number">6.3.</span> <span class="nav-text">Ubuntu \(\times\) KDE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-kde"><span class="nav-number">6.3.1.</span> <span class="nav-text">安装 KDE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8E%E5%8C%96-1"><span class="nav-number">6.3.2.</span> <span class="nav-text">美化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2"><span class="nav-number">7.</span> <span class="nav-text">关闭图形化界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E6%8C%81%E4%B9%85%E5%85%B3%E9%97%AD"><span class="nav-number">7.1.</span> <span class="nav-text">一、持久关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E4%B8%B4%E6%97%B6%E5%85%B3%E9%97%AD"><span class="nav-number">7.2.</span> <span class="nav-text">二、临时关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E5%85%B3%E9%97%AD"><span class="nav-number">7.3.</span> <span class="nav-text">临时关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E5%85%B3%E9%97%AD"><span class="nav-number">7.4.</span> <span class="nav-text">开机关闭</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0-swap-%E5%88%86%E5%8C%BA"><span class="nav-number">8.</span> <span class="nav-text">增加 Swap 分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-screen-%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E8%BF%9C%E7%A8%8B%E4%BC%9A%E8%AF%9D"><span class="nav-number">9.</span> <span class="nav-text">使用 screen 管理你的远程会话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E6%9B%BFscreentmux"><span class="nav-number">10.</span> <span class="nav-text">代替screen：tmux</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%91%E6%B5%8Bcpu%E6%B8%A9%E5%BA%A6sensors"><span class="nav-number">11.</span> <span class="nav-text">监测CPU温度：sensors</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#minidlna"><span class="nav-number">12.</span> <span class="nav-text">MiniDLNA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#samba"><span class="nav-number">13.</span> <span class="nav-text">Samba</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -678,12 +686,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

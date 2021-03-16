@@ -294,8 +294,10 @@
         <p>记录一下 Linux 下的用户、用户组、文件权限等基本知识，不能动不动就 777。</p>
 <p>主要参考了 <a target="_blank" rel="noopener" href="https://juejin.im/post/5bad92cd6fb9a05cde1d6076">一言不合就改成 777 权限？会出人命的！</a></p>
 <a id="more"></a>
-<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>在 Linux 中，一个用户是可以属于多个组的，一个组也是可以包含多个用户的。</p>
-<h2 id="用户和用户组"><a href="#用户和用户组" class="headerlink" title="用户和用户组"></a>用户和用户组</h2><ol>
+<h1 id="基本操作">基本操作</h1>
+<p>在 Linux 中，一个用户是可以属于多个组的，一个组也是可以包含多个用户的。</p>
+<h2 id="用户和用户组">用户和用户组</h2>
+<ol type="1">
 <li><p>查看所有的用户：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cut -d<span class="string">&#x27;:&#x27;</span> -f 1 /etc/passwd</span><br></pre></td></tr></table></figure>
 <p>结果</p>
@@ -304,23 +306,19 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cut -d<span class="string">&#x27;:&#x27;</span> -f 1 /etc/group</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kmem</span><br><span class="line">dialout</span><br><span class="line">fax</span><br><span class="line">voice</span><br><span class="line">cdrom</span><br><span class="line">floppy</span><br><span class="line">...</span><br><span class="line">lpadmin</span><br></pre></td></tr></table></figure>
-<p>结果基本是类似的，因为每个用户在被创建的时候都会自动创建一个同名的组作为其默认的用户组。</p>
-</li>
+<p>结果基本是类似的，因为每个用户在被创建的时候都会自动创建一个同名的组作为其默认的用户组。</p></li>
 <li><p>查看一个用户所属的用户组，这里用 ubuntu 用户演示：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groups ubuntu</span><br></pre></td></tr></table></figure>
 <p>结果：</p>
 <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu : <span class="type">ubuntu</span> adm cdrom sudo dip plugdev lxd lpadmin sambashare</span><br></pre></td></tr></table></figure>
 <p>这个用户被分配到了很多组下，比如同名的组 ubuntu，还有 sudo 组，另外还有一些其他的组。</p>
-<p>其中 sudo 组比较特殊，如果被分到了这个组里面就代表该账号拥有 root 权限，可以使用 sudo 命令。</p>
-</li>
+<p>其中 sudo 组比较特殊，如果被分到了这个组里面就代表该账号拥有 root 权限，可以使用 sudo 命令。</p></li>
 <li><p>查看一个用户组里有哪些用户：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">members &lt;group&gt;</span><br></pre></td></tr></table></figure>
-<p>不过这个命令不是自带的，需要额外安装 members 包</p>
-</li>
+<p>不过这个命令不是自带的，需要额外安装 members 包</p></li>
 <li><p>一个比较有用的命令，就是 id 命令，它可以用来查看用户的所属组别，格式如下：</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span> &lt;username&gt;</span><br></pre></td></tr></table></figure>
-<p>这里有一个 gid，作为主工作组，后面还有个 groups，它列出了用户所在的所有组。主工作组只有一个，而后者的数量则不限。可以看到用户组的结果和使用 groups 命令看到的结果是一致的。</p>
-</li>
+<p>这里有一个 gid，作为主工作组，后面还有个 groups，它列出了用户所在的所有组。主工作组只有一个，而后者的数量则不限。可以看到用户组的结果和使用 groups 命令看到的结果是一致的。</p></li>
 <li><p>何创建一个用户和怎样为用户分配组别</p>
 <p>添加用户：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser &lt;username&gt;</span><br></pre></td></tr></table></figure>
@@ -332,7 +330,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -G &lt;group&gt; &lt;username&gt;</span><br></pre></td></tr></table></figure>
 <p>如果要添加多个组的话，可以通过 -a 选项指定多个名称：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG &lt;group1,group2,group3..&gt; &lt;username&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="文件权限管理"><a href="#文件权限管理" class="headerlink" title="文件权限管理"></a>文件权限管理</h2></li>
+<h2 id="文件权限管理">文件权限管理</h2></li>
 </ol>
 <p>首先列出某个目录下文件的详细信息，命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -all</span><br></pre></td></tr></table></figure>
@@ -353,9 +351,9 @@
 <li>第一个字符代表文件的类型，有三种，- 代表这是一个文件，d 代表这是一个文件夹，l 代表这是一个链接。</li>
 <li>第 2-4 个字符代表文件所有者对该文件的权限，r 就是读，w 就是写，x 就是执行，如果是文件夹的话，执行就意味着查看文件夹下的内容，例如 rw- 就代表文件所有者可以对该文件进行读取和写入。</li>
 <li>第 5-7 个字符代表文件所属组对该文件的权限，含义是一样的，如 r-x 就代表该文件所属组内的所有用户对该文件有读取和执行的权限。</li>
-<li>第 8-10 个字符代表是其他用户对该文件的权限，含义也是一样的，如 r— 就代表非所有者，非用户组的用户只拥有对该文件的读取权限。</li>
+<li>第 8-10 个字符代表是其他用户对该文件的权限，含义也是一样的，如 r-- 就代表非所有者，非用户组的用户只拥有对该文件的读取权限。</li>
 </ul>
-<ol>
+<ol type="1">
 <li><p>修改文件权限</p>
 <p>我们可以使用 chmod 命令来改变文件或目录的权限，有这么几种用法。</p>
 <p>一种是数字权限命名，rwx 对应一个二进制数字，如 101 就代表拥有读取和执行的权限，而转为十进制的话，r 就代表 4，w 就代表 2，x 就代表 1，然后三个数字加起来就和二进制数字对应起来了。如 7=4+2+1，这就对应着 rwx；5=4+1，这就对应着 r-x。所以，相应地 777 就代表了 rwxrwxrwx，即所有者、所属用户组、其他用户对该文件都拥有读取、写入、执行的权限，这是相当危险的！</p>
@@ -370,14 +368,12 @@
 <p>就是为用户组添加 w 权限，即写入权限。</p>
 <p>另外如果是文件夹的话还可以对文件夹进行递归赋权限操作，如：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> chmod -R <span class="number">777</span> share</span><br></pre></td></tr></table></figure>
-<p>就是将 share 文件夹和其内所有内容都赋予 777 权限。</p>
-</li>
+<p>就是将 share 文件夹和其内所有内容都赋予 777 权限。</p></li>
 <li><p>修改文件所属用户和所属用户组</p>
 <p>命令格式如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown &lt;username&gt; &lt;file&gt; <span class="comment"># 修改文件所属用户</span></span><br><span class="line">sudo chgrp &lt;group&gt; &lt;file&gt;    <span class="comment"># 修改文件所属用户组</span></span><br></pre></td></tr></table></figure>
 <p>另外同样可以使用 -R 来进行递归操作，如将 share 文件夹及其内所有内容的所有者都换成 cqc，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R cqc share/</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R cqc share/</span><br></pre></td></tr></table></figure></li>
 </ol>
 
     </div>
@@ -582,12 +578,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">159k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
