@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Config static IP address on Ubuntu 18.04</title>
+    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
+    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
+<a id="more"></a>
+<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
+</blockquote>
+<p>结果如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
+<p>然后是配置生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Cadence ASM Tutorial</title>
     <url>/2020/12/16/CadenceASMTutorial/</url>
     <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
@@ -101,36 +128,97 @@
         <category>Software</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Software</tag>
         <tag>Cadence</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
-    <title>Config static IP address on Ubuntu 18.04</title>
-    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
-    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
+    <title>Delta-Sigma Modulator</title>
+    <url>/2020/11/26/DSM/</url>
+    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
+<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
 <a id="more"></a>
-<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
+<h1 id="分数型锁相环">分数型锁相环</h1>
+<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
+<p><img src="/2020/11/26/DSM/image-20201126163214994.png" alt="image-20201126163214994" style="zoom:50%;"></p>
+<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
+<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
+<p><img src="/2020/11/26/DSM/image-20201126163436341.png" alt="image-20201126163436341" style="zoom:50%;"></p>
+<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
+<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
+<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
+<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
+H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
+\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
+<p><img src="/2020/11/26/DSM/image-20201126170555897.png" alt="image-20201126170555897" style="zoom:33%;"></p>
+<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
+<p><img src="/2020/11/26/DSM/image-20201126170450055.png" alt="image-20201126170450055" style="zoom:33%;"></p>
+<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
+NTF(z) = \frac{1}{1+H(z)}
+\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
+<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
+STF(S) = \frac{H(z)}{1+H(z)}
+\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
+<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
+<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
+<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
+<p><img src="/2020/11/26/DSM/image-20201126181412774.png" alt="image-20201126181412774" style="zoom:50%;"></p>
+<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
+<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
+<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
+<h2 id="mash-结构">MASH 结构</h2>
+<p><img src="/2020/11/26/DSM/image-20201126182429474.png" alt="image-20201126182429474" style="zoom:40%;"></p>
+<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
+<p><strong>优点</strong>：稳定性好。</p>
+<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
+<p>第一级的输出： <span class="math display">\[
+y_1 = z^{-1} x + (1-z^{-1})q_1
+\]</span> 第二级的输出： <span class="math display">\[
+y_2 = z^{-1} q_1 + (1-z^{-1})q_2
+\]</span> 最终输出： <span class="math display">\[
+y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
+\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
+<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
+<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
+<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
+<ol type="1">
+<li>DSM 的阶数</li>
+<li>DSM 的结构</li>
+<li>DSM 的数字输出比特数</li>
+<li>DSM 的稳定输入范围</li>
+<li>噪声整形性能与环路稳定性的考量</li>
+</ol>
+<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
+<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
+<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
+<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
+<p><img src="/2020/11/26/DSM/image-20201126194055426.png" alt="image-20201126194055426" style="zoom:50%;"></p>
+<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><img src="/2020/11/26/DSM/image-20201126194607316.png" alt="image-20201126194607316" style="zoom:50%;"></p>
+<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
 <blockquote>
-<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
+<p>关于噪声补偿的一点点思考</p>
+<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
+<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
+<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
+<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
 </blockquote>
-<p>结果如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
-<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
-<p>然后是配置生效：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
+<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
+<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
+<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
+<h1 id="最小二乘法">最小二乘法</h1>
+<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
+<h1 id="参考文章">参考文章</h1>
+<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Delta-Sigma</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -268,97 +356,9 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <category>Analog</category>
       </categories>
       <tags>
+        <tag>IC_design</tag>
         <tag>Analog</tag>
-        <tag>IC_design</tag>
         <tag>CM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Delta-Sigma Modulator</title>
-    <url>/2020/11/26/DSM/</url>
-    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
-<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
-<a id="more"></a>
-<h1 id="分数型锁相环">分数型锁相环</h1>
-<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
-<p><img src="/2020/11/26/DSM/image-20201126163214994.png" alt="image-20201126163214994" style="zoom:50%;"></p>
-<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
-<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
-<p><img src="/2020/11/26/DSM/image-20201126163436341.png" alt="image-20201126163436341" style="zoom:50%;"></p>
-<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
-<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
-<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
-<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
-H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
-\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
-<p><img src="/2020/11/26/DSM/image-20201126170555897.png" alt="image-20201126170555897" style="zoom:33%;"></p>
-<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
-<p><img src="/2020/11/26/DSM/image-20201126170450055.png" alt="image-20201126170450055" style="zoom:33%;"></p>
-<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
-NTF(z) = \frac{1}{1+H(z)}
-\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
-<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
-STF(S) = \frac{H(z)}{1+H(z)}
-\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
-<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
-<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
-<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
-<p><img src="/2020/11/26/DSM/image-20201126181412774.png" alt="image-20201126181412774" style="zoom:50%;"></p>
-<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
-<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
-<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
-<h2 id="mash-结构">MASH 结构</h2>
-<p><img src="/2020/11/26/DSM/image-20201126182429474.png" alt="image-20201126182429474" style="zoom:40%;"></p>
-<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
-<p><strong>优点</strong>：稳定性好。</p>
-<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
-<p>第一级的输出： <span class="math display">\[
-y_1 = z^{-1} x + (1-z^{-1})q_1
-\]</span> 第二级的输出： <span class="math display">\[
-y_2 = z^{-1} q_1 + (1-z^{-1})q_2
-\]</span> 最终输出： <span class="math display">\[
-y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
-\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
-<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
-<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
-<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
-<ol type="1">
-<li>DSM 的阶数</li>
-<li>DSM 的结构</li>
-<li>DSM 的数字输出比特数</li>
-<li>DSM 的稳定输入范围</li>
-<li>噪声整形性能与环路稳定性的考量</li>
-</ol>
-<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
-<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
-<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
-<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
-<p><img src="/2020/11/26/DSM/image-20201126194055426.png" alt="image-20201126194055426" style="zoom:50%;"></p>
-<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
-<h2 id="相位补偿">相位补偿</h2>
-<p><img src="/2020/11/26/DSM/image-20201126194607316.png" alt="image-20201126194607316" style="zoom:50%;"></p>
-<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
-<blockquote>
-<p>关于噪声补偿的一点点思考</p>
-<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
-<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
-<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
-<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
-</blockquote>
-<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
-<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
-<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
-<h1 id="最小二乘法">最小二乘法</h1>
-<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
-<h1 id="参考文章">参考文章</h1>
-<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
-<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
-]]></content>
-      <categories>
-        <category>Delta-Sigma</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -702,8 +702,8 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
         <tag>UDP</tag>
       </tags>
@@ -999,6 +999,37 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       </tags>
   </entry>
   <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -1048,37 +1079,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -1329,6 +1329,454 @@ x_1 +  &amp; 5x_2 - &amp; 9x_3 - &amp; 8x_4 &amp; = &amp; 0
       </tags>
   </entry>
   <entry>
+    <title>二级运放设计</title>
+    <url>/2021/03/17/OTA/</url>
+    <content><![CDATA[<figure>
+<img src="/2021/03/17/OTA/image-20210317191814049.png" alt="电路结构"><figcaption aria-hidden="true">电路结构</figcaption>
+</figure>
+<p>最基本的 CMOS 二级密勒补偿运算跨导放大器结构如图所示，主要包括四个部分：第一级输入级放大电路、第二级放大电路、偏置电路和相位补偿电路。</p>
+<a id="more"></a>
+<h1 id="电路分析">电路分析</h1>
+<p>输入级电路由 M1~M5 组成；</p>
+<p>输出级电路由 M6、M7 组成，M6 为共源放大器，M7 为其提供恒定的偏置电流，同时作为第二级输出负载。相位补偿电路由 M14 和 Cc 构成，M14 工作在线性区，可等效为一个电阻，与电容 Cc 一起跨接在第一级和第二级输出之间，构成 RC 密勒补偿。</p>
+<h2 id="静态特性">静态特性</h2>
+<p>不考虑 M14，电路的等效模型如下图所示：</p>
+<p><img src="/2021/03/17/OTA/image-20210319101141088.png" alt="image-20210319101141088" style="zoom:50%;"></p>
+<p>第一级和第二级都是跨导放大器，M1 和 M2 相同，则第一级的跨导为： <span class="math display">\[
+G_{m1} = g_{m1}=g_{m2}
+\]</span></p>
+<p>第一级的输出电阻为： <span class="math display">\[
+R_1 = r_{o2} || r_{o4}
+\]</span> 则第一级的增益为： <span class="math display">\[
+A_1 = G_{m1}R_1 = g_{m2}(r_{o2} || r_{o4})
+\]</span> 对于第二级，M6、M7 为共源放大器，则： <span class="math display">\[
+G_{m2} = g_{m6}=\frac{2I_{DS6}}{V_{GST6}}
+\]</span></p>
+<p><span class="math display">\[
+R_2 = r_{o6}||r_{o7}
+\]</span></p>
+<p>其中 <span class="math inline">\(V_{GST6} = V_{GS6} - V_{TH6}\)</span>。</p>
+<p>则第二级的电压增益为： <span class="math display">\[
+A_2 = -G_{m2}R_2 = -g_{m6}(r_{o6}||r_{o7})
+\]</span> 故总的直流开环电压增益为： <span class="math display">\[
+A_0 = A_1A_2=-g_{m2}g_{m6}(r_{o2} || r_{o4})(r_{o6}||r_{o7})
+\]</span> <strong>为了得到较高的增益，应当选取较小的过驱动电压和较大的沟道长度。</strong></p>
+<h2 id="频率特性">频率特性</h2>
+<p>在等效电路图中，第一级的输出节点的电容 <span class="math inline">\(C_1\)</span> 为： <span class="math display">\[
+C_1 = C_{GD2} + C_{DB2} + C_{GD4} + C_{DB4} + C_{GS6}
+\]</span> 第二级的输出节点的电容 <span class="math inline">\(C_2\)</span> 为： <span class="math display">\[
+C_2 = C_{DB6} + C_{DB7} + C_{GD7} + C_{L}
+\]</span> 一般，<span class="math inline">\(C_L\)</span> 远大于晶体管电容，所以 <span class="math inline">\(C_2\)</span> 远大于 <span class="math inline">\(C_1\)</span>，对节点 3 和节点 5 运用 KCL，得： <span class="math display">\[
+G_{m1}V_{id}+\frac{V_{i2}}{R_1}+sC_1V_{i2}+sC_c(V_{i2}-V_o) = 0
+\]</span></p>
+<p><span class="math display">\[
+G_{m2}V_{i2}+\frac{V_{o}}{R_2}+sC_2V_{o}+sC_c(V_{o}-V_{12}) = 0
+\]</span></p>
+<p>联立上面两式，消去中间量 <span class="math inline">\(V_{i2}\)</span> 得到电路的<strong>传输函数</strong>： <span class="math display">\[
+\frac{V_o}{V_{id}} = \frac{G_{m1}(G_{m2}-sC_c)R_1R_2}{as^2+bs+1}
+\]</span> 其中 <span class="math inline">\(a=[C_1C_2+C_c(C_1+C_2)]R_1R_2 \\ b=C_1R_1+C_2R_2+C_c(G_{m2}R_1R_2+R_1+R_2)\)</span></p>
+<p>由传输函数的分子可以得到一个位于<strong>右半平面的零点</strong>： <span class="math display">\[
+f_z = \frac{G_{m2}}{2\pi C_c}=\frac{g_{m6}}{2\pi C_c}
+\]</span> 分析传输函数的分母，对于 <span class="math inline">\(as^2+bs+c=0\)</span> 的方程，如果有两个相距很远的实根，则 <span class="math inline">\(s_1\approx -c/b, s_2\approx -b/a\)</span>。由此得到： <span class="math display">\[
+s_1 = -\frac{1}{C_1R_1+C_2R_2+C_c(G_{m2}R_1R_2+R_1+R_2)}
+\]</span></p>
+<p><span class="math display">\[
+s_2 = -\frac{C_1R_1+C_2R_2+C_c(G_{m2}R_1R_2+R_1+R_2)}{[C_1C_2+C_c(C_1+C_2)]R_1R_2}
+\]</span></p>
+<p>从而得电路<strong>主极点</strong>为： <span class="math display">\[
+f_d = \frac{s_1}{2\pi}=\frac{1}{2\pi R_1 [C_1+C_c(1+G_{m2}R_2)]}
+\]</span> 通常 <span class="math inline">\(C_1\)</span> 远小于 <span class="math inline">\(C_c\)</span>，且 <span class="math inline">\(G_{m2}R_2\)</span> 远大于 1，上式可以近似为： <span class="math display">\[
+f_d = \frac{1}{2\pi R_1R_2G_{m2}C_c}
+\]</span> 而次极点为： <span class="math display">\[
+f_{nd} =\frac{s_2}{2\pi}=\frac{G_{m2}C_c}{2\pi (C_1C_2 + C_1C_c+C_2C_c)}
+\]</span> 单位增益带宽： <span class="math display">\[
+GBW = A_0f_d= G_{m1}G_{m2}R_1R_2 \times \frac{1}{2\pi R_1R_2G_{m2}C_c} = \frac{g_{m2}}{2\pi C_c}
+\]</span> 由 <span class="math inline">\(g_m = \mu C_{ox} (W/L) (V_{GS}-VT)\)</span> 得： <span class="math display">\[
+GBW = \frac{1}{2\pi C_c}\mu_p C_{ox}(\frac{W}{L})_2V_{GST2}
+\]</span> <strong>得到高的 GBW 就需要增大 M1 和 M2 管的过驱动电压或者减小其沟道长度</strong>，<strong>这与提高增益的要求是相互抵触的，而且管子面积的减小也会使得噪声性能变差</strong>，所以在设计电路的时候，需要根据具体应用和设计指标进行权衡。</p>
+<p>GBW 也可以写成电流有关的形式 ( <span class="math inline">\(g_m = \mu C_{ox} (W/L) (V_{GS}-VT) = 2I_D/V_{GST}\)</span> )： <span class="math display">\[
+GBW = \frac{I_{DS2}}{\pi C_c V_{GST1}}
+\]</span> 上式说明，在选定了补偿电容和过驱动电压时，<strong>电路的单位增益带宽与功耗成正比</strong>。而电路设计时一般会对功耗有限制，由此为了得到高的 GBW，需要合理分配各支路的电流。</p>
+<p>第二极点可以近似为： <span class="math display">\[
+f_{nd} = \frac{g_{m6}}{2\pi C_L}
+\]</span> 一般而言，出于电路稳定的需要，<strong>为了达到 45° 的相位裕量，第二极点必须在 1.22GBW 之外，而若要有 60° 相位裕量的话，第二极点必须高于 2.2GWB</strong>。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><span class="math display">\[
+\frac{1}{R_zC_c}\approx1.2\frac{g_{m1}}{C_c}
+\]</span></p>
+<p>即： <span class="math display">\[
+g_{m1}R_z\approx\frac{1}{1.2}
+\]</span> 若令 <span class="math inline">\(V_{GST1}=V_{GST14}\)</span>，则： <span class="math display">\[
+\frac{(W/L)_{14}}{(W/L)_{1}} \approx1.2\frac{\mu _p}{\mu _n}
+\]</span></p>
+<h2 id="偏置电路">偏置电路</h2>
+<p>偏置电路由 M8~M13 构成。</p>
+<p>镜像电流源 M8 和 M9 使得 M13 和 M12 的电流相等，都为 <span class="math inline">\(I_B\)</span>，则： <span class="math display">\[
+I_B = \frac{1}{2}\mu C_{ox}(\frac{W}{L})_{12}(V_{GS12}-V_T)^2 = \frac{1}{2}\mu C_{ox}(\frac{W}{L})_{13}(V_{GS13}-V_T)^2
+\]</span> 而： <span class="math display">\[
+V_{GS13} = V_{GS12}+I_BR_B
+\]</span> 由上面两式可以得到： <span class="math display">\[
+I_B = \frac{2}{\mu C_{ox}(W/L)_{12}R_B^2}(\sqrt{\frac{(W/L)_{12}}{(W/L)_{13}}}-1)^2
+\]</span> 可以看到 <span class="math inline">\(I_B\)</span> 仅与电阻 <span class="math inline">\(R_B\)</span> 和 M12、M13 的尺寸有关，不受电源电压的影响。 <span class="math display">\[
+R_B = \frac{2}{\sqrt{2\mu C_{ox}(W/L)_{12}I_B}}(\sqrt{\frac{(W/L)_{12}}{(W/L)_{13}}}-1)
+\]</span> 由 <span class="math inline">\(\sqrt{2\mu C_{ox}(W/L)_{12}I_B} = g_{m12}\)</span> 以及上式可以得到： <span class="math display">\[
+g_{m12}=\frac{2}{R_B}(\sqrt{\frac{(W/L)_{12}}{(W/L)_{13}}}-1)^2
+\]</span> 可以看出，<span class="math inline">\(gm_{12}\)</span> 仅由 <span class="math inline">\(R_B\)</span> 以及 M12 与 M13 的器件比例而决定。若取 <span class="math inline">\((W/L)_{12}＝4 (W/L)_{13}\)</span> 则可以得到： <span class="math display">\[
+g_{m12} = \frac{2}{R_B}
+\]</span></p>
+<p><span class="math display">\[
+g_{m13} = \frac{1}{R_B}
+\]</span></p>
+<h1 id="指标分析"><del>指标分析</del></h1>
+<h1 id="电路设计">电路设计</h1>
+<h2 id="设计指标">设计指标</h2>
+<table>
+<thead>
+<tr class="header">
+<th>设计指标</th>
+<th>带宽最大化</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>管子长度</td>
+<td><span class="math inline">\(\geq 0.8 \mu m\)</span></td>
+</tr>
+<tr class="even">
+<td>管子宽度</td>
+<td><span class="math inline">\(\geq 2\mu m\)</span></td>
+</tr>
+<tr class="odd">
+<td>面积</td>
+<td><span class="math inline">\(\leq 20000 \mu m^2\)</span></td>
+</tr>
+<tr class="even">
+<td>负载电容</td>
+<td><span class="math inline">\(=3pF\)</span></td>
+</tr>
+<tr class="odd">
+<td>共模输入电压</td>
+<td>固定在 (VDD+VSS)/2</td>
+</tr>
+<tr class="even">
+<td>输出动态范围</td>
+<td>[0.1(VDD-VSS), 0.9(VDD-VSS)]</td>
+</tr>
+<tr class="odd">
+<td>静态功耗</td>
+<td><span class="math inline">\(\leq 2mW\)</span></td>
+</tr>
+<tr class="even">
+<td>开环直流增益</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+</tr>
+<tr class="odd">
+<td>单位增益带宽</td>
+<td>Maximize</td>
+</tr>
+<tr class="even">
+<td>相位裕度</td>
+<td><span class="math inline">\(\geq 60 degree\)</span></td>
+</tr>
+<tr class="odd">
+<td>转换速率</td>
+<td><span class="math inline">\(\geq 30V/\mu s\)</span></td>
+</tr>
+<tr class="even">
+<td>共模抑制比</td>
+<td><span class="math inline">\(\geq 60dB\)</span></td>
+</tr>
+<tr class="odd">
+<td>负电源抑制比</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+</tr>
+<tr class="even">
+<td>等效输入噪声</td>
+<td><span class="math inline">\(\leq 300nV/Hz@1KHz\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="约束">约束</h2>
+<p><span class="math display">\[
+W_1 = W_2,L_1=L_2;W_3=W_4,L_3=L_4
+\]</span></p>
+<p><span class="math display">\[
+\frac{(W/L)_{3,4}}{(W/L)_{6}} = \frac{\frac{1}{2}(W/L)_{5}}{(W/L)_{7}}
+\]</span></p>
+<p><span class="math display">\[
+(W/L)_{8}=(W/L)_{9},(W/L)_{10}=(W/L)_{11}
+\]</span></p>
+<p><span class="math display">\[
+(W/L)_{12}=4(W/L)_{13}
+\]</span></p>
+<p><span class="math display">\[
+(k_1+k_2+2)I_{DS8}\leq 400\mu A
+\]</span></p>
+<h2 id="单管匹配">单管匹配</h2>
+<p>当晶体管工作在饱和区时，实际上的设计参数只有 <span class="math inline">\((W/L),I_{DS},V_{DSAT}\)</span>，确定了这三个变量中的两个就可以决定第三个量。在本设计中，确定晶体管的电流和过驱动电压就可以得到需要的宽长比。</p>
+<figure>
+<img src="/2021/03/17/OTA/cm.png" alt="cm"><figcaption aria-hidden="true">cm</figcaption>
+</figure>
+<p>如上图所示，首先单独搭建电流镜部分。</p>
+<p>当 <span class="math inline">\(I_{DS} = 10\mu A\)</span> 时，扫描 W，得到在不同 <span class="math inline">\(W/L\)</span> 下 <span class="math inline">\(V_{DSAT}\)</span> 的值。</p>
+<p><strong>PMOS</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(V_{DSAT}\)</span></th>
+<th><span class="math inline">\(W/L\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100m</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>125m</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>150m</td>
+<td>13</td>
+</tr>
+<tr class="even">
+<td>175m</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>200m</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>250m</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>300m</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NMOS</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(V_{DSAT}\)</span></th>
+<th><span class="math inline">\(W/L\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100m</td>
+<td>8.9</td>
+</tr>
+<tr class="even">
+<td>125m</td>
+<td>4.8</td>
+</tr>
+<tr class="odd">
+<td>150m</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>175m</td>
+<td>2.1</td>
+</tr>
+<tr class="odd">
+<td>250m</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>200m</td>
+<td>1.6</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到在相同的过驱动电压下，<span class="math inline">\((W/L)_p/(W/L)_n \approx 13/3\)</span>，为了保证良好的匹配性，所有位于饱和区的晶体管取相同的过驱动电压。</p>
+<h2 id="设计步骤">设计步骤</h2>
+<ol type="1">
+<li><p>先取 <span class="math inline">\(C_c\)</span> 为 1pF；</p></li>
+<li><p>取 <span class="math inline">\(V_{DSAT} = 150mV\)</span>；</p></li>
+<li><p>取 <span class="math inline">\(I_{DS8} = 10 \mu A, I_{DS5}=120\mu A, I_{DS7} = 240\mu A\)</span>；</p></li>
+<li><p>确定晶体管参数，过驱动电压定为 150mV：</p>
+<table>
+<thead>
+<tr class="header">
+<th>晶体管</th>
+<th>倍数</th>
+<th>W/L</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M13</td>
+<td>1n</td>
+<td>3/1</td>
+</tr>
+<tr class="even">
+<td>M12</td>
+<td>4n</td>
+<td>12/1</td>
+</tr>
+<tr class="odd">
+<td>M10, M11</td>
+<td>1n</td>
+<td>3/11</td>
+</tr>
+<tr class="even">
+<td>M8, M9</td>
+<td>1p</td>
+<td>13/1</td>
+</tr>
+<tr class="odd">
+<td>M5</td>
+<td>12p</td>
+<td>156/1</td>
+</tr>
+<tr class="even">
+<td>M1, M2</td>
+<td>6p</td>
+<td>78/1</td>
+</tr>
+<tr class="odd">
+<td>M3, M4</td>
+<td>6n</td>
+<td>18/1</td>
+</tr>
+<tr class="even">
+<td>M7</td>
+<td>24p</td>
+<td>312/1</td>
+</tr>
+<tr class="odd">
+<td>M6</td>
+<td>24n</td>
+<td>72/1</td>
+</tr>
+<tr class="even">
+<td>M14</td>
+<td></td>
+<td>10/1</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+<figure>
+<img src="/2021/03/17/OTA/OTA.png" alt="OTA"><figcaption aria-hidden="true">OTA</figcaption>
+</figure>
+<h1 id="cadence-仿真">cadence 仿真</h1>
+<h2 id="ac">AC</h2>
+<figure>
+<img src="/2021/03/17/OTA/ac.svg" alt="ac"><figcaption aria-hidden="true">ac</figcaption>
+</figure>
+<p>通过 AC 仿真可以得到 GBW 大约为 113MHz，在单位带宽增益处，相移达到了 127°，表明相位裕度为 53°，不能满足大于 60° 的要求，因此调整米勒电容 Cc 为 1.5pF，再次仿真，得到GBW 为113MHz，相位裕度为 63°，满足要求。</p>
+<figure>
+<img src="/2021/03/17/OTA/ac1.5p.svg" alt="ac1.5p"><figcaption aria-hidden="true">ac1.5p</figcaption>
+</figure>
+<h2 id="噪声仿真">噪声仿真</h2>
+<p><img src="/2021/03/17/OTA/截屏2021-03-20 下午4.47.15.png" alt="截屏2021-03-20 下午4.47.15" style="zoom:33%;"></p>
+<p>接下来仿真噪声，依照上图设置参数。其中，最下面 Positive Output Node 一栏，可点击 Select 按钮后，在电路图中选择输出节点；而 Negative Output Node 一栏则选地，若不选，则也会默认为地；Input Voltage Source 选择<strong>输入差分信号的电压源</strong>。结果选择等效输入噪声，如下：</p>
+<p><img src="/2021/03/17/OTA/noise.svg" alt="noise"></p>
+<h2 id="其他指标仿真">其他指标仿真</h2>
+<figure>
+<img src="/2021/03/17/OTA/tb_all.png" alt="tb_all"><figcaption aria-hidden="true">tb_all</figcaption>
+</figure>
+<p>SR、CMRR 和 nPSRR，仿真如上图所示。</p>
+<h3 id="sr-压摆率">SR (压摆率)</h3>
+<p><img src="/2021/03/17/OTA/截屏2021-03-20 下午6.43.01.png" alt="截屏2021-03-20 下午6.43.01" style="zoom:33%;"></p>
+<p>其中 SR 仿真中信号源使用 <code>vpulse</code>，设置如上图所示。仿真时使用 <code>tran</code> 仿真，仿真后输出波形。</p>
+<figure>
+<img src="/2021/03/17/OTA/截屏2021-03-20%20下午6.37.13.png" alt="截屏2021-03-20 下午6.37.13"><figcaption aria-hidden="true">截屏2021-03-20 下午6.37.13</figcaption>
+</figure>
+<p>由于 SR 是电压相对于时间的导数，可以使用计算器来得到一个更直观的 SR。 设置如上图所示。SR 的结果如下图所示。</p>
+<figure>
+<img src="/2021/03/17/OTA/SR.svg" alt="SR"><figcaption aria-hidden="true">SR</figcaption>
+</figure>
+<h3 id="cmrr-共模抑制比">CMRR (共模抑制比)</h3>
+<p>定义为差模增益与差模输入为0时共模到输出的增益比值。物理意义即衡量共模输入转换到等效差模输入的大小。</p>
+<p>使用两个信号源分别加载于被测放大器的同相、反相输入端，由于放大器的差模增益远远大于共模增益，因此 CMRR 可以近似为 <span class="math inline">\(V_{CM}/V_{out}\)</span>。 <span class="math display">\[
+V_{out} = A_{DM}(V_P-V_N) + A_{CM}
+\]</span> <span class="math display">\[
+V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
+\]</span> <span class="math display">\[
+\frac{V_{out}}{V_{CM}} = \frac{A_{CM}}{A_{DM}+1}\approx\frac{A_{CM}}{A_{DM}}=\frac{1}{CMRR}
+\]</span></p>
+<figure>
+<img src="/2021/03/17/OTA/CMRR.svg" alt="CMRR"><figcaption aria-hidden="true">CMRR</figcaption>
+</figure>
+<h3 id="电源抑制比-psrr">电源抑制比 (PSRR)</h3>
+<p>在负电源上叠加 1V 交流电压，输出端接到负输入端，正输入端接 VDD/2 的直流电源。</p>
+<figure>
+<img src="/2021/03/17/OTA/nPSRR.svg" alt="nPSRR"><figcaption aria-hidden="true">nPSRR</figcaption>
+</figure>
+<h2 id="仿真结果">仿真结果</h2>
+<table>
+<thead>
+<tr class="header">
+<th>设计指标</th>
+<th>带宽最大化</th>
+<th>仿真结果</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>静态功耗</td>
+<td><span class="math inline">\(\leq 2mW\)</span></td>
+<td><span class="math inline">\(377\mu A\times 1.8V\)</span></td>
+</tr>
+<tr class="even">
+<td>开环直流增益</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+<td>83 dB</td>
+</tr>
+<tr class="odd">
+<td>单位增益带宽</td>
+<td>Maximize</td>
+<td>113 MHz</td>
+</tr>
+<tr class="even">
+<td>相位裕度</td>
+<td><span class="math inline">\(\geq 60 degree\)</span></td>
+<td>63 degree</td>
+</tr>
+<tr class="odd">
+<td>转换速率</td>
+<td><span class="math inline">\(\geq 30V/\mu s\)</span></td>
+<td><span class="math inline">\(40 V/\mu s\)</span></td>
+</tr>
+<tr class="even">
+<td>共模抑制比</td>
+<td><span class="math inline">\(\geq 60dB\)</span></td>
+<td>69 dB</td>
+</tr>
+<tr class="odd">
+<td>负电源抑制比</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+<td>89 dB</td>
+</tr>
+<tr class="even">
+<td>等效输入噪声</td>
+<td><span class="math inline">\(\leq 300nV/Hz@1KHz\)</span></td>
+<td><span class="math inline">\(91.6nV/Hz@1KHz\)</span></td>
+</tr>
+</tbody>
+</table>
+<h1 id="reference">Reference</h1>
+<p>[1] <a href="http://bbs.eetop.cn/thread-279034-1-1.html">复旦大学模拟电路二级运放实例</a></p>
+<p>[2] <a href="http://blog.eetop.cn/blog-1770479-6946353.html">两级运算放大器设计笔记</a></p>
+<p>[3] <a href="https://www.bilibili.com/read/cv5808960/">cadence中运放性能参数仿真（一）</a></p>
+<p>[4] <a href="https://wx.seu.edu.cn/_upload/article/files/ed/b2/3c80f23a41e79abc3114a231ed52/9c379d42-4ec3-4605-9ea7-a55b922bd984.pdf">运放仿真方法整理</a></p>
+]]></content>
+      <categories>
+        <category>Analog</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Power Amplifier -- 基础知识</title>
     <url>/2021/02/08/PA/</url>
     <content><![CDATA[<h1 id="无线发射机结构">无线发射机结构</h1>
@@ -1382,9 +1830,9 @@ x_1 +  &amp; 5x_2 - &amp; 9x_3 - &amp; 8x_4 &amp; = &amp; 0
         <category>PA</category>
       </categories>
       <tags>
-        <tag>PA</tag>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
       </tags>
   </entry>
   <entry>
@@ -1569,8 +2017,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -1743,8 +2191,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -1858,8 +2306,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2625,6 +3073,29 @@ K_{cp} = \frac{I_{cp}}{2\pi}
       </tags>
   </entry>
   <entry>
+    <title>Cadence IC617 on Ubuntu</title>
+    <url>/2021/03/07/VirtuosoOnUbuntu/</url>
+    <content><![CDATA[<h1 id="cadence-reference">Cadence Reference</h1>
+<p>[1.1] <a href="https://my.oschina.net/propagator/blog/3166272">ubuntu18.04安装cadence virtuoso</a></p>
+<p>[1.2] <a href="https://blog.csdn.net/yy345730585/article/details/90407408">在 CentOS7 下安装 Cadence IC验证平台 INCISIVE152</a></p>
+<p>可能出现的问题及解决方法：</p>
+<p>[2] <a href="http://bbs.eetop.cn/thread-877866-1-1.html">...install.ixl/mgc_install: No such file or directory</a></p>
+<p>[3] <a href="http://bbs.eetop.cn/thread-400786-1-1.html">ERROR: The OA2.2 library directory (/home/hushuai/cadence/installs/IC616/oa_v22.43.018/lib/linux_rhel40_gcc44x_32/opt) does not seem to exist.</a></p>
+<p>[4] <a href="http://bbs.eetop.cn/thread-325949-1-1.html"><em>WARNING</em> Unable to find font name: "-<em>-courier-medium-r-</em>-<em>-12-</em>".</a></p>
+<p>[6] <a href="http://bbs.eetop.cn/archiver/tid-635921.html">*ld: /usr/lib/x86_64-linux-gnu/crti.o: unrecognized relocation (0x2a) in section `.init'</a></p>
+<h1 id="ads-reference">ADS Reference</h1>
+<p>[1] <a href="http://bbs.eetop.cn/thread-880091-1-1.html">快递：Linux安装ADS2020update2.0及破解</a></p>
+<p>[2] <a href="http://bbs.eetop.cn/thread-560408-1-1.html">ubuntu 上装 ADS 2015</a></p>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>配置 VS Code 的 Verilog 开发环境</title>
     <url>/2021/03/15/VerilogOnVscode/</url>
     <content><![CDATA[<h1 id="安装-hdl-语言支持插件">安装 HDL 语言支持插件</h1>
@@ -2709,32 +3180,9 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>GEEK</tag>
+        <tag>FPGA</tag>
         <tag>Vscode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Cadence IC617 on Ubuntu</title>
-    <url>/2021/03/07/VirtuosoOnUbuntu/</url>
-    <content><![CDATA[<h1 id="cadence-reference">Cadence Reference</h1>
-<p>[1.1] <a href="https://my.oschina.net/propagator/blog/3166272">ubuntu18.04安装cadence virtuoso</a></p>
-<p>[1.2] <a href="https://blog.csdn.net/yy345730585/article/details/90407408">在 CentOS7 下安装 Cadence IC验证平台 INCISIVE152</a></p>
-<p>可能出现的问题及解决方法：</p>
-<p>[2] <a href="http://bbs.eetop.cn/thread-877866-1-1.html">...install.ixl/mgc_install: No such file or directory</a></p>
-<p>[3] <a href="http://bbs.eetop.cn/thread-400786-1-1.html">ERROR: The OA2.2 library directory (/home/hushuai/cadence/installs/IC616/oa_v22.43.018/lib/linux_rhel40_gcc44x_32/opt) does not seem to exist.</a></p>
-<p>[4] <a href="http://bbs.eetop.cn/thread-325949-1-1.html"><em>WARNING</em> Unable to find font name: "-<em>-courier-medium-r-</em>-<em>-12-</em>".</a></p>
-<p>[6] <a href="http://bbs.eetop.cn/archiver/tid-635921.html">*ld: /usr/lib/x86_64-linux-gnu/crti.o: unrecognized relocation (0x2a) in section `.init'</a></p>
-<h1 id="ads-reference">ADS Reference</h1>
-<p>[1] <a href="http://bbs.eetop.cn/thread-880091-1-1.html">快递：Linux安装ADS2020update2.0及破解</a></p>
-<p>[2] <a href="http://bbs.eetop.cn/thread-560408-1-1.html">ubuntu 上装 ADS 2015</a></p>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Software</tag>
       </tags>
   </entry>
   <entry>
@@ -2894,8 +3342,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3024,8 +3472,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3083,8 +3531,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3140,8 +3588,23 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- VDMA</title>
+    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
+    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
+<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3336,23 +3799,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
-        <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- VDMA</title>
-    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
-    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
-<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
         <tag>FPGA</tag>
-        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3518,8 +3966,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -3733,8 +4181,8 @@ W = 128um
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>gmid</tag>
       </tags>
   </entry>
