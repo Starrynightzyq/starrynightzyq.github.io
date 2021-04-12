@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhouyuqian.com/2021/03/24/LC-VCO/</loc>
+    <lastmod>2021-04-12</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2020/01/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84%E6%8A%98%E8%85%BE/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2020/02/05/Ubuntu%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%A4%87%E4%BB%BD/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2021/03/07/VirtuosoOnUbuntu/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2021/04/03/scs/</loc>
+    <lastmod>2021-04-03</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2021/04/02/xrdp/</loc>
+    <lastmod>2021-04-02</lastmod>
+  </url>
+  <url>
+    <loc>https://zhouyuqian.com/2021/04/02/zfs/</loc>
+    <lastmod>2021-04-02</lastmod>
+  </url>
+  <url>
     <loc>https://zhouyuqian.com/2021/03/17/OTA/</loc>
     <lastmod>2021-03-20</lastmod>
   </url>
@@ -17,19 +53,11 @@
     <lastmod>2021-03-15</lastmod>
   </url>
   <url>
-    <loc>https://zhouyuqian.com/2021/03/07/VirtuosoOnUbuntu/</loc>
-    <lastmod>2021-03-08</lastmod>
-  </url>
-  <url>
     <loc>https://zhouyuqian.com/2018/12/19/%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E6%9C%BA%E5%99%A8%E5%8D%9A%E5%BC%88%E4%BA%94%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F/</loc>
     <lastmod>2021-02-08</lastmod>
   </url>
   <url>
     <loc>https://zhouyuqian.com/2018/01/21/VGA-controller/</loc>
-    <lastmod>2021-02-08</lastmod>
-  </url>
-  <url>
-    <loc>https://zhouyuqian.com/2020/01/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84%E6%8A%98%E8%85%BE/</loc>
     <lastmod>2021-02-08</lastmod>
   </url>
   <url>
@@ -50,10 +78,6 @@
   </url>
   <url>
     <loc>https://zhouyuqian.com/2020/12/17/VMwareFusionStaticIP/</loc>
-    <lastmod>2020-12-17</lastmod>
-  </url>
-  <url>
-    <loc>https://zhouyuqian.com/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/</loc>
     <lastmod>2020-12-17</lastmod>
   </url>
   <url>
@@ -82,10 +106,6 @@
   </url>
   <url>
     <loc>https://zhouyuqian.com/2020/11/07/single-stage-amplify/</loc>
-    <lastmod>2020-11-07</lastmod>
-  </url>
-  <url>
-    <loc>https://zhouyuqian.com/2020/02/05/Ubuntu%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%A4%87%E4%BB%BD/</loc>
     <lastmod>2020-11-07</lastmod>
   </url>
   <url>
@@ -134,10 +154,6 @@
   </url>
   <url>
     <loc>https://zhouyuqian.com/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</loc>
-    <lastmod>2020-07-01</lastmod>
-  </url>
-  <url>
-    <loc>https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</loc>
     <lastmod>2020-07-01</lastmod>
   </url>
   <url>

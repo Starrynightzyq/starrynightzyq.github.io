@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/cuda.png">
 <meta property="og:image" content="https://zhouyuqian.com/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/error1.png">
 <meta property="article:published_time" content="2020-04-29T06:30:28.000Z">
-<meta property="article:modified_time" content="2020-07-01T13:03:37.000Z">
+<meta property="article:modified_time" content="2021-04-11T13:03:37.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="GEEK">
@@ -244,7 +244,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-01 21:03:37" itemprop="dateModified" datetime="2020-07-01T21:03:37+08:00">2020-07-01</time>
+                <time title="修改时间：2021-04-11 21:03:37" itemprop="dateModified" datetime="2021-04-11T21:03:37+08:00">2021-04-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -283,7 +283,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
+              <span>3.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -355,7 +355,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
 <li><p>安装 NVIDIA 驱动</p>
 <p>如果以前安装过 nvidia 驱动，需要卸载：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove –purge nvidia*</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove –purge <span class="string">&quot;*nvidia*&quot;</span></span><br></pre></td></tr></table></figure>
 <p>首先给驱动文件增加可执行权限：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA-Linux-*******.run</span><br></pre></td></tr></table></figure>
 <p>然后执行安装：</p>
@@ -377,6 +377,14 @@
 </figure>
 <p><strong>最后我装的是 430.50 版本的驱动</strong></p>
 <a id="more"></a>
+<h1 id="显示使用核显计算使用独显">显示使用核显，计算使用独显</h1>
+<blockquote>
+<p>https://forums.developer.nvidia.com/t/ubuntu-18-04-headless-390-intel-igpu-after-prime-select-intel-lost-contact-to-geforce-1050ti/66698</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo prime-select nvidia</span><br></pre></td></tr></table></figure>
+<p>add ‘nogpumanager’ kernel parameter</p>
+<p>create /etc/X11/xorg.conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Section <span class="string">&quot;Device&quot;</span></span><br><span class="line">    Identifier     <span class="string">&quot;intel&quot;</span></span><br><span class="line">    Driver         <span class="string">&quot;modesetting&quot;</span></span><br><span class="line">    BusID          <span class="string">&quot;PCI:0:2:0&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
 <h1 id="安装-cuda-version-10.0">安装 <a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1>
 <p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a target="_blank" rel="noopener" href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
 <figure>
@@ -570,7 +578,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">安装 NVIDIA 显卡驱动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cuda-version-10.0"><span class="nav-number">2.</span> <span class="nav-text">安装 CUDA (version 10.0)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cudnn-version-7.4.2"><span class="nav-number">3.</span> <span class="nav-text">安装 cudnn (version 7.4.2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-cuda-%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F"><span class="nav-number">4.</span> <span class="nav-text">测试 CUDA 是否安装成功</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84-cuda"><span class="nav-number">5.</span> <span class="nav-text">安装多个版本的 cuda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-tensorflow"><span class="nav-number">6.</span> <span class="nav-text">安装 tensorflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%91"><span class="nav-number">7.</span> <span class="nav-text">坑！！！</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-nvidia-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">安装 NVIDIA 显卡驱动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E4%BD%BF%E7%94%A8%E6%A0%B8%E6%98%BE%E8%AE%A1%E7%AE%97%E4%BD%BF%E7%94%A8%E7%8B%AC%E6%98%BE"><span class="nav-number">2.</span> <span class="nav-text">显示使用核显，计算使用独显</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cuda-version-10.0"><span class="nav-number">3.</span> <span class="nav-text">安装 CUDA (version 10.0)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cudnn-version-7.4.2"><span class="nav-number">4.</span> <span class="nav-text">安装 cudnn (version 7.4.2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-cuda-%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F"><span class="nav-number">5.</span> <span class="nav-text">测试 CUDA 是否安装成功</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%AC%E7%9A%84-cuda"><span class="nav-number">6.</span> <span class="nav-text">安装多个版本的 cuda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-tensorflow"><span class="nav-number">7.</span> <span class="nav-text">安装 tensorflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%91"><span class="nav-number">8.</span> <span class="nav-text">坑！！！</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -586,7 +594,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -660,12 +668,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">165k</span>
+    <span title="站点总字数">190k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:30</span>
+    <span title="站点阅读时长">2:52</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

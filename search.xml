@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Config static IP address on Ubuntu 18.04</title>
-    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
-    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
-<a id="more"></a>
-<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
-</blockquote>
-<p>结果如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
-<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
-<p>然后是配置生效：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Cadence ASM Tutorial</title>
     <url>/2020/12/16/CadenceASMTutorial/</url>
     <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
@@ -134,91 +107,30 @@
       </tags>
   </entry>
   <entry>
-    <title>Delta-Sigma Modulator</title>
-    <url>/2020/11/26/DSM/</url>
-    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
-<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
+    <title>Config static IP address on Ubuntu 18.04</title>
+    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
+    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
 <a id="more"></a>
-<h1 id="分数型锁相环">分数型锁相环</h1>
-<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
-<p><img src="/2020/11/26/DSM/image-20201126163214994.png" alt="image-20201126163214994" style="zoom:50%;"></p>
-<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
-<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
-<p><img src="/2020/11/26/DSM/image-20201126163436341.png" alt="image-20201126163436341" style="zoom:50%;"></p>
-<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
-<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
-<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
-<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
-H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
-\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
-<p><img src="/2020/11/26/DSM/image-20201126170555897.png" alt="image-20201126170555897" style="zoom:33%;"></p>
-<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
-<p><img src="/2020/11/26/DSM/image-20201126170450055.png" alt="image-20201126170450055" style="zoom:33%;"></p>
-<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
-NTF(z) = \frac{1}{1+H(z)}
-\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
-<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
-STF(S) = \frac{H(z)}{1+H(z)}
-\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
-<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
-<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
-<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
-<p><img src="/2020/11/26/DSM/image-20201126181412774.png" alt="image-20201126181412774" style="zoom:50%;"></p>
-<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
-<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
-<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
-<h2 id="mash-结构">MASH 结构</h2>
-<p><img src="/2020/11/26/DSM/image-20201126182429474.png" alt="image-20201126182429474" style="zoom:40%;"></p>
-<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
-<p><strong>优点</strong>：稳定性好。</p>
-<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
-<p>第一级的输出： <span class="math display">\[
-y_1 = z^{-1} x + (1-z^{-1})q_1
-\]</span> 第二级的输出： <span class="math display">\[
-y_2 = z^{-1} q_1 + (1-z^{-1})q_2
-\]</span> 最终输出： <span class="math display">\[
-y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
-\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
-<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
-<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
-<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
-<ol type="1">
-<li>DSM 的阶数</li>
-<li>DSM 的结构</li>
-<li>DSM 的数字输出比特数</li>
-<li>DSM 的稳定输入范围</li>
-<li>噪声整形性能与环路稳定性的考量</li>
-</ol>
-<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
-<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
-<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
-<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
-<p><img src="/2020/11/26/DSM/image-20201126194055426.png" alt="image-20201126194055426" style="zoom:50%;"></p>
-<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
-<h2 id="相位补偿">相位补偿</h2>
-<p><img src="/2020/11/26/DSM/image-20201126194607316.png" alt="image-20201126194607316" style="zoom:50%;"></p>
-<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
+<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>关于噪声补偿的一点点思考</p>
-<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
-<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
-<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
-<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
+<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
 </blockquote>
-<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
-<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
-<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
-<h1 id="最小二乘法">最小二乘法</h1>
-<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
-<h1 id="参考文章">参考文章</h1>
-<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
-<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+<p>结果如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
+<p>然后是配置生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Delta-Sigma</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -359,6 +271,94 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>CM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delta-Sigma Modulator</title>
+    <url>/2020/11/26/DSM/</url>
+    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
+<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
+<a id="more"></a>
+<h1 id="分数型锁相环">分数型锁相环</h1>
+<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
+<p><img src="/2020/11/26/DSM/image-20201126163214994.png" alt="image-20201126163214994" style="zoom:50%;"></p>
+<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
+<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
+<p><img src="/2020/11/26/DSM/image-20201126163436341.png" alt="image-20201126163436341" style="zoom:50%;"></p>
+<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
+<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
+<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
+<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
+H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
+\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
+<p><img src="/2020/11/26/DSM/image-20201126170555897.png" alt="image-20201126170555897" style="zoom:33%;"></p>
+<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
+<p><img src="/2020/11/26/DSM/image-20201126170450055.png" alt="image-20201126170450055" style="zoom:33%;"></p>
+<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
+NTF(z) = \frac{1}{1+H(z)}
+\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
+<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
+STF(S) = \frac{H(z)}{1+H(z)}
+\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
+<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
+<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
+<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
+<p><img src="/2020/11/26/DSM/image-20201126181412774.png" alt="image-20201126181412774" style="zoom:50%;"></p>
+<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
+<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
+<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
+<h2 id="mash-结构">MASH 结构</h2>
+<p><img src="/2020/11/26/DSM/image-20201126182429474.png" alt="image-20201126182429474" style="zoom:40%;"></p>
+<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
+<p><strong>优点</strong>：稳定性好。</p>
+<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
+<p>第一级的输出： <span class="math display">\[
+y_1 = z^{-1} x + (1-z^{-1})q_1
+\]</span> 第二级的输出： <span class="math display">\[
+y_2 = z^{-1} q_1 + (1-z^{-1})q_2
+\]</span> 最终输出： <span class="math display">\[
+y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
+\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
+<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
+<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
+<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
+<ol type="1">
+<li>DSM 的阶数</li>
+<li>DSM 的结构</li>
+<li>DSM 的数字输出比特数</li>
+<li>DSM 的稳定输入范围</li>
+<li>噪声整形性能与环路稳定性的考量</li>
+</ol>
+<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
+<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
+<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
+<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
+<p><img src="/2020/11/26/DSM/image-20201126194055426.png" alt="image-20201126194055426" style="zoom:50%;"></p>
+<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><img src="/2020/11/26/DSM/image-20201126194607316.png" alt="image-20201126194607316" style="zoom:50%;"></p>
+<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
+<blockquote>
+<p>关于噪声补偿的一点点思考</p>
+<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
+<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
+<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
+<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
+</blockquote>
+<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
+<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
+<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
+<h1 id="最小二乘法">最小二乘法</h1>
+<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
+<h1 id="参考文章">参考文章</h1>
+<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+]]></content>
+      <categories>
+        <category>Delta-Sigma</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -617,6 +617,48 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       </tags>
   </entry>
   <entry>
+    <title>HDB3&amp;BPSK</title>
+    <url>/2018/12/24/HDB3-BPSK/</url>
+    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
+<h2 id="需要的资源">需要的资源</h2>
+<ul>
+<li>ADC；</li>
+<li>DDS；</li>
+<li>DAC；</li>
+</ul>
+<h2 id="实现">实现</h2>
+<p>根据上述要求，选择EGo1板卡。</p>
+<ul>
+<li><p>ADC可使用Artix7芯片自带的XADC；</p>
+<blockquote>
+<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
+<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
+<p>https://zhuanlan.zhihu.com/p/44495333</p>
+</blockquote>
+<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
+<li><p>DDS可使用xilinx的DDS IP核；</p>
+<blockquote>
+<p>https://zhuanlan.zhihu.com/p/36929424</p>
+</blockquote></li>
+<li><p>DAC可使用板卡上的DAC0832芯片；</p>
+<blockquote>
+<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
+</blockquote></li>
+</ul>
+<h1 id="hdb3-编码">HDB3 编码</h1>
+<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
+]]></content>
+      <categories>
+        <category>课设</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>HDB3</tag>
+        <tag>BPSK</tag>
+        <tag>通信原理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>以太网视频传输</title>
     <url>/2020/07/31/EthernetVideo/</url>
     <content><![CDATA[<p>在用 FPGA 进行图像处理时，通常的作法是接一个显示器，查看输出结果，不过这也太不方便了，手上的这块 <a href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">PYNQ-Z2</a> 带有千兆以太网口，就想着用以太网传输视频，这样就可以抛弃笨重的显示器了。由于 Lei 同学已经完成了裸机的方案（见<a href="http://leiblog.wang/Ethernet-Video/">千兆以太网视频传输</a>）,并且之前已经在 ZYNQ 上移植了 Linux 系统，那就做一个运行在 Linux 系统上的以太网图像传输吧。其实这样做起来更简单，网上可以参考的也一大堆。</p>
@@ -709,45 +751,116 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       </tags>
   </entry>
   <entry>
-    <title>HDB3&amp;BPSK</title>
-    <url>/2018/12/24/HDB3-BPSK/</url>
-    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
-<h2 id="需要的资源">需要的资源</h2>
+    <title>LC-VCO</title>
+    <url>/2021/03/24/LC-VCO/</url>
+    <content><![CDATA[<h1 id="lc-vco-原理">LC-VCO 原理</h1>
+<h2 id="lc-振荡器">LC 振荡器</h2>
+<p><img src="/2021/03/24/LC-VCO/image-20210327165004749.png" alt="image-20210327165004749" style="zoom:33%;"></p>
+<p>振荡器的本质是一个非线性反馈系统，如上图所示，该系统的开环传递函数为 <span class="math inline">\(H(s)\)</span>，则其闭环传递函数可以表示为： <span class="math display">\[
+\frac{V_{out}}{V_{in}}=\frac{H(s)}{1+H(s)}
+\]</span> 当 <span class="math inline">\(H(s)=-1\)</span> 时，负反馈系统的输出为无穷大，这样系统中的任何节点上有一个小的抖动或者噪声都能够使得系统发生振荡，这时候负反馈系统变成正反馈。</p>
+<p>一个负反馈系统必须满足以下两个 Barkhausen 振荡原则，电路才能够在频率点 <span class="math inline">\(\omega _0(s=j\omega _0)\)</span> 上发生振荡：</p>
 <ul>
-<li>ADC；</li>
-<li>DDS；</li>
-<li>DAC；</li>
+<li>振荡器开环增益 <span class="math inline">\(|H(j\omega _0)|\geq1\)</span>；</li>
+<li>振荡器的开环相移为 180°。</li>
 </ul>
-<h2 id="实现">实现</h2>
-<p>根据上述要求，选择EGo1板卡。</p>
-<ul>
-<li><p>ADC可使用Artix7芯片自带的XADC；</p>
+<p>在实际电路设计中，振荡器的开环增益往往是计算值的 2-3 倍。这主要是为了克服工艺和温度的偏差，以及由于电路非线性造成的开环增益的下降。</p>
+<p><img src="/2021/03/24/LC-VCO/image-20210328191139257.png" alt="image-20210328191139257" style="zoom:50%;"></p>
+<p>如上图(a)所示，一个理想的电感电容谐振电路，在频率 <span class="math inline">\(\omega_{res}=1/\sqrt{LC}\)</span> 处谐振，在此频率下，电感的阻抗 <span class="math inline">\(jL\omega_{res}\)</span> 和电容的阻抗 <span class="math inline">\(1/(jC\omega_{res})\)</span> 幅值相等而方向相反，因此产生了无穷大的阻抗，回路的品质因数Q 为无穷大。实际的片上电感和电容都存在串联电阻，如图(b)所示，可以将其等效为电路(c)，电路(b)和电路(c)阻抗相等，有如下的关系： <span class="math display">\[
+Ls+R_L=\frac{R_{P,L}\cdot L_Ps}{R_{P,L}+L_Ps}
+\]</span> 只考虑稳态，假设 <span class="math inline">\(s=j\omega\)</span>，上式可以写成： <span class="math display">\[
+(L\cdot R_{P,L}+L_P\cdot R_L)j\omega+R_{L}\cdot R_{P,L}-L\cdot L_P \cdot \omega^2=R_{P,L}\cdot L_P\cdot j\omega
+\]</span> 要求对所有的 <span class="math inline">\(\omega\)</span> 值都成立，则： <span class="math display">\[
+L\cdot R_{P,L}+L_P\cdot R_L =R_{P,L}\cdot L_P
+\]</span></p>
+<p><span class="math display">\[
+R_{L}\cdot R_{P,L}-L\cdot L_P \cdot \omega^2 = 0
+\]</span></p>
+<p>则有： <span class="math display">\[
+L_P= L(1+\frac{1}{Q_L^2})\quad , \quad Q_L= \frac{L\omega}{R_L}
+\]</span></p>
+<p><span class="math display">\[
+R_{P,L}=(1+Q_L)^2R_L
+\]</span></p>
+<p>同样的可以推导出： <span class="math display">\[
+C_P= \frac{C}{1+\frac{1}{Q_C^2}}\quad,\quad Q_C = \frac{1}{\omega C R_C}
+\]</span></p>
+<p><span class="math display">\[
+R_{P,C} =(1+Q_C)^2R_C
+\]</span></p>
+<p><span class="math display">\[
+R_P =R_{P,L}+ R_{P,C}=(1+Q_L)^2+(1+Q_C)^2R_C
+\]</span></p>
+<p>RLC 并联谐振回路的品质因数 <span class="math inline">\(Q_{tank} = {R_P}/{\omega L_P}=\omega C_P R_P\)</span>，谐振频率为 <span class="math inline">\(\omega _{res} = 1/\sqrt{L_PC_P}\)</span>，在谐振频率处，RLC 并联等效电路的输出阻抗为 <span class="math inline">\(R_P\)</span>。</p>
+<p><img src="/2021/03/24/LC-VCO/截屏2021-03-28 下午7.54.27.png" alt="截屏2021-03-28 下午7.54.27" style="zoom:50%;"></p>
+<p>上图画出振荡回路的阻抗和频率的关系。</p>
+<h2 id="交叉耦合振荡器">交叉耦合振荡器</h2>
+<h2 id="从负电阻角度理解">从"负电阻"角度理解</h2>
+<p><img src="/2021/03/24/LC-VCO/image-20210328195729413.png" alt="image-20210328195729413" style="zoom:50%;"></p>
+<p>如上图(a)所示，当有一个电流脉冲刺激 RLC 并联电路时，RLC 电路将发生振荡，由于电阻 <span class="math inline">\(R_P\)</span> 的存在，振荡将慢慢衰减为零。如果将一负阻 <span class="math inline">\(-R_P\)</span> 与该电路并联，如图(b)所示，RLC 电路的并联电阻为 0，这样振荡将永远维持下去。因此如果单端口电路有一负电阻与振荡回路并联，如图(c)所示，电路就会永远振荡。</p>
+<p><img src="/2021/03/24/LC-VCO/image-20210328204242084.png" alt="image-20210328204242084" style="zoom:50%;"></p>
+<p>上图为采用 MOS 管实现的负阻电路和其交流小信号等效电路。忽略 MOS 管 Mn1 和Mn2 的衬底效应和沟道调制效应，可以得到： <span class="math display">\[
+V_x = V_2-V_1,\quad I_x = g_{m2}V_1=-g_{m1}V_2
+\]</span> 则： <span class="math display">\[
+V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{m1}}+ \frac{1}{g_{m2}} \right)
+\]</span> 如果 Mn1 和 Mn2 相同，则： <span class="math display">\[
+\frac{V_x}{I_x}= -\frac{2}{g_m}
+\]</span> 当加在负阻的两端的电压增加时，负阻将对外输出电流。如果将上图中的交叉耦合差分对管与 RLC 回路相并联，如下图所示，并且保证 <span class="math inline">\(R_P\leq 2/g_m\)</span> 时，负阻就能够为 RLC 回路中的并联电阻 <span class="math inline">\(R_P\)</span> 消耗的能量进行源源不断的补偿。节点 X 和 Y 将产生差分振荡信号，<strong>振荡波形与尾电流偏置大小有关。</strong></p>
+<p><img src="/2021/03/24/LC-VCO/image-20210328205400270.png" alt="image-20210328205400270" style="zoom:50%;"></p>
+<h1 id="谐振振荡器内在振荡机制">谐振振荡器内在振荡机制</h1>
+<h2 id="振荡器谐振幅度">振荡器谐振幅度</h2>
+<h1 id="vco-压控振荡器">VCO 压控振荡器</h1>
+<h2 id="指标">指标</h2>
+<h2 id="lc-vco-的调节">LC-VCO 的调节</h2>
+<p>LC 振荡器的振荡频率等于 <span class="math inline">\(f_{osc}=1/(2\pi \sqrt{LC})\)</span>，因为改变单片电感的值很困难，我们可以调节电容值来调节振荡器。电容值与电压值有关的电容被称为“可变电容器” (varactor)。</p>
+<p><img src="/2021/03/24/LC-VCO/image-20210328213837766.png" alt="image-20210328213837766" style="zoom:50%;"></p>
+<p>如上图所示，变容二极管可以使用 MOS 管构成。</p>
+<h2 id="vco-的数学模型">VCO 的数学模型</h2>
+<h1 id="lc-vco-的设计">LC-VCO 的设计</h1>
+<h2 id="电路结构">电路结构</h2>
+<h2 id="varactor-变容二极管仿真">**Varactor 变容二极管仿真</h2>
+<h3 id="ac">AC</h3>
+<figure>
+<img src="/2021/03/24/LC-VCO/tb-ac.png" alt="tb-ac"><figcaption aria-hidden="true">tb-ac</figcaption>
+</figure>
+<p>AC 仿真使用的电路如上图所示。<strong>为了减小栅电阻，使用多指结构；为了减小沟道电阻，使用最小的沟道长度。</strong></p>
+<figure>
+<img src="/2021/03/24/LC-VCO/imaginary-L10u-W10u.svg" alt="imaginary-L10u-W10u"><figcaption aria-hidden="true">imaginary-L10u-W10u</figcaption>
+</figure>
+<p>仿真结果 imaginary 和频率的关系如上图所示。<span class="math inline">\(imag=2\pi fC_{var}\)</span>。</p>
+<h3 id="dc">DC</h3>
+<figure>
+<img src="/2021/03/24/LC-VCO/tb-dc.png" alt="tb-dc"><figcaption aria-hidden="true">tb-dc</figcaption>
+</figure>
+<p>DC 仿真使用的电路如上图所示。同时使用 "DC" 和 "parametric analysis"，扫描控制电压 VB。</p>
+<figure>
+<img src="/2021/03/24/LC-VCO/cgg-L10u-W10u.svg" alt="cgg-L10u-W10u"><figcaption aria-hidden="true">cgg-L10u-W10u</figcaption>
+</figure>
+<p>使用 "calculator" 中的 "op" 选项 (operating point)，获取变容二极管的 "cgg" 参数，画出其与控制电压的关系。可以看到，当控制电压在 0-1.2 V 之间时，cgg 和 VB 近似可以看成一个线性的关系。当要在相同的控制电压下获得其他值的电容，只需要按比例缩放变容二极管的 W 和 L。</p>
+<h2 id="inductor-电感仿真">Inductor 电感仿真</h2>
 <blockquote>
-<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
-<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
-<p>https://zhuanlan.zhihu.com/p/44495333</p>
+<p>待完成</p>
 </blockquote>
-<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
-<li><p>DDS可使用xilinx的DDS IP核；</p>
+<h2 id="电路参数确定">电路参数确定</h2>
 <blockquote>
-<p>https://zhuanlan.zhihu.com/p/36929424</p>
-</blockquote></li>
-<li><p>DAC可使用板卡上的DAC0832芯片；</p>
+<p>待完成</p>
+</blockquote>
+<h2 id="整体仿真">整体仿真</h2>
 <blockquote>
-<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
-</blockquote></li>
-</ul>
-<h1 id="hdb3-编码">HDB3 编码</h1>
-<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
+<p>待完成</p>
+</blockquote>
+<h1 id="references">References</h1>
+<p>[] <a href>L100-VCOs-2UP(9_1_03) by P.E.Allen</a></p>
+<p>[] <a href>唐长文博士论文_PhD_Thesis</a></p>
+<p>[] <a href>RFIC Design Tutorial Voltage Controlled Oscillators Prepared By: Burak Catli</a></p>
 ]]></content>
       <categories>
-        <category>课设</category>
+        <category>PLL</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
-        <tag>HDB3</tag>
-        <tag>BPSK</tag>
-        <tag>通信原理</tag>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PLL</tag>
       </tags>
   </entry>
   <entry>
@@ -755,6 +868,71 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
     <url>/2019/02/12/Linux-Learning/</url>
     <content><![CDATA[<p>磁盘分区工具：gparted</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Linux Wake on Lan</title>
+    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
+    <content><![CDATA[<h1 id="wake-on-lan-原理">Wake on Lan 原理</h1>
+<p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
+<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
+<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
+<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
+<h2 id="magic-packet">Magic Packet</h2>
+<p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
+<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
+<h1 id="注意事项">注意事项</h1>
+<ol type="1">
+<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p></li>
+<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
+<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
+<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
+</blockquote></li>
+</ol>
+<a id="more"></a>
+<blockquote>
+<p>启动者(电脑A) -----------&gt; 被远程开启的电脑(电脑B)</p>
+</blockquote>
+<h1 id="被远程开启的电脑电脑b-设置">被远程开启的电脑(电脑B) 设置</h1>
+<ol type="1">
+<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p></li>
+<li><p>在 Linux 系统中安装 ethtool：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
+<li><p>查看 WOL 是否打开：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
+<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p></li>
+<li><p>打开 WOL：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
+<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p></li>
+</ol>
+<h1 id="启动者电脑a-设置">启动者(电脑A) 设置</h1>
+<p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
+<ol type="1">
+<li><p>安装 wakeonlan：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 B 电脑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>Reference:</p>
+<p>https://en.wikipedia.org/wiki/Wake-on-LAN</p>
+<p>https://zhuanlan.zhihu.com/p/29100480</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux Samba Server</title>
@@ -831,71 +1009,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
 ]]></content>
       <categories>
         <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux Wake on Lan</title>
-    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
-    <content><![CDATA[<h1 id="wake-on-lan-原理">Wake on Lan 原理</h1>
-<p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
-<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
-<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
-<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
-<h2 id="magic-packet">Magic Packet</h2>
-<p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
-<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
-<h1 id="注意事项">注意事项</h1>
-<ol type="1">
-<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p></li>
-<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
-<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
-<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
-</blockquote></li>
-</ol>
-<a id="more"></a>
-<blockquote>
-<p>启动者(电脑A) -----------&gt; 被远程开启的电脑(电脑B)</p>
-</blockquote>
-<h1 id="被远程开启的电脑电脑b-设置">被远程开启的电脑(电脑B) 设置</h1>
-<ol type="1">
-<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p></li>
-<li><p>在 Linux 系统中安装 ethtool：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
-<li><p>查看 WOL 是否打开：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
-<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p></li>
-<li><p>打开 WOL：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
-<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p></li>
-</ol>
-<h1 id="启动者电脑a-设置">启动者(电脑A) 设置</h1>
-<p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
-<ol type="1">
-<li><p>安装 wakeonlan：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
-<li><p>启动 B 电脑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>Reference:</p>
-<p>https://en.wikipedia.org/wiki/Wake-on-LAN</p>
-<p>https://zhuanlan.zhihu.com/p/29100480</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>GEEK</category>
       </categories>
       <tags>
         <tag>Linux</tag>
@@ -999,37 +1112,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       </tags>
   </entry>
   <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -1079,6 +1161,37 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -2606,7 +2719,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
 <li><p>安装 NVIDIA 驱动</p>
 <p>如果以前安装过 nvidia 驱动，需要卸载：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get autoremove –purge nvidia*</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get autoremove –purge <span class="string">&quot;*nvidia*&quot;</span></span><br></pre></td></tr></table></figure>
 <p>首先给驱动文件增加可执行权限：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA-Linux-*******.run</span><br></pre></td></tr></table></figure>
 <p>然后执行安装：</p>
@@ -2628,6 +2741,14 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 </figure>
 <p><strong>最后我装的是 430.50 版本的驱动</strong></p>
 <a id="more"></a>
+<h1 id="显示使用核显计算使用独显">显示使用核显，计算使用独显</h1>
+<blockquote>
+<p>https://forums.developer.nvidia.com/t/ubuntu-18-04-headless-390-intel-igpu-after-prime-select-intel-lost-contact-to-geforce-1050ti/66698</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo prime-select nvidia</span><br></pre></td></tr></table></figure>
+<p>add ‘nogpumanager’ kernel parameter</p>
+<p>create /etc/X11/xorg.conf</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;Device&quot;</span></span><br><span class="line">    Identifier     <span class="string">&quot;intel&quot;</span></span><br><span class="line">    Driver         <span class="string">&quot;modesetting&quot;</span></span><br><span class="line">    BusID          <span class="string">&quot;PCI:0:2:0&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
 <h1 id="安装-cuda-version-10.0">安装 <a href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1>
 <p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
 <figure>
@@ -2909,6 +3030,9 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <p>还没装好</p>
 </blockquote>
 <h1 id="samba">Samba</h1>
+<h1 id="ubuntu下-firefox-无法观看视频的解决">Ubuntu下 firefox 无法观看视频的解决</h1>
+<p>提示缺少 flash 插件，此举解决的是html5的视频播放问题，flash不管了，谁还用flash啊。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ffmpeg</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>GEEK</category>
@@ -3073,29 +3197,6 @@ K_{cp} = \frac{I_{cp}}{2\pi}
       </tags>
   </entry>
   <entry>
-    <title>Cadence IC617 on Ubuntu</title>
-    <url>/2021/03/07/VirtuosoOnUbuntu/</url>
-    <content><![CDATA[<h1 id="cadence-reference">Cadence Reference</h1>
-<p>[1.1] <a href="https://my.oschina.net/propagator/blog/3166272">ubuntu18.04安装cadence virtuoso</a></p>
-<p>[1.2] <a href="https://blog.csdn.net/yy345730585/article/details/90407408">在 CentOS7 下安装 Cadence IC验证平台 INCISIVE152</a></p>
-<p>可能出现的问题及解决方法：</p>
-<p>[2] <a href="http://bbs.eetop.cn/thread-877866-1-1.html">...install.ixl/mgc_install: No such file or directory</a></p>
-<p>[3] <a href="http://bbs.eetop.cn/thread-400786-1-1.html">ERROR: The OA2.2 library directory (/home/hushuai/cadence/installs/IC616/oa_v22.43.018/lib/linux_rhel40_gcc44x_32/opt) does not seem to exist.</a></p>
-<p>[4] <a href="http://bbs.eetop.cn/thread-325949-1-1.html"><em>WARNING</em> Unable to find font name: "-<em>-courier-medium-r-</em>-<em>-12-</em>".</a></p>
-<p>[6] <a href="http://bbs.eetop.cn/archiver/tid-635921.html">*ld: /usr/lib/x86_64-linux-gnu/crti.o: unrecognized relocation (0x2a) in section `.init'</a></p>
-<h1 id="ads-reference">ADS Reference</h1>
-<p>[1] <a href="http://bbs.eetop.cn/thread-880091-1-1.html">快递：Linux安装ADS2020update2.0及破解</a></p>
-<p>[2] <a href="http://bbs.eetop.cn/thread-560408-1-1.html">ubuntu 上装 ADS 2015</a></p>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>Software</tag>
-        <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>配置 VS Code 的 Verilog 开发环境</title>
     <url>/2021/03/15/VerilogOnVscode/</url>
     <content><![CDATA[<h1 id="安装-hdl-语言支持插件">安装 HDL 语言支持插件</h1>
@@ -3183,6 +3284,127 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <tag>GEEK</tag>
         <tag>FPGA</tag>
         <tag>Vscode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cadence IC617 on Ubuntu</title>
+    <url>/2021/03/07/VirtuosoOnUbuntu/</url>
+    <content><![CDATA[<h1 id="cadence-reference">Cadence Reference</h1>
+<p>[1.0] <a href="https://zhuanlan.zhihu.com/p/354374816">Ubuntu20.04 安装Cadence IC617(HotFix)，Spectre，Calibre，Xceliummain</a></p>
+<p>[1.1] <a href="https://my.oschina.net/propagator/blog/3166272">ubuntu18.04安装cadence virtuoso</a></p>
+<p>[1.2] <a href="https://blog.csdn.net/yy345730585/article/details/90407408">在 CentOS7 下安装 Cadence IC验证平台 INCISIVE152</a></p>
+<p>可能出现的问题及解决方法：</p>
+<p>[2] <a href="http://bbs.eetop.cn/thread-877866-1-1.html">...install.ixl/mgc_install: No such file or directory</a></p>
+<p>[3] <a href="http://bbs.eetop.cn/thread-400786-1-1.html">ERROR: The OA2.2 library directory (/home/hushuai/cadence/installs/IC616/oa_v22.43.018/lib/linux_rhel40_gcc44x_32/opt) does not seem to exist.</a></p>
+<p>[4] <a href="http://bbs.eetop.cn/thread-325949-1-1.html"><em>WARNING</em> Unable to find font name: "-<em>-courier-medium-r-</em>-<em>-12-</em>".</a></p>
+<p>[6] <a href="http://bbs.eetop.cn/archiver/tid-635921.html">*ld: /usr/lib/x86_64-linux-gnu/crti.o: unrecognized relocation (0x2a) in section `.init'</a></p>
+<p>[7] <a href="https://blog.csdn.net/qq_19734597/article/details/102943559">/usr/include/math.h:27:36: fatal error: bits/libc-header-start.h: No such file or directory</a></p>
+<p>[8] <a href="http://bbs.eetop.cn/thread-768205-1-1.html">WARNING The glibc version of this host does not appear to be a Cadence supported version.</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 准备工作</span></span><br><span class="line">sudo apt-get install ksh csh openjdk-8-jre openjdk-8-jdk xterm libncursesw5-dev libxtst6:i386 libxi6:i386 libstdc++6 lib32stdc++6 python net-tools xfonts-75dpi xfonts-100dpi</span><br><span class="line"><span class="comment"># </span></span><br><span class="line">wget http://ftp.br.debian.org/debian/pool/main/g/glibc/multiarch-support_2.28-10_amd64.deb</span><br><span class="line">sudo dpkg -i multiarch-support_2.28-10_amd64.deb</span><br><span class="line">wget http://launchpadlibrarian.net/183708483/libxp6_1.0.2-2_amd64.deb</span><br><span class="line">sudo dpkg -i libxp6_1.0.2-2_amd64.deb</span><br><span class="line"><span class="comment"># 查看Java安装情况</span></span><br><span class="line">java -version</span><br><span class="line"><span class="comment"># 配置Java环境变量</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$JAVA_HOME</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$JAVA_HOME</span>/lib:<span class="variable">$JRE_HOME</span>/lib:<span class="variable">$CLASSPATH</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$JRE_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="comment"># 添加redhat-release 骗过cadence</span></span><br><span class="line">sudo <span class="built_in">echo</span> <span class="string">&quot;Red Hat Enterprise Linux release 6.12&quot;</span> &gt; /etc/redhat-release</span><br><span class="line">sudo chmod 777 /etc/redhat-release</span><br><span class="line"><span class="comment">##创建临时文件夹</span></span><br><span class="line">sudo ln -s /tmp /usr/tmp</span><br><span class="line"><span class="comment">##软链接</span></span><br><span class="line"><span class="comment">##sudo ln -s /usr/bin/mawk /bin/awk</span></span><br><span class="line"><span class="comment">##sudo ln -s /usr/bin/basename /bin/basename</span></span><br><span class="line">sudo ln -s /lib/x86_64-linux-gnu/libncursesw.so.5.9 /lib/libtermcap.so.2</span><br><span class="line">sudo ln -s /lib/x86_64-linux-gnu/libcrypto.so.1.1 /lib/x86_64-linux-gnu/libcrypto.so.6</span><br></pre></td></tr></table></figure>
+<h1 id="ads-reference">ADS Reference</h1>
+<p>[1] <a href="http://bbs.eetop.cn/thread-880091-1-1.html">快递：Linux安装ADS2020update2.0及破解</a></p>
+<p>[2] <a href="http://bbs.eetop.cn/thread-560408-1-1.html">ubuntu 上装 ADS 2015</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ./pubkey_verify</span><br><span class="line">sudo ./pubkey_verify -y</span><br></pre></td></tr></table></figure>
+<p>然后再安装license</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># sh:1:lmutil:not found  sh:1:lmgrd:not found</span></span><br><span class="line">sudo apt-get isntall lsb-core</span><br></pre></td></tr></table></figure>
+<h1 id="modelsim">Modelsim</h1>
+<h2 id="prepare-install-files">Prepare install files</h2>
+<p>Unwaper this three files and you will get <code>Mentor Graphics ModelSim SE 2020.4 Linux64</code></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Mentor_Graphics_ModelSim_SE_2020</span>.<span class="number">4</span>_Linux<span class="number">64</span>.part<span class="number">1</span>_Downloadly.ir</span><br><span class="line"><span class="attribute">Mentor_Graphics_ModelSim_SE_2020</span>.<span class="number">4</span>_Linux<span class="number">64</span>.part<span class="number">2</span>_Downloadly.ir</span><br><span class="line"><span class="attribute">Mentor_Graphics_ModelSim_SE_2020</span>.<span class="number">4</span>_Linux<span class="number">64</span>.part<span class="number">3</span>_Downloadly.ir</span><br></pre></td></tr></table></figure>
+<h2 id="安装">安装</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chmod +x modelsim-2020.4_Downloadly.ir.aol <span class="comment"># 修改权限</span></span><br><span class="line">sudo ./modelsim-2020.4_Downloadly.ir.aol <span class="comment"># 安装</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意：只安装 64 位的部分！</strong></p>
+</blockquote>
+<h2 id="生成-license-file">生成 license file</h2>
+<p>使用 wine 运行 <code>MentorKG.exe</code> 文件，首先要安装 wine：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wine</span><br></pre></td></tr></table></figure>
+<p>在成功安装Wine之后，需要在第一次使用之前使用下面的命令初始化wine配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo winecfg</span><br></pre></td></tr></table></figure>
+<p>然后 patch，<code>&lt;Modelsim install path&gt;</code> 在我的电脑上为 <code>/opt/ModelSim</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp MentorKG.exe &lt;Modelsim install path&gt;/modeltech/linux_x86_64 <span class="comment"># 复制 MentorKG.exe 到 modelsim 安装目录下</span></span><br><span class="line">sudo wine MentorKG.exe -patch .</span><br></pre></td></tr></table></figure>
+<p>保存生成的 license 为 <code>license.dat</code>，并选择文件编码格式为 <code>Unicode(UTF-8)</code>，位置 <code>/opt/ModelSim/license.dat</code></p>
+<h2 id="patch">Patch</h2>
+<p>ref:http://bbs.eetop.cn/thread-888767-1-1.html</p>
+<p>把 sfk 和 patch_calibre2011_linux 文件拷贝到 modelsim 的安装路径下(同级有modeltech和_msidata文件夹)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp patch_calibre2011_linux sfk /opt/ModelSim</span><br><span class="line">sudo chmod 755 patch_calibre2011_linux sfk    <span class="comment">#chmod patch 和 sfk文件权限均为755</span></span><br><span class="line">sudo ./patch_calibre2011_linux    <span class="comment">#执行本命令，其实就是调用了一次sfk</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>报错：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./sfk: error <span class="keyword">while</span> loading shared libraries: libstdc++.so.5: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">locate libstdc++.so.5  <span class="comment">#发现系统中还真的没这个运行库</span></span><br><span class="line"><span class="comment"># 这是一个古老的库 所以安装 </span></span><br><span class="line"><span class="comment"># sudo apt-get install libstdc++5</span></span><br><span class="line">sudo apt-get install libstdc++5:i386</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sfk rep -yes -bin /41574989CF41564589C6415541544189D455534889FB4881ECF8000000488B8798020000/4831c0c3CF41564589C6415541544189D455534889FB4881ECF8000000488B8798020000/ -dir .</span><br><span class="line">sfk rep -yes -bin /41574989CF41564589C6415541544189D455534889FB4881ECF8000000488B8798020000/4831c0c3CF41564589C6415541544189D455534889FB4881ECF8000000488B8798020000/ -dir .</span><br><span class="line">sfk rep -yes -bin /CC88D700000000001300000000000000000000000700070000000000210005007C6B610100000000000000000000000000000000000000000000000000000000A0D2D700000000000BFFFFFF00000000/CC88D7000000000013000000FFFFFFFF000000000700070000000000210005007C6B610100000000000000000000000000000000000000000000000000000000A0D2D700000000000BFFFFFF00000000/ -dir . -file vcom</span><br></pre></td></tr></table></figure>
+<p>最后的log中出现 2 changed 就成功了。</p>
+</blockquote>
+<h2 id="修改环境变量">修改环境变量</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># modelsim</span></span><br><span class="line"><span class="built_in">export</span> MTI_VCO_MODE=64</span><br><span class="line"><span class="built_in">export</span> LM_LICENSE_FILE=/opt/ModelSim/license.dat</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ModelSim/modeltech/linux_x86_64</span><br></pre></td></tr></table></figure>
+<p>执行 <code>vsim</code></p>
+<blockquote>
+<p>PS: 要修改网卡名称为 eth0</p>
+<blockquote>
+<p>sudo vim /etc/default/grub</p>
+<p>找到GRUB_CMDLINE_LINUX=""</p>
+<p>改为GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"</p>
+<p>然后sudo grub-mkconfig -o /boot/grub/grub.cfg</p>
+</blockquote>
+<p><strong>重启</strong>后，网卡名称就会变成了eth0</p>
+</blockquote>
+<blockquote>
+<p>dash 改为 bash</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo dpkg-reconfigure dash <span class="comment"># 选 No</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="hfss">HFSS</h1>
+<blockquote>
+<p>https://www.cfd-online.com/Forums/ansys/199190-ansys-18-2-ubuntu-16-04-installation-guide.html</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo ./install -silent -install_dir /opt/ansys_inc</span><br><span class="line">[sudo] password <span class="keyword">for</span> meow: </span><br><span class="line"><span class="comment">### Warning: Dependency package bzip2-libs is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package expat is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package fontconfig is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package freetype is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package giflib is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package glib2 is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package glibc is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libdrm is not installed.</span></span><br><span class="line"><span class="comment">### Warning: One of the following alternate dependencies are not installed: libjpeg libjpeg-turbo</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libpng is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libselinux is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libtiff is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libX11 is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXau is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libxcb is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXdamage is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXext is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXfixes is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXft is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXmu is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXp is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXrender is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXt is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package libXxf86vm is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package mesa-dri-drivers is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package mesa-libGL is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package mesa-libGLU is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package nss-softokn-freebl is not installed.</span></span><br><span class="line"><span class="comment">### Warning: Dependency package zlib is not installed.</span></span><br><span class="line">/mnt/hgfs/IC_Design/share/HFSS/ELECTRONICS_180_LINX64/Electronics_180_linx64/Linux/install.exe: error <span class="keyword">while</span> loading shared libraries: libpng12.so.0: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<h2 id="安装必要的软件">安装必要的软件</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install xterm lsb csh ssh rpm xfonts-base xfonts-100dpi xfonts-100dpi-transcoded xfonts-75dpi xfonts-75dpi-transcoded xfonts-cyrillic libmotif-common mesa-utils libxm4 libxt6 libxext6 libxi6 libx11-6 libsm6 libice6  libxxf86vm1 libpng16-16 libtiff5 gcc g++ libstdc++6 libstdc++5</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># libpng12-0</span></span><br><span class="line">wget http://ppa.launchpad.net/linuxuprising/libpng12/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1+1~ppa0~focal_amd64.deb</span><br><span class="line">sudo dpkg -i libpng12-0_1.2.54-1ubuntu1.1+1~ppa0~focal_amd64.deb</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># libxp</span></span><br><span class="line">wget ftp.us.debian.org/debian/pool/main/libx/libxp/libxp6_1.0.2-2_amd64.deb</span><br><span class="line">sudo dpkg -i libxp6_1.0.2-2_amd64.deb</span><br></pre></td></tr></table></figure>
+<h2 id="更新索引">更新索引</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># updatedb 用来创建或更新 slocate/locate 命令所必需的数据库文件</span></span><br><span class="line"><span class="comment"># updatedb 命令的执行过程较长，因为在执行时它会遍历整个系统的目录树，并将所有的文件信息写入 slocate/locate 数据库文件中</span></span><br><span class="line"><span class="comment"># Update the database with:</span></span><br><span class="line">sudo updatedb</span><br></pre></td></tr></table></figure>
+<h2 id="创建超链接">创建超链接</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libGL.so.1 /usr/lib/libGL.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libGL.so.1 /usr/lib/libGL.so.1</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libGLU.so.1 /usr/lib/libGLU.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libXm.so.4 /usr/lib/libXm.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libXm.so.4 /usr/lib/libXm.so.3</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libXp.so.6 /usr/lib/libXp.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libXt.so.6 /usr/lib/libXt.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libXext.so.6 /usr/lib/libXext.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libXi.so.6 /usr/lib/libXi.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libX11.so.6 /usr/lib/libX11.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libSM.so.6 /usr/lib/libSM.so</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libICE.so.6 /usr/lib/libICE.so</span><br><span class="line">sudo ln -s /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/libgcc.so</span><br><span class="line">sudo ln -s /lib/x86_64-linux-gnu/libc.so.6 /lib/libc.so</span><br><span class="line">sudo ln -s /lib/x86_64-linux-gnu/libc.so.6 /lib64/libc.so.6</span><br></pre></td></tr></table></figure>
+<h2 id="将默认-sh-改为-bash">将默认 sh 改为 bash</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Change the command interpreter for shell scripts:</span></span><br><span class="line">sudo dpkg-reconfigure dash</span><br><span class="line"><span class="comment"># Then answer &quot;No&quot; to the question.</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装-1">安装</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># install</span></span><br><span class="line"><span class="comment"># sudo ./INSTALL  -silent -install_dir /opt/ansys_inc</span></span><br><span class="line">sudo ./INSTALL</span><br></pre></td></tr></table></figure>
+<p>安装位置选择 <em>/opt/ansys_inc</em></p>
+<h2 id="破解">破解</h2>
+<p>将破解文件夹复制到 <em>/opt/ansys_inc</em> 覆盖原来的文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp -r ansys_inc /opt</span><br></pre></td></tr></table></figure>
+<h2 id="修改权限">修改权限</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chown -R <span class="variable">$USER</span>:<span class="variable">$USER</span> ~/.ansys</span><br><span class="line">sudo chown -R <span class="variable">$USER</span>:<span class="variable">$USER</span> ~/.config</span><br><span class="line">sudo chown -R 777 /ansys_inc/v202/aisol/WBMWRegistry/</span><br></pre></td></tr></table></figure>
+<h2 id="修改通配符不匹配">修改通配符不匹配</h2>
+<p>修改 <em>/opt/ansys_inc/v202/CFX/bin/cfx5arch</em></p>
+<p>大约在 196 行处有：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -n <span class="string">&quot;<span class="variable">$libc_file</span>&quot;</span>; <span class="keyword">then</span></span><br><span class="line"><span class="keyword">case</span> `basename <span class="variable">$libc_file</span> | sed <span class="string">&#x27;s/\.so//g&#x27;</span>` <span class="keyword">in</span></span><br><span class="line">glibc-*|libc-[0123].*) <span class="comment"># this is almost certainly a glibc version</span></span><br></pre></td></tr></table></figure>
+<p>在这下面加上：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libc_file_tmp=`<span class="built_in">echo</span> <span class="variable">$libc_file</span> | sed -e <span class="string">&#x27;s/x86_64-linux-gnu//g&#x27;</span>`</span><br></pre></td></tr></table></figure>
+<p>然后将:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libc_version=`<span class="built_in">echo</span> <span class="variable">$libc_file</span> | sed -e <span class="string">&#x27;s/^[^-]*-//&#x27;</span> -e <span class="string">&#x27;s/\.so//g&#x27;</span>`</span><br></pre></td></tr></table></figure>
+<p>改为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">libc_version=`<span class="built_in">echo</span> <span class="variable">$libc_file_tmp</span> | sed -e <span class="string">&#x27;s/^[^-]*-//&#x27;</span> -e <span class="string">&#x27;s/\.so//g&#x27;</span>`</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/2021/03/07/VirtuosoOnUbuntu/截屏2021-04-09%20下午5.14.46.png" alt="截屏2021-04-09 下午5.14.46"><figcaption aria-hidden="true">截屏2021-04-09 下午5.14.46</figcaption>
+</figure>
+<h2 id="since-ptrace-is-used-to-monitor-intelmpi-cfx-run-set-the-permission-for-all-the-users-just-edit">Since ptrace is used to monitor intelmpi CFX run, set the permission for all the users, just edit</h2>
+<p>编辑 <em>/etc/sysctl.d/10-kernel-hardening.conf </em></p>
+<p>加入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kernel.yama.ptrace_scope = 0</span><br></pre></td></tr></table></figure>
+<p>/etc/sysctl.d/10-ptrace.conf</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kernel.yama.ptrace_scope = 1</span><br><span class="line">-&gt;</span><br><span class="line">kernel.yama.ptrace_scope = 0</span><br></pre></td></tr></table></figure>
+<p>/proc/sys/kernel/yama/ptrace_scope</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">-&gt;</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<h2 id="编辑-.bashrc-文件">编辑 <em>.bashrc</em> 文件</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#ANSYS</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/ansys/bin</span><br><span class="line"><span class="comment">#CFX</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/CFX/bin</span><br><span class="line"><span class="comment">#FLUENT</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/fluent/bin</span><br><span class="line"><span class="comment">#ICEM</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/icemcfd/linux64_amd/bin</span><br><span class="line"><span class="comment">#WORKBENCH</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/Framework/bin/Linux64</span><br><span class="line"><span class="comment">#TurboGrid</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/TurboGrid/bin</span><br><span class="line"><span class="comment">#ANSYS Sevice Manager</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/shared_files/licensing/lic_admin</span><br><span class="line"><span class="comment">#polyflow</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/opt/ansys_inc/v202/polyflow/bin</span><br><span class="line"><span class="comment">#more</span></span><br><span class="line"><span class="built_in">alias</span> wb2=<span class="string">&#x27;/ansys_inc/v202/Framework/bin/Linux64/runwb2 -oglmesa&#x27;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/opt/ansys_inc/v202/Framework/bin/Linux64/Mesa:<span class="variable">$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="built_in">export</span> LANG=en_US.UTF8</span><br><span class="line"><span class="built_in">export</span> FLUENT_ARCH=<span class="string">&#x27;lnamd64&#x27;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -3348,6 +3570,65 @@ K_{cp} = \frac{I_{cp}}{2\pi}
       </tags>
   </entry>
   <entry>
+    <title>ZYNQ 移植 Linux -- SPI</title>
+    <url>/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</url>
+    <content><![CDATA[<h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
+</figure>
+<a id="more"></a>
+<h1 id="重新生成-boot.bin">重新生成 BOOT.bin</h1>
+<p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
+<h1 id="修改-device-tree">修改 device-tree</h1>
+<ol type="1">
+<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p></li>
+<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
+<p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
+<p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
+<p>修改 <em>top.dts</em> 中的 <code>aliases</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">trueethernet0 = &amp;gem0;</span><br><span class="line">truei2c0 = &amp;i2c0;</span><br><span class="line">trueserial0 = &amp;uart0;</span><br><span class="line">truespi0 = &amp;qspi;</span><br><span class="line">truespi1 = &amp;spi0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>添加了 <code>spi1 = &amp;spi0;</code></p></li>
+<li><p>重新编译设备树：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
+<h1 id="配置内核">配置内核</h1></li>
+</ol>
+<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_CADENCE.png" alt="SPI_CADENCE"><figcaption aria-hidden="true">SPI_CADENCE</figcaption>
+</figure>
+<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/CONFIG_SPI_XILINX.png" alt="CONFIG_SPI_XILINX"><figcaption aria-hidden="true">CONFIG_SPI_XILINX</figcaption>
+</figure>
+<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/USER_MODE_SPI.png" alt="USER_MODE_SPI"><figcaption aria-hidden="true">USER_MODE_SPI</figcaption>
+</figure>
+<p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em></p>
+<p>最后重新编译内核：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
+<p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
+<h1 id="用户程序测试">用户程序测试</h1>
+<p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
+<p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_WAVE.png" alt="SPI-WAVE"><figcaption aria-hidden="true">SPI-WAVE</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ZYNQ 移植 Linux -- Frame Buffer</title>
     <url>/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/</url>
     <content><![CDATA[<p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。 在 github 上有一个开源工程：<a href="https://github.com/notro/fbtft">framebuffer</a> 完整的实现了 framebuffer驱动</p>
@@ -3467,65 +3748,6 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <p><iframe src="//player.bilibili.com/player.html?aid=243218293&bvid=BV1ae411W731&cid=189943254&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"></iframe></p>
 </div></li>
 </ol>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- SPI</title>
-    <url>/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</url>
-    <content><![CDATA[<h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
-</figure>
-<a id="more"></a>
-<h1 id="重新生成-boot.bin">重新生成 BOOT.bin</h1>
-<p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
-<h1 id="修改-device-tree">修改 device-tree</h1>
-<ol type="1">
-<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p></li>
-<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
-<p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
-<p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
-<p>修改 <em>top.dts</em> 中的 <code>aliases</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">trueethernet0 = &amp;gem0;</span><br><span class="line">truei2c0 = &amp;i2c0;</span><br><span class="line">trueserial0 = &amp;uart0;</span><br><span class="line">truespi0 = &amp;qspi;</span><br><span class="line">truespi1 = &amp;spi0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>添加了 <code>spi1 = &amp;spi0;</code></p></li>
-<li><p>重新编译设备树：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
-<h1 id="配置内核">配置内核</h1></li>
-</ol>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_CADENCE.png" alt="SPI_CADENCE"><figcaption aria-hidden="true">SPI_CADENCE</figcaption>
-</figure>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/CONFIG_SPI_XILINX.png" alt="CONFIG_SPI_XILINX"><figcaption aria-hidden="true">CONFIG_SPI_XILINX</figcaption>
-</figure>
-<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/USER_MODE_SPI.png" alt="USER_MODE_SPI"><figcaption aria-hidden="true">USER_MODE_SPI</figcaption>
-</figure>
-<p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em></p>
-<p>最后重新编译内核：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
-<p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
-<h1 id="用户程序测试">用户程序测试</h1>
-<p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
-<p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_WAVE.png" alt="SPI-WAVE"><figcaption aria-hidden="true">SPI-WAVE</figcaption>
-</figure>
 ]]></content>
       <categories>
         <category>ZYNQ 移植 Linux</category>
@@ -4469,6 +4691,109 @@ f(x) = x^{2/3}+e/3*(\pi-x^2)^{1/2}*sin(a*\pi*x)
       </tags>
   </entry>
   <entry>
+    <title>SCS in LINC PA</title>
+    <url>/2021/04/03/scs/</url>
+    <content><![CDATA[<p>LINC (Linear amplification with nonlinear components) 是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：</p>
+<figure>
+<img src="/2021/04/03/scs/image-20210404230123073.png" alt="LINC"><figcaption aria-hidden="true">LINC</figcaption>
+</figure>
+<p>LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放大器放大，最后通过组合两路信号获得原始信号的放大后的信号。</p>
+<p>在 LINC 系统中，需要使用到 SCS，其实现可以使用模拟的方案，也可以使用全数字的方案。</p>
+<p>本文记录了全数字 SCS 的实现方法。</p>
+<a id="more"></a>
+<h1 id="基于-cordic-算法的-scs-原理">基于 CORDIC 算法的 SCS 原理</h1>
+<figure>
+<img src="/2021/04/03/scs/image-20210411155141497.png" alt="image-20210411155141497"><figcaption aria-hidden="true">image-20210411155141497</figcaption>
+</figure>
+<p>基于 CORDIC 算法的 SCS 原理图如上图所示，基带信号 I Q 经过 <em>CORDIC-V</em> 模块，从笛卡尔转换到极坐标，得到振幅 <span class="math inline">\(A\)</span> 和相位 <span class="math inline">\(\theta\)</span>，振幅 <span class="math inline">\(A\)</span> 经过 <em>DOUBLE CORDIC</em> 模块，进行 <span class="math inline">\(\rm{cos}^{-1}(A/A_{MAX})\)</span> 的运算，得到 <span class="math inline">\(\varphi\)</span>，相当于把振幅信号转为相位信号。然后通过两个 <em>CORDIC-R</em> 模块，分别对 <span class="math inline">\(\theta + \varphi\)</span> 和 <span class="math inline">\(\theta - \varphi\)</span> 做相位到笛卡尔坐标的转换，得到四路调相信号：<span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span>。</p>
+<p>具体计算过程如下：</p>
+<p>假设基带信号 (baseband signal) 为： <span class="math display">\[
+S_b(t)=S_i(t)+jS_q(t)
+\]</span> 则频带信号 (transmitted signal) 可以表示为： <span class="math display">\[
+S(t)=Re\left\{ (S_i(t)+jS_q(t))e^{j\omega _ct} \right\}=A(t)\cos\left(w_{c}t+\theta(t)\right)
+\]</span> <em>DOUBLE CORDIC</em>： <span class="math display">\[
+\phi(t)=\cos^{-1}\left(A(t)/A_{\max}\right)
+\]</span> <em>CORDIC-R</em>： <span class="math display">\[
+S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{2I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)-\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{2Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)-\phi(t)]
+\]</span></p>
+<p>混频： <span class="math display">\[
+S_1(t)=S_{1I}(t)\rm{cos}(\omega _c t)-S_{1Q}(t)\rm{sin}(\omega _c t)
+\]</span></p>
+<p><span class="math display">\[
+S_2(t)=S_{2I}(t)\rm{cos}(\omega _c t)-S_{2Q}(t)\rm{sin}(\omega _c t)
+\]</span></p>
+<p><span class="math display">\[
+S(t) = S_1(t)+S_2(t)=A(t)\rm{cos}[\omega _c t+\phi(t)]
+\]</span></p>
+<h1 id="scs-的原理图">SCS 的原理图</h1>
+<figure>
+<img src="/2021/04/03/scs/image-20210411161107543.png" alt="image-20210411161107543"><figcaption aria-hidden="true">image-20210411161107543</figcaption>
+</figure>
+<p>SCS 原理图如上图所示。其中基带 I Q 信号为 64QAM 信号。为了简化算法实现的复杂度，首先将 I Q 信号变换到第一象限，并记录下 I Q 信号原本的象限，最后在输出的时候做符号调整就可以了。上图红框中将 <span class="math inline">\(\varphi - \pi/2\)</span>，原因是因为在实际的设计过程中发现 <span class="math inline">\(\theta + \varphi\)</span> 会大于 <span class="math inline">\(\pi /2\)</span>，为了避免溢出而将其减了 <span class="math inline">\(\pi /2\)</span>，因此在进行符号调整之前： <span class="math display">\[
+S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t) - \pi/2]
+\]</span></p>
+<p><span class="math display">\[
+S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
+\]</span></p>
+<h1 id="matlab-行为级仿真">Matlab 行为级仿真</h1>
+<p>在进行 MATLAB 仿真时，为了让仿真结果和真实结果更加接近，进行了每一步计算过程都进行了浮点转定点数的操作。</p>
+<h2 id="仿真结果">仿真结果</h2>
+<ol type="1">
+<li><p>64QAM 基带信号：</p>
+<figure>
+<img src="/2021/04/03/scs/64QAM基带信号.svg" alt="64QAM基带信号"><figcaption aria-hidden="true">64QAM基带信号</figcaption>
+</figure></li>
+<li><p>64QAM 频带信号：</p>
+<figure>
+<img src="/2021/04/03/scs/QAM信号波形.svg" alt="QAM信号波形"><figcaption aria-hidden="true">QAM信号波形</figcaption>
+</figure></li>
+<li><p>64QAM 星座图：</p>
+<figure>
+<img src="/2021/04/03/scs/QAM信号星座图.svg" alt="QAM信号星座图"><figcaption aria-hidden="true">QAM信号星座图</figcaption>
+</figure></li>
+<li><p>对基带信号进行 SCS 运算得到的 <span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span> 信号：</p>
+<figure>
+<img src="/2021/04/03/scs/QAM基带信号信号SCS.svg" alt="QAM基带信号信号SCS"><figcaption aria-hidden="true">QAM基带信号信号SCS</figcaption>
+</figure></li>
+<li><p>将 SCS 后的基带信号与载波相乘：</p>
+<figure>
+<img src="/2021/04/03/scs/QAM信号SCS.svg" alt="QAM信号SCS"><figcaption aria-hidden="true">QAM信号SCS</figcaption>
+</figure>
+<p>可以看到两路信号 S1 和 S2 是两路恒包络的调相信号，说明 SCS 模块实现了将原来的调幅调相信号转为两路恒包络的调相信号。</p></li>
+<li><p>两路信号 S1 和 S2 合成：</p>
+<figure>
+<img src="/2021/04/03/scs/QAM信号SCS合成.svg" alt="QAM信号SCS合成"><figcaption aria-hidden="true">QAM信号SCS合成</figcaption>
+</figure>
+<p>可以看到合成后的信号与原始信号一致，说明在 SCS 的过程中信号的信息没有丢失。</p></li>
+</ol>
+<h2 id="matlab-代码">Matlab 代码</h2>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% main.m</span></span><br><span class="line">clc</span><br><span class="line">clear all</span><br><span class="line">mkdir image</span><br><span class="line"></span><br><span class="line"><span class="comment">% fixed word length and fraction length bits</span></span><br><span class="line">wl = <span class="number">16</span>;</span><br><span class="line">fl_1 = <span class="number">15</span>;</span><br><span class="line">fl_pi = <span class="number">14</span>;</span><br><span class="line"></span><br><span class="line">M=<span class="number">64</span>;</span><br><span class="line">xmax = <span class="number">8</span>;</span><br><span class="line">ymax = <span class="number">8</span>;</span><br><span class="line">Amax = <span class="built_in">sqrt</span>(xmax^<span class="number">2</span> + ymax^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">msg = <span class="number">0</span>:<span class="number">1</span>:<span class="number">63</span>; <span class="comment">%消息信号</span></span><br><span class="line"><span class="comment">% msg = random_msg([0 M-1], M);</span></span><br><span class="line"></span><br><span class="line">ts = <span class="number">0.01</span>; <span class="comment">%抽样时间间隔</span></span><br><span class="line">T = <span class="number">1</span>; <span class="comment">%符号周期</span></span><br><span class="line">t = <span class="number">0</span>:ts:T; <span class="comment">%符号持续时间向量</span></span><br><span class="line">x = <span class="number">0</span>:ts:<span class="built_in">length</span>(msg); <span class="comment">%所有符号的传输时间</span></span><br><span class="line">fc = <span class="number">1</span>; <span class="comment">%载波频率</span></span><br><span class="line">c = <span class="built_in">sqrt</span>(<span class="number">2</span>/T)*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">j</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t); <span class="comment">%载波信号</span></span><br><span class="line">msg_qam = qammod(msg,M).&#x27;; <span class="comment">%基带8-QAM调制</span></span><br><span class="line">tx_i_qam = <span class="built_in">real</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_q_qam = <span class="built_in">imag</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_i_qam= <span class="built_in">reshape</span>(tx_i_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line">tx_q_qam= <span class="built_in">reshape</span>(tx_q_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="comment">% plot(x,tx_i_qam(1:length(x)),x,tx_q_qam(1:length(x)));</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,tx_i_qam(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号波形&#x27;</span>]) </span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;载波振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号波形.svg&#x27;</span>);</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">real</span>(msg_qam),<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">imag</span>(msg_qam))</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;基带振幅&quot;</span>);</span><br><span class="line">tit = [num2str(M) <span class="string">&#x27;QAM基带信号&#x27;</span>];</span><br><span class="line">title(tit); </span><br><span class="line">saveas(gcf, [<span class="string">&#x27;image/&#x27;</span> tit], <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"><span class="comment">% figure(2);</span></span><br><span class="line"><span class="comment">% scatterplot(msg_qam)</span></span><br><span class="line"><span class="comment">% title([num2str(M) &#x27;QAM信号星座图&#x27;])</span></span><br><span class="line"><span class="comment">% xlabel(&quot;同相分量&quot;);ylabel(&quot;正交分量&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-V Cartesian to Polar</span></span><br><span class="line"><span class="comment">% 将 QAM 信号变换到第一象限，并记录下符号</span></span><br><span class="line">[msg_qam_tarns, msg_qam_symbol] = transform(msg_qam);</span><br><span class="line">x_qam = <span class="built_in">real</span>(msg_qam_tarns);</span><br><span class="line">y_qam = <span class="built_in">imag</span>(msg_qam_tarns);</span><br><span class="line"><span class="comment">% Construct signed fixed-point numeric object</span></span><br><span class="line"><span class="comment">% 将 x y 归一化到 [0, 1]</span></span><br><span class="line">x_fixed = sfi(x_qam/xmax, wl, fl_1);</span><br><span class="line">y_fixed = sfi(y_qam/ymax, wl, fl_1);</span><br><span class="line"><span class="comment">% Theta (0, pi/2), r (0, sqrt(2))</span></span><br><span class="line">[Theta,r] = cordiccart2pol(x_fixed, y_fixed);</span><br><span class="line"><span class="comment">% % 将 r 归一化到 (0, 1)</span></span><br><span class="line">r_fixed = sfi(r/<span class="built_in">sqrt</span>(<span class="number">2</span>), wl, fl_1);</span><br><span class="line">Theta_fixed = sfi(Theta, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% DOUBLE CORDIC</span></span><br><span class="line"><span class="comment">% r_fixed (0, 1), Varphi [0, pi/2]</span></span><br><span class="line">Varphi = cordicacos(r_fixed);</span><br><span class="line">Varphi_fixed = sfi(Varphi, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-R Phase to Cartesian</span></span><br><span class="line">Phase_S1 = Theta_fixed + Varphi_fixed - <span class="built_in">pi</span>/<span class="number">2</span>; <span class="comment">% 将 Phase_S1 限制在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S2 = Theta_fixed - Varphi_fixed; <span class="comment">% Phase_S2 在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S1_fixed = sfi(Phase_S1, wl, fl_pi);</span><br><span class="line">Phase_S2_fixed = sfi(Phase_S2, wl, fl_pi);</span><br><span class="line"></span><br><span class="line">S1_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S1_fixed);</span><br><span class="line">S1_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S1_fixed);</span><br><span class="line">S2_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S2_fixed);</span><br><span class="line">S2_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S2_fixed);</span><br><span class="line"></span><br><span class="line"># Signal Adjusment</span><br><span class="line">[S1_I, S1_Q, S2_I ,S2_Q] = Signal_Adjusment_quad(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, msg_qam_symbol);</span><br><span class="line"></span><br><span class="line">tt = <span class="number">1</span>:<span class="number">1</span>:<span class="number">64</span>;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, tt,S1_I, tt,S1_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S_&#123;1I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;1Q&#125;&#x27;</span>)</span><br><span class="line">title(ax1, <span class="string">&quot;QAM基带信号信号SCS S1&quot;</span>)</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, tt,S2_I, tt,S2_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S_&#123;2I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;2Q&#125;&#x27;</span>)</span><br><span class="line">title(ax2, <span class="string">&quot;QAM基带信号信号SCS S2&quot;</span>)</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM基带信号信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 调制</span></span><br><span class="line">S1 = <span class="built_in">real</span>(((S1_I+<span class="number">1</span><span class="built_in">j</span>*S1_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S2 = <span class="built_in">real</span>(((S2_I+<span class="number">1</span><span class="built_in">j</span>*S2_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S1= <span class="built_in">reshape</span>(S1.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S1_I)*<span class="built_in">length</span>(t));</span><br><span class="line">S2= <span class="built_in">reshape</span>(S2.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S2_I)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, x,S1(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S1&#x27;</span>)</span><br><span class="line">title(ax1, [num2str(M) <span class="string">&#x27;QAM信号SCS S1&#x27;</span>]);</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, x,S2(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S2&#x27;</span>)</span><br><span class="line">title(ax2, [num2str(M) <span class="string">&#x27;QAM信号SCS S2&#x27;</span>]);</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line">S = S1 + S2;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,S(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号SCS合成&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS合成&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 星座图</span></span><br><span class="line"><span class="comment">% figure(6)</span></span><br><span class="line">scatterplot(msg_qam);</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号星座图&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;同相分量&quot;</span>);ylabel(<span class="string">&quot;正交分量&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号星座图&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% random_msg.m</span></span><br><span class="line"><span class="comment">% 生成随机序列</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">msg</span> = <span class="title">random_msg</span><span class="params">(range, lenght)</span></span></span><br><span class="line">    <span class="comment">% 首先，初始化随机数生成器，以使本示例中的结果具备可重复性。</span></span><br><span class="line">    rng(<span class="number">0</span>,<span class="string">&#x27;twister&#x27;</span>);</span><br><span class="line">    <span class="comment">% 创建一个 M 个随机值的向量。使用 rand 函数从开区间 (0,M-1) 抽取均匀分布的值。</span></span><br><span class="line">    a = range(<span class="number">1</span>);</span><br><span class="line">    b = range(<span class="number">2</span>);</span><br><span class="line">    r = (b-a).*<span class="built_in">rand</span>(<span class="number">1</span>,lenght) + a;</span><br><span class="line">    msg = <span class="built_in">round</span>(r);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% Signal_Adjusment_quad.m</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[S1_I, S1_Q, S2_I ,S2_Q]</span> = <span class="title">Signal_Adjusment_quad</span><span class="params">(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, symbol)</span></span></span><br><span class="line">    len = <span class="built_in">length</span>(S1_I_tmp);</span><br><span class="line">    S1_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S1_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">1</span>:len</span><br><span class="line">        <span class="keyword">if</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第一象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第二象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">            <span class="comment">% 第三象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">% 第四象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h1 id="reference">Reference</h1>
+<p>[1] CORDIC-Based Multi-Gb:s Digital Outphasing Modulator for Highly Efficient Millimeter-Wave Transmitters</p>
+<p>[2] A Sub-mW All-Digital Signal Component Separator With Branch Mismatch Compensation for OFDM LINC Transmitters</p>
+<p>[3] A Low Power All-Digital Signal Component Separator for Uneven Multi-Level LINC Systems</p>
+]]></content>
+      <categories>
+        <category>PA</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>单级放大器</title>
     <url>/2020/11/07/single-stage-amplify/</url>
     <content><![CDATA[<p>单级放大器可以分为四种基本类型：</p>
@@ -4678,6 +5003,160 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
       </tags>
   </entry>
   <entry>
+    <title>xrdp</title>
+    <url>/2021/04/02/xrdp/</url>
+    <content><![CDATA[<blockquote>
+<p>reference：</p>
+<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
+<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
+</blockquote>
+<h1 id="安装-xrdp">安装 Xrdp</h1>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
+<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
+<p>重启 Xrdp 服务，使得修改生效：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置xrdp">配置Xrdp</h1>
+<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
+<p><code>/etc/xrdp/xrdp.ini</code></p>
+<p>在文件末尾添加以下行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
+<p>保存文件并重新启动Xrdp服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
+<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
+<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
+<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
+<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
+<p>在 client 上运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
+<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
+<p>在 client 上连接的时候服务器地址填写：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
+<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
+<p>解决方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
+<p>如果还是黑屏，重启一下试试。</p>
+<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
+<blockquote>
+<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
+</blockquote>
+<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZFS on Ubuntu</title>
+    <url>/2021/04/02/zfs/</url>
+    <content><![CDATA[<h1 id="安装">安装</h1>
+<blockquote>
+<p>https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/index.html#installation</p>
+<p>https://manpages.debian.org/unstable/zfsutils-linux/zfs-mount-generator.8.en.html</p>
+</blockquote>
+<h1 id="创建-zpool">创建 zpool</h1>
+<p>先查看硬盘的 id</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls -al /dev/disk/by-id</span><br></pre></td></tr></table></figure>
+<p>创建了一个名为 tank 的新池，mirror格式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo zpool create tank mirror /dev/disk/by-id/xxxxxxx1 /dev/disk/by-id/xxxxxxx2</span><br></pre></td></tr></table></figure>
+<p>查看存储池列表</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">zfs list</span></span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/2021/04/02/zfs/截屏2021-04-02%20上午10.24.51.png" alt="截屏2021-04-02 上午10.24.51"><figcaption aria-hidden="true">截屏2021-04-02 上午10.24.51</figcaption>
+</figure>
+<p>查看存储池的状态信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zpool status tank</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/2021/04/02/zfs/截屏2021-04-02%20上午10.26.21.png" alt="截屏2021-04-02 上午10.26.21"><figcaption aria-hidden="true">截屏2021-04-02 上午10.26.21</figcaption>
+</figure>
+<h2 id="其他命令">其他命令：</h2>
+<p>显示 ZFS 存储池命令历史记录 <code>zpool history</code></p>
+<p>查看 ZFS 存储池的 I/O 统计信息 <code>zpool iostat</code></p>
+<p>销毁存储池 <code>zpool destroy zpoolname</code></p>
+<p>向存储池添加设备 <code>zpool add tank c2t1d0 #向存储池tank中添加设备</code></p>
+<h2 id="数据压缩">数据压缩</h2>
+<p>数据压缩默认是关闭的，使用如下命令打开：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs <span class="built_in">set</span> compression=lz4 tank</span><br></pre></td></tr></table></figure>
+<h1 id="zfs-文件系统">ZFS 文件系统</h1>
+<h2 id="创建文件系统">创建文件系统</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs create tank/home</span><br><span class="line">sudo zfs create -o mountpoint=/home/EDA tank/EDA</span><br></pre></td></tr></table></figure>
+<p>在 tank 中创建了一个名为 home 的文件系统，如果新文件系统创建成功，则 ZFS 会自动挂载该文件系统。</p>
+<h2 id="销毁文件系统">销毁文件系统</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs destroy tank/home <span class="comment"># 销毁tank/home 文件系统</span></span><br></pre></td></tr></table></figure>
+<p>如果要销毁的文件系统处于繁忙状态而无法取消挂载，则 zfs destroy 命令将失败。要销毁活动文件系统，请使用 -f 选项。由于此选项可取消挂载、取消共享和销毁活动文件系统，从而导致意外的应用程序行为，因此请谨慎使用此选项。</p>
+<h2 id="重命名文件系统">重命名文件系统</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs rename tank/test2 tank/testrename <span class="comment"># 将文件系统 tank/test2 重命名为 /tankrename</span></span><br></pre></td></tr></table></figure>
+<h2 id="将-zfs-文件系统挂载到-home">~<del>将 ZFS 文件系统挂载到 /home</del>~</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo rsync -avh /home/* /tank/home</span><br><span class="line">sudo rm -rf /home</span><br><span class="line">sudo zfs <span class="built_in">set</span> mountpoint=/home tank/home</span><br></pre></td></tr></table></figure>
+<p>使用 zfs-mount-generator 工具</p>
+<blockquote>
+<p>https://manpages.ubuntu.com/manpages/focal/man8/zfs-mount-generator.8.html</p>
+</blockquote>
+<h2 id="迁移用户目录">迁移用户目录</h2>
+<p>用 <code>zfs list</code> 命令可以看到用户目录是在 <code>rpool/USERDATA</code> 下的：</p>
+<figure>
+<img src="/2021/04/02/zfs/截屏2021-04-02%20下午3.19.58.png" alt="截屏2021-04-02 下午3.19.58"><figcaption aria-hidden="true">截屏2021-04-02 下午3.19.58</figcaption>
+</figure>
+<p>我想把他们迁移到 HDD 硬盘的存储池 <code>tank</code> 里，直接修改挂载点的方法是不行的，新建一个用户后挂载点还会在原来的 <code>rpool/USERDATA</code> 下，在<a href="https://github.com/ubuntu/zsys/issues/132">此处</a>找到了方法。</p>
+<ul>
+<li>create your pool2/USERDATA/ with the same dataset name than on the first pool</li>
+<li>ensure you have the same properties and <strong>user properties</strong> set on that dataset</li>
+<li>do a zfs send/recv between the 2 datasets Then, once ready, remove the second dataset.</li>
+<li>If you delete rpool/USERDATA, then the new users will be created under secondarypool/USERDATA!</li>
+</ul>
+<ol type="1">
+<li><p>创建快照</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo zfs snapshot -r rpool/USERDATA@now</span><br></pre></td></tr></table></figure></li>
+<li><p>send/recv</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo zfs send -R rpool/USERDATA@now | sudo zfs receive -F tank/USERDATA</span><br></pre></td></tr></table></figure>
+<p>这时可以看到 <code>tank/USERDATA</code> 和 <code>rpool/USERDATA</code> 的结构是相同的：</p>
+<figure>
+<img src="/2021/04/02/zfs/截屏2021-04-02%20下午3.32.16.png" alt="截屏2021-04-02 下午3.32.16"><figcaption aria-hidden="true">截屏2021-04-02 下午3.32.16</figcaption>
+</figure></li>
+<li><p>删除原来的 <code>rpool/USERDATA</code>：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> zfs destroy -r -f rpool/USERDATA</span><br></pre></td></tr></table></figure>
+<p>这个时候可以会提示 <code>umount: /home/fitz: target is busy.</code>，因为我想在就是在这个用户下操作的，所以删不掉这个目录，不过 <code>rpool/USERDATA/root_*</code> 已经删掉了，因此此时退出当前用户，换 root 登录，再次执行上面的命令，就可以把 <code>rpool/USERDATA</code> 全删掉了。</p>
+<p>现在再新建一个用户，可以看到新用户的目录是在 <code>tank/USERDATA</code> 下的。</p></li>
+</ol>
+<h1 id="快照和克隆">快照和克隆</h1>
+<blockquote>
+<p>https://www.howtoing.com/how-to-use-snapshots-clones-and-replication-in-zfs-on-linux</p>
+<p>https://docs.oracle.com/cd/E26926_01/html/E25826/gbchp.html</p>
+</blockquote>
+<h1 id="自动快照">自动快照</h1>
+<p>https://blog.vgot.net/archives/zfsnap.html</p>
+<p>https://serverfault.com/questions/855895/how-to-set-the-number-of-snapshots-zfs-auto-snapshot-should-retain</p>
+<p>http://knowledgebase.45drives.com/kb/setting-up-zfs-auto-snapshots-in-linux/</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zfs-auto-snapshot</span><br></pre></td></tr></table></figure>
+<h1 id="备份整个系统恢复"><del>备份整个系统&amp;恢复</del></h1>
+<blockquote>
+<p>https://www.thegeekdiary.com/how-to-backup-and-restore-zfs-root-pool-in-solaris-10/</p>
+</blockquote>
+<blockquote>
+<p>Reference:</p>
+<p>https://wiki2.xbits.net:4430/storage:zfs:zfs%E6%89%8B%E5%86%8C#zfs_send_receive</p>
+<p>https://aws.amazon.com/cn/blogs/china/architecture-and-practice-of-shared-storage-system-based-on-zfs-for-eda-scenario/</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于FPGA的机器博弈五子棋游戏</title>
     <url>/2018/12/19/%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E6%9C%BA%E5%99%A8%E5%8D%9A%E5%BC%88%E4%BA%94%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F/</url>
     <content><![CDATA[<a id="more"></a>
@@ -4709,6 +5188,10 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <p>之前用的是zerotier，优点是使用起来比较方便啦，不过就是有时会莫名其妙断连。</p>
 <p>买了一个翻车讯的k3路由器，刷了openwrt后，可以用aria2下电影看啦。在VPS和k3上分别配好frp后，就可以远程连上k3，下载电影，回到家再看。</p>
 <p>参考：<a href="https://moe.best/tutorial/frp.html#frp">[frp] 内网穿透神器搭建 萌新也看得懂的教程系列</a></p>
+<p><em>/etc/systemd/system/frps.service</em></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=FRP Server Daemon</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">AmbientCapabilities=CAP_NET_BIND_SERVICE</span><br><span class="line">ExecStart=/usr/bin/frps -c /etc/frps/frps.ini</span><br><span class="line">Restart=always</span><br><span class="line">RestartSec=2s</span><br><span class="line">User=nobody</span><br><span class="line">LimitNOFILE=infinity</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<p><em>/lib/systemd/system/frpc@.service</em></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=FRP Client Daemon</span><br><span class="line">After=network.target</span><br><span class="line">Wants=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/opt/bin/frpc -c /opt/etc/frpc%i.ini</span><br><span class="line">Restart=always</span><br><span class="line">RestartSec=20s</span><br><span class="line">User=nobody</span><br><span class="line">LimitNOFILE=infinity</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 <h1 id="服务器监测netdata">服务器监测：netdata</h1>
 <p>项目地址：https://github.com/netdata/netdata</p>
 <p>之前用Ubuntu搭建NAS就想要一个web端的性能监测工具，终于找到了netdata这个工具。</p>
@@ -5272,6 +5755,27 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <li><p>最后重启 SSH 服务：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">service sshd restart</span><br></pre></td></tr></table></figure></li>
 </ol>
+<h1 id="more">more</h1>
+<h2 id="查看登录记录">查看登录记录</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">last -x -F</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 登录成功的记录</span></span><br><span class="line">less /var/<span class="built_in">log</span>/auth.log|grep <span class="string">&#x27;Accepted&#x27;</span> <span class="comment"># Ubuntu</span></span><br><span class="line">less /var/<span class="built_in">log</span>/secure|grep <span class="string">&#x27;Accepted&#x27;</span> <span class="comment"># Centos</span></span><br><span class="line"><span class="comment"># 登录失败</span></span><br><span class="line">less /var/<span class="built_in">log</span>/auth.log | grep <span class="string">&quot;Connection closed&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="换端口">换端口</h2>
+<p>修改文件 <em>/etc/ssh/sshd_config</em>：</p>
+<p>找到 Prot，改为想要的端口。</p>
+<p>然后重启sshd服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart sshd</span><br></pre></td></tr></table></figure>
+<p>修改防火墙，放行新的端口，同时关闭旧端口：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 1122 <span class="comment"># 放行新的端口</span></span><br><span class="line">sudo ufw delete allow 22 <span class="comment"># 禁止外部访问 22 端口 # or sudo ufw delete allow ssh</span></span><br><span class="line">sudo ufw status <span class="comment"># 查看防火墙状态</span></span><br><span class="line">sudo ufw logging on <span class="comment"># 打开防火墙日志，位于 /var/log/ufw.log</span></span><br></pre></td></tr></table></figure>
+<h2 id="限制连续登录次数好像使用秘钥登录后这个就不用管了"><del>限制连续登录次数</del>(好像使用秘钥登录后，这个就不用管了)</h2>
+<p>在 <em>/etc/pam.d/sshd</em> 文件第一行（最前面）添加如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">auth required pam_tally2.so deny=3 unlock_time=3600 even_deny_root root_unlock_time=3600</span><br></pre></td></tr></table></figure>
+<p>deny=3 表示尝试登录次数,超过3次后会执行后续动作,单位为秒 even_deny_root 对root也开启此限制</p>
+<p>查看登录失败次数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pam_tally2 --user &lt;user&gt;</span><br></pre></td></tr></table></figure>
+<p>设置重复验证次数，默认6次</p>
+<p>编辑 SSH 配置文件 <em>/etc/ssh/sshd_­con­fig</em>：</p>
+<p>在 ssh 配置文件中查找 #Max­Au­thTries 修改为： Max­Au­thTries 3 #错误 3 次即断开连接</p>
 ]]></content>
       <categories>
         <category>GEEK</category>
