@@ -3,7 +3,8 @@ title: 设置ssh通过秘钥登录
 toc: true
 date: 2020-04-25 23:53:08
 categories: GEEK
-updated: 2020-12-17 14:47:23tags: [GEEK, Linux]
+updated: 2021-04-11 14:47:23
+tags: [GEEK, Linux]
 description:
 ---
 
@@ -77,3 +78,67 @@ ssh-keygen -t rsa -C "youremail@example.com"
    ~~~
 
    
+
+# more
+
+## 查看登录记录
+
+~~~bash
+last -x -F
+~~~
+
+or
+
+~~~bash
+# 登录成功的记录
+less /var/log/auth.log|grep 'Accepted' # Ubuntu
+less /var/log/secure|grep 'Accepted' # Centos
+# 登录失败
+less /var/log/auth.log | grep "Connection closed"
+~~~
+
+## 换端口
+
+修改文件 */etc/ssh/sshd_config*：
+
+找到 Prot，改为想要的端口。
+
+然后重启sshd服务：
+
+~~~bash
+sudo systemctl restart sshd
+~~~
+
+修改防火墙，放行新的端口，同时关闭旧端口：
+
+~~~bash
+sudo ufw allow 1122 # 放行新的端口
+sudo ufw delete allow 22 # 禁止外部访问 22 端口 # or sudo ufw delete allow ssh
+sudo ufw status # 查看防火墙状态
+sudo ufw logging on # 打开防火墙日志，位于 /var/log/ufw.log
+~~~
+
+## ~~限制连续登录次数~~(好像使用秘钥登录后，这个就不用管了)
+
+在 */etc/pam.d/sshd* 文件第一行（最前面）添加如下内容：
+
+~~~bash
+auth required pam_tally2.so deny=3 unlock_time=3600 even_deny_root root_unlock_time=3600
+~~~
+
+deny=3 表示尝试登录次数,超过3次后会执行后续动作,单位为秒
+even_deny_root 对root也开启此限制
+
+查看登录失败次数：
+
+~~~bash
+sudo pam_tally2 --user <user>
+~~~
+
+设置重复验证次数，默认6次
+
+编辑 SSH 配置文件 */etc/ssh/sshd_­con­fig*：
+
+在 ssh 配置文件中查找 #Max­Au­thTries 修改为：
+Max­Au­thTries 3 #错误 3 次即断开连接
+

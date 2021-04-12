@@ -3,7 +3,8 @@ title: Ubuntu 安装 Tensorflow-gpu
 toc: true
 date: 2020-04-29 14:30:28
 categories: tensorflow
-updated: 2020-07-01 21:03:37tags: [tensorflow, Linux, GEEK]
+updated: 2021-04-11 21:03:37
+tags: [tensorflow, Linux, GEEK]
 description:
 ---
 
@@ -66,7 +67,7 @@ description:
    如果以前安装过 nvidia 驱动，需要卸载：
 
    ~~~bash
-   sudo apt-get autoremove –purge nvidia*
+   sudo apt-get autoremove –purge "*nvidia*"
    ~~~
 
    首先给驱动文件增加可执行权限：
@@ -105,6 +106,26 @@ description:
 **最后我装的是 430.50 版本的驱动**
 
 <!--more-->
+
+# 显示使用核显，计算使用独显
+
+> https://forums.developer.nvidia.com/t/ubuntu-18-04-headless-390-intel-igpu-after-prime-select-intel-lost-contact-to-geforce-1050ti/66698
+
+~~~bash
+sudo prime-select nvidia
+~~~
+
+add ‘nogpumanager’ kernel parameter
+
+create /etc/X11/xorg.conf
+
+~~~bash
+Section "Device"
+    Identifier     "intel"
+    Driver         "modesetting"
+    BusID          "PCI:0:2:0"
+EndSection
+~~~
 
 # 安装 [CUDA](https://developer.nvidia.com/cuda-toolkit) (version 10.0)
 
@@ -248,3 +269,4 @@ nvcc -V
    
      这样设置以后，程序就会按需占用GPU显存。
    
+

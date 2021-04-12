@@ -3,7 +3,7 @@ title: Ubuntu安装软件备份
 toc: true
 date: 2020-02-05 15:18:27
 categories: GEEK
-updated: 2020-11-07 15:21:15
+updated: 2021-04-11 15:21:15
 tags: [Ubuntu, Linux, 软件]
 description: 安装Ubuntu后要安装的一些软件
 ---
@@ -440,4 +440,12 @@ watch -n 2 sensors
 > 还没装好
 
 # Samba
+
+# Ubuntu下 firefox 无法观看视频的解决
+
+提示缺少 flash 插件，此举解决的是html5的视频播放问题，flash不管了，谁还用flash啊。
+
+~~~bash
+sudo apt-get install ffmpeg
+~~~
 
