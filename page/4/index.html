@@ -197,6 +197,135 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">解决 Altium Designer 卡死问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-01 21:32:46" itemprop="dateCreated datePublished" datetime="2020-07-01T21:32:46+08:00">2020-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-02 02:11:14" itemprop="dateModified" datetime="2020-07-02T02:11:14+08:00">2020-07-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Altium-Designer/" itemprop="url" rel="index"><span itemprop="name">Altium-Designer</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="解决 Altium Designer 卡死问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>383</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
+<!--more--->
+<p>目前网上主要有两种解决方案如下：</p>
+<h1 id="禁止-ad-自动联网">1. 禁止 AD 自动联网</h1>
+<h2 id="第一步关闭-ad-自动更新">第一步：关闭 AD 自动更新</h2>
+<p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 "No,…”，如下图：</p>
+<figure>
+<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_1.jpg" alt="ad1"><figcaption aria-hidden="true">ad1</figcaption>
+</figure>
+<p>在 System -&gt; Installation 的 "Check frequency” 改为 “Never”，如下图：</p>
+<figure>
+<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_2.jpg" alt="ad2"><figcaption aria-hidden="true">ad2</figcaption>
+</figure>
+<h2 id="第二步设置防火墙禁止-ad-联网">第二步：设置防火墙，禁止 AD 联网</h2>
+<p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
+<h1 id="删除多余的库">2. 删除多余的库</h1>
+<p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+    </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1358,123 +1487,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/03/27/RISC-V-SOC-Design-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Fitz">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fitz's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/27/RISC-V-SOC-Design-1/" class="post-title-link" itemprop="url">RISC-V SOC Design (1)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-27 21:39:24 / 修改时间：22:28:32" itemprop="dateCreated datePublished" datetime="2020-03-27T21:39:24+08:00">2020-03-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RISC-V/" itemprop="url" rel="index"><span itemprop="name">RISC-V</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/03/27/RISC-V-SOC-Design-1/" class="post-meta-item leancloud_visitors" data-flag-title="RISC-V SOC Design (1)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/03/27/RISC-V-SOC-Design-1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/27/RISC-V-SOC-Design-1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>567</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用 vivado blockdesign 搭建，比较直观</p>
-<figure>
-<img src="/2020/03/27/RISC-V-SOC-Design-1/ibex_bd.png" alt="ibex_bd"><figcaption aria-hidden="true">ibex_bd</figcaption>
-</figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/27/RISC-V-SOC-Design-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-      
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1547,7 +1559,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1621,12 +1633,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">193k</span>
+    <span title="站点总字数">195k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:55</span>
+    <span title="站点阅读时长">2:57</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
