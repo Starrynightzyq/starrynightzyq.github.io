@@ -1,6 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Cadence ASM Tutorial</title>
+    <url>/2020/12/16/CadenceASMTutorial/</url>
+    <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
+<a id="more"></a>
+<blockquote>
+<p>INCISIVE152 的安装可以参考 https://blog.csdn.net/yy345730585/article/details/90407408</p>
+</blockquote>
+<h1 id="初始化设置">初始化设置</h1>
+<p>在打开 cadence 的文件夹下面需要新建一个‘<em>hdl.var</em>’文件，内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">softinclude <span class="variable">$INCISIVDIR</span>/tools/inca/files/hdl.var</span><br><span class="line">define ams</span><br><span class="line">define NCVLOGOPTS -linedebug</span><br><span class="line">define VIEW_MAP (<span class="variable">$VIEW_MAP</span>, .vs =&gt; shell)</span><br></pre></td></tr></table></figure>
+<p>其中 <em>$INCISIVDIR</em> 是 <strong>Cadence INCISIV</strong> 的安装路径。</p>
+<p>需要在文件‘<em>cds.lib</em>’中加入一行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SOFTINCLUDE <span class="variable">$INCISIVDIR</span>/tools/inca/files/cds.lib</span><br></pre></td></tr></table></figure>
+<h1 id="verilog-a-设计-以理想-dac-为例">Verilog-A 设计 — 以理想 DAC 为例</h1>
+<h2 id="ieadl_dac-veriloga-cellview"><em>ieadl_dac (verilogA cellview)</em></h2>
+<p><img src="/2020/12/16/CadenceASMTutorial/ieadl_dac.png" alt="ieadl_dac" style="zoom:50%;"></p>
+<p>首先创建一个新的 Library 叫做 ‘<em>AMS_Tutorial</em>’。然后创建一个 <strong>verilogA</strong> cellview 叫做 ‘<em>ieadl_dac</em>’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">// VerilogA for AMS_Tutorial, ideal_dac, veriloga</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> ideal_dac(in, agnd, out);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line"><span class="keyword">input</span> agnd;</span><br><span class="line"><span class="keyword">output</span> out;</span><br><span class="line">electrical [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line">electrical agnd;</span><br><span class="line">electrical out;</span><br><span class="line"></span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> logic_thresh = <span class="number">2</span><span class="variable">.5</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> full_scale = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> trise = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> tfall = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"></span><br><span class="line"><span class="keyword">real</span> code, delta;</span><br><span class="line"><span class="keyword">real</span> pow2[<span class="number">11</span>:<span class="number">0</span>];</span><br><span class="line"><span class="keyword">integer</span> i;</span><br><span class="line"></span><br><span class="line">analog <span class="keyword">begin</span></span><br><span class="line">    @(initial_step) <span class="keyword">begin</span></span><br><span class="line">        pow2[<span class="number">0</span>] = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= <span class="number">11</span>; i = i+<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">            pow2[i] = <span class="number">2</span><span class="variable">.0</span> * pow2[i-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">end</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">    <span class="keyword">generate</span> j (<span class="number">10</span>,<span class="number">0</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (V(in[j]) &lt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">            delta = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span> </span><br><span class="line">            delta = pow2[j];</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        code = code + delta;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (V(in[<span class="number">10</span>]) &gt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">        code = code - pow2[<span class="number">11</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = full_scale * code / pow2[<span class="number">10</span>];</span><br><span class="line">    V(out) &lt;+ V(agnd) + transition(code, <span class="number">0</span> , trise, tfall);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h2 id="dac_driver-verilog-cellview"><em>dac_driver (verilog cellview)</em></h2>
+<p><img src="/2020/12/16/CadenceASMTutorial/dac_driver.png" alt="dac_driver" style="zoom:50%;"></p>
+<p>然后创建一个 <strong>verilog</strong> cellview 叫做 ‘<em>dac_driver</em>’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog HDL for &quot;AMS_Tutorial&quot;, &quot;dac_driver&quot; &quot;functional&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> dac_driver (word_out);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">output</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line">    <span class="keyword">reg</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        word_out = <span class="number">12&#x27;h000</span>;</span><br><span class="line">        #<span class="number">20480</span> <span class="built_in">$finish</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> #<span class="number">5</span> word_out = word_out + <span class="number">1&#x27;b1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h2 id="interconnect-elements">interconnect elements</h2>
+<p>由于 <em>dac_driver</em> 是一个 Verilog 的 cellview，其输出是数字量，而 <em>ieadl_dac</em> 是一个 verilogA 的 cellview，其输入是模拟量，因此需要 interconnect elements 来进行数字量和模拟量之间的转换。AMS-Designer 可以自动创建 interconnect elements，不过自己来实现这个连接器，连接器应该有两种形式，分别是数字量到模拟量的转换和模拟量到数字量的转换。</p>
+<h3 id="a_d-verilogams-cellview"><em>a_d (VerilogAMS cellview)</em></h3>
+<p><img src="/2020/12/16/CadenceASMTutorial/a_d.png" alt="a_d" style="zoom:50%;"></p>
+<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘a_d’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;a_d&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule a_d (A, D);</span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vh = <span class="number">4</span>; <span class="comment">// minimum voltage of a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vl = <span class="number">1</span>; <span class="comment">// maximum voltage of a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> c = <span class="number">20</span>f; <span class="comment">// input capacitance (F) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dt = <span class="number">1</span>m; <span class="comment">// time in x region before x is produced (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dv = <span class="number">0</span><span class="variable">.5</span>; <span class="comment">// voltage between threshold and x region (V)</span></span><br><span class="line">    <span class="keyword">input</span> A; </span><br><span class="line">    <span class="keyword">output</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">reg</span> D; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vlx = vl + dv; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vhx = vh - dv; </span><br><span class="line">    <span class="keyword">reg</span> inXregion;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vh)) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vl - V(A))) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vhx - V(A))) inXregion = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vlx)) inXregion = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> inXregion) <span class="keyword">begin</span> : XRegionDelay </span><br><span class="line">        <span class="variable">#(dt/1.0n)</span> <span class="comment">// calculate how many time units are equal to the dt time</span></span><br><span class="line">        D = <span class="number">1&#x27;bx</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> inXregion) <span class="keyword">disable</span> XRegionDelay;</span><br><span class="line"></span><br><span class="line">    analog I(A) &lt;+ c*ddt(V(A));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h3 id="d_a-verilogams-cellview"><em>d_a (VerilogAMS cellview)</em></h3>
+<p><img src="/2020/12/16/CadenceASMTutorial/d_a.png" alt="d_a" style="zoom:50%;"></p>
+<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘d_a’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;d_a&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule d_a (D, A);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v0 = <span class="number">0</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v1 = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vx = <span class="number">2</span><span class="variable">.5</span>;               <span class="comment">// output voltage for a logic x (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vz = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic z (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r0 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 0 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r1 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 1 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rx = <span class="number">100</span> from (<span class="number">0</span>:inf);   <span class="comment">// output resistance for a logic x (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rz = <span class="number">1</span>M from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic z (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tr=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// rise time (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tf=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// fall time (s)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span> D; </span><br><span class="line">    <span class="keyword">output</span> A; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">real</span> v, r;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> D = D;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(D) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    analog <span class="keyword">begin</span></span><br><span class="line">       V(A) &lt;+ transition(v, <span class="number">0</span>, tr, tf) + transition(r, <span class="number">0</span>, tr, tf)*I(A); </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h2 id="ideal_dac_test-schematic-cellview"><em>ideal_DAC_test （schematic cellview）</em></h2>
+<p><img src="/2020/12/16/CadenceASMTutorial/ideal_DAC_test.png" alt="ideal_DAC_test" style="zoom:50%;"></p>
+<p>创建一个 <strong>schematic</strong> cellview 叫做 ‘ideal_DAC_test’。将器件按照下图进行连接。</p>
+<figure>
+<img src="/2020/12/16/CadenceASMTutorial/schematic.png" alt="schematic"><figcaption aria-hidden="true">schematic</figcaption>
+</figure>
+<h1 id="仿真">仿真</h1>
+<h2 id="config-config-cellview"><em>config (config cellview)</em></h2>
+<h3 id="创建">创建</h3>
+<p>为 <em>ideal_DAC_test</em> 创建一个 <strong>config cellview</strong>，如下图所示。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/config.png" alt="config" style="zoom: 50%;"></p>
+<p>创建完成后，配置窗口会自动弹出，如下图所示，首先选择 ‘Use Template…’，在弹出来的窗口中选择 ‘AMS’。剩下的信息按照下图配置。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/AMSconfig.png" alt="AMSconfig" style="zoom:50%;"></p>
+<p>创建完成后，把 config(Hierarchy Editor) 和 Schematic 窗口<strong>都关闭</strong>。</p>
+<h3 id="配置-view-to-use">配置 <em>View To Use</em></h3>
+<p>然后<strong>再次打开 config 窗口</strong>，这时会弹出一个窗口，两项都选 ‘yes’，如下图所示。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/reopen.png" alt="reopen" style="zoom:50%;"></p>
+<p>点击 ‘OK’ 之后会看到 config 和 schematic 窗口都一起打开了。在 Hierarchy Editor 窗口中，右击 <em>View To Use</em> 上右击，选择 <em>Select View</em>，配置成如下图所示。</p>
+<figure>
+<img src="/2020/12/16/CadenceASMTutorial/view.png" alt="view"><figcaption aria-hidden="true">view</figcaption>
+</figure>
+<p><img src="/2020/12/16/CadenceASMTutorial/AMS_view.png" alt="AMS_view" style="zoom:50%;"></p>
+<h3 id="配置-ams">配置 AMS</h3>
+<p>点击 Plugins -&gt; AMS，然后 AMS 选项就会出现在 Hierarchy Editor 窗口中了。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/AMS_Plugin.png" alt="AMS_Plugin" style="zoom: 50%;"></p>
+<p>然后点击 AMS -&gt; Initialize，配置 <em>Run Directory</em>，并且在 <em>Always use this run directory …</em> 后面打钩。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/AMS_Initialize.png" alt="AMS_Initialize" style="zoom:50%;"></p>
+<p>在 AMS -&gt; Quick Setup 中，配置 <em>hdl.var</em> 为之前<a href="#初始化设置">初始化设置</a>中创建的 <em>hdl.var</em> 文件。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/AMS_quicksetup.png" alt="AMS_quicksetup" style="zoom:50%;"></p>
+<p>在 AMS -&gt; Detalied Setup -&gt; Analyses 中设置仿真结束时间，这里设置的是 <em>20e-6</em>。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/stoptime.png" alt="stoptime" style="zoom:50%;"></p>
+<p>上面几步做完了记得保存一下。</p>
+<h2 id="运行仿真">运行仿真</h2>
+<p>点击 AMS -&gt; NetList and Run，打开一个 config 窗口，这里也可以设置仿真时间。需要注意的是 <em>Save/Plot…</em> 这个选项，该选项可以将需要观察的信号添加进来，不过不建议在这里添加，而是 Netlist 之后再添加，更加方便。</p>
+<p><img src="/2020/12/16/CadenceASMTutorial/AMS_run_config.png" alt="AMS_run_config" style="zoom:50%;"></p>
+<p>在上面的窗口中点击 <em>Run</em>，如果没有错误会弹出 SimVision 窗口。</p>
+<p>在 <em>Design Browser</em> 窗口中想要观察的信号上右击 -&gt; <strong>Send to Waveform Window</strong>，然后再点击 SimVision Console 窗口中的 <strong>Run</strong> 按钮，仿真就开始运行了。</p>
+<figure>
+<img src="/2020/12/16/CadenceASMTutorial/SimVision.png" alt="SimVision"><figcaption aria-hidden="true">SimVision</figcaption>
+</figure>
+<figure>
+<img src="/2020/12/16/CadenceASMTutorial/wave.png" alt="wave"><figcaption aria-hidden="true">wave</figcaption>
+</figure>
+<blockquote>
+<p>PS：如果模拟量信号观察不到，但可以看到数值，可能需要设置一下 View -&gt; Zoom -&gt; Full Y.</p>
+</blockquote>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><p><a href="https://wenku.baidu.com/view/cbd263c8192e45361166f5e5.html">Tufts University Cadence AMS-Designer Tutorial</a></p></li>
+<li><p>https://blog.csdn.net/YYP_8020/article/details/107332430</p></li>
+<li><p>Cadence Verilog-AMS Language Reference</p>
+<p>$INSTALL_DIR/doc/verilogamsref/verilogamsref.pdf</p></li>
+<li><p>Virtuoso AMS Simulator User Guide</p>
+<p>$INSTALL_DIR/doc/amssimug/amssimug.pdf</p></li>
+<li><p>Cadence NC-Verilog Simulator Tutorial with SimVision</p>
+<p>$INSTALL_DIR/doc/ncvlogtut/ncvlogtut.pdf</p></li>
+<li><p>https://designers-guide.org/index.html</p></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>Cadence</tag>
+        <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Config static IP address on Ubuntu 18.04</title>
     <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
     <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
@@ -256,112 +362,6 @@ y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
       </tags>
   </entry>
   <entry>
-    <title>Cadence ASM Tutorial</title>
-    <url>/2020/12/16/CadenceASMTutorial/</url>
-    <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
-<a id="more"></a>
-<blockquote>
-<p>INCISIVE152 的安装可以参考 https://blog.csdn.net/yy345730585/article/details/90407408</p>
-</blockquote>
-<h1 id="初始化设置">初始化设置</h1>
-<p>在打开 cadence 的文件夹下面需要新建一个‘<em>hdl.var</em>’文件，内容如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">softinclude <span class="variable">$INCISIVDIR</span>/tools/inca/files/hdl.var</span><br><span class="line">define ams</span><br><span class="line">define NCVLOGOPTS -linedebug</span><br><span class="line">define VIEW_MAP (<span class="variable">$VIEW_MAP</span>, .vs =&gt; shell)</span><br></pre></td></tr></table></figure>
-<p>其中 <em>$INCISIVDIR</em> 是 <strong>Cadence INCISIV</strong> 的安装路径。</p>
-<p>需要在文件‘<em>cds.lib</em>’中加入一行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SOFTINCLUDE <span class="variable">$INCISIVDIR</span>/tools/inca/files/cds.lib</span><br></pre></td></tr></table></figure>
-<h1 id="verilog-a-设计-以理想-dac-为例">Verilog-A 设计 — 以理想 DAC 为例</h1>
-<h2 id="ieadl_dac-veriloga-cellview"><em>ieadl_dac (verilogA cellview)</em></h2>
-<p><img src="/2020/12/16/CadenceASMTutorial/ieadl_dac.png" alt="ieadl_dac" style="zoom:50%;"></p>
-<p>首先创建一个新的 Library 叫做 ‘<em>AMS_Tutorial</em>’。然后创建一个 <strong>verilogA</strong> cellview 叫做 ‘<em>ieadl_dac</em>’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">// VerilogA for AMS_Tutorial, ideal_dac, veriloga</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> ideal_dac(in, agnd, out);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line"><span class="keyword">input</span> agnd;</span><br><span class="line"><span class="keyword">output</span> out;</span><br><span class="line">electrical [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line">electrical agnd;</span><br><span class="line">electrical out;</span><br><span class="line"></span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> logic_thresh = <span class="number">2</span><span class="variable">.5</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> full_scale = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> trise = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> tfall = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"></span><br><span class="line"><span class="keyword">real</span> code, delta;</span><br><span class="line"><span class="keyword">real</span> pow2[<span class="number">11</span>:<span class="number">0</span>];</span><br><span class="line"><span class="keyword">integer</span> i;</span><br><span class="line"></span><br><span class="line">analog <span class="keyword">begin</span></span><br><span class="line">    @(initial_step) <span class="keyword">begin</span></span><br><span class="line">        pow2[<span class="number">0</span>] = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= <span class="number">11</span>; i = i+<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">            pow2[i] = <span class="number">2</span><span class="variable">.0</span> * pow2[i-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">end</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">    <span class="keyword">generate</span> j (<span class="number">10</span>,<span class="number">0</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (V(in[j]) &lt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">            delta = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span> </span><br><span class="line">            delta = pow2[j];</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        code = code + delta;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (V(in[<span class="number">10</span>]) &gt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">        code = code - pow2[<span class="number">11</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = full_scale * code / pow2[<span class="number">10</span>];</span><br><span class="line">    V(out) &lt;+ V(agnd) + transition(code, <span class="number">0</span> , trise, tfall);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h2 id="dac_driver-verilog-cellview"><em>dac_driver (verilog cellview)</em></h2>
-<p><img src="/2020/12/16/CadenceASMTutorial/dac_driver.png" alt="dac_driver" style="zoom:50%;"></p>
-<p>然后创建一个 <strong>verilog</strong> cellview 叫做 ‘<em>dac_driver</em>’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog HDL for &quot;AMS_Tutorial&quot;, &quot;dac_driver&quot; &quot;functional&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> dac_driver (word_out);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">output</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line">    <span class="keyword">reg</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        word_out = <span class="number">12&#x27;h000</span>;</span><br><span class="line">        #<span class="number">20480</span> <span class="built_in">$finish</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> #<span class="number">5</span> word_out = word_out + <span class="number">1&#x27;b1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h2 id="interconnect-elements">interconnect elements</h2>
-<p>由于 <em>dac_driver</em> 是一个 Verilog 的 cellview，其输出是数字量，而 <em>ieadl_dac</em> 是一个 verilogA 的 cellview，其输入是模拟量，因此需要 interconnect elements 来进行数字量和模拟量之间的转换。AMS-Designer 可以自动创建 interconnect elements，不过自己来实现这个连接器，连接器应该有两种形式，分别是数字量到模拟量的转换和模拟量到数字量的转换。</p>
-<h3 id="a_d-verilogams-cellview"><em>a_d (VerilogAMS cellview)</em></h3>
-<p><img src="/2020/12/16/CadenceASMTutorial/a_d.png" alt="a_d" style="zoom:50%;"></p>
-<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘a_d’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;a_d&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule a_d (A, D);</span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vh = <span class="number">4</span>; <span class="comment">// minimum voltage of a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vl = <span class="number">1</span>; <span class="comment">// maximum voltage of a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> c = <span class="number">20</span>f; <span class="comment">// input capacitance (F) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dt = <span class="number">1</span>m; <span class="comment">// time in x region before x is produced (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dv = <span class="number">0</span><span class="variable">.5</span>; <span class="comment">// voltage between threshold and x region (V)</span></span><br><span class="line">    <span class="keyword">input</span> A; </span><br><span class="line">    <span class="keyword">output</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">reg</span> D; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vlx = vl + dv; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vhx = vh - dv; </span><br><span class="line">    <span class="keyword">reg</span> inXregion;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vh)) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vl - V(A))) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vhx - V(A))) inXregion = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vlx)) inXregion = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> inXregion) <span class="keyword">begin</span> : XRegionDelay </span><br><span class="line">        <span class="variable">#(dt/1.0n)</span> <span class="comment">// calculate how many time units are equal to the dt time</span></span><br><span class="line">        D = <span class="number">1&#x27;bx</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> inXregion) <span class="keyword">disable</span> XRegionDelay;</span><br><span class="line"></span><br><span class="line">    analog I(A) &lt;+ c*ddt(V(A));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h3 id="d_a-verilogams-cellview"><em>d_a (VerilogAMS cellview)</em></h3>
-<p><img src="/2020/12/16/CadenceASMTutorial/d_a.png" alt="d_a" style="zoom:50%;"></p>
-<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘d_a’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;d_a&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule d_a (D, A);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v0 = <span class="number">0</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v1 = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vx = <span class="number">2</span><span class="variable">.5</span>;               <span class="comment">// output voltage for a logic x (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vz = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic z (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r0 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 0 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r1 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 1 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rx = <span class="number">100</span> from (<span class="number">0</span>:inf);   <span class="comment">// output resistance for a logic x (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rz = <span class="number">1</span>M from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic z (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tr=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// rise time (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tf=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// fall time (s)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span> D; </span><br><span class="line">    <span class="keyword">output</span> A; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">real</span> v, r;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> D = D;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(D) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    analog <span class="keyword">begin</span></span><br><span class="line">       V(A) &lt;+ transition(v, <span class="number">0</span>, tr, tf) + transition(r, <span class="number">0</span>, tr, tf)*I(A); </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h2 id="ideal_dac_test-schematic-cellview"><em>ideal_DAC_test （schematic cellview）</em></h2>
-<p><img src="/2020/12/16/CadenceASMTutorial/ideal_DAC_test.png" alt="ideal_DAC_test" style="zoom:50%;"></p>
-<p>创建一个 <strong>schematic</strong> cellview 叫做 ‘ideal_DAC_test’。将器件按照下图进行连接。</p>
-<figure>
-<img src="/2020/12/16/CadenceASMTutorial/schematic.png" alt="schematic"><figcaption aria-hidden="true">schematic</figcaption>
-</figure>
-<h1 id="仿真">仿真</h1>
-<h2 id="config-config-cellview"><em>config (config cellview)</em></h2>
-<h3 id="创建">创建</h3>
-<p>为 <em>ideal_DAC_test</em> 创建一个 <strong>config cellview</strong>，如下图所示。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/config.png" alt="config" style="zoom: 50%;"></p>
-<p>创建完成后，配置窗口会自动弹出，如下图所示，首先选择 ‘Use Template…’，在弹出来的窗口中选择 ‘AMS’。剩下的信息按照下图配置。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/AMSconfig.png" alt="AMSconfig" style="zoom:50%;"></p>
-<p>创建完成后，把 config(Hierarchy Editor) 和 Schematic 窗口<strong>都关闭</strong>。</p>
-<h3 id="配置-view-to-use">配置 <em>View To Use</em></h3>
-<p>然后<strong>再次打开 config 窗口</strong>，这时会弹出一个窗口，两项都选 ‘yes’，如下图所示。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/reopen.png" alt="reopen" style="zoom:50%;"></p>
-<p>点击 ‘OK’ 之后会看到 config 和 schematic 窗口都一起打开了。在 Hierarchy Editor 窗口中，右击 <em>View To Use</em> 上右击，选择 <em>Select View</em>，配置成如下图所示。</p>
-<figure>
-<img src="/2020/12/16/CadenceASMTutorial/view.png" alt="view"><figcaption aria-hidden="true">view</figcaption>
-</figure>
-<p><img src="/2020/12/16/CadenceASMTutorial/AMS_view.png" alt="AMS_view" style="zoom:50%;"></p>
-<h3 id="配置-ams">配置 AMS</h3>
-<p>点击 Plugins -&gt; AMS，然后 AMS 选项就会出现在 Hierarchy Editor 窗口中了。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/AMS_Plugin.png" alt="AMS_Plugin" style="zoom: 50%;"></p>
-<p>然后点击 AMS -&gt; Initialize，配置 <em>Run Directory</em>，并且在 <em>Always use this run directory …</em> 后面打钩。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/AMS_Initialize.png" alt="AMS_Initialize" style="zoom:50%;"></p>
-<p>在 AMS -&gt; Quick Setup 中，配置 <em>hdl.var</em> 为之前<a href="#初始化设置">初始化设置</a>中创建的 <em>hdl.var</em> 文件。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/AMS_quicksetup.png" alt="AMS_quicksetup" style="zoom:50%;"></p>
-<p>在 AMS -&gt; Detalied Setup -&gt; Analyses 中设置仿真结束时间，这里设置的是 <em>20e-6</em>。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/stoptime.png" alt="stoptime" style="zoom:50%;"></p>
-<p>上面几步做完了记得保存一下。</p>
-<h2 id="运行仿真">运行仿真</h2>
-<p>点击 AMS -&gt; NetList and Run，打开一个 config 窗口，这里也可以设置仿真时间。需要注意的是 <em>Save/Plot…</em> 这个选项，该选项可以将需要观察的信号添加进来，不过不建议在这里添加，而是 Netlist 之后再添加，更加方便。</p>
-<p><img src="/2020/12/16/CadenceASMTutorial/AMS_run_config.png" alt="AMS_run_config" style="zoom:50%;"></p>
-<p>在上面的窗口中点击 <em>Run</em>，如果没有错误会弹出 SimVision 窗口。</p>
-<p>在 <em>Design Browser</em> 窗口中想要观察的信号上右击 -&gt; <strong>Send to Waveform Window</strong>，然后再点击 SimVision Console 窗口中的 <strong>Run</strong> 按钮，仿真就开始运行了。</p>
-<figure>
-<img src="/2020/12/16/CadenceASMTutorial/SimVision.png" alt="SimVision"><figcaption aria-hidden="true">SimVision</figcaption>
-</figure>
-<figure>
-<img src="/2020/12/16/CadenceASMTutorial/wave.png" alt="wave"><figcaption aria-hidden="true">wave</figcaption>
-</figure>
-<blockquote>
-<p>PS：如果模拟量信号观察不到，但可以看到数值，可能需要设置一下 View -&gt; Zoom -&gt; Full Y.</p>
-</blockquote>
-<hr>
-<h1 id="reference">Reference</h1>
-<ul>
-<li><p><a href="https://wenku.baidu.com/view/cbd263c8192e45361166f5e5.html">Tufts University Cadence AMS-Designer Tutorial</a></p></li>
-<li><p>https://blog.csdn.net/YYP_8020/article/details/107332430</p></li>
-<li><p>Cadence Verilog-AMS Language Reference</p>
-<p>$INSTALL_DIR/doc/verilogamsref/verilogamsref.pdf</p></li>
-<li><p>Virtuoso AMS Simulator User Guide</p>
-<p>$INSTALL_DIR/doc/amssimug/amssimug.pdf</p></li>
-<li><p>Cadence NC-Verilog Simulator Tutorial with SimVision</p>
-<p>$INSTALL_DIR/doc/ncvlogtut/ncvlogtut.pdf</p></li>
-<li><p>https://designers-guide.org/index.html</p></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Software</tag>
-        <tag>Cadence</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Delta-Sigma Modulator (2) — Simulink Simulation</title>
     <url>/2020/11/27/DSM2/</url>
     <content><![CDATA[<p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
@@ -507,32 +507,12 @@ Mean(Y) = Mean(X)/(M-a)
 </div>
 <h1 id="仿真结果-mash-hk-mash-sp-mash">仿真结果 MASH &amp; HK-MASH &amp; SP-MASH</h1>
 <h2 id="输出序列">输出序列</h2>
-<div data-align="center">
-<div data-align="center">
-<pre><code>&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/mash_5bit_16_y.svg&quot; alt=&quot;MASH input 16&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/hk_mash_5bit_16_y.svg&quot; alt=&quot;HK-MASH input 16&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/sp_mash_5bit_16_y.svg&quot; alt=&quot;SP-MASH input 16&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;</code></pre>
-</div>
-<div data-align="center">
-<pre><code>&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/mash_5bit_17_y.svg&quot; alt=&quot;MASH input 17&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/hk_mash_5bit_17_y.svg&quot; alt=&quot;HK-MASH input 17&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/sp_mash_5bit_17_y.svg&quot; alt=&quot;SP-MASH input 17&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;</code></pre>
-</div>
-</div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/mash_5bit_16_y.svg" alt="MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/hk_mash_5bit_16_y.svg" alt="HK-MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/sp_mash_5bit_16_y.svg" alt="SP-MASH input 16"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/mash_5bit_17_y.svg" alt="MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/hk_mash_5bit_17_y.svg" alt="HK-MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/sp_mash_5bit_17_y.svg" alt="SP-MASH input 17"></div></div></div></div>
 <p>三种 MASH DSM 结构的输出序列如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。</p>
 <h2 id="功率谱密度">功率谱密度</h2>
-<div data-align="center">
-<div data-align="center">
-<pre><code>&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/mash_5bit_16_psd.svg&quot; alt=&quot;MASH input 16&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/hk_mash_5bit_16_psd.svg&quot; alt=&quot;HK-MASH input 16&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/sp_mash_5bit_16_psd.svg&quot; alt=&quot;SP-MASH input 16&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;</code></pre>
-</div>
-<div data-align="center">
-<pre><code>&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/mash_5bit_17_psd.svg&quot; alt=&quot;MASH input 17&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/hk_mash_5bit_17_psd.svg&quot; alt=&quot;HK-MASH input 17&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;
-&lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/sp_mash_5bit_17_psd.svg&quot; alt=&quot;SP-MASH input 17&quot; width=&quot;290&quot;/&gt;&lt;/div&gt;</code></pre>
-</div>
-</div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/mash_5bit_16_psd.svg" alt="MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/hk_mash_5bit_16_psd.svg" alt="HK-MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/sp_mash_5bit_16_psd.svg" alt="SP-MASH input 16"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/mash_5bit_17_psd.svg" alt="MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/hk_mash_5bit_17_psd.svg" alt="HK-MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/2020/12/04/DSM3/sp_mash_5bit_17_psd.svg" alt="SP-MASH input 17"></div></div></div></div>
 <p>三种 MASH DSM 结构的功率谱如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。</p>
 <h1 id="结果分析思考">结果分析&amp;思考🤔</h1>
 <ol type="1">
@@ -545,15 +525,10 @@ N = \frac{M}{GCD(X, M)}
 <li><p>在低位宽下 HK-MASH 和 SP-MASH 结构相比于传统的 MASH 结构提升较为明显，例如上面的例子都是在 5bit 先进行比较的，个人觉得当位宽较大时，HK-MASH 和 SP-MASH 结构相比于传统的 MASH 结构优势就没有那么明显了，在 24bit 的 EFM 结构中验证了这个想法。</p></li>
 <li><p>就功率谱密度来看，感觉 SP-MASH 对比 HK-MASH 并没有明显的提升，我自己的仿真中没有论文中的差距那么大：</p></li>
 </ol>
-<div data-align="center">
-<pre><code>&lt;div&gt;
-  &lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/hk_mash_5bit_16_psd.svg&quot; alt=&quot;HK-MASH&quot; width=&quot;270&quot;/&gt;&lt;/div&gt;
-  &lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/sp_mash_5bit_16_psd.svg&quot; alt=&quot;SP-MASH&quot; width=&quot;270&quot;/&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div&gt;
-  &lt;div style=&quot;display:inline-block;&quot;&gt;&lt;img src=&quot;DSM3/js_result.png&quot; alt=&quot;result in paper&quot; width=&quot;550&quot;/&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-</div>
+<p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="/2020/12/04/DSM3/hk_mash_5bit_16_psd.svg" alt="HK-MASH input 16"></div><div class="group-picture-column" style="width: 50%;"><img src="/2020/12/04/DSM3/sp_mash_5bit_16_psd.svg" alt="SP-MASH input 16"></div></div></div></div></p>
+<figure>
+<img src="/2020/12/04/DSM3/js_result.png" alt="result in paper"><figcaption aria-hidden="true">result in paper</figcaption>
+</figure>
 <p>上面一行是我自己的仿真结果，下面一行是论文中的结果，输入都为 16。</p>
 <h1 id="参考文献">参考文献</h1>
 <p>[1] Y. Liao, X. Fan and Z. Hua, "Influence of LFSR Dither on the Periods of a MASH Digital Delta–Sigma Modulator," in <em>IEEE Transactions on Circuits and Systems II: Express Briefs</em>, vol. 66, no. 1, pp. 66-70, Jan. 2019, doi: 10.1109/TCSII.2018.2828600.</p>
@@ -619,6 +594,48 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       <tags>
         <tag>FPGA</tag>
         <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HDB3&amp;BPSK</title>
+    <url>/2018/12/24/HDB3-BPSK/</url>
+    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
+<h2 id="需要的资源">需要的资源</h2>
+<ul>
+<li>ADC；</li>
+<li>DDS；</li>
+<li>DAC；</li>
+</ul>
+<h2 id="实现">实现</h2>
+<p>根据上述要求，选择EGo1板卡。</p>
+<ul>
+<li><p>ADC可使用Artix7芯片自带的XADC；</p>
+<blockquote>
+<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
+<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
+<p>https://zhuanlan.zhihu.com/p/44495333</p>
+</blockquote>
+<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
+<li><p>DDS可使用xilinx的DDS IP核；</p>
+<blockquote>
+<p>https://zhuanlan.zhihu.com/p/36929424</p>
+</blockquote></li>
+<li><p>DAC可使用板卡上的DAC0832芯片；</p>
+<blockquote>
+<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
+</blockquote></li>
+</ul>
+<h1 id="hdb3-编码">HDB3 编码</h1>
+<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
+]]></content>
+      <categories>
+        <category>课设</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>HDB3</tag>
+        <tag>BPSK</tag>
+        <tag>通信原理</tag>
       </tags>
   </entry>
   <entry>
@@ -711,48 +728,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
         <tag>UDP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HDB3&amp;BPSK</title>
-    <url>/2018/12/24/HDB3-BPSK/</url>
-    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
-<h2 id="需要的资源">需要的资源</h2>
-<ul>
-<li>ADC；</li>
-<li>DDS；</li>
-<li>DAC；</li>
-</ul>
-<h2 id="实现">实现</h2>
-<p>根据上述要求，选择EGo1板卡。</p>
-<ul>
-<li><p>ADC可使用Artix7芯片自带的XADC；</p>
-<blockquote>
-<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
-<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
-<p>https://zhuanlan.zhihu.com/p/44495333</p>
-</blockquote>
-<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
-<li><p>DDS可使用xilinx的DDS IP核；</p>
-<blockquote>
-<p>https://zhuanlan.zhihu.com/p/36929424</p>
-</blockquote></li>
-<li><p>DAC可使用板卡上的DAC0832芯片；</p>
-<blockquote>
-<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
-</blockquote></li>
-</ul>
-<h1 id="hdb3-编码">HDB3 编码</h1>
-<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
-]]></content>
-      <categories>
-        <category>课设</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>HDB3</tag>
-        <tag>BPSK</tag>
-        <tag>通信原理</tag>
       </tags>
   </entry>
   <entry>
@@ -1169,37 +1144,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MIPS处理器学习报告</title>
     <url>/2018/12/19/MIPS%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%8A%A5%E5%91%8A/</url>
     <content><![CDATA[<a id="more"></a>
@@ -1254,6 +1198,37 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <tag>FPGA</tag>
         <tag>MPIS32</tag>
         <tag>课程设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -3445,8 +3420,8 @@ K_{cp} = \frac{I_{cp}}{2\pi}
         <category>Software</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Software</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
