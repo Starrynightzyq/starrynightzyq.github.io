@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhouyuqian.com/2021/05/20/PLL-noise/</loc>
+    <lastmod>2021-05-20</lastmod>
+  </url>
+  <url>
     <loc>https://zhouyuqian.com/2021/05/08/vco-param/</loc>
     <lastmod>2021-05-08</lastmod>
   </url>
@@ -173,11 +177,11 @@
     <lastmod>2020-07-01</lastmod>
   </url>
   <url>
-    <loc>https://zhouyuqian.com/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</loc>
+    <loc>https://zhouyuqian.com/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</loc>
     <lastmod>2020-05-11</lastmod>
   </url>
   <url>
-    <loc>https://zhouyuqian.com/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</loc>
+    <loc>https://zhouyuqian.com/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</loc>
     <lastmod>2020-05-11</lastmod>
   </url>
   <url>
