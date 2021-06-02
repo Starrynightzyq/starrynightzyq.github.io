@@ -101,9 +101,9 @@
         <category>Software</category>
       </categories>
       <tags>
+        <tag>IC_design</tag>
         <tag>Software</tag>
         <tag>Cadence</tag>
-        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -268,8 +268,8 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>CM</tag>
       </tags>
   </entry>
@@ -540,8 +540,8 @@ N = \frac{M}{GCD(X, M)}
         <category>Delta-Sigma</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
         <tag>DSM</tag>
       </tags>
@@ -682,8 +682,8 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
         <tag>UDP</tag>
       </tags>
@@ -838,8 +838,8 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -1092,37 +1092,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -1172,6 +1141,37 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -1229,6 +1229,196 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <tag>FPGA</tag>
         <tag>MPIS32</tag>
         <tag>课程设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matlab应用实践</title>
+    <url>/2019/01/11/Matlab%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<h1 id="实验一-基础练习">实验一 基础练习</h1>
+<h2 id="练习1-基本操作和简单语句输入">练习1 基本操作和简单语句输入</h2>
+<ol type="1">
+<li><p>用函数sym定义符号矩阵：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; sym_matrix = sym(<span class="string">&#x27;[a b c;Jack Help_Me NO_WAY]&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">sym_matrix =</span><br><span class="line"> </span><br><span class="line">[    a,       b,      c]</span><br><span class="line">[ Jack, Help_Me, NO_WAY]</span><br></pre></td></tr></table></figure></li>
+<li><p>用函数syms定义符号矩阵</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; syms a b c ;</span><br><span class="line">&gt;&gt; M1 = sym(<span class="string">&#x27;Classical&#x27;</span>);</span><br><span class="line">&gt;&gt; M2 = sym(<span class="string">&#x27; Jazz&#x27;</span>);</span><br><span class="line">&gt;&gt; M3 = sym(<span class="string">&#x27;Blues&#x27;</span>);</span><br><span class="line">&gt;&gt; A = [a b c;M1,M2,M3;sym([<span class="number">2</span> <span class="number">3</span> <span class="number">5</span>])]</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A =</span><br><span class="line"> </span><br><span class="line">[         a,    b,     c]</span><br><span class="line">[ Classical, Jazz, Blues]</span><br><span class="line">[         <span class="number">2</span>,    <span class="number">3</span>,     <span class="number">5</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>输入<code>A=[7 1 5;2 5 6;3 1 5],B=[1 1 1; 2 2 2; 3 3 3]</code>，在命令窗口中执行下列表达式，掌握其含义：<code>A(2, 3) A(:,2) A(3,:) A(:,1:2:3) A(:,3).*B(:,2) A(:,3)*B(2,:) A*B A.*B A^2 A.^2 B/A B./A</code></p>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A=[<span class="number">7</span> <span class="number">1</span> <span class="number">5</span>;<span class="number">2</span> <span class="number">5</span> <span class="number">6</span>;<span class="number">3</span> <span class="number">1</span> <span class="number">5</span>],B=[<span class="number">1</span> <span class="number">1</span> <span class="number">1</span>; <span class="number">2</span> <span class="number">2</span> <span class="number">2</span>; <span class="number">3</span> <span class="number">3</span> <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">A =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">2</span>     <span class="number">2</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p><code>A(2,3)</code>——输出矩阵A第二行第三列的值</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p><code>A(:,2)</code>——输出矩阵A第二列的所有值</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span></span><br><span class="line">     <span class="number">5</span></span><br><span class="line">     <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><code>A(3,:)</code>——输出矩阵A第三行的所有值</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(<span class="number">3</span>,:)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">3</span>     <span class="number">1</span>     <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p><code>A(:,1:2:3)</code>—— 输出矩阵A的第一列和第三列的值</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">1</span>:<span class="number">2</span>:<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p><code>A(:,3).*B(:,2)</code>——输出矩阵A的第三列与矩阵B的第二列的乘积</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">3</span>).*B(:,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">5</span></span><br><span class="line">    <span class="number">12</span></span><br><span class="line">    <span class="number">15</span></span><br></pre></td></tr></table></figure>
+<p><code>A(:,3).*B(2,:)</code>——输出矩阵A的第三列与矩阵B的第二行的乘积</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">3</span>).*B(<span class="number">2</span>,:)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">10</span>    <span class="number">10</span>    <span class="number">10</span></span><br><span class="line">    <span class="number">12</span>    <span class="number">12</span>    <span class="number">12</span></span><br><span class="line">    <span class="number">10</span>    <span class="number">10</span>    <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p><code>A*B</code>——将矩阵A与矩阵B进行矩阵乘法运算</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A*B</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">24</span>    <span class="number">24</span>    <span class="number">24</span></span><br><span class="line">    <span class="number">30</span>    <span class="number">30</span>    <span class="number">30</span></span><br><span class="line">    <span class="number">20</span>    <span class="number">20</span>    <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p><code>A.*B</code>——将矩阵A与矩阵B中相同位置的元素相乘</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A.*B</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">4</span>    <span class="number">10</span>    <span class="number">12</span></span><br><span class="line">     <span class="number">9</span>     <span class="number">3</span>    <span class="number">15</span></span><br></pre></td></tr></table></figure>
+<p><code>A^2</code>——将矩阵A与矩阵A进行矩阵乘法运算</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A^<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">66</span>    <span class="number">17</span>    <span class="number">66</span></span><br><span class="line">    <span class="number">42</span>    <span class="number">33</span>    <span class="number">70</span></span><br><span class="line">    <span class="number">38</span>    <span class="number">13</span>    <span class="number">46</span></span><br></pre></td></tr></table></figure>
+<p><code>A.^2</code>——将矩阵A与矩阵A相对应位置的元素相乘</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A.^<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">49</span>     <span class="number">1</span>    <span class="number">25</span></span><br><span class="line">     <span class="number">4</span>    <span class="number">25</span>    <span class="number">36</span></span><br><span class="line">     <span class="number">9</span>     <span class="number">1</span>    <span class="number">25</span></span><br></pre></td></tr></table></figure>
+<p><code>B/A</code>——矩阵B乘矩阵A的逆</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; B/A</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">0.1842</span>    <span class="number">0.2105</span>   <span class="number">-0.2368</span></span><br><span class="line">    <span class="number">0.3684</span>    <span class="number">0.4211</span>   <span class="number">-0.4737</span></span><br><span class="line">    <span class="number">0.5526</span>    <span class="number">0.6316</span>   <span class="number">-0.7105</span></span><br></pre></td></tr></table></figure>
+<p><code>B./A</code>——矩阵B与矩阵A相对应的元素相除</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; B./A</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">0.1429</span>    <span class="number">1.0000</span>    <span class="number">0.2000</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">0.4000</span>    <span class="number">0.3333</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">3.0000</span>    <span class="number">0.6000</span></span><br></pre></td></tr></table></figure></li>
+<li><p>输入<code>C=1:2:20</code>，则<code>C(i)</code>表示什么？其中<code>i=1,2,3,…,10</code>；</p>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; C=<span class="number">1</span>:<span class="number">2</span>:<span class="number">20</span></span><br><span class="line"></span><br><span class="line">C =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>     <span class="number">3</span>     <span class="number">5</span>     <span class="number">7</span>     <span class="number">9</span>    <span class="number">11</span>    <span class="number">13</span>    <span class="number">15</span>    <span class="number">17</span>    <span class="number">19</span></span><br></pre></td></tr></table></figure>
+<p><code>C(i)</code>表示第i位的数据</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; C(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; C(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">9</span></span><br></pre></td></tr></table></figure></li>
+<li><p>查找已创建变量的信息，删除无用的变量</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A</span><br><span class="line"></span><br><span class="line">A =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; clear A</span><br><span class="line">&gt;&gt; A</span><br><span class="line">未定义函数或变量 <span class="string">&#x27;A&#x27;</span>。</span><br></pre></td></tr></table></figure>
+<h2 id="练习2-编程">练习2 编程</h2></li>
+<li><p>编写程序,计算1+3+5+7+…+(2n+1)的值(用input 语句输入n 值)</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">clc</span><br><span class="line">n = input(<span class="string">&#x27;input n = &#x27;</span>);</span><br><span class="line">sum = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:n</span><br><span class="line">    sum = sum + (<span class="number">2</span>*<span class="built_in">i</span>+<span class="number">1</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;sum = &#x27;</span> num2str(sum)]);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">input n = <span class="number">10</span></span><br><span class="line">sum = <span class="number">121</span></span><br></pre></td></tr></table></figure></li>
+<li><p>编写分段函数$y = {</p>
+<span class="math display">\[\begin{array}{ll}
+x &amp; \textrm{$0 \leq x&lt;1$}\\
+2-x &amp; \textrm{$1 \leq x \leq 2$}\\
+0 &amp; \textrm{其他}
+\end{array}\]</span>
+<p>.<span class="math inline">\(的函数文件，存放于文件ff.m中，计算出\)</span>f(-3)<span class="math inline">\(、\)</span>f()<span class="math inline">\(、\)</span>f()$的值。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x = input(<span class="string">&#x27;x = &#x27;</span>);</span><br><span class="line"><span class="keyword">if</span>(x&gt;=<span class="number">0</span> &amp;&amp; x&lt;<span class="number">1</span>)</span><br><span class="line">    fx = x;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(x &gt;= <span class="number">1</span> &amp;&amp; x &lt;= <span class="number">2</span>)</span><br><span class="line">        fx = <span class="number">2</span> - x;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        fx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;f(x) = &#x27;</span>, num2str(fx)]);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x = <span class="number">0.5</span></span><br><span class="line">f(x) = <span class="number">0.5</span></span><br><span class="line">x = <span class="number">1.5</span></span><br><span class="line">f(x) = <span class="number">0.5</span></span><br><span class="line">x = <span class="number">-2</span></span><br><span class="line">f(x) = <span class="number">0</span></span><br><span class="line">x = <span class="number">3</span></span><br><span class="line">f(x) = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="练习3-矩阵计算">练习3 矩阵计算</h2></li>
+<li><p>加、减运算</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">clc</span><br><span class="line">A=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>; <span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>];</span><br><span class="line">B=[<span class="number">8</span>, <span class="number">1</span>, <span class="number">6</span>; <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>; <span class="number">4</span>, <span class="number">9</span>, <span class="number">2</span>];</span><br><span class="line">X=A+B;</span><br><span class="line">Y=A-B;</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;A+B = &#x27;</span>]);</span><br><span class="line"><span class="built_in">disp</span>(X);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;A-B = &#x27;</span>]);</span><br><span class="line"><span class="built_in">disp</span>(Y);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A+B = </span><br><span class="line">     <span class="number">9</span>     <span class="number">2</span>     <span class="number">7</span></span><br><span class="line">     <span class="number">4</span>     <span class="number">7</span>    <span class="number">10</span></span><br><span class="line">     <span class="number">5</span>    <span class="number">12</span>     <span class="number">8</span></span><br><span class="line"></span><br><span class="line">A-B = </span><br><span class="line">    <span class="number">-7</span>     <span class="number">0</span>    <span class="number">-5</span></span><br><span class="line">    <span class="number">-2</span>    <span class="number">-3</span>    <span class="number">-4</span></span><br><span class="line">    <span class="number">-3</span>    <span class="number">-6</span>     <span class="number">4</span></span><br></pre></td></tr></table></figure></li>
+<li><p>乘法</p>
+<ol type="1">
+<li><p>两个矩阵相乘</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X= [<span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> </span><br><span class="line">    <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> <span class="number">1</span>];</span><br><span class="line">Y=[<span class="number">0</span> <span class="number">1</span> <span class="number">1</span> </span><br><span class="line">   <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> </span><br><span class="line">   <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> </span><br><span class="line">   <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>];</span><br><span class="line">Z = X*Y;</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Z = &#x27;</span>]);</span><br><span class="line"><span class="built_in">disp</span>(Z);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">Z = </span><br><span class="line">     <span class="number">8</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure></li>
+<li><p>矩阵的数乘</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = <span class="number">2</span>*X;</span><br><span class="line"><span class="built_in">disp</span>(<span class="string">&#x27;a = &#x27;</span>);</span><br><span class="line"><span class="built_in">disp</span>(a);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = </span><br><span class="line">     <span class="number">4</span>     <span class="number">6</span>     <span class="number">8</span>    <span class="number">10</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">4</span>     <span class="number">4</span>     <span class="number">2</span></span><br></pre></td></tr></table></figure></li>
+<li><p>向量的点乘（内积）</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X=[<span class="number">-1</span> <span class="number">0</span> <span class="number">2</span>]; Y=[<span class="number">-2</span> <span class="number">-1</span> <span class="number">1</span>];</span><br><span class="line">Z=<span class="built_in">dot</span>(X, Y)</span><br><span class="line"><span class="comment">% 或者</span></span><br><span class="line">sum(X.*Y)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">Z =</span><br><span class="line"></span><br><span class="line">     <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">4</span></span><br></pre></td></tr></table></figure></li>
+<li><p>向量叉乘</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>];</span><br><span class="line">b=[<span class="number">4</span> <span class="number">5</span> <span class="number">6</span>];</span><br><span class="line">c=<span class="built_in">cross</span>(a,b)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">c =</span><br><span class="line"></span><br><span class="line">    <span class="number">-3</span>     <span class="number">6</span>    <span class="number">-3</span></span><br></pre></td></tr></table></figure></li>
+<li><p>混合积</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]; b=[<span class="number">4</span> <span class="number">5</span> <span class="number">6</span>]; c=[<span class="number">-3</span> <span class="number">6</span> <span class="number">-3</span>];</span><br><span class="line">x=<span class="built_in">dot</span>(a, <span class="built_in">cross</span>(b, c))</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x =</span><br><span class="line"></span><br><span class="line">    <span class="number">54</span></span><br></pre></td></tr></table></figure></li>
+</ol></li>
+<li><p>矩阵的除法</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">b=[<span class="number">4</span>; <span class="number">1</span>; <span class="number">2</span>];</span><br><span class="line">x=a\b</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x =</span><br><span class="line"></span><br><span class="line">   <span class="number">-1.5000</span></span><br><span class="line">    <span class="number">2.0000</span></span><br><span class="line">    <span class="number">0.5000</span></span><br></pre></td></tr></table></figure></li>
+<li><p>矩阵乘方</p>
+<ol type="1">
+<li><p>A为方阵，p 为大于0 的整数时，A^P 表示A 的P 次方，即A 自乘P 次；p 为小于0 的整数时，A^P 表示A-1 的P 次方。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">A^<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">30</span>    <span class="number">18</span>    <span class="number">42</span></span><br><span class="line">    <span class="number">54</span>    <span class="number">36</span>    <span class="number">78</span></span><br><span class="line">    <span class="number">86</span>    <span class="number">58</span>   <span class="number">126</span></span><br></pre></td></tr></table></figure></li>
+<li><p>A 为方阵，p 为非整数时，则其中V 为A 的特征向量，为特征值矩阵。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">A^<span class="number">0.5</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">  <span class="number">-0.6094</span> - <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">2.4744</span> + <span class="number">0.0000</span><span class="built_in">i</span>  <span class="number">-0.1031</span> - <span class="number">0.0000</span><span class="built_in">i</span></span><br><span class="line">   <span class="number">0.3712</span> - <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">1.3908</span> + <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">1.3197</span> - <span class="number">0.0000</span><span class="built_in">i</span></span><br><span class="line">   <span class="number">2.8112</span> - <span class="number">0.0000</span><span class="built_in">i</span>  <span class="number">-0.6461</span> + <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">3.1847</span> - <span class="number">0.0000</span><span class="built_in">i</span></span><br></pre></td></tr></table></figure></li>
+</ol></li>
+<li><p>矩阵的转置</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">A&#x27;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>     <span class="number">4</span>     <span class="number">7</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">2</span>     <span class="number">4</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">6</span>     <span class="number">9</span></span><br></pre></td></tr></table></figure></li>
+<li><p>矩阵的逆矩阵</p>
+<ol type="1">
+<li><p>方法一</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">2</span> <span class="number">2</span> <span class="number">1</span>; <span class="number">3</span> <span class="number">4</span> <span class="number">3</span>];</span><br><span class="line">inv(A)</span><br><span class="line"><span class="comment">%或 A^(-1)</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">3.0000</span>   <span class="number">-2.0000</span></span><br><span class="line">   <span class="number">-1.5000</span>   <span class="number">-3.0000</span>    <span class="number">2.5000</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">1.0000</span>   <span class="number">-1.0000</span></span><br></pre></td></tr></table></figure></li>
+<li><p>方法二</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>; <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>; <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>];</span><br><span class="line">C=rref(B); <span class="comment">%化行最简形</span></span><br><span class="line">X=C(:, <span class="number">4</span>:<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X =</span><br><span class="line"></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">3.0000</span>   <span class="number">-2.0000</span></span><br><span class="line">   <span class="number">-1.5000</span>   <span class="number">-3.0000</span>    <span class="number">2.5000</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">1.0000</span>   <span class="number">-1.0000</span></span><br></pre></td></tr></table></figure></li>
+</ol></li>
+<li><p>方阵的行列式</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">2</span> <span class="number">2</span> <span class="number">1</span>; <span class="number">3</span> <span class="number">4</span> <span class="number">3</span>];</span><br><span class="line">D=det(A)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">D =</span><br><span class="line"></span><br><span class="line">    <span class="number">2.0000</span></span><br></pre></td></tr></table></figure></li>
+<li><p>符号矩阵的四则运算</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=sym(<span class="string">&#x27;[1/x,1/(x+1);1/(x+2),1/(x+3)]&#x27;</span>);</span><br><span class="line">B=sym(<span class="string">&#x27;[x,1;x+2,0]&#x27;</span>);</span><br><span class="line">C=B-A</span><br><span class="line">D=A\B</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">C =</span><br><span class="line"> </span><br><span class="line">[           x - <span class="number">1</span>/x, <span class="number">1</span> - <span class="number">1</span>/(x + <span class="number">1</span>)]</span><br><span class="line">[ x - <span class="number">1</span>/(x + <span class="number">2</span>) + <span class="number">2</span>,    <span class="number">-1</span>/(x + <span class="number">3</span>)]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">D =</span><br><span class="line"> </span><br><span class="line">[ -x*(<span class="number">2</span>*x^<span class="number">2</span> + <span class="number">7</span>*x + <span class="number">6</span>),  (x*(x^<span class="number">2</span> + <span class="number">3</span>*x + <span class="number">2</span>))/<span class="number">2</span>]</span><br><span class="line">[  <span class="number">2</span>*(x + <span class="number">1</span>)^<span class="number">2</span>*(x + <span class="number">3</span>), -(x*(x + <span class="number">1</span>)*(x + <span class="number">3</span>))/<span class="number">2</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>符号矩阵的简化</p>
+<ol type="1">
+<li><p>因式分解</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">syms x;</span><br><span class="line"><span class="built_in">factor</span>(x^<span class="number">9</span><span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"> </span><br><span class="line">[ x - <span class="number">1</span>, x^<span class="number">2</span> + x + <span class="number">1</span>, x^<span class="number">6</span> + x^<span class="number">3</span> + <span class="number">1</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>符号矩阵的展开</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">syms x y;</span><br><span class="line">p=expand((x+<span class="number">1</span>)^<span class="number">3</span>)</span><br><span class="line">q=expand(<span class="built_in">sin</span>(x+y))</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">p =</span><br><span class="line"> </span><br><span class="line">x^<span class="number">3</span> + <span class="number">3</span>*x^<span class="number">2</span> + <span class="number">3</span>*x + <span class="number">1</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">q =</span><br><span class="line"> </span><br><span class="line"><span class="built_in">cos</span>(x)*<span class="built_in">sin</span>(y) + <span class="built_in">cos</span>(y)*<span class="built_in">sin</span>(x)</span><br></pre></td></tr></table></figure></li>
+<li><p>同类式合并</p>
+<p><code>Collect(s,v)</code>将<code>s</code>中的变量<code>v</code>的同幂项系数合并。</p></li>
+<li><p>符号简化</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">Simple(s);</span><br><span class="line">Pretty(s);</span><br></pre></td></tr></table></figure>
+<h2 id="练习4-秩与线性相关性">练习4 秩与线性相关性</h2></li>
+</ol></li>
+<li><p>矩阵和向量组的秩以及向量组的线性相关性</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">-2</span> <span class="number">2</span> <span class="number">3</span>;<span class="number">-2</span> <span class="number">4</span> <span class="number">-1</span> <span class="number">3</span>;<span class="number">-1</span> <span class="number">2</span> <span class="number">0</span> <span class="number">3</span>;<span class="number">0</span> <span class="number">6</span> <span class="number">2</span> <span class="number">3</span>;<span class="number">2</span> <span class="number">-6</span> <span class="number">3</span> <span class="number">4</span>];</span><br><span class="line">B=rank(A)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B =</span><br><span class="line"></span><br><span class="line">     <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>由于秩为3 &lt; 向量个数，因此向量组线性相关。</p></li>
+<li><p>向量组的最大无关组</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a1=[<span class="number">1</span> <span class="number">-2</span> <span class="number">2</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a2=[<span class="number">-2</span> <span class="number">4</span> <span class="number">-1</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a3=[<span class="number">-1</span> <span class="number">2</span> <span class="number">0</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a4=[<span class="number">0</span> <span class="number">6</span> <span class="number">2</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a5=[<span class="number">2</span> <span class="number">-6</span> <span class="number">3</span> <span class="number">4</span>]&#x27;;</span><br><span class="line">A=[a1 a2 a3 a4 a5]</span><br><span class="line">format <span class="built_in">rat</span> <span class="comment">%以有理格式输出</span></span><br><span class="line">B=rref(A) <span class="comment">%求A的行最简形</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>    <span class="number">-2</span>    <span class="number">-1</span>     <span class="number">0</span>     <span class="number">2</span></span><br><span class="line">    <span class="number">-2</span>     <span class="number">4</span>     <span class="number">2</span>     <span class="number">6</span>    <span class="number">-6</span></span><br><span class="line">     <span class="number">2</span>    <span class="number">-1</span>     <span class="number">0</span>     <span class="number">2</span>     <span class="number">3</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span>     <span class="number">4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B =</span><br><span class="line"></span><br><span class="line">       <span class="number">1</span>              <span class="number">0</span>              <span class="number">1</span>/<span class="number">3</span>            <span class="number">0</span>             <span class="number">16</span>/<span class="number">9</span>     </span><br><span class="line">       <span class="number">0</span>              <span class="number">1</span>              <span class="number">2</span>/<span class="number">3</span>            <span class="number">0</span>             <span class="number">-1</span>/<span class="number">9</span>     </span><br><span class="line">       <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>              <span class="number">1</span>             <span class="number">-1</span>/<span class="number">3</span>     </span><br><span class="line">       <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>  </span><br></pre></td></tr></table></figure>
+<h2 id="练习5-线性方程的组的求解">练习5 线性方程的组的求解</h2></li>
+<li><p>利用矩阵除法求线性方程组的特解（或一个解） <span class="math display">\[
+\left\{ \begin{array}{ll}
+5x_1 + &amp; 6x_2 &amp; &amp; &amp; &amp; = &amp; 1\\
+x_1  + &amp; 5x_2 + &amp; 6x_3   &amp;      &amp;    &amp; = &amp; 0\\
+       &amp; x_2  + &amp; 5x_3 + &amp; 6x_4 &amp;    &amp; = &amp; 0\\
+       &amp;        &amp; x_3  + &amp; 5x_4 + &amp; 6x_5 &amp; = &amp; 0\\
+       &amp;        &amp;        &amp; x_4  + &amp; 5x_5 &amp; = &amp; 1
+\end{array} \right.
+\]</span></p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">5</span> <span class="number">6</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">   <span class="number">1</span> <span class="number">5</span> <span class="number">6</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">   <span class="number">0</span> <span class="number">1</span> <span class="number">5</span> <span class="number">6</span> <span class="number">0</span></span><br><span class="line">   <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">5</span> <span class="number">6</span></span><br><span class="line">   <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">5</span>];</span><br><span class="line">B=[<span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>]&#x27;;</span><br><span class="line">R_A=rank(A) <span class="comment">%求秩</span></span><br><span class="line">X=A\B <span class="comment">%求解</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">R_A =</span><br><span class="line"></span><br><span class="line">       <span class="number">5</span>       </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">X =</span><br><span class="line"></span><br><span class="line">    <span class="number">1507</span>/<span class="number">665</span>   </span><br><span class="line">    <span class="number">-229</span>/<span class="number">133</span>   </span><br><span class="line">      <span class="number">37</span>/<span class="number">35</span>    </span><br><span class="line">     <span class="number">-79</span>/<span class="number">133</span>   </span><br><span class="line">     <span class="number">212</span>/<span class="number">665</span>   </span><br></pre></td></tr></table></figure>
+<p>这就是方程的解。</p></li>
+<li><p>求方程组的解： <span class="math display">\[
+\left\{ \begin{array}{ll}
+x_1 +  &amp; x_2 -  &amp; 3x_3 - &amp; x_4  &amp; = &amp; 1\\
+3x_1 - &amp; x_2 -  &amp; 3x_3 + &amp; 4x_4 &amp; = &amp; 4\\
+x_1 +  &amp; 5x_2 - &amp; 9x_3 - &amp; 8x_4 &amp; = &amp; 0
+\end{array} \right.
+\]</span></p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">1</span> <span class="number">-3</span> <span class="number">-1</span>;<span class="number">3</span> <span class="number">-1</span> <span class="number">-3</span> <span class="number">4</span>;<span class="number">1</span> <span class="number">5</span> <span class="number">-9</span> <span class="number">-8</span>];</span><br><span class="line">B=[<span class="number">1</span> <span class="number">4</span> <span class="number">0</span>]&#x27;;</span><br><span class="line">X=A\B</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X =</span><br><span class="line"></span><br><span class="line">       <span class="number">0</span>       </span><br><span class="line">       <span class="number">0</span>       </span><br><span class="line">      <span class="number">-8</span>/<span class="number">15</span>    </span><br><span class="line">       <span class="number">3</span>/<span class="number">5</span>    </span><br></pre></td></tr></table></figure>
+<h1 id="实验二离散时间信号分析">实验二离散时间信号分析</h1></li>
+</ol>
+]]></content>
+      <categories>
+        <category>课设</category>
+      </categories>
+      <tags>
+        <tag>Matlab</tag>
+        <tag>数字信号处理</tag>
       </tags>
   </entry>
   <entry>
@@ -1675,8 +1865,8 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -1733,199 +1923,9 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>PA</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
         <tag>PA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Matlab应用实践</title>
-    <url>/2019/01/11/Matlab%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<h1 id="实验一-基础练习">实验一 基础练习</h1>
-<h2 id="练习1-基本操作和简单语句输入">练习1 基本操作和简单语句输入</h2>
-<ol type="1">
-<li><p>用函数sym定义符号矩阵：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; sym_matrix = sym(<span class="string">&#x27;[a b c;Jack Help_Me NO_WAY]&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">sym_matrix =</span><br><span class="line"> </span><br><span class="line">[    a,       b,      c]</span><br><span class="line">[ Jack, Help_Me, NO_WAY]</span><br></pre></td></tr></table></figure></li>
-<li><p>用函数syms定义符号矩阵</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; syms a b c ;</span><br><span class="line">&gt;&gt; M1 = sym(<span class="string">&#x27;Classical&#x27;</span>);</span><br><span class="line">&gt;&gt; M2 = sym(<span class="string">&#x27; Jazz&#x27;</span>);</span><br><span class="line">&gt;&gt; M3 = sym(<span class="string">&#x27;Blues&#x27;</span>);</span><br><span class="line">&gt;&gt; A = [a b c;M1,M2,M3;sym([<span class="number">2</span> <span class="number">3</span> <span class="number">5</span>])]</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A =</span><br><span class="line"> </span><br><span class="line">[         a,    b,     c]</span><br><span class="line">[ Classical, Jazz, Blues]</span><br><span class="line">[         <span class="number">2</span>,    <span class="number">3</span>,     <span class="number">5</span>]</span><br></pre></td></tr></table></figure></li>
-<li><p>输入<code>A=[7 1 5;2 5 6;3 1 5],B=[1 1 1; 2 2 2; 3 3 3]</code>，在命令窗口中执行下列表达式，掌握其含义：<code>A(2, 3) A(:,2) A(3,:) A(:,1:2:3) A(:,3).*B(:,2) A(:,3)*B(2,:) A*B A.*B A^2 A.^2 B/A B./A</code></p>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A=[<span class="number">7</span> <span class="number">1</span> <span class="number">5</span>;<span class="number">2</span> <span class="number">5</span> <span class="number">6</span>;<span class="number">3</span> <span class="number">1</span> <span class="number">5</span>],B=[<span class="number">1</span> <span class="number">1</span> <span class="number">1</span>; <span class="number">2</span> <span class="number">2</span> <span class="number">2</span>; <span class="number">3</span> <span class="number">3</span> <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">A =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">2</span>     <span class="number">2</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p><code>A(2,3)</code>——输出矩阵A第二行第三列的值</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">6</span></span><br></pre></td></tr></table></figure>
-<p><code>A(:,2)</code>——输出矩阵A第二列的所有值</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span></span><br><span class="line">     <span class="number">5</span></span><br><span class="line">     <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p><code>A(3,:)</code>——输出矩阵A第三行的所有值</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(<span class="number">3</span>,:)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">3</span>     <span class="number">1</span>     <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p><code>A(:,1:2:3)</code>—— 输出矩阵A的第一列和第三列的值</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">1</span>:<span class="number">2</span>:<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<p><code>A(:,3).*B(:,2)</code>——输出矩阵A的第三列与矩阵B的第二列的乘积</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">3</span>).*B(:,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">5</span></span><br><span class="line">    <span class="number">12</span></span><br><span class="line">    <span class="number">15</span></span><br></pre></td></tr></table></figure>
-<p><code>A(:,3).*B(2,:)</code>——输出矩阵A的第三列与矩阵B的第二行的乘积</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A(:,<span class="number">3</span>).*B(<span class="number">2</span>,:)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">10</span>    <span class="number">10</span>    <span class="number">10</span></span><br><span class="line">    <span class="number">12</span>    <span class="number">12</span>    <span class="number">12</span></span><br><span class="line">    <span class="number">10</span>    <span class="number">10</span>    <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p><code>A*B</code>——将矩阵A与矩阵B进行矩阵乘法运算</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A*B</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">24</span>    <span class="number">24</span>    <span class="number">24</span></span><br><span class="line">    <span class="number">30</span>    <span class="number">30</span>    <span class="number">30</span></span><br><span class="line">    <span class="number">20</span>    <span class="number">20</span>    <span class="number">20</span></span><br></pre></td></tr></table></figure>
-<p><code>A.*B</code>——将矩阵A与矩阵B中相同位置的元素相乘</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A.*B</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">4</span>    <span class="number">10</span>    <span class="number">12</span></span><br><span class="line">     <span class="number">9</span>     <span class="number">3</span>    <span class="number">15</span></span><br></pre></td></tr></table></figure>
-<p><code>A^2</code>——将矩阵A与矩阵A进行矩阵乘法运算</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A^<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">66</span>    <span class="number">17</span>    <span class="number">66</span></span><br><span class="line">    <span class="number">42</span>    <span class="number">33</span>    <span class="number">70</span></span><br><span class="line">    <span class="number">38</span>    <span class="number">13</span>    <span class="number">46</span></span><br></pre></td></tr></table></figure>
-<p><code>A.^2</code>——将矩阵A与矩阵A相对应位置的元素相乘</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A.^<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">49</span>     <span class="number">1</span>    <span class="number">25</span></span><br><span class="line">     <span class="number">4</span>    <span class="number">25</span>    <span class="number">36</span></span><br><span class="line">     <span class="number">9</span>     <span class="number">1</span>    <span class="number">25</span></span><br></pre></td></tr></table></figure>
-<p><code>B/A</code>——矩阵B乘矩阵A的逆</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; B/A</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">0.1842</span>    <span class="number">0.2105</span>   <span class="number">-0.2368</span></span><br><span class="line">    <span class="number">0.3684</span>    <span class="number">0.4211</span>   <span class="number">-0.4737</span></span><br><span class="line">    <span class="number">0.5526</span>    <span class="number">0.6316</span>   <span class="number">-0.7105</span></span><br></pre></td></tr></table></figure>
-<p><code>B./A</code>——矩阵B与矩阵A相对应的元素相除</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; B./A</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">0.1429</span>    <span class="number">1.0000</span>    <span class="number">0.2000</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">0.4000</span>    <span class="number">0.3333</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">3.0000</span>    <span class="number">0.6000</span></span><br></pre></td></tr></table></figure></li>
-<li><p>输入<code>C=1:2:20</code>，则<code>C(i)</code>表示什么？其中<code>i=1,2,3,…,10</code>；</p>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; C=<span class="number">1</span>:<span class="number">2</span>:<span class="number">20</span></span><br><span class="line"></span><br><span class="line">C =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>     <span class="number">3</span>     <span class="number">5</span>     <span class="number">7</span>     <span class="number">9</span>    <span class="number">11</span>    <span class="number">13</span>    <span class="number">15</span>    <span class="number">17</span>    <span class="number">19</span></span><br></pre></td></tr></table></figure>
-<p><code>C(i)</code>表示第i位的数据</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; C(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; C(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">9</span></span><br></pre></td></tr></table></figure></li>
-<li><p>查找已创建变量的信息，删除无用的变量</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">&gt;&gt; A</span><br><span class="line"></span><br><span class="line">A =</span><br><span class="line"></span><br><span class="line">     <span class="number">7</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">1</span>     <span class="number">5</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; clear A</span><br><span class="line">&gt;&gt; A</span><br><span class="line">未定义函数或变量 <span class="string">&#x27;A&#x27;</span>。</span><br></pre></td></tr></table></figure>
-<h2 id="练习2-编程">练习2 编程</h2></li>
-<li><p>编写程序,计算1+3+5+7+…+(2n+1)的值(用input 语句输入n 值)</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">clc</span><br><span class="line">n = input(<span class="string">&#x27;input n = &#x27;</span>);</span><br><span class="line">sum = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:n</span><br><span class="line">    sum = sum + (<span class="number">2</span>*<span class="built_in">i</span>+<span class="number">1</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;sum = &#x27;</span> num2str(sum)]);</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">input n = <span class="number">10</span></span><br><span class="line">sum = <span class="number">121</span></span><br></pre></td></tr></table></figure></li>
-<li><p>编写分段函数$y = {</p>
-<span class="math display">\[\begin{array}{ll}
-x &amp; \textrm{$0 \leq x&lt;1$}\\
-2-x &amp; \textrm{$1 \leq x \leq 2$}\\
-0 &amp; \textrm{其他}
-\end{array}\]</span>
-<p>.<span class="math inline">\(的函数文件，存放于文件ff.m中，计算出\)</span>f(-3)<span class="math inline">\(、\)</span>f()<span class="math inline">\(、\)</span>f()$的值。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x = input(<span class="string">&#x27;x = &#x27;</span>);</span><br><span class="line"><span class="keyword">if</span>(x&gt;=<span class="number">0</span> &amp;&amp; x&lt;<span class="number">1</span>)</span><br><span class="line">    fx = x;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(x &gt;= <span class="number">1</span> &amp;&amp; x &lt;= <span class="number">2</span>)</span><br><span class="line">        fx = <span class="number">2</span> - x;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        fx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;f(x) = &#x27;</span>, num2str(fx)]);</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x = <span class="number">0.5</span></span><br><span class="line">f(x) = <span class="number">0.5</span></span><br><span class="line">x = <span class="number">1.5</span></span><br><span class="line">f(x) = <span class="number">0.5</span></span><br><span class="line">x = <span class="number">-2</span></span><br><span class="line">f(x) = <span class="number">0</span></span><br><span class="line">x = <span class="number">3</span></span><br><span class="line">f(x) = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<h2 id="练习3-矩阵计算">练习3 矩阵计算</h2></li>
-<li><p>加、减运算</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">clc</span><br><span class="line">A=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>; <span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>];</span><br><span class="line">B=[<span class="number">8</span>, <span class="number">1</span>, <span class="number">6</span>; <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>; <span class="number">4</span>, <span class="number">9</span>, <span class="number">2</span>];</span><br><span class="line">X=A+B;</span><br><span class="line">Y=A-B;</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;A+B = &#x27;</span>]);</span><br><span class="line"><span class="built_in">disp</span>(X);</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;A-B = &#x27;</span>]);</span><br><span class="line"><span class="built_in">disp</span>(Y);</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A+B = </span><br><span class="line">     <span class="number">9</span>     <span class="number">2</span>     <span class="number">7</span></span><br><span class="line">     <span class="number">4</span>     <span class="number">7</span>    <span class="number">10</span></span><br><span class="line">     <span class="number">5</span>    <span class="number">12</span>     <span class="number">8</span></span><br><span class="line"></span><br><span class="line">A-B = </span><br><span class="line">    <span class="number">-7</span>     <span class="number">0</span>    <span class="number">-5</span></span><br><span class="line">    <span class="number">-2</span>    <span class="number">-3</span>    <span class="number">-4</span></span><br><span class="line">    <span class="number">-3</span>    <span class="number">-6</span>     <span class="number">4</span></span><br></pre></td></tr></table></figure></li>
-<li><p>乘法</p>
-<ol type="1">
-<li><p>两个矩阵相乘</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X= [<span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> </span><br><span class="line">    <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> <span class="number">1</span>];</span><br><span class="line">Y=[<span class="number">0</span> <span class="number">1</span> <span class="number">1</span> </span><br><span class="line">   <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> </span><br><span class="line">   <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> </span><br><span class="line">   <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>];</span><br><span class="line">Z = X*Y;</span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;Z = &#x27;</span>]);</span><br><span class="line"><span class="built_in">disp</span>(Z);</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">Z = </span><br><span class="line">     <span class="number">8</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure></li>
-<li><p>矩阵的数乘</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = <span class="number">2</span>*X;</span><br><span class="line"><span class="built_in">disp</span>(<span class="string">&#x27;a = &#x27;</span>);</span><br><span class="line"><span class="built_in">disp</span>(a);</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a = </span><br><span class="line">     <span class="number">4</span>     <span class="number">6</span>     <span class="number">8</span>    <span class="number">10</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">4</span>     <span class="number">4</span>     <span class="number">2</span></span><br></pre></td></tr></table></figure></li>
-<li><p>向量的点乘（内积）</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X=[<span class="number">-1</span> <span class="number">0</span> <span class="number">2</span>]; Y=[<span class="number">-2</span> <span class="number">-1</span> <span class="number">1</span>];</span><br><span class="line">Z=<span class="built_in">dot</span>(X, Y)</span><br><span class="line"><span class="comment">% 或者</span></span><br><span class="line">sum(X.*Y)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">Z =</span><br><span class="line"></span><br><span class="line">     <span class="number">4</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">4</span></span><br></pre></td></tr></table></figure></li>
-<li><p>向量叉乘</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>];</span><br><span class="line">b=[<span class="number">4</span> <span class="number">5</span> <span class="number">6</span>];</span><br><span class="line">c=<span class="built_in">cross</span>(a,b)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">c =</span><br><span class="line"></span><br><span class="line">    <span class="number">-3</span>     <span class="number">6</span>    <span class="number">-3</span></span><br></pre></td></tr></table></figure></li>
-<li><p>混合积</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]; b=[<span class="number">4</span> <span class="number">5</span> <span class="number">6</span>]; c=[<span class="number">-3</span> <span class="number">6</span> <span class="number">-3</span>];</span><br><span class="line">x=<span class="built_in">dot</span>(a, <span class="built_in">cross</span>(b, c))</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x =</span><br><span class="line"></span><br><span class="line">    <span class="number">54</span></span><br></pre></td></tr></table></figure></li>
-</ol></li>
-<li><p>矩阵的除法</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">b=[<span class="number">4</span>; <span class="number">1</span>; <span class="number">2</span>];</span><br><span class="line">x=a\b</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">x =</span><br><span class="line"></span><br><span class="line">   <span class="number">-1.5000</span></span><br><span class="line">    <span class="number">2.0000</span></span><br><span class="line">    <span class="number">0.5000</span></span><br></pre></td></tr></table></figure></li>
-<li><p>矩阵乘方</p>
-<ol type="1">
-<li><p>A为方阵，p 为大于0 的整数时，A^P 表示A 的P 次方，即A 自乘P 次；p 为小于0 的整数时，A^P 表示A-1 的P 次方。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">A^<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">30</span>    <span class="number">18</span>    <span class="number">42</span></span><br><span class="line">    <span class="number">54</span>    <span class="number">36</span>    <span class="number">78</span></span><br><span class="line">    <span class="number">86</span>    <span class="number">58</span>   <span class="number">126</span></span><br></pre></td></tr></table></figure></li>
-<li><p>A 为方阵，p 为非整数时，则其中V 为A 的特征向量，为特征值矩阵。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">A^<span class="number">0.5</span></span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">  <span class="number">-0.6094</span> - <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">2.4744</span> + <span class="number">0.0000</span><span class="built_in">i</span>  <span class="number">-0.1031</span> - <span class="number">0.0000</span><span class="built_in">i</span></span><br><span class="line">   <span class="number">0.3712</span> - <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">1.3908</span> + <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">1.3197</span> - <span class="number">0.0000</span><span class="built_in">i</span></span><br><span class="line">   <span class="number">2.8112</span> - <span class="number">0.0000</span><span class="built_in">i</span>  <span class="number">-0.6461</span> + <span class="number">0.0000</span><span class="built_in">i</span>   <span class="number">3.1847</span> - <span class="number">0.0000</span><span class="built_in">i</span></span><br></pre></td></tr></table></figure></li>
-</ol></li>
-<li><p>矩阵的转置</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">4</span> <span class="number">2</span> <span class="number">6</span>; <span class="number">7</span> <span class="number">4</span> <span class="number">9</span>];</span><br><span class="line">A&#x27;</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>     <span class="number">4</span>     <span class="number">7</span></span><br><span class="line">     <span class="number">2</span>     <span class="number">2</span>     <span class="number">4</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">6</span>     <span class="number">9</span></span><br></pre></td></tr></table></figure></li>
-<li><p>矩阵的逆矩阵</p>
-<ol type="1">
-<li><p>方法一</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">2</span> <span class="number">2</span> <span class="number">1</span>; <span class="number">3</span> <span class="number">4</span> <span class="number">3</span>];</span><br><span class="line">inv(A)</span><br><span class="line"><span class="comment">%或 A^(-1)</span></span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">3.0000</span>   <span class="number">-2.0000</span></span><br><span class="line">   <span class="number">-1.5000</span>   <span class="number">-3.0000</span>    <span class="number">2.5000</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">1.0000</span>   <span class="number">-1.0000</span></span><br></pre></td></tr></table></figure></li>
-<li><p>方法二</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>; <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>; <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>];</span><br><span class="line">C=rref(B); <span class="comment">%化行最简形</span></span><br><span class="line">X=C(:, <span class="number">4</span>:<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X =</span><br><span class="line"></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">3.0000</span>   <span class="number">-2.0000</span></span><br><span class="line">   <span class="number">-1.5000</span>   <span class="number">-3.0000</span>    <span class="number">2.5000</span></span><br><span class="line">    <span class="number">1.0000</span>    <span class="number">1.0000</span>   <span class="number">-1.0000</span></span><br></pre></td></tr></table></figure></li>
-</ol></li>
-<li><p>方阵的行列式</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>; <span class="number">2</span> <span class="number">2</span> <span class="number">1</span>; <span class="number">3</span> <span class="number">4</span> <span class="number">3</span>];</span><br><span class="line">D=det(A)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">D =</span><br><span class="line"></span><br><span class="line">    <span class="number">2.0000</span></span><br></pre></td></tr></table></figure></li>
-<li><p>符号矩阵的四则运算</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=sym(<span class="string">&#x27;[1/x,1/(x+1);1/(x+2),1/(x+3)]&#x27;</span>);</span><br><span class="line">B=sym(<span class="string">&#x27;[x,1;x+2,0]&#x27;</span>);</span><br><span class="line">C=B-A</span><br><span class="line">D=A\B</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">C =</span><br><span class="line"> </span><br><span class="line">[           x - <span class="number">1</span>/x, <span class="number">1</span> - <span class="number">1</span>/(x + <span class="number">1</span>)]</span><br><span class="line">[ x - <span class="number">1</span>/(x + <span class="number">2</span>) + <span class="number">2</span>,    <span class="number">-1</span>/(x + <span class="number">3</span>)]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">D =</span><br><span class="line"> </span><br><span class="line">[ -x*(<span class="number">2</span>*x^<span class="number">2</span> + <span class="number">7</span>*x + <span class="number">6</span>),  (x*(x^<span class="number">2</span> + <span class="number">3</span>*x + <span class="number">2</span>))/<span class="number">2</span>]</span><br><span class="line">[  <span class="number">2</span>*(x + <span class="number">1</span>)^<span class="number">2</span>*(x + <span class="number">3</span>), -(x*(x + <span class="number">1</span>)*(x + <span class="number">3</span>))/<span class="number">2</span>]</span><br></pre></td></tr></table></figure></li>
-<li><p>符号矩阵的简化</p>
-<ol type="1">
-<li><p>因式分解</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">syms x;</span><br><span class="line"><span class="built_in">factor</span>(x^<span class="number">9</span><span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"> </span><br><span class="line">[ x - <span class="number">1</span>, x^<span class="number">2</span> + x + <span class="number">1</span>, x^<span class="number">6</span> + x^<span class="number">3</span> + <span class="number">1</span>]</span><br></pre></td></tr></table></figure></li>
-<li><p>符号矩阵的展开</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">syms x y;</span><br><span class="line">p=expand((x+<span class="number">1</span>)^<span class="number">3</span>)</span><br><span class="line">q=expand(<span class="built_in">sin</span>(x+y))</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">p =</span><br><span class="line"> </span><br><span class="line">x^<span class="number">3</span> + <span class="number">3</span>*x^<span class="number">2</span> + <span class="number">3</span>*x + <span class="number">1</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">q =</span><br><span class="line"> </span><br><span class="line"><span class="built_in">cos</span>(x)*<span class="built_in">sin</span>(y) + <span class="built_in">cos</span>(y)*<span class="built_in">sin</span>(x)</span><br></pre></td></tr></table></figure></li>
-<li><p>同类式合并</p>
-<p><code>Collect(s,v)</code>将<code>s</code>中的变量<code>v</code>的同幂项系数合并。</p></li>
-<li><p>符号简化</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">Simple(s);</span><br><span class="line">Pretty(s);</span><br></pre></td></tr></table></figure>
-<h2 id="练习4-秩与线性相关性">练习4 秩与线性相关性</h2></li>
-</ol></li>
-<li><p>矩阵和向量组的秩以及向量组的线性相关性</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">-2</span> <span class="number">2</span> <span class="number">3</span>;<span class="number">-2</span> <span class="number">4</span> <span class="number">-1</span> <span class="number">3</span>;<span class="number">-1</span> <span class="number">2</span> <span class="number">0</span> <span class="number">3</span>;<span class="number">0</span> <span class="number">6</span> <span class="number">2</span> <span class="number">3</span>;<span class="number">2</span> <span class="number">-6</span> <span class="number">3</span> <span class="number">4</span>];</span><br><span class="line">B=rank(A)</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">B =</span><br><span class="line"></span><br><span class="line">     <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>由于秩为3 &lt; 向量个数，因此向量组线性相关。</p></li>
-<li><p>向量组的最大无关组</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">a1=[<span class="number">1</span> <span class="number">-2</span> <span class="number">2</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a2=[<span class="number">-2</span> <span class="number">4</span> <span class="number">-1</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a3=[<span class="number">-1</span> <span class="number">2</span> <span class="number">0</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a4=[<span class="number">0</span> <span class="number">6</span> <span class="number">2</span> <span class="number">3</span>]&#x27;;</span><br><span class="line">a5=[<span class="number">2</span> <span class="number">-6</span> <span class="number">3</span> <span class="number">4</span>]&#x27;;</span><br><span class="line">A=[a1 a2 a3 a4 a5]</span><br><span class="line">format <span class="built_in">rat</span> <span class="comment">%以有理格式输出</span></span><br><span class="line">B=rref(A) <span class="comment">%求A的行最简形</span></span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A =</span><br><span class="line"></span><br><span class="line">     <span class="number">1</span>    <span class="number">-2</span>    <span class="number">-1</span>     <span class="number">0</span>     <span class="number">2</span></span><br><span class="line">    <span class="number">-2</span>     <span class="number">4</span>     <span class="number">2</span>     <span class="number">6</span>    <span class="number">-6</span></span><br><span class="line">     <span class="number">2</span>    <span class="number">-1</span>     <span class="number">0</span>     <span class="number">2</span>     <span class="number">3</span></span><br><span class="line">     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span>     <span class="number">3</span>     <span class="number">4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B =</span><br><span class="line"></span><br><span class="line">       <span class="number">1</span>              <span class="number">0</span>              <span class="number">1</span>/<span class="number">3</span>            <span class="number">0</span>             <span class="number">16</span>/<span class="number">9</span>     </span><br><span class="line">       <span class="number">0</span>              <span class="number">1</span>              <span class="number">2</span>/<span class="number">3</span>            <span class="number">0</span>             <span class="number">-1</span>/<span class="number">9</span>     </span><br><span class="line">       <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>              <span class="number">1</span>             <span class="number">-1</span>/<span class="number">3</span>     </span><br><span class="line">       <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>              <span class="number">0</span>  </span><br></pre></td></tr></table></figure>
-<h2 id="练习5-线性方程的组的求解">练习5 线性方程的组的求解</h2></li>
-<li><p>利用矩阵除法求线性方程组的特解（或一个解） <span class="math display">\[
-\left\{ \begin{array}{ll}
-5x_1 + &amp; 6x_2 &amp; &amp; &amp; &amp; = &amp; 1\\
-x_1  + &amp; 5x_2 + &amp; 6x_3   &amp;      &amp;    &amp; = &amp; 0\\
-       &amp; x_2  + &amp; 5x_3 + &amp; 6x_4 &amp;    &amp; = &amp; 0\\
-       &amp;        &amp; x_3  + &amp; 5x_4 + &amp; 6x_5 &amp; = &amp; 0\\
-       &amp;        &amp;        &amp; x_4  + &amp; 5x_5 &amp; = &amp; 1
-\end{array} \right.
-\]</span></p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">5</span> <span class="number">6</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">   <span class="number">1</span> <span class="number">5</span> <span class="number">6</span> <span class="number">0</span> <span class="number">0</span></span><br><span class="line">   <span class="number">0</span> <span class="number">1</span> <span class="number">5</span> <span class="number">6</span> <span class="number">0</span></span><br><span class="line">   <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">5</span> <span class="number">6</span></span><br><span class="line">   <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">5</span>];</span><br><span class="line">B=[<span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>]&#x27;;</span><br><span class="line">R_A=rank(A) <span class="comment">%求秩</span></span><br><span class="line">X=A\B <span class="comment">%求解</span></span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">R_A =</span><br><span class="line"></span><br><span class="line">       <span class="number">5</span>       </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">X =</span><br><span class="line"></span><br><span class="line">    <span class="number">1507</span>/<span class="number">665</span>   </span><br><span class="line">    <span class="number">-229</span>/<span class="number">133</span>   </span><br><span class="line">      <span class="number">37</span>/<span class="number">35</span>    </span><br><span class="line">     <span class="number">-79</span>/<span class="number">133</span>   </span><br><span class="line">     <span class="number">212</span>/<span class="number">665</span>   </span><br></pre></td></tr></table></figure>
-<p>这就是方程的解。</p></li>
-<li><p>求方程组的解： <span class="math display">\[
-\left\{ \begin{array}{ll}
-x_1 +  &amp; x_2 -  &amp; 3x_3 - &amp; x_4  &amp; = &amp; 1\\
-3x_1 - &amp; x_2 -  &amp; 3x_3 + &amp; 4x_4 &amp; = &amp; 4\\
-x_1 +  &amp; 5x_2 - &amp; 9x_3 - &amp; 8x_4 &amp; = &amp; 0
-\end{array} \right.
-\]</span></p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A=[<span class="number">1</span> <span class="number">1</span> <span class="number">-3</span> <span class="number">-1</span>;<span class="number">3</span> <span class="number">-1</span> <span class="number">-3</span> <span class="number">4</span>;<span class="number">1</span> <span class="number">5</span> <span class="number">-9</span> <span class="number">-8</span>];</span><br><span class="line">B=[<span class="number">1</span> <span class="number">4</span> <span class="number">0</span>]&#x27;;</span><br><span class="line">X=A\B</span><br></pre></td></tr></table></figure>
-<p>结果：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X =</span><br><span class="line"></span><br><span class="line">       <span class="number">0</span>       </span><br><span class="line">       <span class="number">0</span>       </span><br><span class="line">      <span class="number">-8</span>/<span class="number">15</span>    </span><br><span class="line">       <span class="number">3</span>/<span class="number">5</span>    </span><br></pre></td></tr></table></figure>
-<h1 id="实验二离散时间信号分析">实验二离散时间信号分析</h1></li>
-</ol>
-]]></content>
-      <categories>
-        <category>课设</category>
-      </categories>
-      <tags>
-        <tag>Matlab</tag>
-        <tag>数字信号处理</tag>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -2110,8 +2110,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2284,8 +2284,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2455,8 +2455,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2506,8 +2506,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2643,8 +2643,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -3386,8 +3386,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>GEEK</tag>
         <tag>FPGA</tag>
+        <tag>GEEK</tag>
         <tag>Vscode</tag>
       </tags>
   </entry>
@@ -3527,8 +3527,22 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>Software</category>
       </categories>
       <tags>
-        <tag>Software</tag>
         <tag>IC_design</tag>
+        <tag>Software</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Xilinx_HLS_Learning</title>
+    <url>/2019/03/05/Xilinx-HLS-Learning/</url>
+    <content><![CDATA[<h1 id="优化">优化</h1>
+<p>流水线结构</p>
+<p><a href="https://japan.xilinx.com/html_docs/xilinx2017_4/sdaccel_doc/fde1504034360078.html">pragma HLS pipeline</a></p>
+]]></content>
+      <categories>
+        <category>FPGA</category>
+      </categories>
+      <tags>
+        <tag>HLS</tag>
       </tags>
   </entry>
   <entry>
@@ -3666,17 +3680,17 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>Xilinx_HLS_Learning</title>
-    <url>/2019/03/05/Xilinx-HLS-Learning/</url>
-    <content><![CDATA[<h1 id="优化">优化</h1>
-<p>流水线结构</p>
-<p><a href="https://japan.xilinx.com/html_docs/xilinx2017_4/sdaccel_doc/fde1504034360078.html">pragma HLS pipeline</a></p>
+    <title>ZYNQ 移植 Linux -- AXI-GPIO</title>
+    <url>/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</url>
+    <content><![CDATA[
 ]]></content>
       <categories>
-        <category>FPGA</category>
+        <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>HLS</tag>
+        <tag>FPGA</tag>
+        <tag>Linux</tag>
+        <tag>ZYNQ</tag>
       </tags>
   </entry>
   <entry>
@@ -3804,8 +3818,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3863,22 +3877,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- AXI-GPIO</title>
-    <url>/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</url>
-    <content><![CDATA[
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
         <tag>Linux</tag>
-        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3934,8 +3934,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3949,8 +3949,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4145,9 +4145,137 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>chisel 学习（1）</title>
+    <url>/2021/05/24/chisel-start/</url>
+    <content><![CDATA[<figure>
+<img src="/2021/05/24/chisel-start/chisel_logo.svg" alt="Chisel 3"><figcaption aria-hidden="true">Chisel 3</figcaption>
+</figure>
+<a id="more"></a>
+<h1 id="什么是-chisel">什么是 chisel</h1>
+<p>https://www.chisel-lang.org/</p>
+<h1 id="学习资料">学习资料</h1>
+<p><a href="https://github.com/freechipsproject/chisel-bootcamp">freechipsproject/chisel-bootcamp</a></p>
+<p><a href="https://www.chiselchina.com/archives/">Chisel Bootcamp 中文</a></p>
+<p><a href="https://github.com/schoeberl/chisel-book">schoeberl/chisel-book</a></p>
+<p><a href="https://github.com/schoeberl/chisel-examples">schoeberl/chisel-examples</a></p>
+<p><a href="https://www.chisel-lang.org/api/latest/chisel3/index.html">chisel3 api</a></p>
+<h1 id="安装">安装</h1>
+<p><a href="https://www.scala-sbt.org/release/docs/Setup.html#Installing+sbt">Installing sbt</a></p>
+<p>Follow the instructions from <a href="https://github.com/freechipsproject/chisel3">Chisel3</a> and <a href="https://github.com/freechipsproject/firrtl">firrtl</a> websites.</p>
+<p>Docker:</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">https:<span class="regexp">//gi</span>thub.com<span class="regexp">/muojp/</span>docker-sbt-chisel.git</span><br></pre></td></tr></table></figure>
+<h1 id="before-start">Before Start</h1>
+<p>首先需要理解Scala：</p>
+<h1 id="语法">语法</h1>
+<h2 id="variables-and-constants---var-and-val">Variables and Constants - var and val</h2>
+<p>推荐使用 val (常量)</p>
+<h2 id="seq">Seq</h2>
+<h2 id="when">when</h2>
+<p><strong>等于</strong>要使用 <code>===</code></p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">when ( myData === <span class="number">3.</span><span class="type">U</span> ) &#123;</span><br><span class="line">  <span class="comment">// Some logic to run when myData equals 3.</span></span><br><span class="line">&#125; .elsewhen ( myData === <span class="number">1.</span><span class="type">U</span> ) &#123;</span><br><span class="line">   <span class="comment">// Some logic to run when myData equals 1.</span></span><br><span class="line">&#125; .otherwise &#123;</span><br><span class="line">  <span class="comment">// Some logic to run when myData is neither 3 nor 1.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// Returns the current `when` condition</span></span><br><span class="line">when (a) &#123;</span><br><span class="line">  when (b) &#123;</span><br><span class="line">    when (c) &#123;</span><br><span class="line">    &#125;.otherwise &#123;</span><br><span class="line">      when.cond <span class="comment">// this is equal to: a &amp;&amp; b &amp;&amp; !c</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="for">for</h2>
+<p>其功能相当于 Verilog 中的 generator</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(i &lt;- <span class="number">0</span> until consts.length) &#123;</span><br><span class="line">      muls += regs(i) * consts(i).<span class="type">U</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h2 id="if-or-when">if or when ?</h2>
+<p><code>if</code> 是 scala 的语法，不能综合；</p>
+<p><code>when</code> 是 chisel 的语法，等同于 Verilog 中的 <code>if</code>；</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RegisterFile</span>(<span class="params">readPorts: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    require(readPorts &gt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> wen   = <span class="type">Input</span>(<span class="type">Bool</span>())</span><br><span class="line">        <span class="keyword">val</span> waddr = <span class="type">Input</span>(<span class="type">UInt</span>(<span class="number">5.</span><span class="type">W</span>))</span><br><span class="line">        <span class="keyword">val</span> wdata = <span class="type">Input</span>(<span class="type">UInt</span>(<span class="number">32.</span><span class="type">W</span>))</span><br><span class="line">        <span class="keyword">val</span> raddr = <span class="type">Input</span>(<span class="type">Vec</span>(readPorts, <span class="type">UInt</span>(<span class="number">5.</span><span class="type">W</span>)))</span><br><span class="line">        <span class="keyword">val</span> rdata = <span class="type">Output</span>(<span class="type">Vec</span>(readPorts, <span class="type">UInt</span>(<span class="number">32.</span><span class="type">W</span>)))</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// A Register of a vector of UInts</span></span><br><span class="line">    <span class="keyword">val</span> reg = <span class="type">RegInit</span>(<span class="type">VecInit</span>(<span class="type">Seq</span>.fill(<span class="number">32</span>)(<span class="number">0.</span><span class="type">U</span>(<span class="number">32.</span><span class="type">W</span>))))</span><br><span class="line">    </span><br><span class="line">    when(io.wen) &#123;</span><br><span class="line">        reg(io.waddr) := io.wdata</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until readPorts) &#123;</span><br><span class="line">        when(io.raddr(i) === <span class="number">0.</span><span class="type">U</span>) &#123;</span><br><span class="line">            io.rdata(i) := <span class="number">0.</span><span class="type">U</span>(<span class="number">32.</span><span class="type">W</span>)</span><br><span class="line">        &#125;.otherwise &#123;</span><br><span class="line">            io.rdata(i) := reg(io.raddr(i))</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//         if(io.raddr(i) == 0.U) io.rdata(i) := 0.U(32.W)</span></span><br><span class="line"><span class="comment">//         else io.rdata(i) := reg(io.raddr(i))</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="加法">加法</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a +&amp; b 包含进位, 而 a + b 不包含</span></span><br><span class="line">io.sum := io.in0 +&amp; io.in1</span><br></pre></td></tr></table></figure>
+<h2 id="获得-verilog-代码">获得 Verilog 代码</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">println(getVerilog(<span class="keyword">new</span> &lt;module&gt;))</span><br></pre></td></tr></table></figure>
+<h2 id="可视化">可视化</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">visualize(() =&gt; <span class="keyword">new</span> &lt;module&gt;)</span><br></pre></td></tr></table></figure>
+<h2 id="带有decoupled接口的模块">带有<code>Decoupled</code>接口的模块</h2>
+<p><code>Decoupled</code>可以将基本的chisel数据类型包装起来，并为其提供<code>ready</code>和<code>valid</code>信号。 Testers2提供了一些很好的工具，可以自动并可靠地测试这些接口。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">QueueModule</span>[<span class="type">T</span> &lt;: <span class="type">Data</span>](<span class="params">ioType: <span class="type">T</span>, entries: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">MultiIOModule</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> in = <span class="type">IO</span>(<span class="type">Flipped</span>(<span class="type">Decoupled</span>(ioType)))</span><br><span class="line">  <span class="keyword">val</span> out = <span class="type">IO</span>(<span class="type">Decoupled</span>(ioType))</span><br><span class="line">  out &lt;&gt; <span class="type">Queue</span>(in, entries)</span><br><span class="line">&#125;</span><br><span class="line">visualize(() =&gt; <span class="keyword">new</span> <span class="type">QueueModule</span>(<span class="type">UInt</span>(<span class="number">9.</span><span class="type">W</span>), entries = <span class="number">200</span>))</span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">QueueModule</span>(<span class="type">UInt</span>(<span class="number">9.</span><span class="type">W</span>), entries = <span class="number">200</span>)))</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/2021/05/24/chisel-start/q.png" alt="q"><figcaption aria-hidden="true">q</figcaption>
+</figure>
+<p><strong>计算最大公约数：</strong></p>
+<p><strong>src</strong></p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 输入接口</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GcdInputBundle</span>(<span class="params">val w: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Bundle</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> value1 = <span class="type">UInt</span>(w.<span class="type">W</span>)</span><br><span class="line">  <span class="keyword">val</span> value2 = <span class="type">UInt</span>(w.<span class="type">W</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出接口</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GcdOutputBundle</span>(<span class="params">val w: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Bundle</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> value1 = <span class="type">UInt</span>(w.<span class="type">W</span>)</span><br><span class="line">  <span class="keyword">val</span> value2 = <span class="type">UInt</span>(w.<span class="type">W</span>)</span><br><span class="line">  <span class="keyword">val</span> gcd    = <span class="type">UInt</span>(w.<span class="type">W</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// GCD</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 使用减法来计算GCD。</span></span><br><span class="line"><span class="comment">  * 从寄存器 x 和 y 中较大一个中减去较小的一个，直到寄存器 y 为零。</span></span><br><span class="line"><span class="comment">  * 输入寄存器 x 的值就是最大公约数</span></span><br><span class="line"><span class="comment">  * 返回包含两个输入值及其GCD的包</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecoupledGcd</span>(<span class="params">width: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">MultiIOModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> input = <span class="type">IO</span>(<span class="type">Flipped</span>(<span class="type">Decoupled</span>(<span class="keyword">new</span> <span class="type">GcdInputBundle</span>(width))))</span><br><span class="line">  <span class="keyword">val</span> output = <span class="type">IO</span>(<span class="type">Decoupled</span>(<span class="keyword">new</span> <span class="type">GcdOutputBundle</span>(width)))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> xInitial    = <span class="type">Reg</span>(<span class="type">UInt</span>())</span><br><span class="line">  <span class="keyword">val</span> yInitial    = <span class="type">Reg</span>(<span class="type">UInt</span>())</span><br><span class="line">  <span class="keyword">val</span> x           = <span class="type">Reg</span>(<span class="type">UInt</span>())</span><br><span class="line">  <span class="keyword">val</span> y           = <span class="type">Reg</span>(<span class="type">UInt</span>())</span><br><span class="line">  <span class="keyword">val</span> busy        = <span class="type">RegInit</span>(<span class="literal">false</span>.<span class="type">B</span>)</span><br><span class="line">  <span class="keyword">val</span> resultValid = <span class="type">RegInit</span>(<span class="literal">false</span>.<span class="type">B</span>)</span><br><span class="line"></span><br><span class="line">  input.ready := ! busy</span><br><span class="line">  output.valid := resultValid</span><br><span class="line">  output.bits := <span class="type">DontCare</span></span><br><span class="line"></span><br><span class="line">  when(busy)  &#123;</span><br><span class="line">    <span class="comment">// 在计算期间，从每次较大的值中减去较小的值</span></span><br><span class="line">    when(x &gt; y) &#123;</span><br><span class="line">      x := x - y</span><br><span class="line">    &#125;.otherwise &#123;</span><br><span class="line">      y := y - x</span><br><span class="line">    &#125;</span><br><span class="line">    when(y === <span class="number">0.</span><span class="type">U</span>) &#123;</span><br><span class="line">      <span class="comment">// 当 y 变为零时，计算结束，将输出置为 valid</span></span><br><span class="line">      output.bits.gcd := x</span><br><span class="line">      output.bits.value1 := xInitial</span><br><span class="line">      output.bits.value2 := yInitial</span><br><span class="line">      output.bits.gcd := x</span><br><span class="line">      output.valid := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">      busy := <span class="literal">false</span>.<span class="type">B</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;.otherwise &#123;</span><br><span class="line">    when(input.valid) &#123;</span><br><span class="line">      <span class="comment">// 当有可用的有效数据且没有进行计算时，获取新值并开始计算</span></span><br><span class="line">      <span class="keyword">val</span> bundle = input.deq()</span><br><span class="line">      x := bundle.value1</span><br><span class="line">      y := bundle.value2</span><br><span class="line">      xInitial := bundle.value1</span><br><span class="line">      yInitial := bundle.value2</span><br><span class="line">      busy := <span class="literal">true</span>.<span class="type">B</span></span><br><span class="line">      resultValid := <span class="literal">false</span>.<span class="type">B</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>tb</strong></p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">test(<span class="keyword">new</span> <span class="type">DecoupledGcd</span>(<span class="number">16</span>)) &#123; dut =&gt;</span><br><span class="line">  dut.input.initSource().setSourceClock(dut.clock)</span><br><span class="line">  dut.output.initSink().setSinkClock(dut.clock)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> testValues = <span class="keyword">for</span> &#123; x &lt;- <span class="number">1</span> to <span class="number">10</span>; y &lt;- <span class="number">1</span> to <span class="number">10</span>&#125; <span class="keyword">yield</span> (x, y)</span><br><span class="line">  <span class="keyword">val</span> inputSeq = testValues.map &#123; <span class="keyword">case</span> (x, y) =&gt;</span><br><span class="line">    (<span class="keyword">new</span> <span class="type">GcdInputBundle</span>(<span class="number">16</span>)).<span class="type">Lit</span>(_.value1 -&gt; x.<span class="type">U</span>, _.value2 -&gt; y.<span class="type">U</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">val</span> resultSeq = testValues.map &#123; <span class="keyword">case</span> (x, y) =&gt;</span><br><span class="line">    <span class="keyword">new</span> <span class="type">GcdOutputBundle</span>(<span class="number">16</span>).<span class="type">Lit</span>(_.value1 -&gt; x.<span class="type">U</span>, _.value2 -&gt; y.<span class="type">U</span>, _.gcd -&gt; <span class="type">BigInt</span>(x).gcd(<span class="type">BigInt</span>(y)).<span class="type">U</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// fork join 并行测试</span></span><br><span class="line">  fork &#123;</span><br><span class="line">    dut.input.enqueueSeq(inputSeq)</span><br><span class="line">  &#125;.fork &#123;</span><br><span class="line">    dut.output.expectDequeueSeq(resultSeq)</span><br><span class="line">  &#125;.join()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="queues">Queues</h2>
+<p><code>Queue</code> creates a FIFO (first-in, first-out) queue with Decoupled interfaces on both sides, allowing backpressure. Both the data type and number of elements are configurable.</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyQueue</span>(<span class="params">width: <span class="type">Int</span>, len: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">        <span class="keyword">val</span> in = <span class="type">Flipped</span>(<span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>)))</span><br><span class="line">        <span class="keyword">val</span> out = <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">val</span> fifo = <span class="type">Queue</span>(io.in, len)</span><br><span class="line">    io.out &lt;&gt; fifo</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">visualize(() =&gt; <span class="keyword">new</span> <span class="type">MyQueue</span>(<span class="number">32</span>, <span class="number">10</span>))</span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">MyQueue</span>(<span class="number">32</span>, <span class="number">10</span>)))</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/2021/05/24/chisel-start/Queues.png" alt="Queues"><figcaption aria-hidden="true">Queues</figcaption>
+</figure>
+<h2 id="arbiters">Arbiters</h2>
+<p>Arbiters routes data from <em>n</em> <code>DecoupledIO</code> sources to one <code>DecoupledIO</code> sink, given a prioritization. There are two types included in Chisel:</p>
+<ul>
+<li><code>Arbiter</code>: prioritizes lower-index producers</li>
+<li><code>RRArbiter</code>: runs in round-robin order</li>
+</ul>
+<p>Note that Arbiter routing is implemented in <strong>combinational logic</strong>.</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArbiter</span>(<span class="params"><span class="type">InNum</span>: <span class="type">Int</span>, width: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Example circuit using a priority arbiter</span></span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">      <span class="keyword">val</span> in = <span class="type">Flipped</span>(<span class="type">Vec</span>(<span class="type">InNum</span>, <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))))</span><br><span class="line">      <span class="keyword">val</span> out = <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// Arbiter doesn&#x27;t have a convenience constructor, so it&#x27;s built like any Module</span></span><br><span class="line">    <span class="keyword">val</span> arbiter = <span class="type">Module</span>(<span class="keyword">new</span> <span class="type">Arbiter</span>(<span class="type">UInt</span>(width.<span class="type">W</span>), <span class="type">InNum</span>))  <span class="comment">// 2 to 1 Priority Arbiter</span></span><br><span class="line">    arbiter.io.in &lt;&gt; io.in</span><br><span class="line">    io.out &lt;&gt; arbiter.io.out</span><br><span class="line">&#125;</span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">MyArbiter</span>(<span class="number">2</span>, <span class="number">32</span>)))</span><br></pre></td></tr></table></figure>
+<h2 id="popcount">PopCount</h2>
+<p>PopCount returns the number of high (1) bits in the input as a <code>UInt</code>.</p>
+<p>计算 <code>1</code> 的个数。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">io.out := <span class="type">PopCount</span>(io.in)</span><br></pre></td></tr></table></figure>
+<h2 id="reverse">Reverse</h2>
+<p>Reverse returns the bit-reversed input.</p>
+<p>翻转。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">io.out := <span class="type">Reverse</span>(io.in)</span><br></pre></td></tr></table></figure>
+<h2 id="onehot-encoding-utilities">OneHot encoding utilities</h2>
+<p>OneHot is an encoding of integers where there is one wire for each value, and exactly one wire is high. This allows the efficient creation of some functions, for example muxes. However, behavior may be undefined if the one-wire-high condition is not held.</p>
+<ul>
+<li>UInt to OneHot: <code>UIntToOH</code></li>
+<li>OneHot to UInt: <code>OHToUInt</code></li>
+</ul>
+<h2 id="muxes">Muxes</h2>
+<p>These muxes take in a list of values with select signals, and output the value associated with the lowest-index select signal.</p>
+<p>These can either take a list of (select: Bool, value: Data) tuples, or corresponding lists of selects and values as arguments. For simplicity, the examples below only demonstrate the second form.</p>
+<h3 id="priority-mux">Priority Mux</h3>
+<p>A <code>PriorityMux</code> outputs the value associated with the lowest-index asserted select signal.</p>
+<h3 id="onehot-mux">OneHot Mux</h3>
+<p>An <code>Mux1H</code> provides an efficient implementation when it is guaranteed that exactly one of the select signals will be high. Behavior is undefined if the assumption is not true.</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPriorityMux</span>(<span class="params"><span class="type">InNum</span>: <span class="type">Int</span>, width: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Example circuit using PriorityMux</span></span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">      <span class="keyword">val</span> in_sels = <span class="type">Input</span>(<span class="type">Vec</span>(<span class="type">InNum</span>, <span class="type">Bool</span>()))</span><br><span class="line">      <span class="keyword">val</span> in_bits = <span class="type">Input</span>(<span class="type">Vec</span>(<span class="type">InNum</span>, <span class="type">UInt</span>(width.<span class="type">W</span>)))</span><br><span class="line">      <span class="keyword">val</span> out = <span class="type">Output</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    io.out := <span class="type">PriorityMux</span>(io.in_sels, io.in_bits)</span><br><span class="line">&#125;</span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">MyPriorityMux</span>(<span class="number">2</span>, <span class="number">32</span>)))</span><br></pre></td></tr></table></figure>
+<h2 id="counter">counter</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCounter</span>(<span class="params">cnt: <span class="type">Int</span>, width: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Example circuit using Mux1H</span></span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">      <span class="keyword">val</span> count = <span class="type">Input</span>(<span class="type">Bool</span>())</span><br><span class="line">      <span class="keyword">val</span> out = <span class="type">Output</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">val</span> counter = <span class="type">Counter</span>(cnt)  <span class="comment">// 3-count Counter (outputs range [0...2])</span></span><br><span class="line">    when(io.count) &#123;</span><br><span class="line">      counter.inc()</span><br><span class="line">    &#125;</span><br><span class="line">    io.out := counter.value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">MyCounter</span>(<span class="number">3</span>, <span class="number">2</span>))) <span class="comment">// 3-count Counter (outputs range [0...2])</span></span><br></pre></td></tr></table></figure>
+<h2 id="map">Map</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).map(x =&gt; x + <span class="number">1</span>))  <span class="comment">// explicit argument list in function</span></span><br><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).map(_ + <span class="number">1</span>))  <span class="comment">// equivalent to the above, but implicit arguments</span></span><br><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).map(_.toString + <span class="string">&quot;a&quot;</span>))  <span class="comment">// the output element type can be different from the input element type</span></span><br><span class="line"></span><br><span class="line">println(<span class="type">List</span>((<span class="number">1</span>, <span class="number">5</span>), (<span class="number">2</span>, <span class="number">6</span>), (<span class="number">3</span>, <span class="number">7</span>), (<span class="number">4</span>, <span class="number">8</span>)).map &#123; <span class="keyword">case</span> (x, y) =&gt; x*y &#125;)  <span class="comment">// this unpacks a tuple, note use of curly braces</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Related: Scala has a syntax for constructing lists of sequential numbers</span></span><br><span class="line">println(<span class="number">0</span> to <span class="number">10</span>)  <span class="comment">// to is inclusive , the end point is part of the result</span></span><br><span class="line">println(<span class="number">0</span> until <span class="number">10</span>)  <span class="comment">// until is exclusive at the end, the end point is not part of the result</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Those largely behave like lists, and can be useful for generating indices:</span></span><br><span class="line"><span class="keyword">val</span> myList = <span class="type">List</span>(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>)</span><br><span class="line">println((<span class="number">0</span> until <span class="number">4</span>).map(myList(_)))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="attribute">List</span>(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="attribute">List</span>(<span class="number">1</span>a, <span class="number">2</span>a, <span class="number">3</span>a, <span class="number">4</span>a)</span><br><span class="line"><span class="attribute">List</span>(<span class="number">5</span>, <span class="number">12</span>, <span class="number">21</span>, <span class="number">32</span>)</span><br><span class="line"><span class="attribute">Range</span> <span class="number">0</span> to <span class="number">10</span></span><br><span class="line"><span class="attribute">Range</span> <span class="number">0</span> until <span class="number">10</span></span><br><span class="line"><span class="attribute">Vector</span>(a, b, c, d)</span><br></pre></td></tr></table></figure>
+<h2 id="zipwithindex"><strong>zipWithIndex</strong></h2>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).zipWithIndex)  <span class="comment">// note indices start at zero</span></span><br><span class="line">println(<span class="type">List</span>(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>).zipWithIndex)</span><br><span class="line">println(<span class="type">List</span>((<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>), (<span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>), (<span class="string">&quot;e&quot;</span>, <span class="string">&quot;f&quot;</span>), (<span class="string">&quot;g&quot;</span>, <span class="string">&quot;h&quot;</span>)).zipWithIndex)  <span class="comment">// tuples nest</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight lisp"><table><tr><td class="code"><pre><span class="line">List((<span class="number">1</span>,<span class="number">0</span>), (<span class="number">2</span>,<span class="number">1</span>), (<span class="number">3</span>,<span class="number">2</span>), (<span class="number">4</span>,<span class="number">3</span>))</span><br><span class="line">List((<span class="name">a</span>,<span class="number">0</span>), (<span class="name">b</span>,<span class="number">1</span>), (<span class="name">c</span>,<span class="number">2</span>), (<span class="name">d</span>,<span class="number">3</span>))</span><br><span class="line">List(((<span class="name">a</span>,b),<span class="number">0</span>), ((<span class="name">c</span>,d),<span class="number">1</span>), ((<span class="name">e</span>,f),<span class="number">2</span>), ((<span class="name">g</span>,h),<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="reduce"><strong>Reduce</strong></h2>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).reduce((a, b) =&gt; a + b))  <span class="comment">// returns the sum of all the elements</span></span><br><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).reduce(_ * _))  <span class="comment">// returns the product of all the elements</span></span><br><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).map(_ + <span class="number">1</span>).reduce(_ + _))  <span class="comment">// you can chain reduce onto the result of a map</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">10</span><br><span class="line">24</span><br><span class="line">14</span><br></pre></td></tr></table></figure>
+<h2 id="fold"><strong>Fold</strong></h2>
+</blockquote>
+<p>类似 <code>reduce</code>，不过可以提供一个初值。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).fold(<span class="number">0</span>)(_ + _))  <span class="comment">// equivalent to the sum using reduce</span></span><br><span class="line">println(<span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).fold(<span class="number">1</span>)(_ + _))  <span class="comment">// like above, but accumulation starts at 1</span></span><br><span class="line">println(<span class="type">List</span>().fold(<span class="number">1</span>)(_ + _))  <span class="comment">// unlike reduce, does not fail on an empty input</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">10</span><br><span class="line">11</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<h2 id="decoupled-arbiter"><strong>Decoupled Arbiter</strong></h2>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRoutingArbiter</span>(<span class="params">numChannels: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> in = <span class="type">Vec</span>(numChannels, <span class="type">Flipped</span>(<span class="type">Decoupled</span>(<span class="type">UInt</span>(<span class="number">8.</span><span class="type">W</span>))))</span><br><span class="line">    <span class="keyword">val</span> out = <span class="type">Decoupled</span>(<span class="type">UInt</span>(<span class="number">8.</span><span class="type">W</span>))</span><br><span class="line">  &#125; )</span><br><span class="line"></span><br><span class="line">  <span class="comment">// YOUR CODE BELOW</span></span><br><span class="line">    io.out.valid := io.in.map(_.valid).reduce(_ || _)</span><br><span class="line">    </span><br><span class="line">  <span class="comment">// 注意，这里是 = 而不是 :=</span></span><br><span class="line">    <span class="keyword">val</span> channel = <span class="type">PriorityMux</span>(</span><br><span class="line">        io.in.map(_.valid).zipWithIndex.map &#123; <span class="keyword">case</span> (valid, index) =&gt; (valid, index.<span class="type">U</span>) &#125;</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until numChannels) &#123;</span><br><span class="line">        when(channel === i.<span class="type">U</span>) &#123;</span><br><span class="line">            io.in(i).ready := io.out.ready</span><br><span class="line">        &#125;.otherwise&#123;</span><br><span class="line">            io.in(i).ready := <span class="number">0.</span><span class="type">U</span></span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// or    </span></span><br><span class="line"><span class="comment">//     io.in.map(_.ready).zipWithIndex.foreach &#123; case (ready, index) =&gt;</span></span><br><span class="line"><span class="comment">//         ready := io.out.ready &amp;&amp; channel === index.U</span></span><br><span class="line"><span class="comment">//     &#125;</span></span><br><span class="line">    </span><br><span class="line">    io.out.bits := io.in(channel).bits</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="scala-语法">scala 语法</h2>
+<h3 id="合并-list">合并 list</h3>
+<p>Merge two lists using the <code>++</code>, <code>concat</code>, or <code>:::</code> methods.</p>
+<h1 id="functional-programming">Functional Programming</h1>
+]]></content>
+      <categories>
+        <category>chisel</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>chisel</tag>
       </tags>
   </entry>
   <entry>
@@ -4312,9 +4440,109 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker-vivado</title>
+    <url>/2021/06/01/docker-vivado/</url>
+    <content><![CDATA[<figure>
+<img src="/2021/06/01/docker-vivado/docker_vivado.png" alt="docker_vivado"><figcaption aria-hidden="true">docker_vivado</figcaption>
+</figure>
+<p>最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇<a href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">文章</a>，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。<del>从此，vivado 成为了全平台软件，macOS 终于站起来了。</del>🤪</p>
+<a id="more"></a>
+<h1 id="准备">准备</h1>
+<p>在 Docker 中安装软件，用 Dockerfile 的方式，需要使用命令行的方式来安装软件，vivado 可以使用命令行的方式安装，安装的设置使用配置文件来实现。</p>
+<p>下载 vivado 的安装包，然后解压，然后运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(host)$ docker container run --rm -it -v &lt;/path/to/Xilinx_Vivado&gt;:/vivado -w /vivado ubuntu:xenial /bin/bash</span><br><span class="line">root@187602ac180d:/vivado<span class="comment"># ./xsetup -b ConfigGen</span></span><br><span class="line">Running <span class="keyword">in</span> batch mode...</span><br><span class="line">Copyright (c) 1986-2021 Xilinx, Inc.  All rights reserved.</span><br><span class="line"></span><br><span class="line">INFO : Log file location - /root/.Xilinx/xinstall/xinstall_1622527035477.log</span><br><span class="line">Select a Product from the list:</span><br><span class="line">1. Vitis</span><br><span class="line">2. Vivado</span><br><span class="line">3. On-Premises Install <span class="keyword">for</span> Cloud Deployments (Linux only)</span><br><span class="line">4. BootGen</span><br><span class="line">5. Lab Edition</span><br><span class="line">6. Hardware Server</span><br><span class="line">7. PetaLinux (Linux only)</span><br><span class="line">8. Documentation Navigator (Standalone)</span><br><span class="line"></span><br><span class="line">Please choose: 2</span><br><span class="line"></span><br><span class="line">Select an Edition from the list:</span><br><span class="line">1. Vivado HL WebPACK</span><br><span class="line">2. Vivado HL Design Edition</span><br><span class="line">3. Vivado HL System Edition</span><br><span class="line"></span><br><span class="line">Please choose: 3</span><br><span class="line"></span><br><span class="line">INFO : Config file available at /root/.Xilinx/install_config.txt. Please use -c &lt;filename&gt; to point to this install configuration.</span><br></pre></td></tr></table></figure>
+<p>这时生成了 vivado 安装的配置文件，将其从 docker 中拷贝出来，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@187602ac180d:/vivado<span class="comment"># cp /root/.Xilinx/install_config.txt ./</span></span><br></pre></td></tr></table></figure>
+<p>退出容器后，将 <em>install_config.txt</em> 拷贝到合适的位置，再作修改：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### Vivado HL System Edition Install Configuration ####</span></span><br><span class="line"><span class="attribute">Edition</span>=Vivado HL System Edition</span><br><span class="line"></span><br><span class="line"><span class="attribute">Product</span>=Vivado</span><br><span class="line"></span><br><span class="line"><span class="comment"># Path where Xilinx software will be installed.</span></span><br><span class="line"><span class="attribute">Destination</span>=/opt/Xilinx</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the Products/Devices the you would like to install.</span></span><br><span class="line"><span class="attribute">Modules</span>=Zynq UltraScale+ MPSoC:<span class="number">0</span>,Versal AI Core Series ES<span class="number">1</span>:<span class="number">0</span>,Versal Prime Series:<span class="number">0</span>,DocNav:<span class="number">1</span>,System Generator:<span class="number">0</span>,Virtex UltraScale+ HBM:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G ES:<span class="number">0</span>,Kintex-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+:<span class="number">0</span>,Zynq-<span class="number">7000</span>:<span class="number">1</span>,Versal AI Core Series:<span class="number">0</span>,Kintex UltraScale+:<span class="number">0</span>,Model Composer and System Generator:<span class="number">0</span>,Spartan-<span class="number">7</span>:<span class="number">0</span>,Kintex UltraScale:<span class="number">0</span>,Virtex UltraScale:<span class="number">0</span>,Engineering Sample Devices:<span class="number">0</span>,Zynq UltraScale+ RFSoC:<span class="number">0</span>,Virtex-<span class="number">7</span>:<span class="number">0</span>,Versal Prime Series ES<span class="number">1</span>:<span class="number">0</span>,Artix-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+ HBM ES:<span class="number">0</span>,Zynq UltraScale+ RFSoC ES:<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the post install scripts you&#x27;d like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.</span></span><br><span class="line"><span class="attribute">InstallOptions</span>=Acquire or Manage a License Key:<span class="number">0</span>,Enable WebTalk for Vivado to send usage statistics to Xilinx (Always enabled for WebPACK license):<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Shortcuts and File associations ##</span></span><br><span class="line"><span class="comment"># Choose whether Start menu/Application menu shortcuts will be created or not.</span></span><br><span class="line"><span class="attribute">CreateProgramGroupShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.</span></span><br><span class="line"><span class="attribute">ProgramGroupFolder</span>=Xilinx Design Tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.</span></span><br><span class="line"><span class="attribute">CreateShortcutsForAllUsers</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created on the desktop or not.</span></span><br><span class="line"><span class="attribute">CreateDesktopShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether file associations will be created or not.</span></span><br><span class="line"><span class="attribute">CreateFileAssociation</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether disk usage will be optimized (reduced) after installation</span></span><br><span class="line"><span class="attribute">EnableDiskUsageOptimization</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-docker-镜像">创建 Docker 镜像</h1>
+<h2 id="ubuntu-xorg">ubuntu-xorg</h2>
+<p>第一个 <code>ubuntu-xorg</code> 的 <code>Dockerfile</code> 是这样的：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:xenial</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND noninteractive</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  sed -i <span class="string">&#x27;s/archive.ubuntu.com/mirrors.ustc.edu.cn/g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt upgrade -y &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    ca-certificates curl sudo xorg dbus dbus-x11 ubuntu-gnome-default-settings gtk2-engines \</span></span><br><span class="line"><span class="bash">    ttf-ubuntu-font-family fonts-ubuntu-font-family-console fonts-droid-fallback lxappearance &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/* &amp;&amp; \</span></span><br><span class="line"><span class="bash">  <span class="built_in">echo</span> <span class="string">&quot;%sudo ALL=(ALL) NOPASSWD: ALL&quot;</span> &gt;&gt; /etc/sudoers</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> gosu_version=<span class="number">1.10</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>&quot;</span> \</span></span><br><span class="line"><span class="bash">    -o /usr/<span class="built_in">local</span>/bin/gosu &amp;&amp; \</span></span><br><span class="line"><span class="bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>.asc&quot;</span> \</span></span><br><span class="line"><span class="bash">    -o /usr/<span class="built_in">local</span>/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  gpg --verify /usr/<span class="built_in">local</span>/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /usr/<span class="built_in">local</span>/bin/gosu.asc /root/.gnupg &amp;&amp; \</span></span><br><span class="line"><span class="bash">  chmod +x /usr/<span class="built_in">local</span>/bin/gosu</span></span><br></pre></td></tr></table></figure>
+<p>然后创建这个镜像：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker image build --rm --no-cache --pull -t ubuntu-xorg .</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>--rm :</strong> 设置镜像成功后删除中间容器；</li>
+<li><strong>--no-cache : </strong>创建镜像的过程不使用缓存；</li>
+<li><strong>--pull :</strong> 尝试去更新镜像的新版本；</li>
+<li><strong>--tag, -t :</strong> 镜像的名字及标签，通常 name:tag 或者 name 格式；可以在一次构建中为一个镜像设置多个标签。</li>
+</ul>
+</blockquote>
+<h2 id="ubuntu-vivado">ubuntu-vivado</h2>
+<p>第二个镜像 <code>ubuntu-vivado</code> 的 <code>Dockerfile</code> 是这样的：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu-xorg</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  dpkg --add-architecture i386 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    build-essential git gcc-multilib libc6-dev:i386 ocl-icd-opencl-dev libjpeg62-dev &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> install_config.txt /vivado-installer/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> VIVADO_TAR_URI=http://host.docker.internal/Xilinx_Unified_2020.<span class="number">2</span>_1118_1232.tar.gz</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl <span class="variable">$&#123;VIVADO_TAR_URI&#125;</span> | tar zx --strip-components=1 -C /vivado-installer &amp;&amp; \</span></span><br><span class="line"><span class="bash">  /vivado-installer/xsetup \</span></span><br><span class="line"><span class="bash">    --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \</span></span><br><span class="line"><span class="bash">    --batch Install \</span></span><br><span class="line"><span class="bash">    --config /vivado-installer/install_config.txt &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /vivado-installer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> Vivado_license_to2037.lic /vivado-installer/</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> pynq-z2.tar.gz /opt/Xilinx/Vivado/2020.2/data/boards/board_files/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> entrypoint.sh /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod +x /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;/usr/local/bin/entrypoint.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-l&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里使用 <code>http://host.docker.internal</code> 来访问宿主机，这种用法似乎只在 windows 和 macOS 版的 docker 上可以用，linux 要换种方法。</p>
+</blockquote>
+<p>这里使用 curl 来获取 vivado 安装包，避免了生成的镜像过大的问题（其实安装的时候还是需要很大空间，安装后的镜像有快 43G 了，安装过程中还有解压后的安装包，因此最好将 Disk image size 设置为大于 100G，否则可能会因为空间不足而安装失败），因此需要在本地搭建一个文件服务器，来提供 vivado 安装包。</p>
+<p>在含有 vivado 安装包的目录下运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dockerfile 中，vivado安装包的路径是 <code>http://host.docker.internal/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>，在宿主机中应该可以通过 <code>http://127.0.0.1/Xilinx_Unified_2020.2_1118_1232.tar.gz</code> 访问到 vivado 的安装包，路径不对的可以改一下。</p>
+</blockquote>
+<p>在运行 docker bulid 之前，先要确保在含有 <code>Dockerfile</code> 的文件夹下有这些文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ls</span><br><span class="line">Dockerfile                Vivado_license_to2037.lic entrypoint.sh             install_config.txt        pynq-z2.tar.gz</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>pynq-z2.tar.gz 是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile。</p>
+</blockquote>
+<p>然后运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker image build --rm --no-cache -t ubuntu-vivado .</span><br></pre></td></tr></table></figure>
+<h1 id="使用已安装的-vivado">使用已安装的 Vivado</h1>
+<h2 id="在容器中创建一个工作用户"><del>在容器中创建一个工作用户</del></h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docke container run -it --rm -e USER_ID=<span class="variable">$UID</span> -v &lt;localhost/vivado/workspace&gt;:/work -w /work ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<p>这一步只是演示如何以非 root 用户启动 docker 容器。</p>
+<h2 id="在-docker-中调用-x11">在 Docker 中调用 X11</h2>
+<blockquote>
+<p>在 MAC 上需要先安装 XQuartz 在转发 X11，可以使用 brew 安装：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install --cask xquartz</span><br></pre></td></tr></table></figure>
+<p>安装完需要重启电脑，并且在 XQuartz 的设置里勾选上 <em>安全性--允许从网络连接</em></p>
+<figure>
+<img src="/2021/06/01/docker-vivado/xquartz.png" alt="xquartz"><figcaption aria-hidden="true">xquartz</figcaption>
+</figure>
+</blockquote>
+<p>首先，允许工作用户使用以下命令在本地请求 X11：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ xhost +si:localuser:$(whoami)</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">$ xhost +</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/2021/06/01/docker-vivado/X11.png" alt="X11"><figcaption aria-hidden="true">X11</figcaption>
+</figure>
+<p>接下来，使用以下选项启动 Docker 容器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container run -it --rm \</span><br><span class="line">    -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line">    -e DISPLAY \</span><br><span class="line">    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line">    -v &lt;localhost/vivado/workspace&gt;:/work \</span><br><span class="line">    -w /work \</span><br><span class="line">    ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的命令在 MAC 中使用的时候会提示无权限使用 X11，将 <code>-e DISPLAY</code> 换成了 <code>-e DISPLAY=host.docker.internal:0</code> 就可以运行了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker container run -it --rm \</span><br><span class="line"> -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line"> -e DISPLAY=host.docker.internal:0 \</span><br><span class="line"> -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line"> -v <span class="variable">$PWD</span>:/work \</span><br><span class="line"> -w /work \</span><br><span class="line"> ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>-i:</strong> 以交互模式运行容器，通常与 -t 同时使用；</li>
+<li><strong>-t:</strong> 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</li>
+<li><strong>--volume , -v:</strong> 绑定一个卷；</li>
+<li><strong>-w, --workdir= :</strong> Working directory inside the container；</li>
+<li><strong>-e, --env=[] :</strong> Set environment variables(设置环境变量) ；</li>
+<li><strong>--rm=false</strong> Automatically remove the container when it exits；</li>
+</ul>
+</blockquote>
+<p>这时就可以正常运行 vivado 了：</p>
+<figure>
+<img src="/2021/06/01/docker-vivado/vivado.png" alt="vivado"><figcaption aria-hidden="true">vivado</figcaption>
+</figure>
+<figure>
+<img src="/2021/06/01/docker-vivado/vivado2.png" alt="vivado2"><figcaption aria-hidden="true">vivado2</figcaption>
+</figure>
+<h1 id="reference">Reference</h1>
+<p>https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/</p>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>vivado</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -4527,8 +4755,8 @@ W = 128um
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>gmid</tag>
       </tags>
   </entry>
@@ -4771,8 +4999,8 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -4955,9 +5183,9 @@ S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
         <category>PA</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
         <tag>PA</tag>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -5234,8 +5462,8 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5331,8 +5559,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -6120,6 +6348,63 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>车流量统计</title>
+    <url>/2020/01/26/%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1/</url>
+    <content><![CDATA[<blockquote>
+<p>项目地址：https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection</p>
+<p>改进版（带 GUI 界面）：https://github.com/LeiWang1999/VehicleFlowDetection</p>
+<p>效果展示：</p>
+<ul>
+<li><p>检测：</p>
+<figure>
+<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/detect.gif" alt="detect"><figcaption aria-hidden="true">detect</figcaption>
+</figure></li>
+<li><p>计数：</p>
+<figure>
+<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/counting.gif" alt="count"><figcaption aria-hidden="true">count</figcaption>
+</figure></li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<h1 id="准备">准备</h1>
+<h2 id="安装tensorflow">安装tensorflow</h2>
+<p>参考<a href="https://tensorflow.juejin.im/install/install_mac.html">在 macOS 中安装 TensorFlow</a></p>
+<h2 id="安装opencv">安装OpenCV</h2>
+<ol type="1">
+<li><p>Homebrew安装OpenCV</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install opencv</span><br></pre></td></tr></table></figure>
+<p>最新版本的<code>opencv</code>已经不分<code>opencv3</code>了，而是在目录下分成<code>python2</code>和<code>python3</code>版本的文件夹。 安装好的<code>opencv</code>库在<code>/usr/local/Cellar/opencv/</code>。</p></li>
+<li><p>将OpenCV链接到Python的site-packages目录下</p>
+<p>首先需要找到自己Python安装位置，可以用如下方法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打开Python</span></span><br><span class="line">python3</span><br><span class="line"><span class="comment"># 通过sys查看Python安装路径</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.path)</span><br><span class="line">[<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python37.zip&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p>可以看到最后一行就是site-packages的路径。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入site-packages目录</span></span><br><span class="line"><span class="built_in">cd</span> /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages</span><br><span class="line"><span class="comment"># 建立软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/Cellar/opencv/4.2.0_1/lib/python3.7/site-packages/cv2/python-3.7/cv2.cpython-37m-darwin.so cv2.so</span><br></pre></td></tr></table></figure></li>
+<li><p>依赖包</p>
+<p>我们这时测试一下OpenCV是否可用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> cv2</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;numpy&#x27;</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">ImportError: numpy.core.multiarray failed to <span class="keyword">import</span></span><br></pre></td></tr></table></figure>
+<p>缺少numpy</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装numpy</span></span><br><span class="line">pip3 install --upgrade numpy</span><br></pre></td></tr></table></figure>
+<p>成功</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</span><br><span class="line">[Clang 6.0 (clang-600.0.57)] on darwin</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import cv2</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>真不该手贱接下这个项目，完全没有头绪！</p>
+</blockquote></li>
+</ol>
+<h1 id="准确率">准确率</h1>
+<p>目前检测 VisDrone 数据集的正确率已经比较高了</p>
+<figure>
+<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/mAP/mAP.png" alt="mAP"><figcaption aria-hidden="true">mAP</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>图像处理</category>
+      </categories>
+      <tags>
+        <tag>tensorflow</tag>
+        <tag>图像处理</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>部署 Hexo 到服务器</title>
     <url>/2020/07/09/%E9%83%A8%E7%BD%B2-Hexo-%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
     <content><![CDATA[<h1 id="部署到服务器">部署到服务器</h1>
@@ -6180,63 +6465,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>车流量统计</title>
-    <url>/2020/01/26/%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1/</url>
-    <content><![CDATA[<blockquote>
-<p>项目地址：https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection</p>
-<p>改进版（带 GUI 界面）：https://github.com/LeiWang1999/VehicleFlowDetection</p>
-<p>效果展示：</p>
-<ul>
-<li><p>检测：</p>
-<figure>
-<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/detect.gif" alt="detect"><figcaption aria-hidden="true">detect</figcaption>
-</figure></li>
-<li><p>计数：</p>
-<figure>
-<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/docs/images/counting.gif" alt="count"><figcaption aria-hidden="true">count</figcaption>
-</figure></li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<h1 id="准备">准备</h1>
-<h2 id="安装tensorflow">安装tensorflow</h2>
-<p>参考<a href="https://tensorflow.juejin.im/install/install_mac.html">在 macOS 中安装 TensorFlow</a></p>
-<h2 id="安装opencv">安装OpenCV</h2>
-<ol type="1">
-<li><p>Homebrew安装OpenCV</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install opencv</span><br></pre></td></tr></table></figure>
-<p>最新版本的<code>opencv</code>已经不分<code>opencv3</code>了，而是在目录下分成<code>python2</code>和<code>python3</code>版本的文件夹。 安装好的<code>opencv</code>库在<code>/usr/local/Cellar/opencv/</code>。</p></li>
-<li><p>将OpenCV链接到Python的site-packages目录下</p>
-<p>首先需要找到自己Python安装位置，可以用如下方法：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打开Python</span></span><br><span class="line">python3</span><br><span class="line"><span class="comment"># 通过sys查看Python安装路径</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.path)</span><br><span class="line">[<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python37.zip&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload&#x27;</span>, <span class="string">&#x27;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages&#x27;</span>]</span><br></pre></td></tr></table></figure>
-<p>可以看到最后一行就是site-packages的路径。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入site-packages目录</span></span><br><span class="line"><span class="built_in">cd</span> /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages</span><br><span class="line"><span class="comment"># 建立软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/Cellar/opencv/4.2.0_1/lib/python3.7/site-packages/cv2/python-3.7/cv2.cpython-37m-darwin.so cv2.so</span><br></pre></td></tr></table></figure></li>
-<li><p>依赖包</p>
-<p>我们这时测试一下OpenCV是否可用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> cv2</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;numpy&#x27;</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">ImportError: numpy.core.multiarray failed to <span class="keyword">import</span></span><br></pre></td></tr></table></figure>
-<p>缺少numpy</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装numpy</span></span><br><span class="line">pip3 install --upgrade numpy</span><br></pre></td></tr></table></figure>
-<p>成功</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</span><br><span class="line">[Clang 6.0 (clang-600.0.57)] on darwin</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import cv2</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>真不该手贱接下这个项目，完全没有头绪！</p>
-</blockquote></li>
-</ol>
-<h1 id="准确率">准确率</h1>
-<p>目前检测 VisDrone 数据集的正确率已经比较高了</p>
-<figure>
-<img src="https://github.com/Starrynightzyq/Drone_Vehicle_Flow_Detection/raw/master/mAP/mAP.png" alt="mAP"><figcaption aria-hidden="true">mAP</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>图像处理</category>
-      </categories>
-      <tags>
-        <tag>tensorflow</tag>
-        <tag>图像处理</tag>
       </tags>
   </entry>
 </search>
