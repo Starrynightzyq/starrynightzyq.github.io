@@ -25,7 +25,7 @@
 
   <meta name="description" content="docker_vivado  最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇文章，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。从此，vivado 成为了全平台软件，macOS 终于站起来了。🤪">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker-vivado">
+<meta property="og:title" content="在 docker 中安装 vivado">
 <meta property="og:url" content="https://zhouyuqian.com/2021/06/01/docker-vivado/index.html">
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="docker_vivado  最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇文章，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。从此，vivado 成为了全平台软件，macOS 终于站起来了。🤪">
@@ -56,7 +56,7 @@
   };
 </script>
 
-  <title>docker-vivado | Fitz's Blog</title>
+  <title>在 docker 中安装 vivado | Fitz's Blog</title>
   
 
 
@@ -223,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          docker-vivado
+          在 docker 中安装 vivado
         </h1>
 
         <div class="post-meta">
@@ -246,7 +246,7 @@
             </span>
 
           
-            <span id="/2021/06/01/docker-vivado/" class="post-meta-item leancloud_visitors" data-flag-title="docker-vivado" title="阅读次数">
+            <span id="/2021/06/01/docker-vivado/" class="post-meta-item leancloud_visitors" data-flag-title="在 docker 中安装 vivado" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -272,14 +272,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.1k</span>
+              <span>7.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -296,6 +296,7 @@
 </figure>
 <p>最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇<a target="_blank" rel="noopener" href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">文章</a>，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。<del>从此，vivado 成为了全平台软件，macOS 终于站起来了。</del>🤪</p>
 <a id="more"></a>
+<p>本次安装使用的 vivado 安装包是 <em>Xilinx_Unified_2020.2_1118_1232.tar.gz</em>，需要自行去 <a target="_blank" rel="noopener" href="https://www.xilinx.com/support/download.html">Xilinx 官网</a>下载，其他的文件已经上传到 <a target="_blank" rel="noopener" href="https://github.com/Starrynightzyq/MyDocker.git">github</a>。</p>
 <h1 id="准备">准备</h1>
 <p>在 Docker 中安装软件，用 Dockerfile 的方式，需要使用命令行的方式来安装软件，vivado 可以使用命令行的方式安装，安装的设置使用配置文件来实现。</p>
 <p>下载 vivado 的安装包，然后解压，然后运行：</p>
@@ -333,9 +334,13 @@
 <p>在运行 docker bulid 之前，先要确保在含有 <code>Dockerfile</code> 的文件夹下有这些文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br><span class="line">Dockerfile                Vivado_license_to2037.lic entrypoint.sh             install_config.txt        pynq-z2.tar.gz</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>pynq-z2.tar.gz 是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile。</p>
+<p><strong>install_config.txt</strong> 是第一步生成的 vivado 安装配置文件；</p>
+<p><strong>pynq-z2.tar.gz</strong> 是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile；</p>
+<p><strong>Vivado_license_to2037.lic</strong> 是 license，不要也没关系，反正还没找到用命令行安装 license 的方法；</p>
+<p><strong>entrypoint.sh</strong> 是一个把宿主机用户和容器内用户的 UID 组合在一起的脚本，内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">UART_GROUP_ID=$&#123;UART_GROUP_ID:-20&#125;</span><br><span class="line">if ! grep -q &quot;x:$&#123;UART_GROUP_ID&#125;:&quot; /etc/group; then</span><br><span class="line">  groupadd -g &quot;$UART_GROUP_ID&quot; uart</span><br><span class="line">fi</span><br><span class="line">UART_GROUP=$(grep -Po &quot;^\\w+(?=:x:$&#123;UART_GROUP_ID&#125;:)&quot; /etc/group)</span><br><span class="line"></span><br><span class="line">if [[ -n &quot;$USER_ID&quot; ]]; then</span><br><span class="line">  useradd -s /bin/bash -u &quot;$USER_ID&quot; -o -d &quot;$PWD&quot; user</span><br><span class="line">  usermod -aG sudo user</span><br><span class="line">  usermod -aG &quot;$UART_GROUP&quot; user</span><br><span class="line">  chown user $(tty)</span><br><span class="line">  exec /usr/local/bin/gosu user &quot;$@&quot;</span><br><span class="line">else</span><br><span class="line">  exec &quot;$@&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>然后含有 <code>Dockerfile</code> 的目录下运行：</p>
 </blockquote>
-<p>然后运行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image build --rm --no-cache -t ubuntu-vivado .</span><br></pre></td></tr></table></figure>
 <h1 id="使用已安装的-vivado">使用已安装的 Vivado</h1>
 <h2 id="在容器中创建一个工作用户"><del>在容器中创建一个工作用户</del></h2>
@@ -403,7 +408,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zhouyuqian.com/2021/06/01/docker-vivado/" title="docker-vivado">https://zhouyuqian.com/2021/06/01/docker-vivado/</a>
+    <a href="https://zhouyuqian.com/2021/06/01/docker-vivado/" title="在 docker 中安装 vivado">https://zhouyuqian.com/2021/06/01/docker-vivado/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -579,12 +584,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">213k</span>
+    <span title="站点总字数">214k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:14</span>
+    <span title="站点阅读时长">3:15</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
