@@ -82,6 +82,36 @@ sudo ./pubkey_verify -y
 sudo apt-get isntall lsb-core
 ~~~
 
+# ADS Dynamic Link
+
+> http://literature.cdn.keysight.com/litweb/pdf/ads2008/dynlnkug/ads2008/Getting_Started_with_RFIC_Dynamic_Link.html
+>
+> http://edadownload.software.keysight.com/eedl/ads/2011/pdf/dynlnkug.pdf
+>
+> https://zhuanlan.zhihu.com/p/355213307
+
+在 ADS 和 Cadence 都正确安装且可以正常打开的情况下：
+
+首先要在 *.cdsinit* 文件里添加：
+
+~~~bash
+load("/opt/ADS2020_update2/idf/config/.cdsinit")
+~~~
+
+然后：
+
+~~~bash
+source $HPEESOF_DIR/bin/setCSF.ksh
+~~~
+
+然后启动 virtuoso，在CIW中可发现ADS已成功加载：
+
+![截屏2021-04-20 下午4.40.58](VirtuosoOnUbuntu/截屏2021-04-20 下午4.40.58.png)
+
+在 schematic 中选择 Launch-ADS Dynamic Link，就会弹出ADS窗口：
+
+![截屏2021-04-20 下午4.43.01](VirtuosoOnUbuntu/截屏2021-04-20 下午4.43.01.png)
+
 # Modelsim
 
 ## Prepare install files

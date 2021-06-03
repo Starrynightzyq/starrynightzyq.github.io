@@ -85,39 +85,34 @@ SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级�
 
 ## 输出序列
 
-<div align="center">
-  <div align="center">
-    <div style="display:inline-block;"><img src="DSM3/mash_5bit_16_y.svg" alt="MASH input 16" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/hk_mash_5bit_16_y.svg" alt="HK-MASH input 16" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/sp_mash_5bit_16_y.svg" alt="SP-MASH input 16" width="290"/></div>
-  </div>
+{% gp 3-1 %}
+![MASH input 16](DSM3/mash_5bit_16_y.svg)
+![HK-MASH input 16](DSM3/hk_mash_5bit_16_y.svg)
+![SP-MASH input 16](DSM3/sp_mash_5bit_16_y.svg)
+{% endgp %}
 
-  <div align="center">
-    <div style="display:inline-block;"><img src="DSM3/mash_5bit_17_y.svg" alt="MASH input 17" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/hk_mash_5bit_17_y.svg" alt="HK-MASH input 17" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/sp_mash_5bit_17_y.svg" alt="SP-MASH input 17" width="290"/></div>
-  </div>
-</div>
-
+{% gp 3-1 %}
+![MASH input 17](DSM3/mash_5bit_17_y.svg)
+![HK-MASH input 17](DSM3/hk_mash_5bit_17_y.svg)
+![SP-MASH input 17](DSM3/sp_mash_5bit_17_y.svg)
+{% endgp %}
 
 三种 MASH DSM 结构的输出序列如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。
 
 
 ## 功率谱密度
 
-<div align="center">
-  <div align="center">
-    <div style="display:inline-block;"><img src="DSM3/mash_5bit_16_psd.svg" alt="MASH input 16" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/hk_mash_5bit_16_psd.svg" alt="HK-MASH input 16" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/sp_mash_5bit_16_psd.svg" alt="SP-MASH input 16" width="290"/></div>
-  </div>
+{% gp 3-1 %}
+![MASH input 16](DSM3/mash_5bit_16_psd.svg)
+![HK-MASH input 16](DSM3/hk_mash_5bit_16_psd.svg)
+![SP-MASH input 16](DSM3/sp_mash_5bit_16_psd.svg)
+{% endgp %}
 
-  <div align="center">
-    <div style="display:inline-block;"><img src="DSM3/mash_5bit_17_psd.svg" alt="MASH input 17" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/hk_mash_5bit_17_psd.svg" alt="HK-MASH input 17" width="290"/></div>
-    <div style="display:inline-block;"><img src="DSM3/sp_mash_5bit_17_psd.svg" alt="SP-MASH input 17" width="290"/></div>
-  </div>
-</div>
+{% gp 3-1 %}
+![MASH input 17](DSM3/mash_5bit_17_psd.svg)
+![HK-MASH input 17](DSM3/hk_mash_5bit_17_psd.svg)
+![SP-MASH input 17](DSM3/sp_mash_5bit_17_psd.svg)
+{% endgp %}
 
 
 三种 MASH DSM 结构的功率谱如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。
@@ -141,16 +136,12 @@ SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级�
 
 5. 就功率谱密度来看，感觉 SP-MASH 对比 HK-MASH 并没有明显的提升，我自己的仿真中没有论文中的差距那么大：
 
-  <div align="center">
-    <div>
-      <div style="display:inline-block;"><img src="DSM3/hk_mash_5bit_16_psd.svg" alt="HK-MASH" width="270"/></div>
-      <div style="display:inline-block;"><img src="DSM3/sp_mash_5bit_16_psd.svg" alt="SP-MASH" width="270"/></div>
-    </div>
-    <div>
-      <div style="display:inline-block;"><img src="DSM3/js_result.png" alt="result in paper" width="550"/></div>
-    </div>
-  </div>
+  {% gp 2 %}
+  ![HK-MASH input 16](DSM3/hk_mash_5bit_16_psd.svg)
+  ![SP-MASH input 16](DSM3/sp_mash_5bit_16_psd.svg)
+  {% endgp %}
 
+  ![result in paper](DSM3/js_result.png)
 
    上面一行是我自己的仿真结果，下面一行是论文中的结果，输入都为 16。
 
