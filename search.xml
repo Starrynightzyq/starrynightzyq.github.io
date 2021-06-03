@@ -931,6 +931,71 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
+    <title>Linux Wake on Lan</title>
+    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
+    <content><![CDATA[<h1 id="wake-on-lan-原理">Wake on Lan 原理</h1>
+<p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
+<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
+<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
+<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
+<h2 id="magic-packet">Magic Packet</h2>
+<p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
+<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
+<h1 id="注意事项">注意事项</h1>
+<ol type="1">
+<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p></li>
+<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
+<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
+<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
+</blockquote></li>
+</ol>
+<a id="more"></a>
+<blockquote>
+<p>启动者(电脑A) -----------&gt; 被远程开启的电脑(电脑B)</p>
+</blockquote>
+<h1 id="被远程开启的电脑电脑b-设置">被远程开启的电脑(电脑B) 设置</h1>
+<ol type="1">
+<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p></li>
+<li><p>在 Linux 系统中安装 ethtool：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
+<li><p>查看 WOL 是否打开：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
+<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p></li>
+<li><p>打开 WOL：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
+<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p></li>
+</ol>
+<h1 id="启动者电脑a-设置">启动者(电脑A) 设置</h1>
+<p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
+<ol type="1">
+<li><p>安装 wakeonlan：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 B 电脑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>Reference:</p>
+<p>https://en.wikipedia.org/wiki/Wake-on-LAN</p>
+<p>https://zhuanlan.zhihu.com/p/29100480</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 权限问题</title>
     <url>/2020/03/10/Linux-%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>记录一下 Linux 下的用户、用户组、文件权限等基本知识，不能动不动就 777。</p>
@@ -1027,71 +1092,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>Linux Wake on Lan</title>
-    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
-    <content><![CDATA[<h1 id="wake-on-lan-原理">Wake on Lan 原理</h1>
-<p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
-<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
-<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
-<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
-<h2 id="magic-packet">Magic Packet</h2>
-<p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
-<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
-<h1 id="注意事项">注意事项</h1>
-<ol type="1">
-<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p></li>
-<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
-<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
-<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
-</blockquote></li>
-</ol>
-<a id="more"></a>
-<blockquote>
-<p>启动者(电脑A) -----------&gt; 被远程开启的电脑(电脑B)</p>
-</blockquote>
-<h1 id="被远程开启的电脑电脑b-设置">被远程开启的电脑(电脑B) 设置</h1>
-<ol type="1">
-<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p></li>
-<li><p>在 Linux 系统中安装 ethtool：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
-<li><p>查看 WOL 是否打开：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
-<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p></li>
-<li><p>打开 WOL：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
-<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p></li>
-</ol>
-<h1 id="启动者电脑a-设置">启动者(电脑A) 设置</h1>
-<p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
-<ol type="1">
-<li><p>安装 wakeonlan：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
-<li><p>启动 B 电脑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>Reference:</p>
-<p>https://en.wikipedia.org/wiki/Wake-on-LAN</p>
-<p>https://zhuanlan.zhihu.com/p/29100480</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -1141,6 +1141,37 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -1198,37 +1229,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <tag>FPGA</tag>
         <tag>MPIS32</tag>
         <tag>课程设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -4478,22 +4478,22 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 </blockquote>
 <h2 id="ubuntu-vivado">ubuntu-vivado</h2>
 <p>第二个镜像 <code>ubuntu-vivado</code> 的 <code>Dockerfile</code> 是这样的：</p>
-<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu-xorg</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  dpkg --add-architecture i386 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    build-essential git gcc-multilib libc6-dev:i386 ocl-icd-opencl-dev libjpeg62-dev &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> install_config.txt /vivado-installer/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> VIVADO_TAR_URI=http://host.docker.internal/Xilinx_Unified_2020.<span class="number">2</span>_1118_1232.tar.gz</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl <span class="variable">$&#123;VIVADO_TAR_URI&#125;</span> | tar zx --strip-components=1 -C /vivado-installer &amp;&amp; \</span></span><br><span class="line"><span class="bash">  /vivado-installer/xsetup \</span></span><br><span class="line"><span class="bash">    --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \</span></span><br><span class="line"><span class="bash">    --batch Install \</span></span><br><span class="line"><span class="bash">    --config /vivado-installer/install_config.txt &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /vivado-installer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> Vivado_license_to2037.lic /vivado-installer/</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> pynq-z2.tar.gz /opt/Xilinx/Vivado/2020.2/data/boards/board_files/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> entrypoint.sh /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod +x /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;/usr/local/bin/entrypoint.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-l&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu-xorg</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  dpkg --add-architecture i386 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    build-essential git gcc-multilib libc6-dev:i386 ocl-icd-opencl-dev libjpeg62-dev &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y vim &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> install_config.txt /vivado-installer/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> Vivado_license_to2037.lic /vivado-installer/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> VIVADO_TAR_URI=http://host.docker.internal/Xilinx_Unified_2020.<span class="number">2</span>_1118_1232.tar.gz</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl <span class="variable">$&#123;VIVADO_TAR_URI&#125;</span> | tar zx --strip-components=1 -C /vivado-installer &amp;&amp; \</span></span><br><span class="line"><span class="bash">  /vivado-installer/xsetup \</span></span><br><span class="line"><span class="bash">    --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \</span></span><br><span class="line"><span class="bash">    --batch Install \</span></span><br><span class="line"><span class="bash">    --config /vivado-installer/install_config.txt &amp;&amp; \</span></span><br><span class="line"><span class="bash">  <span class="built_in">echo</span> <span class="string">&quot;source /opt/Xilinx/Vivado/2020.2/.settings64-Vivado.sh&quot;</span> &gt;&gt; /etc/bash.bashrc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  mkdir -p /work/.Xilinx &amp;&amp; \</span></span><br><span class="line"><span class="bash">  cp /vivado-installer/Vivado_license_to2037.lic /work/.Xilinx/Vivado_license_to2037.lic &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /vivado-installer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> pynq-z2.tar.gz /opt/Xilinx/Vivado/2020.2/data/boards/board_files/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> entrypoint.sh /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod +x /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;/usr/local/bin/entrypoint.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-l&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>这里使用 <code>http://host.docker.internal</code> 来访问宿主机，这种用法似乎只在 windows 和 macOS 版的 docker 上可以用，linux 要换种方法。</p>
+<p>这里使用 <code>http://host.docker.internal</code> 来访问宿主机，这种用法似乎只在 windows 和 macOS 版的 docker 上可以用，linux 要换种方法。</p>
 </blockquote>
 <p>这里使用 curl 来获取 vivado 安装包，避免了生成的镜像过大的问题（其实安装的时候还是需要很大空间，安装后的镜像有快 43G 了，安装过程中还有解压后的安装包，因此最好将 Disk image size 设置为大于 100G，否则可能会因为空间不足而安装失败），因此需要在本地搭建一个文件服务器，来提供 vivado 安装包。</p>
 <p>在含有 vivado 安装包的目录下运行如下命令：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>Dockerfile 中，vivado安装包的路径是 <code>http://host.docker.internal/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>，在宿主机中应该可以通过 <code>http://127.0.0.1/Xilinx_Unified_2020.2_1118_1232.tar.gz</code> 访问到 vivado 的安装包，路径不对的可以改一下。</p>
+<p>Dockerfile 中，vivado安装包的路径是 <code>http://host.docker.internal/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>，在宿主机中应该可以通过 <code>http://127.0.0.1/Xilinx_Unified_2020.2_1118_1232.tar.gz</code> 访问到 vivado 的安装包，路径不对的可以改一下。</p>
 </blockquote>
 <p>在运行 docker bulid 之前，先要确保在含有 <code>Dockerfile</code> 的文件夹下有这些文件：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ls</span><br><span class="line">Dockerfile                Vivado_license_to2037.lic entrypoint.sh             install_config.txt        pynq-z2.tar.gz</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><strong>install_config.txt</strong> 是第一步生成的 vivado 安装配置文件；</p>
 <p><strong>pynq-z2.tar.gz</strong> 是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile；</p>
-<p><strong>Vivado_license_to2037.lic</strong> 是 license，不要也没关系，反正还没找到用命令行安装 license 的方法；</p>
+<p><strong>Vivado_license_to2037.lic</strong> 是 license，<del>不要也没关系，反正还没找到用命令行安装 license 的方法</del>，会安装到 <em>/work/.Xilinx/</em> 目录下；</p>
 <p><strong>entrypoint.sh</strong> 是一个把宿主机用户和容器内用户的 UID 组合在一起的脚本，内容如下：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">UART_GROUP_ID=$&#123;UART_GROUP_ID:-20&#125;</span><br><span class="line">if ! grep -q &quot;x:$&#123;UART_GROUP_ID&#125;:&quot; /etc/group; then</span><br><span class="line">  groupadd -g &quot;$UART_GROUP_ID&quot; uart</span><br><span class="line">fi</span><br><span class="line">UART_GROUP=$(grep -Po &quot;^\\w+(?=:x:$&#123;UART_GROUP_ID&#125;:)&quot; /etc/group)</span><br><span class="line"></span><br><span class="line">if [[ -n &quot;$USER_ID&quot; ]]; then</span><br><span class="line">  useradd -s /bin/bash -u &quot;$USER_ID&quot; -o -d &quot;$PWD&quot; user</span><br><span class="line">  usermod -aG sudo user</span><br><span class="line">  usermod -aG &quot;$UART_GROUP&quot; user</span><br><span class="line">  chown user $(tty)</span><br><span class="line">  exec /usr/local/bin/gosu user &quot;$@&quot;</span><br><span class="line">else</span><br><span class="line">  exec &quot;$@&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>然后含有 <code>Dockerfile</code> 的目录下运行：</p>
@@ -4520,7 +4520,7 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 <p>接下来，使用以下选项启动 Docker 容器：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container run -it --rm \</span><br><span class="line">    -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line">    -e DISPLAY \</span><br><span class="line">    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line">    -v &lt;localhost/vivado/workspace&gt;:/work \</span><br><span class="line">    -w /work \</span><br><span class="line">    ubuntu-vivado</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>上面的命令在 MAC 中使用的时候会提示无权限使用 X11，将 <code>-e DISPLAY</code> 换成了 <code>-e DISPLAY=host.docker.internal:0</code> 就可以运行了。</p>
+<p>上面的命令在 MAC 中使用的时候会提示无权限使用 X11，将 <code>-e DISPLAY</code> 换成了 <code>-e DISPLAY=host.docker.internal:0</code> 就可以运行了。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker container run -it --rm \</span><br><span class="line"> -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line"> -e DISPLAY=host.docker.internal:0 \</span><br><span class="line"> -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line"> -v <span class="variable">$PWD</span>:/work \</span><br><span class="line"> -w /work \</span><br><span class="line"> ubuntu-vivado</span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>-i:</strong> 以交互模式运行容器，通常与 -t 同时使用；</li>
@@ -4531,7 +4531,7 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 <li><strong>--rm=false</strong> Automatically remove the container when it exits；</li>
 </ul>
 </blockquote>
-<p>这时就可以正常运行 vivado 了：</p>
+<p>这时，在终端里输入 <code>vivado</code>，就可以打开 vivado 了：</p>
 <figure>
 <img src="/2021/06/01/docker-vivado/vivado.png" alt="vivado"><figcaption aria-hidden="true">vivado</figcaption>
 </figure>
@@ -4539,7 +4539,7 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 <img src="/2021/06/01/docker-vivado/vivado2.png" alt="vivado2"><figcaption aria-hidden="true">vivado2</figcaption>
 </figure>
 <h1 id="reference">Reference</h1>
-<p>https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/</p>
+<p>[1] <a href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">Xilinx の開発ツールを Docker コンテナに閉じ込める</a></p>
 ]]></content>
       <categories>
         <category>Software</category>
@@ -5010,6 +5010,28 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
       </tags>
   </entry>
   <entry>
+    <title>程序员（假）的浪漫</title>
+    <url>/2020/08/25/love/</url>
+    <content><![CDATA[<p><img src="/2020/08/25/love/love.jpg" alt="love" style="zoom:40%;"></p>
+<a id="more"></a>
+<blockquote>
+<p>灵感来自：https://mp.weixin.qq.com/s/ZozqC8chJPQP84gcpju4mQ</p>
+</blockquote>
+<p>原作者用 MATLAB 和 Verilog 实现了心形图案，由于手上电脑没有装可以运行 MATLAB 或者 Verilog 的软件，因此我用 Python 写了一个，最重要的是这个公式：<code>$f(x) = x^&#123;2/3&#125;+e/3*(\pi-x^2)^&#123;1/2&#125;*sin(a*\pi*x)$</code>，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.animation <span class="keyword">as</span> animation</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">love_line</span>(<span class="params">x, a, w</span>):</span></span><br><span class="line">    y = np.power(np.<span class="built_in">abs</span>(x), <span class="number">2</span>/<span class="number">3</span>) + np.exp(<span class="number">1</span>)/<span class="number">3</span> * np.sqrt(np.pi - np.square(x)) * np.sin(a*np.pi*x)</span><br><span class="line">    <span class="keyword">return</span> w*y</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># draw multiple pictures</span></span><br><span class="line">    x = np.arange(-<span class="number">2</span>, <span class="number">2</span>, <span class="number">0.01</span>)</span><br><span class="line">    num_start = <span class="number">1</span></span><br><span class="line">    num_end = <span class="number">20</span></span><br><span class="line">    loop = np.arange(num_start,num_end,<span class="number">1</span>)</span><br><span class="line">    loop = np.hstack((loop,[num_end],loop[::-<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    ims = []</span><br><span class="line"></span><br><span class="line">    plt.title(<span class="string">r&quot;$f(x) = x^&#123;2/3&#125;+e/3*(\pi-x^2)^&#123;1/2&#125;*sin(a*\pi*x)$&quot;</span>)</span><br><span class="line">    plt.axis([-<span class="number">2</span>, <span class="number">2</span>, -<span class="number">1.5</span>, <span class="number">2.5</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> loop:</span><br><span class="line">        y = love_line(x, i, <span class="number">1.0</span>)</span><br><span class="line">        im = plt.plot(x, y, color=<span class="string">&quot;r&quot;</span>)</span><br><span class="line">        ims.append(im)</span><br><span class="line"></span><br><span class="line">    ani = animation.ArtistAnimation(fig, ims, interval=<span class="number">200</span>)</span><br><span class="line">    ani.save(<span class="string">&quot;love.gif&quot;</span>, writer=<span class="string">&#x27;pillow&#x27;</span>)</span><br><span class="line">    plt.close()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># draw single picture</span></span><br><span class="line">    x = np.arange(-<span class="number">2</span>, <span class="number">2</span>, <span class="number">0.01</span>)</span><br><span class="line">    y = love_line(x, <span class="number">10</span>, <span class="number">1.0</span>)</span><br><span class="line">    plt.clf</span><br><span class="line">    plt.plot(x, y, color=<span class="string">&quot;r&quot;</span>)</span><br><span class="line">    plt.axis([-<span class="number">2</span>, <span class="number">2</span>, -<span class="number">1.5</span>, <span class="number">2.5</span>])</span><br><span class="line">    plt.title(<span class="string">r&quot;$f(x) = x^&#123;2/3&#125;+e/3*(\pi-x^2)^&#123;1/2&#125;*sin(a*\pi*x),\ a = 10$&quot;</span>)</span><br><span class="line">    plt.savefig(<span class="string">&#x27;./love.jpg&#x27;</span>, dpi=<span class="number">300</span>)</span><br><span class="line">    plt.show()</span><br><span class="line">    plt.close()</span><br></pre></td></tr></table></figure>
+<p><strong>GIF版：</strong></p>
+<figure>
+<img src="/2020/08/25/love/love.gif" alt="love"><figcaption aria-hidden="true">love</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我的第一个博客</title>
     <url>/2018/01/13/my-first-blog/</url>
     <content><![CDATA[<p>期末考终于结束了，终于可以愉快地学习了，很久之前就想搭建一个博客，记录自己的学习过程，对比了几种方案，Hexo+GitHub最简单（最重要是免费），于是试了一下。</p>
@@ -5025,28 +5047,6 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
 <p><a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html">reuixiy</a></p>
 <p><a href="https://www.jianshu.com/p/30bf702f533c">Next主题个性化之自动更换背景图片</a></p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>程序员（假）的浪漫</title>
-    <url>/2020/08/25/love/</url>
-    <content><![CDATA[<p><img src="/2020/08/25/love/love.jpg" alt="love" style="zoom:40%;"></p>
-<a id="more"></a>
-<blockquote>
-<p>灵感来自：https://mp.weixin.qq.com/s/ZozqC8chJPQP84gcpju4mQ</p>
-</blockquote>
-<p>原作者用 MATLAB 和 Verilog 实现了心形图案，由于手上电脑没有装可以运行 MATLAB 或者 Verilog 的软件，因此我用 Python 写了一个，最重要的是这个公式：<code>$f(x) = x^&#123;2/3&#125;+e/3*(\pi-x^2)^&#123;1/2&#125;*sin(a*\pi*x)$</code>，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.animation <span class="keyword">as</span> animation</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">love_line</span>(<span class="params">x, a, w</span>):</span></span><br><span class="line">    y = np.power(np.<span class="built_in">abs</span>(x), <span class="number">2</span>/<span class="number">3</span>) + np.exp(<span class="number">1</span>)/<span class="number">3</span> * np.sqrt(np.pi - np.square(x)) * np.sin(a*np.pi*x)</span><br><span class="line">    <span class="keyword">return</span> w*y</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># draw multiple pictures</span></span><br><span class="line">    x = np.arange(-<span class="number">2</span>, <span class="number">2</span>, <span class="number">0.01</span>)</span><br><span class="line">    num_start = <span class="number">1</span></span><br><span class="line">    num_end = <span class="number">20</span></span><br><span class="line">    loop = np.arange(num_start,num_end,<span class="number">1</span>)</span><br><span class="line">    loop = np.hstack((loop,[num_end],loop[::-<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    ims = []</span><br><span class="line"></span><br><span class="line">    plt.title(<span class="string">r&quot;$f(x) = x^&#123;2/3&#125;+e/3*(\pi-x^2)^&#123;1/2&#125;*sin(a*\pi*x)$&quot;</span>)</span><br><span class="line">    plt.axis([-<span class="number">2</span>, <span class="number">2</span>, -<span class="number">1.5</span>, <span class="number">2.5</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> loop:</span><br><span class="line">        y = love_line(x, i, <span class="number">1.0</span>)</span><br><span class="line">        im = plt.plot(x, y, color=<span class="string">&quot;r&quot;</span>)</span><br><span class="line">        ims.append(im)</span><br><span class="line"></span><br><span class="line">    ani = animation.ArtistAnimation(fig, ims, interval=<span class="number">200</span>)</span><br><span class="line">    ani.save(<span class="string">&quot;love.gif&quot;</span>, writer=<span class="string">&#x27;pillow&#x27;</span>)</span><br><span class="line">    plt.close()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># draw single picture</span></span><br><span class="line">    x = np.arange(-<span class="number">2</span>, <span class="number">2</span>, <span class="number">0.01</span>)</span><br><span class="line">    y = love_line(x, <span class="number">10</span>, <span class="number">1.0</span>)</span><br><span class="line">    plt.clf</span><br><span class="line">    plt.plot(x, y, color=<span class="string">&quot;r&quot;</span>)</span><br><span class="line">    plt.axis([-<span class="number">2</span>, <span class="number">2</span>, -<span class="number">1.5</span>, <span class="number">2.5</span>])</span><br><span class="line">    plt.title(<span class="string">r&quot;$f(x) = x^&#123;2/3&#125;+e/3*(\pi-x^2)^&#123;1/2&#125;*sin(a*\pi*x),\ a = 10$&quot;</span>)</span><br><span class="line">    plt.savefig(<span class="string">&#x27;./love.jpg&#x27;</span>, dpi=<span class="number">300</span>)</span><br><span class="line">    plt.show()</span><br><span class="line">    plt.close()</span><br></pre></td></tr></table></figure>
-<p><strong>GIF版：</strong></p>
-<figure>
-<img src="/2020/08/25/love/love.gif" alt="love"><figcaption aria-hidden="true">love</figcaption>
-</figure>
 ]]></content>
       <categories>
         <category>随笔</category>
