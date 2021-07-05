@@ -101,9 +101,9 @@
         <category>Software</category>
       </categories>
       <tags>
+        <tag>IC_design</tag>
         <tag>Software</tag>
         <tag>Cadence</tag>
-        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -268,8 +268,8 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>CM</tag>
       </tags>
   </entry>
@@ -540,8 +540,8 @@ N = \frac{M}{GCD(X, M)}
         <category>Delta-Sigma</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
         <tag>DSM</tag>
       </tags>
@@ -682,8 +682,8 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
         <tag>UDP</tag>
       </tags>
@@ -838,8 +838,8 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -1865,8 +1865,8 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -1923,9 +1923,9 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>PA</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
         <tag>PA</tag>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -2110,8 +2110,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2284,8 +2284,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2455,8 +2455,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2506,8 +2506,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2576,76 +2576,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>FPGA</tag>
         <tag>RISC-V</tag>
         <tag>毕业设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TSPC</title>
-    <url>/2020/11/17/TSPC/</url>
-    <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
-<p><img src="/2020/11/17/TSPC/image-20201118103158126.png" alt="image-20201118103158126" style="zoom:50%;"></p>
-<a id="more"></a>
-<h1 id="tspc-基本结构">TSPC 基本结构</h1>
-<p>TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反相器，M4-M6 构成了第二级时钟控制反相器，M7-M9 构成了第二级时钟控制反相器。</p>
-<p>当时钟 CLK 由高变低后，第一级时钟控制反相器的输出 A 反相跟随数据输入 D，第二级时钟控制反相器的输出 B 被拉升至电源电平，由于 M9 和 M8 分别被 B 和 CLK 关闭，因此第三级时钟控制反相器的输出 C 维持前一时刻的电平，数据输出 Q 也维持前一时刻电平不变。</p>
-<p>当 CLK 由低变高后，D 维持不变，M3 关断，A 点电平不变。若 A 点为高，则 M5 导通，同时 M6、M4 由于 CLK 分别是关断和导通，因此 B 点被拉至地电平；若 A 点为低，M5 关断，M6、M4 由于 CLK 分别为导通和关断，因此 B 被拉至高电平，实现了对 A 的反相跟随。此时 M8 由于 CLK 导通，M7、M9 构成一个反相器，输出 Qn。经过三级反相后，Qn 与 D 反相。</p>
-<p>将 M1-M3 看作第一级，M4-M9 看作第二级，在 CLK 为低时，对第一级进行预充电时，第二级的输出保持不变。因此，当 CLK 为高电平时，第一级进行评估，而第二级检测，而当 CLK 为低电平时，第一级进行复位，而第二级进行存储[1]。</p>
-<p>由于 TSPC 完全以节点寄生电容来存储电平，因此<strong>不能工作在太低的频率下</strong>，在文献[1]中提到，如果时钟周期过长，则由于亚阈值导通以及源极和漏极结引起的晶体管泄漏会破坏存储状态。在高温下，此问题通常会变得更加严重，需要仔细模拟。根据经验，对于低于100 MHz的时钟速率，需要考虑这些影响。</p>
-<h1 id="四分频电路">四分频电路</h1>
-<p><img src="/2020/11/17/TSPC/image-20201118111946326.png" alt="image-20201118111946326" style="zoom:50%;"></p>
-<p>文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。</p>
-<p>尽管工作在很高的频率，但该电路任然使用的是常规的基带晶体管而非 RF 晶体管，从而减小了电路面积以及寄生电容，从而实现了更快，更高效的电路。NMOS 和 PMOS 晶体管的长宽比分别为 16.7 和 23.9。</p>
-<h2 id="仿真">仿真</h2>
-<p>TSPC 的电路图如下所示：</p>
-<p><img src="/2020/11/17/TSPC/tspc1.png" alt="tspc1" style="zoom:75%;"></p>
-<p>TestBench 如下所示：</p>
-<p><img src="/2020/11/17/TSPC/tspc3_tb.png" alt="tspc3_tb" style="zoom:75%;"></p>
-<p>输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：</p>
-<figure>
-<img src="/2020/11/17/TSPC/tspc3_wave.svg" alt="tspc3_wave"><figcaption aria-hidden="true">tspc3_wave</figcaption>
-</figure>
-<p>输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：</p>
-<figure>
-<img src="/2020/11/17/TSPC/tspc3_wave_50M.svg" alt="tspc3_wave_50M"><figcaption aria-hidden="true">tspc3_wave_50M</figcaption>
-</figure>
-<p>将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：</p>
-<figure>
-<img src="/2020/11/17/TSPC/tspc3_wave_50M_600m.svg" alt="tspc3_wave_50M_600m"><figcaption aria-hidden="true">tspc3_wave_50M_600m</figcaption>
-</figure>
-<h1 id="双模分频电路">2/3 双模分频电路</h1>
-<p><img src="/2020/11/17/TSPC/image-20201118113039866.png" alt="image-20201118113039866" style="zoom:35%;"></p>
-<p>文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。</p>
-<h2 id="分频电路原理">2/3 分频电路原理</h2>
-<p><img src="/2020/11/17/TSPC/divider23.png" alt="divider23" style="zoom:40%;"></p>
-<p>上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。</p>
-<h2 id="tspc-中嵌入逻辑功能">TSPC 中嵌入逻辑功能</h2>
-<p><img src="/2020/11/17/TSPC/TSPC_logic.drawio.svg" alt="TSPC_logic" style="zoom:60%;"></p>
-<p>可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。</p>
-<h1 id="测试">测试</h1>
-<ul>
-<li><p>Measured sensitivity curves as a function of the input frequency and the backgate voltages. VBN: NMOS, VBP: PMOS backgate voltage, respectively.</p>
-<p>测量各输入频率下所需要的最小输入电压</p></li>
-<li><p>Measured current consumption as a function of the input frequency and the backgate voltages.</p>
-<p>测量电流消耗与输入频率时间的关系</p></li>
-<li><p>Measured sensitivity of the self-resonance frequency on the operation points and the simulated transfer characteristic of the transistors for multiple backgate bias voltages. The trendlines were obtained for the whole dataset and their slope may vary once the dataset is narrowed for a variable.</p>
-<p>自谐振频率灵敏度</p></li>
-<li><p>Measured phase noise for multiple backgate bias voltages.</p>
-<p>相位噪声</p></li>
-<li><p>Measured output swing on a 50 Ω load as a function of input frequency and the backgate voltages.</p>
-<p>在50负载下测得的输出摆幅和输入频率的关系</p></li>
-</ul>
-<h1 id="参考文献">参考文献</h1>
-<p>[1] B. Razavi, "TSPC Logic [A Circuit for All Seasons]," in <em>IEEE Solid-State Circuits Magazine</em>, vol. 8, no. 4, pp. 10-13, Fall 2016, doi: 10.1109/MSSC.2016.2603228.</p>
-<p>[2] Z. Tibenszky, C. Carta and F. Ellinger, "A 0.35 mW 70 GHz Divide-by-4 TSPC Frequency Divider on 22 nm FD-SOI CMOS Technology," <em>2020 IEEE Radio Frequency Integrated Circuits Symposium (RFIC)</em>, Los Angeles, CA, USA, 2020, pp. 243-246, doi: 10.1109/RFIC49505.2020.9218362.</p>
-<p>[3] I. Lawang, A. Tudsorn and S. Tooprakai, "1V High Speed E-TSPC 2/3 Prescalers," <em>2019 5th International Conference on Engineering, Applied Sciences and Technology (ICEAST)</em>, Luang Prabang, Laos, 2019, pp. 1-4, doi: 10.1109/ICEAST.2019.8802598.</p>
-<p>[4] 尹江伟. 应用于OFDM UWB系统的高速分频器研究与设计[D].复旦大学,2009.</p>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
       </tags>
   </entry>
   <entry>
@@ -3386,8 +3316,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>GEEK</tag>
         <tag>FPGA</tag>
+        <tag>GEEK</tag>
         <tag>Vscode</tag>
       </tags>
   </entry>
@@ -3527,8 +3457,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>Software</category>
       </categories>
       <tags>
-        <tag>Software</tag>
         <tag>IC_design</tag>
+        <tag>Software</tag>
       </tags>
   </entry>
   <entry>
@@ -3688,8 +3618,67 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
+        <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- SPI</title>
+    <url>/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</url>
+    <content><![CDATA[<h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
+</figure>
+<a id="more"></a>
+<h1 id="重新生成-boot.bin">重新生成 BOOT.bin</h1>
+<p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
+<h1 id="修改-device-tree">修改 device-tree</h1>
+<ol type="1">
+<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p></li>
+<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
+<p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
+<p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
+<p>修改 <em>top.dts</em> 中的 <code>aliases</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">trueethernet0 = &amp;gem0;</span><br><span class="line">truei2c0 = &amp;i2c0;</span><br><span class="line">trueserial0 = &amp;uart0;</span><br><span class="line">truespi0 = &amp;qspi;</span><br><span class="line">truespi1 = &amp;spi0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>添加了 <code>spi1 = &amp;spi0;</code></p></li>
+<li><p>重新编译设备树：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
+<h1 id="配置内核">配置内核</h1></li>
+</ol>
+<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_CADENCE.png" alt="SPI_CADENCE"><figcaption aria-hidden="true">SPI_CADENCE</figcaption>
+</figure>
+<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/CONFIG_SPI_XILINX.png" alt="CONFIG_SPI_XILINX"><figcaption aria-hidden="true">CONFIG_SPI_XILINX</figcaption>
+</figure>
+<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/USER_MODE_SPI.png" alt="USER_MODE_SPI"><figcaption aria-hidden="true">USER_MODE_SPI</figcaption>
+</figure>
+<p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em></p>
+<p>最后重新编译内核：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
+<p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
+<h1 id="用户程序测试">用户程序测试</h1>
+<p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
+<p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
+<figure>
+<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_WAVE.png" alt="SPI-WAVE"><figcaption aria-hidden="true">SPI-WAVE</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3818,67 +3807,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- SPI</title>
-    <url>/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</url>
-    <content><![CDATA[<h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_enable-1588644338828.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
-</figure>
-<a id="more"></a>
-<h1 id="重新生成-boot.bin">重新生成 BOOT.bin</h1>
-<p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
-<h1 id="修改-device-tree">修改 device-tree</h1>
-<ol type="1">
-<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p></li>
-<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
-<p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
-<p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
-<p>修改 <em>top.dts</em> 中的 <code>aliases</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">trueethernet0 = &amp;gem0;</span><br><span class="line">truei2c0 = &amp;i2c0;</span><br><span class="line">trueserial0 = &amp;uart0;</span><br><span class="line">truespi0 = &amp;qspi;</span><br><span class="line">truespi1 = &amp;spi0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>添加了 <code>spi1 = &amp;spi0;</code></p></li>
-<li><p>重新编译设备树：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
-<h1 id="配置内核">配置内核</h1></li>
-</ol>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_CADENCE.png" alt="SPI_CADENCE"><figcaption aria-hidden="true">SPI_CADENCE</figcaption>
-</figure>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/CONFIG_SPI_XILINX.png" alt="CONFIG_SPI_XILINX"><figcaption aria-hidden="true">CONFIG_SPI_XILINX</figcaption>
-</figure>
-<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/USER_MODE_SPI.png" alt="USER_MODE_SPI"><figcaption aria-hidden="true">USER_MODE_SPI</figcaption>
-</figure>
-<p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em></p>
-<p>最后重新编译内核：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
-<p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
-<h1 id="用户程序测试">用户程序测试</h1>
-<p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
-<p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
-<figure>
-<img src="/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/SPI_WAVE.png" alt="SPI-WAVE"><figcaption aria-hidden="true">SPI-WAVE</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
         <tag>Linux</tag>
-        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3934,8 +3864,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3949,8 +3879,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4145,8 +4075,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4440,8 +4370,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -4760,8 +4690,8 @@ W = 128um
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>gmid</tag>
       </tags>
   </entry>
@@ -5004,8 +4934,8 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5188,9 +5118,9 @@ S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
         <category>PA</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
         <tag>PA</tag>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -5467,8 +5397,8 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5564,8 +5494,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5826,6 +5756,14 @@ f=\frac{1}{2\pi\sqrt{LC}}
 <p>修改客户端，找到当前用户的 <code>.ssh</code> 目录，如 <code>~/.ssh/</code> ，修改该目录下的 <code>config</code> 文件，加入：</p>
 <figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ServerAliveInterval</span> <span class="number">60</span></span><br></pre></td></tr></table></figure>
 <p>保存退出，重新开启当前用户的 shell ，则再 ssh 远程服务器的时候，不会因为长时间操作断开。应该是加入这句之后，ssh 客户端会每隔一段时间自动与 ssh 服务器通信一次，所以长时间操作不会断开。</p>
+<h1 id="ssh-登录后显示-system-load-信息">ssh 登录后显示 system load 信息</h1>
+<blockquote>
+<p>https://www.cnblogs.com/yangxiaochu/p/9098960.html</p>
+</blockquote>
+<p>ssh 登录后显示类似下方的信息：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">Welcome to Ubuntu <span class="number">20.04</span><span class="number">.2</span> LTS (GNU/Linux <span class="number">5.8</span><span class="number">.0</span><span class="number">-59</span>-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * <span class="attr">Documentation:</span>  <span class="attr">https:</span><span class="comment">//help.ubuntu.com</span></span><br><span class="line"> * <span class="attr">Management:</span>     <span class="attr">https:</span><span class="comment">//landscape.canonical.com</span></span><br><span class="line"> * <span class="attr">Support:</span>        <span class="attr">https:</span><span class="comment">//ubuntu.com/advantage</span></span><br><span class="line"></span><br><span class="line">  System information <span class="keyword">as</span> of Mon <span class="number">05</span> Jul <span class="number">2021</span> <span class="number">05</span>:<span class="number">28</span>:<span class="number">58</span> PM CST</span><br><span class="line"></span><br><span class="line">  System <span class="attr">load:</span>  <span class="number">1.12</span>               Users logged <span class="attr">in:</span>             <span class="number">1</span></span><br><span class="line">  Usage of /:   <span class="number">2.8</span>% of <span class="number">467.96</span>GB   IPv4 address <span class="keyword">for</span> <span class="attr">docker0:</span>    <span class="number">172.17</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">  Memory <span class="attr">usage:</span> <span class="number">26</span>%                IPv4 address <span class="keyword">for</span> <span class="attr">eno2:</span>       <span class="number">192.168</span><span class="number">.2</span><span class="number">.11</span></span><br><span class="line">  Swap <span class="attr">usage:</span>   <span class="number">0</span>%                 IPv4 address <span class="keyword">for</span> <span class="attr">vmnet1:</span>     <span class="number">192.168</span><span class="number">.69</span><span class="number">.1</span></span><br><span class="line">  <span class="symbol">Temperature:</span>  <span class="number">55.0</span> C             IPv4 address <span class="keyword">for</span> <span class="attr">vmnet8:</span>     <span class="number">172.16</span><span class="number">.19</span><span class="number">.1</span></span><br><span class="line">  <span class="symbol">Processes:</span>    <span class="number">391</span>                IPv4 address <span class="keyword">for</span> <span class="attr">ztuga25q2a:</span> <span class="number">192.168</span><span class="number">.196</span><span class="number">.236</span></span><br><span class="line"></span><br><span class="line"><span class="number">32</span> updates can be applied immediately.</span><br><span class="line">To see these additional updates <span class="attr">run:</span> apt list --upgradable</span><br><span class="line"></span><br><span class="line">Your Hardware Enablement Stack (HWE) is supported until April <span class="number">2025.</span></span><br><span class="line">No mail.</span><br><span class="line">Last <span class="attr">login:</span> Mon Jul  <span class="number">5</span> <span class="number">17</span>:<span class="number">24</span>:<span class="number">54</span> <span class="number">2021</span> from <span class="number">192.168</span><span class="number">.2</span><span class="number">.101</span></span><br></pre></td></tr></table></figure>
+<p>只需要安装 <code>landscape-common</code> 然后重新登录就可以了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install landscape-common</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -6470,6 +6408,76 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TSPC</title>
+    <url>/2020/11/17/TSPC/</url>
+    <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
+<p><img src="/2020/11/17/TSPC/image-20201118103158126.png" alt="image-20201118103158126" style="zoom:50%;"></p>
+<a id="more"></a>
+<h1 id="tspc-基本结构">TSPC 基本结构</h1>
+<p>TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反相器，M4-M6 构成了第二级时钟控制反相器，M7-M9 构成了第二级时钟控制反相器。</p>
+<p>当时钟 CLK 由高变低后，第一级时钟控制反相器的输出 A 反相跟随数据输入 D，第二级时钟控制反相器的输出 B 被拉升至电源电平，由于 M9 和 M8 分别被 B 和 CLK 关闭，因此第三级时钟控制反相器的输出 C 维持前一时刻的电平，数据输出 Q 也维持前一时刻电平不变。</p>
+<p>当 CLK 由低变高后，D 维持不变，M3 关断，A 点电平不变。若 A 点为高，则 M5 导通，同时 M6、M4 由于 CLK 分别是关断和导通，因此 B 点被拉至地电平；若 A 点为低，M5 关断，M6、M4 由于 CLK 分别为导通和关断，因此 B 被拉至高电平，实现了对 A 的反相跟随。此时 M8 由于 CLK 导通，M7、M9 构成一个反相器，输出 Qn。经过三级反相后，Qn 与 D 反相。</p>
+<p>将 M1-M3 看作第一级，M4-M9 看作第二级，在 CLK 为低时，对第一级进行预充电时，第二级的输出保持不变。因此，当 CLK 为高电平时，第一级进行评估，而第二级检测，而当 CLK 为低电平时，第一级进行复位，而第二级进行存储[1]。</p>
+<p>由于 TSPC 完全以节点寄生电容来存储电平，因此<strong>不能工作在太低的频率下</strong>，在文献[1]中提到，如果时钟周期过长，则由于亚阈值导通以及源极和漏极结引起的晶体管泄漏会破坏存储状态。在高温下，此问题通常会变得更加严重，需要仔细模拟。根据经验，对于低于100 MHz的时钟速率，需要考虑这些影响。</p>
+<h1 id="四分频电路">四分频电路</h1>
+<p><img src="/2020/11/17/TSPC/image-20201118111946326.png" alt="image-20201118111946326" style="zoom:50%;"></p>
+<p>文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。</p>
+<p>尽管工作在很高的频率，但该电路任然使用的是常规的基带晶体管而非 RF 晶体管，从而减小了电路面积以及寄生电容，从而实现了更快，更高效的电路。NMOS 和 PMOS 晶体管的长宽比分别为 16.7 和 23.9。</p>
+<h2 id="仿真">仿真</h2>
+<p>TSPC 的电路图如下所示：</p>
+<p><img src="/2020/11/17/TSPC/tspc1.png" alt="tspc1" style="zoom:75%;"></p>
+<p>TestBench 如下所示：</p>
+<p><img src="/2020/11/17/TSPC/tspc3_tb.png" alt="tspc3_tb" style="zoom:75%;"></p>
+<p>输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：</p>
+<figure>
+<img src="/2020/11/17/TSPC/tspc3_wave.svg" alt="tspc3_wave"><figcaption aria-hidden="true">tspc3_wave</figcaption>
+</figure>
+<p>输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：</p>
+<figure>
+<img src="/2020/11/17/TSPC/tspc3_wave_50M.svg" alt="tspc3_wave_50M"><figcaption aria-hidden="true">tspc3_wave_50M</figcaption>
+</figure>
+<p>将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：</p>
+<figure>
+<img src="/2020/11/17/TSPC/tspc3_wave_50M_600m.svg" alt="tspc3_wave_50M_600m"><figcaption aria-hidden="true">tspc3_wave_50M_600m</figcaption>
+</figure>
+<h1 id="双模分频电路">2/3 双模分频电路</h1>
+<p><img src="/2020/11/17/TSPC/image-20201118113039866.png" alt="image-20201118113039866" style="zoom:35%;"></p>
+<p>文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。</p>
+<h2 id="分频电路原理">2/3 分频电路原理</h2>
+<p><img src="/2020/11/17/TSPC/divider23.png" alt="divider23" style="zoom:40%;"></p>
+<p>上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。</p>
+<h2 id="tspc-中嵌入逻辑功能">TSPC 中嵌入逻辑功能</h2>
+<p><img src="/2020/11/17/TSPC/TSPC_logic.drawio.svg" alt="TSPC_logic" style="zoom:60%;"></p>
+<p>可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。</p>
+<h1 id="测试">测试</h1>
+<ul>
+<li><p>Measured sensitivity curves as a function of the input frequency and the backgate voltages. VBN: NMOS, VBP: PMOS backgate voltage, respectively.</p>
+<p>测量各输入频率下所需要的最小输入电压</p></li>
+<li><p>Measured current consumption as a function of the input frequency and the backgate voltages.</p>
+<p>测量电流消耗与输入频率时间的关系</p></li>
+<li><p>Measured sensitivity of the self-resonance frequency on the operation points and the simulated transfer characteristic of the transistors for multiple backgate bias voltages. The trendlines were obtained for the whole dataset and their slope may vary once the dataset is narrowed for a variable.</p>
+<p>自谐振频率灵敏度</p></li>
+<li><p>Measured phase noise for multiple backgate bias voltages.</p>
+<p>相位噪声</p></li>
+<li><p>Measured output swing on a 50 Ω load as a function of input frequency and the backgate voltages.</p>
+<p>在50负载下测得的输出摆幅和输入频率的关系</p></li>
+</ul>
+<h1 id="参考文献">参考文献</h1>
+<p>[1] B. Razavi, "TSPC Logic [A Circuit for All Seasons]," in <em>IEEE Solid-State Circuits Magazine</em>, vol. 8, no. 4, pp. 10-13, Fall 2016, doi: 10.1109/MSSC.2016.2603228.</p>
+<p>[2] Z. Tibenszky, C. Carta and F. Ellinger, "A 0.35 mW 70 GHz Divide-by-4 TSPC Frequency Divider on 22 nm FD-SOI CMOS Technology," <em>2020 IEEE Radio Frequency Integrated Circuits Symposium (RFIC)</em>, Los Angeles, CA, USA, 2020, pp. 243-246, doi: 10.1109/RFIC49505.2020.9218362.</p>
+<p>[3] I. Lawang, A. Tudsorn and S. Tooprakai, "1V High Speed E-TSPC 2/3 Prescalers," <em>2019 5th International Conference on Engineering, Applied Sciences and Technology (ICEAST)</em>, Luang Prabang, Laos, 2019, pp. 1-4, doi: 10.1109/ICEAST.2019.8802598.</p>
+<p>[4] 尹江伟. 应用于OFDM UWB系统的高速分频器研究与设计[D].复旦大学,2009.</p>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
+        <tag>PLL</tag>
       </tags>
   </entry>
 </search>
