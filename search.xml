@@ -5056,6 +5056,68 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
       </tags>
   </entry>
   <entry>
+    <title>Nginx 反向代理</title>
+    <url>/2021/07/24/nginx/</url>
+    <content><![CDATA[<h1 id="nginx-配置文件位置">Nginx 配置文件位置</h1>
+<p>Nginx 的配置文件默认在 <code>/etc/nginx/nginx.conf</code>，打开这个文件，可以看到：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="comment"># Virtual Host Configs</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/conf.d/<span class="regexp">*.conf</span>;</span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/sites-enabled/*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这表明默认情况下 nginx 会自动包含 <code>/etc/nginx/conf.d/*.conf</code> 和 <code>/etc/nginx/sites-enabled/*</code>。</p>
+<p>默认情况下，在 <code>/etc/nginx/sites-enabled</code> 下有一个默认站点，这个站点也就是 nginx 安装之后的默认站点：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /etc/nginx/sites-enabled</span><br><span class="line">$ ls -l</span><br><span class="line">total 0</span><br><span class="line">lrwxrwxrwx 1 root root 34 Oct  6 02:19 default -&gt; /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure>
+<p>打开 <code>/etc/nginx/sites-available/default</code> 可以看到如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80 default_server;</span><br><span class="line">        listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">        root /var/www/html;</span><br><span class="line">        index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">        server_name _;</span><br><span class="line">        location / &#123;</span><br><span class="line">                try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ =404;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>按照这个文档的建议：</p>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">In most cases, administrators will remove this <span class="built_in">file</span> <span class="keyword">from</span> sites-enabled/ <span class="keyword">and</span> leave <span class="keyword">it</span> <span class="keyword">as</span> <span class="keyword">reference</span> inside <span class="keyword">of</span> sites-available <span class="keyword">where</span> <span class="keyword">it</span> will <span class="keyword">continue</span> <span class="keyword">to</span> be updated <span class="keyword">by</span> <span class="keyword">the</span> nginx packaging team.</span><br></pre></td></tr></table></figure>
+<p>最好是在 <code>/etc/nginx/sites-available/</code> 下建立站点的配置文件，这些站点就是所谓的"可用站点"。然后在 link 到 <code>/etc/nginx/sites-enabled</code> 下开启站点，这些开启的站点就是所谓"启用站点"。</p>
+<p>通过建立链接来控制可用站点的启用。</p>
+<h1 id="虚拟主机">虚拟主机</h1>
+<h1 id="反向代理">反向代理</h1>
+<p>在实际使用中，由于web服务器启动于不同进程，因此需要指定不同的端口，也就意味着必然有web应用要使用80之外的端口，这样在地址栏中就必须出现端口号，非常影响用户体验。</p>
+<p>比较好的方式，通过使用不同的域名或者二级域名，然后通过nginx反向代理的方式转发请求给到实际负责处理的服务器。</p>
+<h2 id="创建虚拟主机-frp.zhouyuqian.com">创建虚拟主机 frp.zhouyuqian.com</h2>
+<p>目标：<a href="http://frp.zhouyuqian.com/">http://frp.zhouyuqian.com</a> 应该指向当前机器上运行于 7500 端口的 frps 服务。</p>
+<p>在 <code>/etc/nginx/sites-available/</code> 下新建 <code>frp.zhouyuqian.com</code> 文件，内容如下：</p>
+<blockquote>
+<p>http</p>
+</blockquote>
+<figure class="highlight tcl"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen <span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">    server_name frp.zhouyuqian.com;</span><br><span class="line"></span><br><span class="line">    location /</span><br><span class="line">    &#123;</span><br><span class="line">        proxy_pass <span class="keyword">http</span>://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">7500</span><span class="comment">; # 转发规则</span></span><br><span class="line">        proxy_set_header Host $proxy_host; # 修改转发请求头，让<span class="number">8080</span>端口的应用可以受到真实的请求</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_pass_header Server;</span><br><span class="line">        proxy_connect_timeout <span class="number">3</span>s;</span><br><span class="line">        proxy_read_timeout <span class="number">10</span>s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>https</p>
+</blockquote>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server_name</span> frp.zhouyuqian.com;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/nginx/cert/1_frp.zhouyuqian.com_bundle.crt;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/nginx/cert/2_frp.zhouyuqian.com.key;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="comment"># ssl_dhparam /etc/ssl/certs/dhparam.pem;</span></span><br><span class="line">    <span class="attribute">ssl_ciphers</span> <span class="string">&#x27;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA&#x27;</span>;</span><br><span class="line">    <span class="attribute">ssl_session_timeout</span> <span class="number">1d</span>;</span><br><span class="line">    <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">50m</span>;</span><br><span class="line">    <span class="attribute">ssl_stapling</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_stapling_verify</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">add_header</span> Strict-Transport-Security max-age=<span class="number">15768000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:7500/; <span class="comment"># 转发规则</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host $proxy_host; <span class="comment"># 修改转发请求头，让8080端口的应用可以受到真实的请求</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP $remote_addr;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        <span class="attribute">proxy_pass_header</span> Server;</span><br><span class="line">        <span class="attribute">proxy_connect_timeout</span> <span class="number">3s</span>;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">10s</span>;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> *:<span class="number">80</span>;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> frp.zhouyuqian.com;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://frp.zhouyuqian.com$request_uri;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将 <code>frp.zhouyuqian.com</code> 站点文件链接到 <code>/etc/nginx/sites-enabled/</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ln -s /etc/nginx/sites-available/frp.zhouyuqian.com /etc/nginx/sites-enabled/frp.zhouyuqian.com</span><br></pre></td></tr></table></figure>
+<p>修改完成之后，使用命令检测配置修改结果并重新装载配置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h2 id="加-与不加">加 <code>/</code> 与不加 <code>/</code></h2>
+<p>在配置proxy_pass代理转发时，如果后面的url加 <code>/</code>，表示绝对根路径；如果没有 <code>/</code>，表示相对路径</p>
+<p>例如</p>
+<ol type="1">
+<li>加 <code>/</code></li>
+</ol>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">server_name shaochenfeng.com</span><br><span class="line">location /data/ &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问 <a href="https://link.zhihu.com/?target=http%3A//shaochenfeng.com/data/index.html">http://shaochenfeng.com/data/index.html</a> 会转发到 http://127.0.0.1/index.html</p>
+<ol start="2" type="1">
+<li>不加 <code>/</code></li>
+</ol>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">server_name shaochenfeng.com</span><br><span class="line">location /data/ &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问 <a href="https://link.zhihu.com/?target=http%3A//shaochenfeng.com/data/index.html">http://shaochenfeng.com/data/index.html</a> 会转发到 <a href="https://link.zhihu.com/?target=http%3A//127.0.0.1/data/index.html">http://127.0.0.1/data/index.html</a></p>
+</blockquote>
+<h1 id="reference">Reference</h1>
+<p>[1] https://skyao.gitbooks.io/learning-nginx/content/configure/reverse/action_no_port.html</p>
+<p>[2] https://www.bioinfo-scrounger.com/archives/Nginx_configure/</p>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>hexo</tag>
+        <tag>美化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FPGA 实现任意奇数分频</title>
     <url>/2020/10/06/odd-divider/</url>
     <content><![CDATA[<p>在做 FPGA 设计时，需要不同频率的时钟，通常会使用 Xilinx 提供 MMCM/PLL 时钟 IP 分频或者倍频得到。偶数分频很简单，只需要用一个以 分频数/2 为最大值的计数器控制输出时钟翻转即可。但奇数分频不能用这种方法来实现，以 3 分频为例，其每个周期的高电平时间占原始时钟的 1.5 个周期，计数器无法计数 0.5 个时钟周期。</p>
