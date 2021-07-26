@@ -30,11 +30,11 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="docker_vivado  最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇文章，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。从此，vivado 成为了全平台软件，macOS 终于站起来了。🤪">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2021/06/01/docker-vivado/docker_vivado.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/06/01/docker-vivado/xquartz.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/06/01/docker-vivado/X11.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/06/01/docker-vivado/vivado.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/06/01/docker-vivado/vivado2.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231059.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231129.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231144.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231202.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231221.png">
 <meta property="article:published_time" content="2021-06-01T05:32:28.000Z">
 <meta property="article:modified_time" content="2021-06-01T05:32:28.000Z">
 <meta property="article:author" content="Fitz">
@@ -42,7 +42,7 @@
 <meta property="article:tag" content="vivado">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2021/06/01/docker-vivado/docker_vivado.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210726231059.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2021/06/01/docker-vivado/">
 
@@ -292,7 +292,7 @@
 
       
         <figure>
-<img src="/2021/06/01/docker-vivado/docker_vivado.png" alt="docker_vivado"><figcaption aria-hidden="true">docker_vivado</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726231059.png" alt="docker_vivado"><figcaption aria-hidden="true">docker_vivado</figcaption>
 </figure>
 <p>最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇<a target="_blank" rel="noopener" href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">文章</a>，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。<del>从此，vivado 成为了全平台软件，macOS 终于站起来了。</del>🤪</p>
 <a id="more"></a>
@@ -352,13 +352,13 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install --cask xquartz</span><br></pre></td></tr></table></figure>
 <p>安装完需要重启电脑，并且在 XQuartz 的设置里勾选上 <em>安全性--允许从网络连接</em></p>
 <figure>
-<img src="/2021/06/01/docker-vivado/xquartz.png" alt="xquartz"><figcaption aria-hidden="true">xquartz</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726231129.png" alt="xquartz"><figcaption aria-hidden="true">xquartz</figcaption>
 </figure>
 </blockquote>
 <p>首先，允许工作用户使用以下命令在本地请求 X11：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ xhost +si:localuser:$(whoami)</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">$ xhost +</span><br></pre></td></tr></table></figure>
 <figure>
-<img src="/2021/06/01/docker-vivado/X11.png" alt="X11"><figcaption aria-hidden="true">X11</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726231144.png" alt="X11"><figcaption aria-hidden="true">X11</figcaption>
 </figure>
 <p>接下来，使用以下选项启动 Docker 容器：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker container run -it --rm \</span><br><span class="line">    -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line">    -e DISPLAY \</span><br><span class="line">    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line">    -v &lt;localhost/vivado/workspace&gt;:/work \</span><br><span class="line">    -w /work \</span><br><span class="line">    ubuntu-vivado</span><br></pre></td></tr></table></figure>
@@ -376,10 +376,10 @@
 </blockquote>
 <p>这时，在终端里输入 <code>vivado</code>，就可以打开 vivado 了：</p>
 <figure>
-<img src="/2021/06/01/docker-vivado/vivado.png" alt="vivado"><figcaption aria-hidden="true">vivado</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726231202.png" alt="vivado"><figcaption aria-hidden="true">vivado</figcaption>
 </figure>
 <figure>
-<img src="/2021/06/01/docker-vivado/vivado2.png" alt="vivado2"><figcaption aria-hidden="true">vivado2</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726231221.png" alt="vivado2"><figcaption aria-hidden="true">vivado2</figcaption>
 </figure>
 <h1 id="reference">Reference</h1>
 <p>[1] <a target="_blank" rel="noopener" href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">Xilinx の開発ツールを Docker コンテナに閉じ込める</a></p>
