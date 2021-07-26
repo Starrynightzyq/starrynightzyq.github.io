@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="Chisel 3">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/24/chisel-start/chisel_logo.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726235317.svg">
 <meta property="og:image" content="https://zhouyuqian.com/2021/05/24/chisel-start/q.png">
 <meta property="og:image" content="https://zhouyuqian.com/2021/05/24/chisel-start/Queues.png">
 <meta property="article:published_time" content="2021-05-24T11:29:18.000Z">
@@ -39,7 +39,7 @@
 <meta property="article:tag" content="FPGA">
 <meta property="article:tag" content="chisel">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2021/05/24/chisel-start/chisel_logo.svg">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210726235317.svg">
 
 <link rel="canonical" href="https://zhouyuqian.com/2021/05/24/chisel-start/">
 
@@ -289,7 +289,7 @@
 
       
         <figure>
-<img src="/2021/05/24/chisel-start/chisel_logo.svg" alt="Chisel 3"><figcaption aria-hidden="true">Chisel 3</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726235317.svg" alt="Chisel 3"><figcaption aria-hidden="true">Chisel 3</figcaption>
 </figure>
 <a id="more"></a>
 <h1 id="什么是-chisel">什么是 chisel</h1>
@@ -355,7 +355,7 @@
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArbiter</span>(<span class="params"><span class="type">InNum</span>: <span class="type">Int</span>, width: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Example circuit using a priority arbiter</span></span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">      <span class="keyword">val</span> in = <span class="type">Flipped</span>(<span class="type">Vec</span>(<span class="type">InNum</span>, <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))))</span><br><span class="line">      <span class="keyword">val</span> out = <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// Arbiter doesn&#x27;t have a convenience constructor, so it&#x27;s built like any Module</span></span><br><span class="line">    <span class="keyword">val</span> arbiter = <span class="type">Module</span>(<span class="keyword">new</span> <span class="type">Arbiter</span>(<span class="type">UInt</span>(width.<span class="type">W</span>), <span class="type">InNum</span>))  <span class="comment">// 2 to 1 Priority Arbiter</span></span><br><span class="line">    arbiter.io.in &lt;&gt; io.in</span><br><span class="line">    io.out &lt;&gt; arbiter.io.out</span><br><span class="line">&#125;</span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">MyArbiter</span>(<span class="number">2</span>, <span class="number">32</span>)))</span><br></pre></td></tr></table></figure>
 <h2 id="popcount">PopCount</h2>
 <p>PopCount returns the number of high (1) bits in the input as a <code>UInt</code>.</p>
-<p>计算 <code>1</code> 的个数。</p>
+<p>计算 <code>1</code> 的个数。</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">io.out := <span class="type">PopCount</span>(io.in)</span><br></pre></td></tr></table></figure>
 <h2 id="reverse">Reverse</h2>
 <p>Reverse returns the bit-reversed input.</p>

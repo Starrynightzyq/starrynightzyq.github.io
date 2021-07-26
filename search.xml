@@ -101,9 +101,9 @@
         <category>Software</category>
       </categories>
       <tags>
+        <tag>IC_design</tag>
         <tag>Software</tag>
         <tag>Cadence</tag>
-        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -268,8 +268,8 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>CM</tag>
       </tags>
   </entry>
@@ -540,8 +540,8 @@ N = \frac{M}{GCD(X, M)}
         <category>Delta-Sigma</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
         <tag>DSM</tag>
       </tags>
@@ -595,54 +595,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <tag>FPGA</tag>
         <tag>DSP</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>HDB3&amp;BPSK</title>
-    <url>/2018/12/24/HDB3-BPSK/</url>
-    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
-<h2 id="需要的资源">需要的资源</h2>
-<ul>
-<li>ADC；</li>
-<li>DDS；</li>
-<li>DAC；</li>
-</ul>
-<h2 id="实现">实现</h2>
-<p>根据上述要求，选择EGo1板卡。</p>
-<ul>
-<li><p>ADC可使用Artix7芯片自带的XADC；</p>
-<blockquote>
-<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
-<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
-<p>https://zhuanlan.zhihu.com/p/44495333</p>
-</blockquote>
-<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
-<li><p>DDS可使用xilinx的DDS IP核；</p>
-<blockquote>
-<p>https://zhuanlan.zhihu.com/p/36929424</p>
-</blockquote></li>
-<li><p>DAC可使用板卡上的DAC0832芯片；</p>
-<blockquote>
-<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
-</blockquote></li>
-</ul>
-<h1 id="hdb3-编码">HDB3 编码</h1>
-<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
-]]></content>
-      <categories>
-        <category>课设</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>HDB3</tag>
-        <tag>BPSK</tag>
-        <tag>通信原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux-Learning</title>
-    <url>/2019/02/12/Linux-Learning/</url>
-    <content><![CDATA[<p>磁盘分区工具：gparted</p>
-]]></content>
   </entry>
   <entry>
     <title>以太网视频传输</title>
@@ -730,10 +682,52 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
         <tag>UDP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HDB3&amp;BPSK</title>
+    <url>/2018/12/24/HDB3-BPSK/</url>
+    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
+<h2 id="需要的资源">需要的资源</h2>
+<ul>
+<li>ADC；</li>
+<li>DDS；</li>
+<li>DAC；</li>
+</ul>
+<h2 id="实现">实现</h2>
+<p>根据上述要求，选择EGo1板卡。</p>
+<ul>
+<li><p>ADC可使用Artix7芯片自带的XADC；</p>
+<blockquote>
+<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
+<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
+<p>https://zhuanlan.zhihu.com/p/44495333</p>
+</blockquote>
+<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
+<li><p>DDS可使用xilinx的DDS IP核；</p>
+<blockquote>
+<p>https://zhuanlan.zhihu.com/p/36929424</p>
+</blockquote></li>
+<li><p>DAC可使用板卡上的DAC0832芯片；</p>
+<blockquote>
+<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
+</blockquote></li>
+</ul>
+<h1 id="hdb3-编码">HDB3 编码</h1>
+<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
+]]></content>
+      <categories>
+        <category>课设</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>HDB3</tag>
+        <tag>BPSK</tag>
+        <tag>通信原理</tag>
       </tags>
   </entry>
   <entry>
@@ -844,9 +838,96 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux-Learning</title>
+    <url>/2019/02/12/Linux-Learning/</url>
+    <content><![CDATA[<p>磁盘分区工具：gparted</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux Samba Server</title>
+    <url>/2020/03/15/Linux-Samba-Server/</url>
+    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
+<blockquote>
+<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
+</blockquote>
+<h1 id="安装-samba">安装 Samba</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
+<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
+<p>结果类似这样：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
+<ol type="1">
+<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
+<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 普通用户：</p>
+<p>首先创建一个名为 <code>josh</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
+<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
+<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
+<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
+</ul>
+</blockquote>
+<p>创建该用户的 <code>home</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>chmod</code> 命令说明：</p>
+<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
+</blockquote>
+<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
+<p>在 Samba 中启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 管理员用户：</p>
+<p>过程与创建普通用户类似。</p>
+<p>首先创建名为 <code>sadmin</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
+<p>设置密码并启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
+<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
+<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
+</ol>
+<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
+<li><code>path</code> - The path to the share.</li>
+<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
+<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
+<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
+<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
+<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
+</ul>
+</blockquote>
+<p>最后重启 Samba 服务：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -1784,8 +1865,8 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -1842,9 +1923,9 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>PA</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
         <tag>PA</tag>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -2029,8 +2110,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2203,8 +2284,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2374,8 +2455,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2425,8 +2506,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2498,87 +2579,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>Linux Samba Server</title>
-    <url>/2020/03/15/Linux-Samba-Server/</url>
-    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
-<blockquote>
-<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
-</blockquote>
-<h1 id="安装-samba">安装 Samba</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
-<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
-<p>结果类似这样：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
-<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
-<ol type="1">
-<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
-<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 普通用户：</p>
-<p>首先创建一个名为 <code>josh</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
-<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
-<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
-<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
-</ul>
-</blockquote>
-<p>创建该用户的 <code>home</code> 目录：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>chmod</code> 命令说明：</p>
-<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
-</blockquote>
-<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
-<p>在 Samba 中启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 管理员用户：</p>
-<p>过程与创建普通用户类似。</p>
-<p>首先创建名为 <code>sadmin</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
-<p>设置密码并启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
-<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
-<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
-</ol>
-<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
-<li><code>path</code> - The path to the share.</li>
-<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
-<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
-<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
-<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
-<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
-</ul>
-</blockquote>
-<p>最后重启 Samba 服务：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TSPC</title>
     <url>/2020/11/17/TSPC/</url>
     <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
@@ -2643,8 +2643,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -3386,8 +3386,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>GEEK</tag>
         <tag>FPGA</tag>
+        <tag>GEEK</tag>
         <tag>Vscode</tag>
       </tags>
   </entry>
@@ -3527,8 +3527,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>Software</category>
       </categories>
       <tags>
-        <tag>Software</tag>
         <tag>IC_design</tag>
+        <tag>Software</tag>
       </tags>
   </entry>
   <entry>
@@ -3688,8 +3688,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3818,8 +3818,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3877,8 +3877,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3934,8 +3934,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3949,8 +3949,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4145,8 +4145,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FPGA</tag>
+        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4154,7 +4154,7 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
     <title>chisel 学习（1）</title>
     <url>/2021/05/24/chisel-start/</url>
     <content><![CDATA[<figure>
-<img src="/2021/05/24/chisel-start/chisel_logo.svg" alt="Chisel 3"><figcaption aria-hidden="true">Chisel 3</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726235317.svg" alt="Chisel 3"><figcaption aria-hidden="true">Chisel 3</figcaption>
 </figure>
 <a id="more"></a>
 <h1 id="什么是-chisel">什么是 chisel</h1>
@@ -4220,7 +4220,7 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 <figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyArbiter</span>(<span class="params"><span class="type">InNum</span>: <span class="type">Int</span>, width: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">Module</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Example circuit using a priority arbiter</span></span><br><span class="line">    <span class="keyword">val</span> io = <span class="type">IO</span>(<span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">      <span class="keyword">val</span> in = <span class="type">Flipped</span>(<span class="type">Vec</span>(<span class="type">InNum</span>, <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))))</span><br><span class="line">      <span class="keyword">val</span> out = <span class="type">Decoupled</span>(<span class="type">UInt</span>(width.<span class="type">W</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// Arbiter doesn&#x27;t have a convenience constructor, so it&#x27;s built like any Module</span></span><br><span class="line">    <span class="keyword">val</span> arbiter = <span class="type">Module</span>(<span class="keyword">new</span> <span class="type">Arbiter</span>(<span class="type">UInt</span>(width.<span class="type">W</span>), <span class="type">InNum</span>))  <span class="comment">// 2 to 1 Priority Arbiter</span></span><br><span class="line">    arbiter.io.in &lt;&gt; io.in</span><br><span class="line">    io.out &lt;&gt; arbiter.io.out</span><br><span class="line">&#125;</span><br><span class="line">println(getVerilog(<span class="keyword">new</span> <span class="type">MyArbiter</span>(<span class="number">2</span>, <span class="number">32</span>)))</span><br></pre></td></tr></table></figure>
 <h2 id="popcount">PopCount</h2>
 <p>PopCount returns the number of high (1) bits in the input as a <code>UInt</code>.</p>
-<p>计算 <code>1</code> 的个数。</p>
+<p>计算 <code>1</code> 的个数。</p>
 <figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">io.out := <span class="type">PopCount</span>(io.in)</span><br></pre></td></tr></table></figure>
 <h2 id="reverse">Reverse</h2>
 <p>Reverse returns the bit-reversed input.</p>
@@ -4440,8 +4440,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -4548,6 +4548,221 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>Software</tag>
         <tag>vivado</tag>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>gmid 设计方法</title>
+    <url>/2021/03/10/gmid/</url>
+    <content><![CDATA[<h1 id="gmid-设计方法的优点">gm/id 设计方法的优点</h1>
+<ul>
+<li>gm/Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷；</li>
+<li>gm/Id方法是一种look-up table方法；</li>
+<li>gm/Id方法为短沟道器件电路设计提供了比公式手算更准确的初值；</li>
+<li>gm/Id方法为亚阈值设计提供了有力的工具。</li>
+</ul>
+<a id="more"></a>
+<h1 id="长沟道模型回顾">长沟道模型回顾</h1>
+<p>在长沟道期间中，<span class="math inline">\(V_{ov}\)</span> 表示过驱动电压： <span class="math display">\[
+V_{ov} = V_{gs} - V_{T}
+\]</span></p>
+<p><img src="/2021/03/10/gmid/image-20210310201310417.png" alt="image-20210310201310417" style="zoom:50%;"></p>
+<p>在不同的 <span class="math inline">\(V_{ds}\)</span> 和 <span class="math inline">\(V_{gs}\)</span> 下，NMOS 管会工作在不同的区域：</p>
+<ul>
+<li><p>截止区：</p>
+<p><span class="math inline">\(V_{ov}&lt;0\)</span> ( or <span class="math inline">\(V_{gs} &lt; V_{T}\)</span> )，</p>
+<p><span class="math display">\[
+I_{D} = 0
+\]</span></p></li>
+<li><p>线性区：</p>
+<p><span class="math inline">\(V_{ov}&gt;0\)</span> and <span class="math inline">\(V_{ds} &lt; V_{dsat}\)</span>，</p>
+<p><span class="math display">\[
+I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}[2V_{ov}V_{DS}-V_{DS}^2]
+\]</span></p>
+<p><span class="math display">\[
+R_{on} = \frac{\partial V_{ds}}{\partial I_D}
+\]</span></p></li>
+<li><p>饱和区：</p>
+<p><span class="math inline">\(V_{ov}&gt;0\)</span> and <span class="math inline">\(V_{ds} &gt; V_{dsat}\)</span>，</p>
+<p><span class="math display">\[
+I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L} V_{ov}^2
+\]</span></p></li>
+</ul>
+<p><img src="/2021/03/10/gmid/image-20210310202752762.png" alt="image-20210310202752762" style="zoom:50%;"></p>
+<p><img src="/2021/03/10/gmid/image-20210310202909324.png" alt="image-20210310202909324" style="zoom:50%;"></p>
+<p>在<strong>饱和区</strong>，<span class="math inline">\(I_D\)</span> 是 <span class="math inline">\(V_{ov}\)</span> 的函数，小信号模型中的 <span class="math inline">\(g_m\)</span> 被定义为： <span class="math display">\[
+g_m = \frac{\partial I_D}{\partial V_{ov}} = \mu C_{ox}\frac{W}{L} V_{ov}
+\]</span> 可以得到： <span class="math display">\[
+\frac{g_m}{I_D} = \frac{2}{V_{ov}}
+\]</span> 上述公式表明了 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(V_{ov}\)</span> 之间的关系。</p>
+<p><img src="/2021/03/10/gmid/image-20210310213132752.png" alt="image-20210310213132752" style="zoom:50%;"></p>
+<p>定义晶体管的截止频率 (transit frequency) <span class="math inline">\(f_T\)</span>: <span class="math display">\[
+f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}}
+\]</span> 其中 <span class="math inline">\(C_{gs} = \frac{2}{3}C_{ox}WL\)</span>，则： <span class="math display">\[
+f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{2\mu V_{ov}}{3L^2}
+\]</span> 从上面的等式中我们可以得到 <span class="math inline">\(g_m\)</span> 和 <span class="math inline">\(f_T\)</span> 之间的约束，Fig. 9 将其表示出来。</p>
+<h1 id="传统的-v_ov-设计方法">传统的 <span class="math inline">\(V_{ov}\)</span> 设计方法</h1>
+<p><img src="/2021/03/10/gmid/image-20210310203850046.png" alt="image-20210310203850046" style="zoom:50%;"></p>
+<p>在上图的电路中，假设 <span class="math inline">\(V_{ov} = 300 mV, I_D=1mA\)</span>，则： <span class="math display">\[
+v_{out} = -i_s \cdot R_L=-v_{in} \cdot g_m \cdot 1k\Omega
+\]</span></p>
+<p><span class="math display">\[
+g_m = 2\frac{I_D}{V_{ov}} = \frac{2\cdot 1mA}{300 mV} = 6.7 \frac{mA}{V}
+\]</span></p>
+<p>可以得到增益为： <span class="math display">\[
+\frac{v_{out}}{v_{in}}= -g_m \cdot R_L = -6.7\frac{mA}{V}\cdot 1k\Omega = -6.7 \frac{V}{V}
+\]</span> 在上面的结构中假设要求带宽 <span class="math inline">\(500MHz\)</span>，增益为 10，基于 <span class="math inline">\(V_{ov}\)</span> 的设计流程如下：</p>
+<ol type="1">
+<li><p>为了保证增益，首先可以计算 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
+g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V
+\]</span></p></li>
+<li><p>输入极点在 <span class="math inline">\(500MHz\)</span>，可以以此计算 <span class="math inline">\(C_{gs}\)</span>： <span class="math display">\[
+C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF
+\]</span></p></li>
+<li><p>可以计算出截止频率： <span class="math display">\[
+f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz
+\]</span></p></li>
+<li><p>通过 Fig. 9 可以知道： <span class="math display">\[
+V_{ov} \geq 75 mV
+\]</span></p></li>
+<li><p>由此通过 Fig. 9 可以知道： <span class="math display">\[
+g_m/I_D \leq 26 mS/mA
+\]</span></p></li>
+<li><p>最终可以得到： <span class="math display">\[
+I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{26mS/mA}=385\mu A
+\]</span></p></li>
+</ol>
+<h1 id="基于-v_ov-设计方法的缺点">基于 <span class="math inline">\(V_{ov}\)</span> 设计方法的缺点</h1>
+<p><img src="/2021/03/10/gmid/image-20210310220510541.png" alt="image-20210310220510541" style="zoom:50%;"></p>
+<p><img src="/2021/03/10/gmid/image-20210310220527243.png" alt="image-20210310220527243" style="zoom:50%;"></p>
+<p>从 Fig.12 可以看出，长沟道模型在 <span class="math inline">\(V_{ov}\)</span> 较小 (弱反型区) 时 <span class="math inline">\(g_m/I_D\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 的关系预测值与仿真值相差较大，在亚阈值区 (<span class="math inline">\(V_{ov} &lt;0\)</span>) 则完全失效。</p>
+<p>从 Fig.12 可以看出，长沟道模型预测的 <span class="math inline">\(f_T\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 的关系与仿真值相差较大。</p>
+<h1 id="基于-g_mi_d-的设计方法">基于 <span class="math inline">\(g_m/I_D\)</span> 的设计方法</h1>
+<p>由于 <span class="math inline">\(g_m/I_D\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 之间存在关系，则可以用 <span class="math inline">\(g_m/I_D\)</span> 取代 <span class="math inline">\(V_{ov}\)</span> 来表示与 <span class="math inline">\(f_T\)</span> 的关系，原来 Fig.9 的关系可以用 Fig.14 来表示。</p>
+<p><img src="/2021/03/10/gmid/image-20210310221848963.png" alt="image-20210310221848963" style="zoom:50%;"></p>
+<h2 id="设计流程">设计流程</h2>
+<p>在 Fig.8 的结构中假设要求带宽 <span class="math inline">\(500MHz\)</span>，增益为 10，基于 <span class="math inline">\(g_m/I_D\)</span> 的设计流程如下：</p>
+<ol type="1">
+<li><p>为了保证增益，首先可以计算 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
+g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V
+\]</span></p></li>
+<li><p>输入极点在 <span class="math inline">\(500MHz\)</span>，可以以此计算 <span class="math inline">\(C_{gs}\)</span>： <span class="math display">\[
+C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF
+\]</span></p></li>
+<li><p>可以计算出截止频率： <span class="math display">\[
+f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz
+\]</span></p></li>
+<li><p>通过 Fig.14 可以知道： <span class="math display">\[
+g_m/I_D \leq 17.5 mS/mA
+\]</span></p></li>
+<li><p>最终： <span class="math display">\[
+I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{17.5mS/mA}=570\mu A
+\]</span></p></li>
+</ol>
+<p><img src="/2021/03/10/gmid/image-20210311101408375.png" alt="image-20210311101408375" style="zoom:50%;"></p>
+<p>Fig.16 是不同的 <span class="math inline">\(L\)</span> 下，<span class="math inline">\(f_T\)</span> 与 <span class="math inline">\(g_m/I_D\)</span> 的关系，<strong>越大的 <span class="math inline">\(L\)</span> 通常意味着晶体管更慢</strong>。这就意味着要是没有其他的限制，我们就会选择最小的 <span class="math inline">\(L\)</span>，这样晶体管速度最快，面积也最小。因此还需要一个限制会影响 <span class="math inline">\(L\)</span> 的选取，这个限制就是 <span class="math inline">\(r_0\)</span>。</p>
+<h2 id="考虑-r_0">考虑 <span class="math inline">\(r_0\)</span></h2>
+<p><img src="/2021/03/10/gmid/image-20210311095357398.png" alt="image-20210311095357398" style="zoom:50%;"></p>
+<p>从上图可以看到 <span class="math inline">\(r_0\)</span> 相当于一个和 <span class="math inline">\(R_L\)</span> 并联的负载，但我们考虑 $R_L $ 时，可以忽略 <span class="math inline">\(R_L\)</span> 只考虑 <span class="math inline">\(r_0\)</span>。则： <span class="math display">\[
+Intrinsic \ \ Gain = g_mr_0 (\frac{V}{V})
+\]</span> <strong><span class="math inline">\(Intrinsic \ \ Gain\)</span> 是晶体管可以达到的最大增益</strong>。</p>
+<p><img src="/2021/03/10/gmid/image-20210311100239741.png" alt="image-20210311100239741" style="zoom:50%;"></p>
+<p>从 Fig.19 中可以看到不同的 <span class="math inline">\(L\)</span> 对应不同的 <span class="math inline">\(g_mr_0(Intrinsic \ \ Gain)\)</span>。</p>
+<p>由于 <span class="math inline">\(r_0\)</span> 与 <span class="math inline">\(V_{ds}\)</span> 有关，这里的假设是 <span class="math inline">\(V_{ds} = V_{DD}/2\)</span>。</p>
+<h2 id="考虑-w">考虑 <span class="math inline">\(W\)</span></h2>
+<p>通过 Fig.16 和 Fig.19 可以确定 <span class="math inline">\(L\)</span> 和 <span class="math inline">\(g_m/I_D\)</span>：为了满足增益的要求，通过 Fig.19 确定了 <span class="math inline">\(L\)</span>；为了满足 <span class="math inline">\(f_T\)</span> 的要求，通过 Fig.16 确定了 <span class="math inline">\(g_m/I_D\)</span>；通过 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(g_m\)</span> 确定了 <span class="math inline">\(I_D\)</span>。最后剩下的没有确定的量就是 <span class="math inline">\(W\)</span>。</p>
+<p><img src="/2021/03/10/gmid/image-20210311102457544.png" alt="image-20210311102457544" style="zoom:50%;"></p>
+<p><img src="/2021/03/10/gmid/image-20210311104821336.png" alt="image-20210311104821336" style="zoom:50%;"></p>
+<p>在 Fig.21 中，由于 <span class="math inline">\(V_b\)</span> 和 <span class="math inline">\(V_{DS}\)</span> 相等，因此 a 和 b 的 <span class="math inline">\(g_m\)</span> 、<span class="math inline">\(C_{gs}\)</span> 相同，而 b 由于并联了两个晶体管，由此 <span class="math inline">\(I_D\)</span> 是 a 的两倍，c 和 b 等价。由此只要保证 <span class="math inline">\(g_m\)</span>-to-<span class="math inline">\(I_D\)</span> 和 <span class="math inline">\(g_m\)</span>-to-<span class="math inline">\(C_{gs}\)</span> 的比率相等，W 变为原来的 N 倍，<span class="math inline">\(I_D\)</span> 也变为原来的 N 倍，而 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(f_T\)</span> 不变。</p>
+<h1 id="a-top-to-bottom-design-example">A Top-to-Bottom Design Example</h1>
+<p><img src="/2021/03/10/gmid/image-20210311095035057.png" alt="image-20210311095035057" style="zoom:50%;"></p>
+<p>设计一个差分放大器，结构如 Fig.23 所示，要求：</p>
+<ul>
+<li>Gain of ≈ 10</li>
+<li>Bandwidth of ≈ 200MHz</li>
+<li>Drive a 1pF load</li>
+<li>Be driven by a 300Ω</li>
+<li>Lowest possible power</li>
+</ul>
+<h2 id="搭建电路">搭建电路</h2>
+<figure>
+<img src="/2021/03/10/gmid/OPA.png" alt="OPA"><figcaption aria-hidden="true">OPA</figcaption>
+</figure>
+<h2 id="获取晶体管参数">获取晶体管参数</h2>
+<p>通过 cadence 仿真并用 MATLAB 处理数据并画出图形。</p>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ft_or_gmro.svg"><br>
+<br><br>
+
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 25: Fruquency and Gain Tradeoff
+</div>
+</center>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/lamdba.svg"><br>
+<br><br>
+
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 26
+</div>
+</center>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ld_W_L_gmid.svg"><br>
+<br><br>
+
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 27
+</div>
+</center>
+<center>
+<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/Vov.svg"><br>
+<br><br>
+
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
+Figure 28
+</div>
+</center>
+<h2 id="选择参数">选择参数</h2>
+<ol type="1">
+<li><p>首先确定 <span class="math inline">\(L\)</span>，通过 Fig.25，选取 <span class="math inline">\(L=340n m\)</span>，在 <span class="math inline">\(g_m\)</span> 选取中等值 (15) 时，Intrinsic Gain 大约是 100，这意味着它只会对整体增益产生10％的影响。 <span class="math display">\[
+L = 340n
+\]</span></p></li>
+<li><p>下一步是计算 R 的值： <span class="math display">\[
+R = \frac{1}{2\pi \times C_L \times 200MHz} = 800 \Omega
+\]</span></p></li>
+<li><p>因此通过增益可以确定 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
+g_m = \frac{Gain}{R}= 12.5mS
+\]</span></p></li>
+<li><p>由于 200MHz 并不是唯一的一个极点，300Ω 的输入电阻与 <span class="math inline">\(C_{gs}\)</span> 会产生第二个极点，为了减少第二个极点对系统的影响，将第二个极点设置在第一个极点的10倍处： <span class="math display">\[
+C_{gs} = \frac{1}{2\pi \times 300\Omega \times 2GHz} = 265 fF
+\]</span></p></li>
+<li><p>有了 <span class="math inline">\(g_m\)</span> 和 <span class="math inline">\(C_{gs}\)</span>，可以计算出截止频率： <span class="math display">\[
+f_{T} = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{12.5mS}{265fF}=7.5GHz
+\]</span></p></li>
+<li><p>有了 <span class="math inline">\(L\)</span> 和 <span class="math inline">\(f_T\)</span>，通过 Fig.25 可以得到 <span class="math inline">\(g_m/I_D\)</span>： <span class="math display">\[
+g_m/I_D = 15mS/mA
+\]</span></p></li>
+<li><p>有了 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(g_m\)</span>，可以计算出 <span class="math inline">\(I_D\)</span>： <span class="math display">\[
+I_D = \frac{g_m}{g_m/I_D}= \frac{12.5}{15}\approx 0.83mA
+\]</span></p></li>
+<li><p>最后，通过 Fig.27 找出对应的 <span class="math inline">\(I_D/(W/L)\)</span> 为 <span class="math inline">\(2.2046e-06\)</span>，因此可以计算出 <span class="math inline">\(W/L = 376\)</span>： <span class="math display">\[
+W = 128um
+\]</span></p></li>
+</ol>
+<h2 id="仿真结果">仿真结果</h2>
+<figure>
+<img src="/2021/03/10/gmid/db.svg" alt="db"><figcaption aria-hidden="true">db</figcaption>
+</figure>
+<p>仿真的结果显示增益为 18.7 dB，带宽为 164.4 MHz。</p>
+<h1 id="reference">Reference</h1>
+<p>[1] <a href="http://pan.baidu.com/s/1slW1U4P">Stanford ee214b的课件</a></p>
+]]></content>
+      <categories>
+        <category>Analog</category>
+      </categories>
+      <tags>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
+        <tag>gmid</tag>
       </tags>
   </entry>
   <entry>
@@ -4789,8 +5004,8 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5035,9 +5250,9 @@ S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
         <category>PA</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
         <tag>PA</tag>
+        <tag>Analog</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -5314,8 +5529,8 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5411,8 +5626,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Analog</tag>
+        <tag>IC_design</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -6119,6 +6334,35 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>解决 Altium Designer 卡死问题</title>
+    <url>/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
+<!--more--->
+<p>目前网上主要有两种解决方案如下：</p>
+<h1 id="禁止-ad-自动联网">1. 禁止 AD 自动联网</h1>
+<h2 id="第一步关闭-ad-自动更新">第一步：关闭 AD 自动更新</h2>
+<p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 "No,…”，如下图：</p>
+<figure>
+<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_1.jpg" alt="ad1"><figcaption aria-hidden="true">ad1</figcaption>
+</figure>
+<p>在 System -&gt; Installation 的 "Check frequency” 改为 “Never”，如下图：</p>
+<figure>
+<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_2.jpg" alt="ad2"><figcaption aria-hidden="true">ad2</figcaption>
+</figure>
+<h2 id="第二步设置防火墙禁止-ad-联网">第二步：设置防火墙，禁止 AD 联网</h2>
+<p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
+<h1 id="删除多余的库">2. 删除多余的库</h1>
+<p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
+]]></content>
+      <categories>
+        <category>Altium-Designer</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>Altium-Designer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设置ssh通过秘钥登录</title>
     <url>/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/</url>
     <content><![CDATA[<p>无论是个人的 VPS 还是企业允许公网访问的服务器，如果开放 22 端口的 SSH 密码登录验证方式，被众多黑客暴力猜解捅破菊花也可能是经常发生的惨剧。企业可以通过防火墙来做限制，普通用户也可能借助修改 22 端口和强化弱口令等方式防护，但目前相对安全和简单的方案则是让 SSH 使用密钥登录并禁止口令登录。</p>
@@ -6176,35 +6420,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Altium Designer 卡死问题</title>
-    <url>/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
-<!--more--->
-<p>目前网上主要有两种解决方案如下：</p>
-<h1 id="禁止-ad-自动联网">1. 禁止 AD 自动联网</h1>
-<h2 id="第一步关闭-ad-自动更新">第一步：关闭 AD 自动更新</h2>
-<p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 "No,…”，如下图：</p>
-<figure>
-<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_1.jpg" alt="ad1"><figcaption aria-hidden="true">ad1</figcaption>
-</figure>
-<p>在 System -&gt; Installation 的 "Check frequency” 改为 “Never”，如下图：</p>
-<figure>
-<img src="/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/ad_2.jpg" alt="ad2"><figcaption aria-hidden="true">ad2</figcaption>
-</figure>
-<h2 id="第二步设置防火墙禁止-ad-联网">第二步：设置防火墙，禁止 AD 联网</h2>
-<p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
-<h1 id="删除多余的库">2. 删除多余的库</h1>
-<p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
-]]></content>
-      <categories>
-        <category>Altium-Designer</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>Altium-Designer</tag>
       </tags>
   </entry>
   <entry>
@@ -6325,221 +6540,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>gmid 设计方法</title>
-    <url>/2021/03/10/gmid/</url>
-    <content><![CDATA[<h1 id="gmid-设计方法的优点">gm/id 设计方法的优点</h1>
-<ul>
-<li>gm/Id对应Vov，通过其数值大小的选取来达到增益与带宽的折衷；</li>
-<li>gm/Id方法是一种look-up table方法；</li>
-<li>gm/Id方法为短沟道器件电路设计提供了比公式手算更准确的初值；</li>
-<li>gm/Id方法为亚阈值设计提供了有力的工具。</li>
-</ul>
-<a id="more"></a>
-<h1 id="长沟道模型回顾">长沟道模型回顾</h1>
-<p>在长沟道期间中，<span class="math inline">\(V_{ov}\)</span> 表示过驱动电压： <span class="math display">\[
-V_{ov} = V_{gs} - V_{T}
-\]</span></p>
-<p><img src="/2021/03/10/gmid/image-20210310201310417.png" alt="image-20210310201310417" style="zoom:50%;"></p>
-<p>在不同的 <span class="math inline">\(V_{ds}\)</span> 和 <span class="math inline">\(V_{gs}\)</span> 下，NMOS 管会工作在不同的区域：</p>
-<ul>
-<li><p>截止区：</p>
-<p><span class="math inline">\(V_{ov}&lt;0\)</span> ( or <span class="math inline">\(V_{gs} &lt; V_{T}\)</span> )，</p>
-<p><span class="math display">\[
-I_{D} = 0
-\]</span></p></li>
-<li><p>线性区：</p>
-<p><span class="math inline">\(V_{ov}&gt;0\)</span> and <span class="math inline">\(V_{ds} &lt; V_{dsat}\)</span>，</p>
-<p><span class="math display">\[
-I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}[2V_{ov}V_{DS}-V_{DS}^2]
-\]</span></p>
-<p><span class="math display">\[
-R_{on} = \frac{\partial V_{ds}}{\partial I_D}
-\]</span></p></li>
-<li><p>饱和区：</p>
-<p><span class="math inline">\(V_{ov}&gt;0\)</span> and <span class="math inline">\(V_{ds} &gt; V_{dsat}\)</span>，</p>
-<p><span class="math display">\[
-I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L} V_{ov}^2
-\]</span></p></li>
-</ul>
-<p><img src="/2021/03/10/gmid/image-20210310202752762.png" alt="image-20210310202752762" style="zoom:50%;"></p>
-<p><img src="/2021/03/10/gmid/image-20210310202909324.png" alt="image-20210310202909324" style="zoom:50%;"></p>
-<p>在<strong>饱和区</strong>，<span class="math inline">\(I_D\)</span> 是 <span class="math inline">\(V_{ov}\)</span> 的函数，小信号模型中的 <span class="math inline">\(g_m\)</span> 被定义为： <span class="math display">\[
-g_m = \frac{\partial I_D}{\partial V_{ov}} = \mu C_{ox}\frac{W}{L} V_{ov}
-\]</span> 可以得到： <span class="math display">\[
-\frac{g_m}{I_D} = \frac{2}{V_{ov}}
-\]</span> 上述公式表明了 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(V_{ov}\)</span> 之间的关系。</p>
-<p><img src="/2021/03/10/gmid/image-20210310213132752.png" alt="image-20210310213132752" style="zoom:50%;"></p>
-<p>定义晶体管的截止频率 (transit frequency) <span class="math inline">\(f_T\)</span>: <span class="math display">\[
-f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}}
-\]</span> 其中 <span class="math inline">\(C_{gs} = \frac{2}{3}C_{ox}WL\)</span>，则： <span class="math display">\[
-f_T = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{2\mu V_{ov}}{3L^2}
-\]</span> 从上面的等式中我们可以得到 <span class="math inline">\(g_m\)</span> 和 <span class="math inline">\(f_T\)</span> 之间的约束，Fig. 9 将其表示出来。</p>
-<h1 id="传统的-v_ov-设计方法">传统的 <span class="math inline">\(V_{ov}\)</span> 设计方法</h1>
-<p><img src="/2021/03/10/gmid/image-20210310203850046.png" alt="image-20210310203850046" style="zoom:50%;"></p>
-<p>在上图的电路中，假设 <span class="math inline">\(V_{ov} = 300 mV, I_D=1mA\)</span>，则： <span class="math display">\[
-v_{out} = -i_s \cdot R_L=-v_{in} \cdot g_m \cdot 1k\Omega
-\]</span></p>
-<p><span class="math display">\[
-g_m = 2\frac{I_D}{V_{ov}} = \frac{2\cdot 1mA}{300 mV} = 6.7 \frac{mA}{V}
-\]</span></p>
-<p>可以得到增益为： <span class="math display">\[
-\frac{v_{out}}{v_{in}}= -g_m \cdot R_L = -6.7\frac{mA}{V}\cdot 1k\Omega = -6.7 \frac{V}{V}
-\]</span> 在上面的结构中假设要求带宽 <span class="math inline">\(500MHz\)</span>，增益为 10，基于 <span class="math inline">\(V_{ov}\)</span> 的设计流程如下：</p>
-<ol type="1">
-<li><p>为了保证增益，首先可以计算 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
-g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V
-\]</span></p></li>
-<li><p>输入极点在 <span class="math inline">\(500MHz\)</span>，可以以此计算 <span class="math inline">\(C_{gs}\)</span>： <span class="math display">\[
-C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF
-\]</span></p></li>
-<li><p>可以计算出截止频率： <span class="math display">\[
-f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz
-\]</span></p></li>
-<li><p>通过 Fig. 9 可以知道： <span class="math display">\[
-V_{ov} \geq 75 mV
-\]</span></p></li>
-<li><p>由此通过 Fig. 9 可以知道： <span class="math display">\[
-g_m/I_D \leq 26 mS/mA
-\]</span></p></li>
-<li><p>最终可以得到： <span class="math display">\[
-I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{26mS/mA}=385\mu A
-\]</span></p></li>
-</ol>
-<h1 id="基于-v_ov-设计方法的缺点">基于 <span class="math inline">\(V_{ov}\)</span> 设计方法的缺点</h1>
-<p><img src="/2021/03/10/gmid/image-20210310220510541.png" alt="image-20210310220510541" style="zoom:50%;"></p>
-<p><img src="/2021/03/10/gmid/image-20210310220527243.png" alt="image-20210310220527243" style="zoom:50%;"></p>
-<p>从 Fig.12 可以看出，长沟道模型在 <span class="math inline">\(V_{ov}\)</span> 较小 (弱反型区) 时 <span class="math inline">\(g_m/I_D\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 的关系预测值与仿真值相差较大，在亚阈值区 (<span class="math inline">\(V_{ov} &lt;0\)</span>) 则完全失效。</p>
-<p>从 Fig.12 可以看出，长沟道模型预测的 <span class="math inline">\(f_T\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 的关系与仿真值相差较大。</p>
-<h1 id="基于-g_mi_d-的设计方法">基于 <span class="math inline">\(g_m/I_D\)</span> 的设计方法</h1>
-<p>由于 <span class="math inline">\(g_m/I_D\)</span> 与 <span class="math inline">\(V_{ov}\)</span> 之间存在关系，则可以用 <span class="math inline">\(g_m/I_D\)</span> 取代 <span class="math inline">\(V_{ov}\)</span> 来表示与 <span class="math inline">\(f_T\)</span> 的关系，原来 Fig.9 的关系可以用 Fig.14 来表示。</p>
-<p><img src="/2021/03/10/gmid/image-20210310221848963.png" alt="image-20210310221848963" style="zoom:50%;"></p>
-<h2 id="设计流程">设计流程</h2>
-<p>在 Fig.8 的结构中假设要求带宽 <span class="math inline">\(500MHz\)</span>，增益为 10，基于 <span class="math inline">\(g_m/I_D\)</span> 的设计流程如下：</p>
-<ol type="1">
-<li><p>为了保证增益，首先可以计算 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
-g_m = \frac{v_{out}}{v_{in}} / R_L = 10\frac{V}{V}/1k = 10mA/V
-\]</span></p></li>
-<li><p>输入极点在 <span class="math inline">\(500MHz\)</span>，可以以此计算 <span class="math inline">\(C_{gs}\)</span>： <span class="math display">\[
-C_{gs} = \frac{1}{2\pi \times 300\Omega \times 500MHz} = 1.1pF
-\]</span></p></li>
-<li><p>可以计算出截止频率： <span class="math display">\[
-f_T = \frac{g_m}{C_{gs}}=\frac{10mS}{1.1pF} = 9.4 GHz
-\]</span></p></li>
-<li><p>通过 Fig.14 可以知道： <span class="math display">\[
-g_m/I_D \leq 17.5 mS/mA
-\]</span></p></li>
-<li><p>最终： <span class="math display">\[
-I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{17.5mS/mA}=570\mu A
-\]</span></p></li>
-</ol>
-<p><img src="/2021/03/10/gmid/image-20210311101408375.png" alt="image-20210311101408375" style="zoom:50%;"></p>
-<p>Fig.16 是不同的 <span class="math inline">\(L\)</span> 下，<span class="math inline">\(f_T\)</span> 与 <span class="math inline">\(g_m/I_D\)</span> 的关系，<strong>越大的 <span class="math inline">\(L\)</span> 通常意味着晶体管更慢</strong>。这就意味着要是没有其他的限制，我们就会选择最小的 <span class="math inline">\(L\)</span>，这样晶体管速度最快，面积也最小。因此还需要一个限制会影响 <span class="math inline">\(L\)</span> 的选取，这个限制就是 <span class="math inline">\(r_0\)</span>。</p>
-<h2 id="考虑-r_0">考虑 <span class="math inline">\(r_0\)</span></h2>
-<p><img src="/2021/03/10/gmid/image-20210311095357398.png" alt="image-20210311095357398" style="zoom:50%;"></p>
-<p>从上图可以看到 <span class="math inline">\(r_0\)</span> 相当于一个和 <span class="math inline">\(R_L\)</span> 并联的负载，但我们考虑 $R_L $ 时，可以忽略 <span class="math inline">\(R_L\)</span> 只考虑 <span class="math inline">\(r_0\)</span>。则： <span class="math display">\[
-Intrinsic \ \ Gain = g_mr_0 (\frac{V}{V})
-\]</span> <strong><span class="math inline">\(Intrinsic \ \ Gain\)</span> 是晶体管可以达到的最大增益</strong>。</p>
-<p><img src="/2021/03/10/gmid/image-20210311100239741.png" alt="image-20210311100239741" style="zoom:50%;"></p>
-<p>从 Fig.19 中可以看到不同的 <span class="math inline">\(L\)</span> 对应不同的 <span class="math inline">\(g_mr_0(Intrinsic \ \ Gain)\)</span>。</p>
-<p>由于 <span class="math inline">\(r_0\)</span> 与 <span class="math inline">\(V_{ds}\)</span> 有关，这里的假设是 <span class="math inline">\(V_{ds} = V_{DD}/2\)</span>。</p>
-<h2 id="考虑-w">考虑 <span class="math inline">\(W\)</span></h2>
-<p>通过 Fig.16 和 Fig.19 可以确定 <span class="math inline">\(L\)</span> 和 <span class="math inline">\(g_m/I_D\)</span>：为了满足增益的要求，通过 Fig.19 确定了 <span class="math inline">\(L\)</span>；为了满足 <span class="math inline">\(f_T\)</span> 的要求，通过 Fig.16 确定了 <span class="math inline">\(g_m/I_D\)</span>；通过 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(g_m\)</span> 确定了 <span class="math inline">\(I_D\)</span>。最后剩下的没有确定的量就是 <span class="math inline">\(W\)</span>。</p>
-<p><img src="/2021/03/10/gmid/image-20210311102457544.png" alt="image-20210311102457544" style="zoom:50%;"></p>
-<p><img src="/2021/03/10/gmid/image-20210311104821336.png" alt="image-20210311104821336" style="zoom:50%;"></p>
-<p>在 Fig.21 中，由于 <span class="math inline">\(V_b\)</span> 和 <span class="math inline">\(V_{DS}\)</span> 相等，因此 a 和 b 的 <span class="math inline">\(g_m\)</span> 、<span class="math inline">\(C_{gs}\)</span> 相同，而 b 由于并联了两个晶体管，由此 <span class="math inline">\(I_D\)</span> 是 a 的两倍，c 和 b 等价。由此只要保证 <span class="math inline">\(g_m\)</span>-to-<span class="math inline">\(I_D\)</span> 和 <span class="math inline">\(g_m\)</span>-to-<span class="math inline">\(C_{gs}\)</span> 的比率相等，W 变为原来的 N 倍，<span class="math inline">\(I_D\)</span> 也变为原来的 N 倍，而 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(f_T\)</span> 不变。</p>
-<h1 id="a-top-to-bottom-design-example">A Top-to-Bottom Design Example</h1>
-<p><img src="/2021/03/10/gmid/image-20210311095035057.png" alt="image-20210311095035057" style="zoom:50%;"></p>
-<p>设计一个差分放大器，结构如 Fig.23 所示，要求：</p>
-<ul>
-<li>Gain of ≈ 10</li>
-<li>Bandwidth of ≈ 200MHz</li>
-<li>Drive a 1pF load</li>
-<li>Be driven by a 300Ω</li>
-<li>Lowest possible power</li>
-</ul>
-<h2 id="搭建电路">搭建电路</h2>
-<figure>
-<img src="/2021/03/10/gmid/OPA.png" alt="OPA"><figcaption aria-hidden="true">OPA</figcaption>
-</figure>
-<h2 id="获取晶体管参数">获取晶体管参数</h2>
-<p>通过 cadence 仿真并用 MATLAB 处理数据并画出图形。</p>
-<center>
-<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ft_or_gmro.svg"><br>
-<br><br>
-
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
-Figure 25: Fruquency and Gain Tradeoff
-</div>
-</center>
-<center>
-<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/lamdba.svg"><br>
-<br><br>
-
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
-Figure 26
-</div>
-</center>
-<center>
-<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/ld_W_L_gmid.svg"><br>
-<br><br>
-
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
-Figure 27
-</div>
-</center>
-<center>
-<img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="/2021/03/10/gmid/Vov.svg"><br>
-<br><br>
-
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">
-Figure 28
-</div>
-</center>
-<h2 id="选择参数">选择参数</h2>
-<ol type="1">
-<li><p>首先确定 <span class="math inline">\(L\)</span>，通过 Fig.25，选取 <span class="math inline">\(L=340n m\)</span>，在 <span class="math inline">\(g_m\)</span> 选取中等值 (15) 时，Intrinsic Gain 大约是 100，这意味着它只会对整体增益产生10％的影响。 <span class="math display">\[
-L = 340n
-\]</span></p></li>
-<li><p>下一步是计算 R 的值： <span class="math display">\[
-R = \frac{1}{2\pi \times C_L \times 200MHz} = 800 \Omega
-\]</span></p></li>
-<li><p>因此通过增益可以确定 <span class="math inline">\(g_m\)</span>： <span class="math display">\[
-g_m = \frac{Gain}{R}= 12.5mS
-\]</span></p></li>
-<li><p>由于 200MHz 并不是唯一的一个极点，300Ω 的输入电阻与 <span class="math inline">\(C_{gs}\)</span> 会产生第二个极点，为了减少第二个极点对系统的影响，将第二个极点设置在第一个极点的10倍处： <span class="math display">\[
-C_{gs} = \frac{1}{2\pi \times 300\Omega \times 2GHz} = 265 fF
-\]</span></p></li>
-<li><p>有了 <span class="math inline">\(g_m\)</span> 和 <span class="math inline">\(C_{gs}\)</span>，可以计算出截止频率： <span class="math display">\[
-f_{T} = \frac{1}{2\pi}\frac{g_m}{C_{gs}} = \frac{1}{2\pi}\frac{12.5mS}{265fF}=7.5GHz
-\]</span></p></li>
-<li><p>有了 <span class="math inline">\(L\)</span> 和 <span class="math inline">\(f_T\)</span>，通过 Fig.25 可以得到 <span class="math inline">\(g_m/I_D\)</span>： <span class="math display">\[
-g_m/I_D = 15mS/mA
-\]</span></p></li>
-<li><p>有了 <span class="math inline">\(g_m/I_D\)</span> 和 <span class="math inline">\(g_m\)</span>，可以计算出 <span class="math inline">\(I_D\)</span>： <span class="math display">\[
-I_D = \frac{g_m}{g_m/I_D}= \frac{12.5}{15}\approx 0.83mA
-\]</span></p></li>
-<li><p>最后，通过 Fig.27 找出对应的 <span class="math inline">\(I_D/(W/L)\)</span> 为 <span class="math inline">\(2.2046e-06\)</span>，因此可以计算出 <span class="math inline">\(W/L = 376\)</span>： <span class="math display">\[
-W = 128um
-\]</span></p></li>
-</ol>
-<h2 id="仿真结果">仿真结果</h2>
-<figure>
-<img src="/2021/03/10/gmid/db.svg" alt="db"><figcaption aria-hidden="true">db</figcaption>
-</figure>
-<p>仿真的结果显示增益为 18.7 dB，带宽为 164.4 MHz。</p>
-<h1 id="reference">Reference</h1>
-<p>[1] <a href="http://pan.baidu.com/s/1slW1U4P">Stanford ee214b的课件</a></p>
-]]></content>
-      <categories>
-        <category>Analog</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>gmid</tag>
       </tags>
   </entry>
 </search>
