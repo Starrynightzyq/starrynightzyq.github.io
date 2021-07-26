@@ -9,7 +9,7 @@ tags: [chisel, FPGA]
 description:
 ---
 
-![Chisel 3](chisel-start/chisel_logo.svg)
+![Chisel 3](https://pic.zhouyuqian.com/img/20210726235317.svg)
 
 <!--more-->
 
@@ -309,7 +309,7 @@ println(getVerilog(new MyArbiter(2, 32)))
 
 PopCount returns the number of high (1) bits in the input as a `UInt`.
 
-计算 `1` 的个数。
+计算 `1` 的个数。
 
 ~~~scala
 io.out := PopCount(io.in)

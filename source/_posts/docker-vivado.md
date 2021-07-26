@@ -9,7 +9,7 @@ tags: [Software, vivado, docker]
 description:
 ---
 
-![docker_vivado](docker-vivado/docker_vivado.png)
+![docker_vivado](https://pic.zhouyuqian.com/img/20210726231059.png)
 
 最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇[文章](https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/)，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。~~从此，vivado 成为了全平台软件，macOS 终于站起来了。~~🤪
 
@@ -255,7 +255,7 @@ docke container run -it --rm -e USER_ID=$UID -v <localhost/vivado/workspace>:/wo
 >
 > 安装完需要重启电脑，并且在 XQuartz 的设置里勾选上 *安全性--允许从网络连接*
 >
-> ![xquartz](docker-vivado/xquartz.png)
+> ![xquartz](https://pic.zhouyuqian.com/img/20210726231129.png)
 
 首先，允许工作用户使用以下命令在本地请求 X11：
 
@@ -265,7 +265,7 @@ $ xhost +si:localuser:$(whoami)
 $ xhost +
 ~~~
 
-![X11](docker-vivado/X11.png)
+![X11](https://pic.zhouyuqian.com/img/20210726231144.png)
 
 接下来，使用以下选项启动 Docker 容器：
 
@@ -300,9 +300,9 @@ $ docker container run -it --rm \
 
 这时，在终端里输入 `vivado`，就可以打开 vivado 了：
 
-![vivado](docker-vivado/vivado.png)
+![vivado](https://pic.zhouyuqian.com/img/20210726231202.png)
 
-![vivado2](docker-vivado/vivado2.png)
+![vivado2](https://pic.zhouyuqian.com/img/20210726231221.png)
 
 # Reference
 
