@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="VCO 噪声优化">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/20/PLL-noise/L-Q-1n.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726224430.svg">
 <meta property="og:image" content="https://zhouyuqian.com/2021/05/20/PLL-noise/VCO-CM.svg">
 <meta property="og:image" content="https://zhouyuqian.com/2021/05/20/PLL-noise/ctank.svg">
 <meta property="og:image" content="https://zhouyuqian.com/2021/05/20/PLL-noise/ctank_sch.png">
@@ -42,11 +42,11 @@
 <meta property="article:published_time" content="2021-05-20T01:10:42.000Z">
 <meta property="article:modified_time" content="2021-05-20T01:10:42.000Z">
 <meta property="article:author" content="Fitz">
-<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="PLL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2021/05/20/PLL-noise/L-Q-1n.svg">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210726224430.svg">
 
 <link rel="canonical" href="https://zhouyuqian.com/2021/05/20/PLL-noise/">
 
@@ -303,7 +303,7 @@
 <p>电感值可以根据一个经验公式来粗略估计：<span class="math inline">\(L=5/f\)</span>，其中 <span class="math inline">\(L\)</span> 为电感值，单位为 nH，<span class="math inline">\(f\)</span> 为振荡中心频率，单位为 GHz，若振荡器采用互补型结构，则 <span class="math inline">\(L=10/f\)</span>。实际设计时，由于寄生效应的存在，电感值要适当缩小一点。</p>
 <p>这里振荡中心频率为 <span class="math inline">\(f=4.8\rm{GHz}\)</span>，选取电感值为 <span class="math inline">\(L=1.025n\)</span>，<span class="math inline">\(Q=15.62\)</span>。其 L-Q 随频率变化的关系如下图所示：</p>
 <figure>
-<img src="/2021/05/20/PLL-noise/L-Q-1n.svg" alt="L-Q-1n"><figcaption aria-hidden="true">L-Q-1n</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726224430.svg" alt="L-Q-1n"><figcaption aria-hidden="true">L-Q-1n</figcaption>
 </figure>
 <blockquote>
 <p>之前电感值取得比较大，大约 4.9nH，VCO 的相位噪声很差，只有 <strong>-100dB@1MHz</strong>，换成 1nH 的电感后，在相同的电流下，相噪变为 <strong>-113dB@1MHz</strong>，换成 0.5nH 的电感后，在相同的电流下，相噪变为 <strong>-123dB@1MHz</strong>，</p>
@@ -426,8 +426,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
           </div>
 

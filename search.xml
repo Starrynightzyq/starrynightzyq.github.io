@@ -101,9 +101,9 @@
         <category>Software</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Software</tag>
         <tag>Cadence</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -268,8 +268,8 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>CM</tag>
       </tags>
   </entry>
@@ -540,8 +540,8 @@ N = \frac{M}{GCD(X, M)}
         <category>Delta-Sigma</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
         <tag>DSM</tag>
       </tags>
@@ -682,8 +682,8 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
         <tag>UDP</tag>
       </tags>
@@ -838,8 +838,8 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -1865,8 +1865,8 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
       </tags>
   </entry>
   <entry>
@@ -1923,9 +1923,9 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
         <category>PA</category>
       </categories>
       <tags>
-        <tag>PA</tag>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
       </tags>
   </entry>
   <entry>
@@ -2110,8 +2110,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2284,8 +2284,8 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2363,7 +2363,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <p>电感值可以根据一个经验公式来粗略估计：<span class="math inline">\(L=5/f\)</span>，其中 <span class="math inline">\(L\)</span> 为电感值，单位为 nH，<span class="math inline">\(f\)</span> 为振荡中心频率，单位为 GHz，若振荡器采用互补型结构，则 <span class="math inline">\(L=10/f\)</span>。实际设计时，由于寄生效应的存在，电感值要适当缩小一点。</p>
 <p>这里振荡中心频率为 <span class="math inline">\(f=4.8\rm{GHz}\)</span>，选取电感值为 <span class="math inline">\(L=1.025n\)</span>，<span class="math inline">\(Q=15.62\)</span>。其 L-Q 随频率变化的关系如下图所示：</p>
 <figure>
-<img src="/2021/05/20/PLL-noise/L-Q-1n.svg" alt="L-Q-1n"><figcaption aria-hidden="true">L-Q-1n</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210726224430.svg" alt="L-Q-1n"><figcaption aria-hidden="true">L-Q-1n</figcaption>
 </figure>
 <blockquote>
 <p>之前电感值取得比较大，大约 4.9nH，VCO 的相位噪声很差，只有 <strong>-100dB@1MHz</strong>，换成 1nH 的电感后，在相同的电流下，相噪变为 <strong>-113dB@1MHz</strong>，换成 0.5nH 的电感后，在相同的电流下，相噪变为 <strong>-123dB@1MHz</strong>，</p>
@@ -2455,8 +2455,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2506,8 +2506,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -2643,8 +2643,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -3386,8 +3386,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>GEEK</tag>
+        <tag>FPGA</tag>
         <tag>Vscode</tag>
       </tags>
   </entry>
@@ -3527,8 +3527,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>Software</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
         <tag>Software</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -3688,8 +3688,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3818,8 +3818,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3877,8 +3877,23 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- VDMA</title>
+    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
+    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
+<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -3934,23 +3949,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
-        <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- VDMA</title>
-    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
-    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
-<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
         <tag>FPGA</tag>
-        <tag>Linux</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4145,8 +4145,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
         <tag>ZYNQ</tag>
       </tags>
   </entry>
@@ -4440,8 +4440,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -4760,8 +4760,8 @@ W = 128um
         <category>Analog</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>gmid</tag>
       </tags>
   </entry>
@@ -5004,8 +5004,8 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5250,9 +5250,9 @@ S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
         <category>PA</category>
       </categories>
       <tags>
-        <tag>PA</tag>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
       </tags>
   </entry>
   <entry>
@@ -5529,8 +5529,8 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
@@ -5626,8 +5626,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <category>PLL</category>
       </categories>
       <tags>
-        <tag>Analog</tag>
         <tag>IC_design</tag>
+        <tag>Analog</tag>
         <tag>PLL</tag>
       </tags>
   </entry>
