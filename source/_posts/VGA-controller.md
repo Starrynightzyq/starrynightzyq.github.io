@@ -29,15 +29,15 @@ description:
 | G     | 绿色信号  |
 | B     | 蓝色信号  |
 
-![行扫描](VGA-controller/行扫描.jpg "行扫描时序")
+![行扫描](https://pic.zhouyuqian.com/img/20210727233440.jpg "行扫描时序")
 
 > 行扫描时序
 
-![场扫描](VGA-controller/场扫描.jpg "场扫描")
+![场扫描](https://pic.zhouyuqian.com/img/20210727233441.jpg "场扫描")
 
 > 场扫描时序
 
-![VGA时序图](VGA-controller/VGA时序图.jpg "VGA时序图")
+![VGA时序图](https://pic.zhouyuqian.com/img/20210727233442.jpg "VGA时序图")
 
 > VGA时序图
 
@@ -255,17 +255,17 @@ description:
 
    1. 首先在Basis里选择Memory Type为Single Port ROM；
 
-      ![ROM1](VGA-controller/ROM1.png)
+      ![ROM1](https://pic.zhouyuqian.com/img/20210727233443.png)
 
    2. 然后在Port A Options 里设置数据宽度和深度，因为Basys3上的VGA是RGB444格式的，所以数据宽度设为12位，深度可以理解为像素数，本来是想显示640\*480的图片的，但Basys3上的RAM容量不够，所以就显示的150\*150的图片,则深度为22500（150\*150），不需要使能，所以Enable Port Type设为Always Enable；
 
-      ![ROM2](VGA-controller/ROM2.png)
+      ![ROM2](https://pic.zhouyuqian.com/img/20210727233444.png)
 
    3. Other Options里，装载 .coe文件。
 
-      ![ROM3](VGA-controller/ROM3.png)
+      ![ROM3](https://pic.zhouyuqian.com/img/20210727233445.png)
 
-      ![ROM4](VGA-controller/ROM4.png)
+      ![ROM4](https://pic.zhouyuqian.com/img/20210727233446.png)
 
    4. 顶层文件
 
@@ -320,7 +320,7 @@ description:
 
 4. 整体连线图
 
-   ![整体连线图](VGA-controller/整体连线图.png)
+   ![整体连线图](https://pic.zhouyuqian.com/img/20210727233447.png)
 
    ## 总结
 

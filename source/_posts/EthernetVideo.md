@@ -47,7 +47,7 @@ TCP用三次握手（或称三路握手，three-way handshake）过程创建一�
 3. 最后，客户端再发送一个[ACK](https://zh.wikipedia.org/wiki/確認訊息)。此时包的序号被设定为**A+1**，而ACK的确认码则为**B+1**。当服务端收到这个ACK的时候，就完成了三次握手，并进入了连接创建状态。
 
 如果服务器端接到了客户端发的SYN后回了SYN-ACK后客户端掉线了，服务器端没有收到客户端回来的ACK，那么，这个连接处于一个中间状态，既没成功，也没失败。于是，服务器端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻倍，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s才知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 63s，TCP才会断开这个连接。使用三个TCP参数来调整行为：tcp_synack_retries 减少重试次数；tcp_max_syn_backlog，增大SYN连接数；tcp_abort_on_overflow决定超出能力时的行为。
-![three-way handshake](EthernetVideo/tcp3.png)
+![three-way handshake](https://pic.zhouyuqian.com/img/20210727181731.png)
 
 ## 数据传输
 
@@ -57,11 +57,11 @@ TCP用三次握手（或称三路握手，three-way handshake）过程创建一�
 
 连接终止使用了四路握手过程（或称四次握手，four-way handshake），在这个过程中连接的每一侧都独立地被终止。当一个端点要停止它这一侧的连接，就向对侧发送FIN，对侧回复ACK表示确认。因此，拆掉一侧的连接过程需要一对FIN和ACK，分别由两侧端点发出。
 
-![four-way handshake](EthernetVideo/tcp4.png)
+![four-way handshake](https://pic.zhouyuqian.com/img/20210727181732.png)
 
 ## TCP 包头结构
 
-![tcp-head](EthernetVideo/tcp-head.png)
+![tcp-head](https://pic.zhouyuqian.com/img/20210727181733.png)
 
 源端口 16位；目标端口 16位；序列号 32位；回应序号 32位；TCP头长度 4位；reserved 3位；控制代码 9位；窗口大小 16位；偏移量 16位；校验和 16位；选项 32位(可选)；
 
@@ -75,7 +75,7 @@ UDP 适用于不需要或在程序中执行错误检查和纠正的应用，它�
 
 ## UDP 的分组结构
 
-![udp-head](EthernetVideo/udp-head.png)
+![udp-head](https://pic.zhouyuqian.com/img/20210727181734.png)
 
 UDP 头部包含了以下几个数据：
 

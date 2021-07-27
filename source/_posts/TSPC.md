@@ -15,7 +15,7 @@ description:
 
 在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真**单相时钟控寄存器** (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。
 
-<img src="TSPC/image-20201118103158126.png" alt="image-20201118103158126" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232823.png" alt="image-20201118103158126" style="zoom:50%;" />
 
 <!--more-->
 
@@ -33,7 +33,7 @@ TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反
 
 # 四分频电路
 
-<img src="TSPC/image-20201118111946326.png" alt="image-20201118111946326" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232839.png" alt="image-20201118111946326" style="zoom:50%;" />
 
 文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。
 
@@ -43,39 +43,39 @@ TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反
 
 TSPC 的电路图如下所示：
 
-<img src="TSPC/tspc1.png" alt="tspc1" style="zoom:75%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232857.png" alt="tspc1" style="zoom:75%;" />
 
 TestBench 如下所示：
 
-<img src="TSPC/tspc3_tb.png" alt="tspc3_tb" style="zoom:75%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232909.png" alt="tspc3_tb" style="zoom:75%;" />
 
 输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：
 
-![tspc3_wave](TSPC/tspc3_wave.svg)
+![tspc3_wave](https://pic.zhouyuqian.com/img/20210727232752.svg)
 
 输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：
 
-![tspc3_wave_50M](TSPC/tspc3_wave_50M.svg)
+![tspc3_wave_50M](https://pic.zhouyuqian.com/img/20210727232753.svg)
 
 将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：
 
-![tspc3_wave_50M_600m](TSPC/tspc3_wave_50M_600m.svg)
+![tspc3_wave_50M_600m](https://pic.zhouyuqian.com/img/20210727232754.svg)
 
 # 2/3 双模分频电路
 
-<img src="TSPC/image-20201118113039866.png" alt="image-20201118113039866" style="zoom:35%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232921.png" alt="image-20201118113039866" style="zoom:35%;" />
 
 文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。
 
 ## 2/3 分频电路原理
 
-<img src="TSPC/divider23.png" alt="divider23" style="zoom:40%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232935.png" alt="divider23" style="zoom:40%;" />
 
 上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。
 
 ## TSPC 中嵌入逻辑功能
 
-<img src="TSPC/TSPC_logic.drawio.svg" alt="TSPC_logic" style="zoom:60%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727232946.svg" alt="TSPC_logic" style="zoom:60%;" />
 
 可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。
 

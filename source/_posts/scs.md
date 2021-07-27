@@ -11,7 +11,7 @@ description:
 
 LINC (Linear amplification with nonlinear components) 是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：
 
-![LINC](scs/image-20210404230123073.png)
+![LINC](https://pic.zhouyuqian.com/img/20210727194755.png)
 
 LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放大器放大，最后通过组合两路信号获得原始信号的放大后的信号。
 
@@ -23,7 +23,7 @@ LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度�
 
 # 基于 CORDIC 算法的 SCS 原理
 
-![image-20210411155141497](scs/image-20210411155141497.png)
+![image-20210411155141497](https://pic.zhouyuqian.com/img/20210727194756.png)
 
 基于 CORDIC 算法的 SCS 原理图如上图所示，基带信号 I Q 经过 *CORDIC-V* 模块，从笛卡尔转换到极坐标，得到振幅 $A$ 和相位 $\theta$，振幅 $A$ 经过 *DOUBLE CORDIC* 模块，进行 $\rm{cos}^{-1}(A/A_{MAX})$ 的运算，得到 $\varphi$，相当于把振幅信号转为相位信号。然后通过两个 *CORDIC-R* 模块，分别对 $\theta + \varphi$ 和 $\theta - \varphi$ 做相位到笛卡尔坐标的转换，得到四路调相信号：$S_{1I},S_{1Q},S_{2I},S_{2Q}$。
 
@@ -73,7 +73,7 @@ $$
 
 # SCS 的原理图
 
-![image-20210411161107543](scs/image-20210411161107543.png)
+![image-20210411161107543](https://pic.zhouyuqian.com/img/20210727194757.png)
 
 SCS 原理图如上图所示。其中基带 I Q 信号为 64QAM 信号。为了简化算法实现的复杂度，首先将 I Q 信号变换到第一象限，并记录下 I Q 信号原本的象限，最后在输出的时候做符号调整就可以了。上图红框中将 $\varphi - \pi/2$，原因是因为在实际的设计过程中发现 $\theta + \varphi$ 会大于 $\pi /2$，为了避免溢出而将其减了 $\pi /2$，因此在进行符号调整之前：
 $$
@@ -92,29 +92,29 @@ $$
 
 1. 64QAM 基带信号：
 
-   ![64QAM基带信号](scs/64QAM基带信号.svg)
+   ![64QAM基带信号](https://pic.zhouyuqian.com/img/20210727194758.svg)
 
 2. 64QAM 频带信号：
 
-   ![QAM信号波形](scs/QAM信号波形.svg)
+   ![QAM信号波形](https://pic.zhouyuqian.com/img/20210727194759.svg)
 
 3. 64QAM 星座图：
 
-   ![QAM信号星座图](scs/QAM信号星座图.svg)
+   ![QAM信号星座图](https://pic.zhouyuqian.com/img/20210727194800.svg)
 
 4. 对基带信号进行 SCS 运算得到的 $S_{1I},S_{1Q},S_{2I},S_{2Q}$ 信号：
 
-   ![QAM基带信号信号SCS](scs/QAM基带信号信号SCS.svg)
+   ![QAM基带信号信号SCS](https://pic.zhouyuqian.com/img/20210727194801.svg)
 
 5. 将 SCS 后的基带信号与载波相乘：
 
-   ![QAM信号SCS](scs/QAM信号SCS.svg)
+   ![QAM信号SCS](https://pic.zhouyuqian.com/img/20210727194802.svg)
 
    可以看到两路信号 S1 和 S2 是两路恒包络的调相信号，说明 SCS 模块实现了将原来的调幅调相信号转为两路恒包络的调相信号。
 
 6. 两路信号 S1 和 S2 合成：
 
-   ![QAM信号SCS合成](scs/QAM信号SCS合成.svg)
+   ![QAM信号SCS合成](https://pic.zhouyuqian.com/img/20210727194803.svg)
 
    可以看到合成后的信号与原始信号一致，说明在 SCS 的过程中信号的信息没有丢失。
 

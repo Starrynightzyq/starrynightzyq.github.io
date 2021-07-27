@@ -101,7 +101,7 @@ description:
 
 输入 `nvidia-smi` 查看驱动安装是否成功
 
-![nvidia-smi](Ubuntu-安装-Tensorflow-gpu/nvidia-smi.png)
+![nvidia-smi](https://pic.zhouyuqian.com/img/20210727233030.png)
 
 **最后我装的是 430.50 版本的驱动**
 
@@ -131,13 +131,13 @@ EndSection
 
 **Tensorflow 与 CUDA 有对应关系**，可以参考[这里](https://www.tensorflow.org/install/source#gpu)，主要是因为 tensorflow 会调用 *usr/local/cuda/lib64* 目录下的 `.so` 文件，我尝试过了，`1.14`,`1.15` 版本的 tensorflow 调用的都是 `10.0` 的 cuda，装错版本会提示 `.so` 文件找不到
 
-![version](Ubuntu-安装-Tensorflow-gpu/version.png)
+![version](https://pic.zhouyuqian.com/img/20210727233031.png)
 
 我要装的是 Tensorflow-gpu 1.14.0，因此我安装 CUDA10.0 和 cuDNN7.4
 
 下载 CUDA https://developer.nvidia.com/cuda-toolkit-archive
 
-![download](Ubuntu-安装-Tensorflow-gpu/download.png)
+![download](https://pic.zhouyuqian.com/img/20210727233032.png)
 
 运行如下命令安装
 
@@ -147,7 +147,7 @@ sudo sh cuda_<version>_linux.run
 
 安装过程中会有一些选项，**显卡驱动不要装 !!!** 因为之前已经装过了
 
-![installer](Ubuntu-安装-Tensorflow-gpu/installer.png)
+![installer](https://pic.zhouyuqian.com/img/20210727233033.png)
 
 安装完成输出的 log 会有提示
 
@@ -169,13 +169,13 @@ nvcc -V
 
 下载 [cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0](https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10)
 
-![cudnn-download](Ubuntu-安装-Tensorflow-gpu/cudnn-download.png)
+![cudnn-download](https://pic.zhouyuqian.com/img/20210727233034.png)
 
 解压后，会得到一个名为 *cuda* 的文件夹，将问价拷贝到 cuda 的安装目录下
 
 **注意!!!  *cuda/lib64* 里的文件有链接的结构，如下，不能直接 cp，使用 `-a` 参数可以保持软链接结构**
 
-![la](Ubuntu-安装-Tensorflow-gpu/la.png)
+![la](https://pic.zhouyuqian.com/img/20210727233035.png)
 
 ~~~bash
 sudo cp -a cuda/lib64/libcudnn* /usr/local/cuda-10.0/lib64/
@@ -206,13 +206,13 @@ sudo cp -a cuda/include/cudnn.h /usr/local/cuda-10.0/include/
 
    会看到类似这种结果：
 
-   ![deviceQuery](Ubuntu-安装-Tensorflow-gpu/deviceQuery.png)
+   ![deviceQuery](https://pic.zhouyuqian.com/img/20210727233036.png)
 
 # 安装多个版本的 cuda
 
 因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：
 
-![cuda](Ubuntu-安装-Tensorflow-gpu/cuda.png)
+![cuda](https://pic.zhouyuqian.com/img/20210727233037.png)
 
 使用命令：
 
@@ -245,7 +245,7 @@ nvcc -V
 
 1. `Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR`
 
-   ![error1](Ubuntu-安装-Tensorflow-gpu/error1.png)
+   ![error1](https://pic.zhouyuqian.com/img/20210727233038.png)
 
    这个报错可能是 tensorflow 和 cuda 版本不符合，但如果已经按照[推荐列表](https://www.tensorflow.org/install/source#gpu)里的对应关系安装了 tensorflow 和 cuda，任然这样报错就可能是 tensorflow 占用的显存过多，进程直接被系统 kill 了，因此可以对 tensorflow 的显存进行限制。
 

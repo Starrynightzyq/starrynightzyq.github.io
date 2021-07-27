@@ -119,9 +119,9 @@ apt-get update
 
 参考ug1144，需要安装一些库。
 
-![1549966129865](Xilinx-Petalinux-Learning/1549966129865.png)
+![1549966129865](https://pic.zhouyuqian.com/img/20210727233602.png)
 
-![1549966192025](Xilinx-Petalinux-Learning/1549966192025.png)
+![1549966192025](https://pic.zhouyuqian.com/img/20210727233603.png)
 
 ~~~shell
 apt-get install tofrodos:i386
@@ -187,7 +187,7 @@ mkdir /home/zyq/smbshare/petalinux
 
 安装过程中有3个许可，需要都同意。
 
-![1549975464135](Xilinx-Petalinux-Learning/1549975464135.png)
+![1549975464135](https://pic.zhouyuqian.com/img/20210727233604.png)
 
 每次开机使用petalinux时，要在命令行输入：
 
@@ -212,9 +212,9 @@ echo $PETALINUX
 
 使用vivado建立一个zynq工程，需要分配一些外设资源，参考ug1144。
 
-![1549976437075](Xilinx-Petalinux-Learning/1549976437075.png)
+![1549976437075](https://pic.zhouyuqian.com/img/20210727233605.png)
 
-![1549976463868](Xilinx-Petalinux-Learning/1549976463868.png)
+![1549976463868](https://pic.zhouyuqian.com/img/20210727233606.png)
 
 生成bitstream文件，导入到SDK。
 
@@ -245,7 +245,7 @@ petalinux-config --get-hw-description = /home/zyq/smbshare/proj/h1_petalinux
 
 config需要的时间较长，耐心等待。
 
-![1549979677117](Xilinx-Petalinux-Learning/1549979677117.png)
+![1549979677117](https://pic.zhouyuqian.com/img/20210727233607.png)
 
 如果config报错，可能是工程目录权限不够，执行命令：
 

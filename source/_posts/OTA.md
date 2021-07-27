@@ -9,7 +9,7 @@ tags: [Analog, IC_design]
 description:
 ---
 
-![电路结构](OTA/image-20210317191814049.png)
+![电路结构](https://pic.zhouyuqian.com/img/20210727183531.png)
 
 最基本的 CMOS 二级密勒补偿运算跨导放大器结构如图所示，主要包括四个部分：第一级输入级放大电路、第二级放大电路、偏置电路和相位补偿电路。
 
@@ -25,7 +25,7 @@ description:
 
 不考虑 M14，电路的等效模型如下图所示：
 
-<img src="OTA/image-20210319101141088.png" alt="image-20210319101141088" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727183651.png" alt="image-20210319101141088" style="zoom:50%;" />
 
 第一级和第二级都是跨导放大器，M1 和 M2 相同，则第一级的跨导为：
 $$
@@ -230,7 +230,7 @@ $$
 
 当晶体管工作在饱和区时，实际上的设计参数只有 $(W/L),I_{DS},V_{DSAT}$，确定了这三个变量中的两个就可以决定第三个量。在本设计中，确定晶体管的电流和过驱动电压就可以得到需要的宽长比。
 
-![cm](OTA/cm.png)
+![cm](https://pic.zhouyuqian.com/img/20210727183532.png)
 
 如上图所示，首先单独搭建电流镜部分。
 
@@ -285,43 +285,43 @@ $$
    | M14      |      | 10/1  |
    
 
-![OTA](OTA/OTA.png)
+![OTA](https://pic.zhouyuqian.com/img/20210727183533.png)
 
 # cadence 仿真
 
 ## AC
 
-![ac](OTA/ac.svg)
+![ac](https://pic.zhouyuqian.com/img/20210727183534.svg)
 
 通过 AC 仿真可以得到 GBW 大约为 113MHz，在单位带宽增益处，相移达到了 127°，表明相位裕度为 53°，不能满足大于 60° 的要求，因此调整米勒电容 Cc 为 1.5pF，再次仿真，得到GBW 为113MHz，相位裕度为 63°，满足要求。 
 
-![ac1.5p](OTA/ac1.5p.svg)
+![ac1.5p](https://pic.zhouyuqian.com/img/20210727183535.svg)
 
 ## 噪声仿真
 
-<img src="OTA/截屏2021-03-20 下午4.47.15.png" alt="截屏2021-03-20 下午4.47.15" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727183604.png" alt="截屏2021-03-20 下午4.47.15" style="zoom:33%;" />
 
 接下来仿真噪声，依照上图设置参数。其中，最下面 Positive Output Node 一栏，可点击 Select 按钮后，在电路图中选择输出节点；而 Negative Output Node 一栏则选地，若不选，则也会默认为地；Input Voltage Source 选择**输入差分信号的电压源**。结果选择等效输入噪声，如下：
 
-<img src="OTA/noise.svg" alt="noise"  />
+<img src="https://pic.zhouyuqian.com/img/20210727183623.svg" alt="noise"  />
 
 ## 其他指标仿真
 
-![tb_all](OTA/tb_all.png)
+![tb_all](https://pic.zhouyuqian.com/img/20210727183536.png)
 
 SR、CMRR 和 nPSRR，仿真如上图所示。
 
 ### SR (压摆率)
 
-<img src="OTA/截屏2021-03-20 下午6.43.01.png" alt="截屏2021-03-20 下午6.43.01" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727183635.png" alt="截屏2021-03-20 下午6.43.01" style="zoom:33%;" />
 
 其中 SR 仿真中信号源使用 `vpulse`，设置如上图所示。仿真时使用 `tran` 仿真，仿真后输出波形。
 
-![截屏2021-03-20 下午6.37.13](OTA/截屏2021-03-20 下午6.37.13.png)
+![截屏2021-03-20 下午6.37.13](https://pic.zhouyuqian.com/img/20210727183537.png)
 
 由于 SR 是电压相对于时间的导数，可以使用计算器来得到一个更直观的 SR。 设置如上图所示。SR 的结果如下图所示。
 
-![SR](OTA/SR.svg)
+![SR](https://pic.zhouyuqian.com/img/20210727183538.svg)
 
 ### CMRR (共模抑制比)
 
@@ -338,13 +338,13 @@ $$
 \frac{V_{out}}{V_{CM}} = \frac{A_{CM}}{A_{DM}+1}\approx\frac{A_{CM}}{A_{DM}}=\frac{1}{CMRR}
 $$
 
-![CMRR](OTA/CMRR.svg)
+![CMRR](https://pic.zhouyuqian.com/img/20210727183539.svg)
 
 ### 电源抑制比 (PSRR)
 
 在负电源上叠加 1V 交流电压，输出端接到负输入端，正输入端接 VDD/2  的直流电源。
 
-![nPSRR](OTA/nPSRR.svg)
+![nPSRR](https://pic.zhouyuqian.com/img/20210727183540.svg)
 
 ## 仿真结果
 

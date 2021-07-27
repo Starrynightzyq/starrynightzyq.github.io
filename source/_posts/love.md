@@ -3,12 +3,13 @@ title: 程序员（假）的浪漫
 toc: true
 comments: true
 date: 2020-08-25 21:24:37
-updated: 2020-08-28 09:35:39categories: 随笔
+updated: 2020-08-28 09:35:39
+categories: 随笔
 tags: 随笔
 description:
 ---
 
-<img src="love/love.jpg" alt="love" style="zoom:40%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727183151.jpg" alt="love" style="zoom:40%;" />
 
 <!--more-->
 
@@ -64,4 +65,4 @@ if __name__ == "__main__":
 
 **GIF版：**
 
-![love](love/love.gif)
+![love](https://pic.zhouyuqian.com/img/20210727183202.gif)

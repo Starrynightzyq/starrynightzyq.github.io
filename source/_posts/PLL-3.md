@@ -3,7 +3,8 @@ title: 高性能射频毫米波频率源三种主要解决方案
 toc: true
 comments: true
 date: 2020-10-23 11:09:47
-updated: 2020-10-24 09:42:52categories: PLL
+updated: 2020-10-24 09:42:52
+categories: PLL
 tags: [IC_design, Analog, PLL]
 description:
 ---
@@ -20,7 +21,7 @@ description:
 
 # 方案一：直接采用工作在毫米波频段的锁相环
 
-<img src="PLL-3/image-20201023111423329.png" alt="毫米波锁相环" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194159.png" alt="毫米波锁相环" style="zoom:35%; margin: auto;" />
 
 ## 优缺点分析
 
@@ -42,13 +43,13 @@ description:
 
 ### 1. 双 VCO 方案
 
-<img src="PLL-3/image-20201023160724357.png" alt="Xilinx 7.4-14 GHz 锁相环" style="zoom:100%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194211.png" alt="Xilinx 7.4-14 GHz 锁相环" style="zoom:100%; margin: auto;" />
 
 Xilinx 18 年发布了一款可覆盖 7.4-14 GHz 的宽带锁相环，采用 16-nm FinFET 工艺，实现了 54 $fs_{rms}$的时钟抖动。该方案为了实现宽带输出要求，在芯片中集成了两颗 VCO，一颗工作在高频段，另一颗工作在低频段，从而有效地扩展了总带宽。这个方案是一种对带宽和噪声很好的折衷方案，通过牺牲一定的芯片面积和系统复杂度，换取了不错的带宽和相位噪声特性。然而，也因为使用了两颗 VCO，使得该方案无法成为完美的解决方案。
 
 ### 2. Sub-sampling 锁相环方案
 
-<img src="PLL-3/image-20201023162857827.png" alt="澳门大学 25.4-29.5GHz 锁相环" style="zoom:67%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194221.png" alt="澳门大学 25.4-29.5GHz 锁相环" style="zoom:67%; margin: auto;" />
 
 澳门大学于 2019 年发布了一款工作在 25.4-29.5 GHz 的锁相环，采用 Sub-sampling 锁相环方案，实现了 71 $fs_{rms}$的时钟抖动,同时仅消耗 10.2 mW 的功耗。Sub-sampling 锁相环是另一种比较好的解决方案，因为其去掉了环路中的分频器，相比于传统锁相环，该锁相环不产生分频器噪声，继而降低了环路总噪声。同时，该 Sub-sampling 鉴相器具有极高的增益，可以最大程度地抑制环路内电荷泵噪声。因此，Sub-sampling 锁相环有着极佳的带内噪声特性。
 
@@ -56,13 +57,13 @@ Xilinx 18 年发布了一款可覆盖 7.4-14 GHz 的宽带锁相环，采用 16-
 
 ### 3. 耦合锁相环方案
 
-<img src="PLL-3/image-20201023172600531.png" alt="Oregon State University 28 GHz 锁相环" style="zoom:60%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194231.png" alt="Oregon State University 28 GHz 锁相环" style="zoom:60%; margin: auto;" />
 
 Oregon State University 在 2018 年发布了一款 28 GHz 耦合锁相环。这种锁相环主要目的是实现不同电路板上的本振信号同步，从而支持大规模相控阵应用。通过这种耦合，不仅能实现相位上的同步，其特殊的环路响应使得其具备相位噪声滤波效应。然后此方案主要针对特殊应用而设计的，固然通过耦合后相位噪声可以得到改善,但若使用在其他应用中,这种相位噪声的改善无法弥补其功耗和面积上的损失。
 
 # 方案二：低频信号源级联单个毫米波倍频器
 
-<img src="PLL-3/image-20201023173357398.png" alt="低频信号源级联单个毫米波倍频器" style="zoom:30%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194245.png" alt="低频信号源级联单个毫米波倍频器" style="zoom:30%; margin: auto;" />
 
 该方案使用低频率的频率源作为输入，并用倍频器将低频信号倍频值毫米波频段。
 
@@ -86,7 +87,7 @@ Oregon State University 在 2018 年发布了一款 28 GHz 耦合锁相环。这
 
 ### 1. 注入锁定倍频器
 
-<img src="PLL-3/image-20201023174340701.png" alt="Delft 60 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194254.png" alt="Delft 60 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;" />
 
 Delft University of Technology 在 2008 年首先尝试了该方法实现了 60 GHz 注入锁定倍频器。在该设计中，作者使用了注入锁定的方式实现三倍频器的效果。由于需要正交输出, 作者首先设计了一个 R-C 多相滤波(Polyphase filter, PPF)，将输入的 20 GHz 差分信号转变成正交信号；然后，将生成的正交信号注入至耦合的正交注入锁定振荡器中。由于注入锁定振荡器工作在 60 GHz 频率附近，其输入信号在经过非线性变换后，产生的三次谐波用以锁定注入锁定振荡器，因此，此时的注入锁定振荡器将受迫振荡于输入信号的三次谐波处，从而实现了三倍频的效果。该芯片可工作在 56-65 GHz 的频率范围内，且具备良好的相位噪声跟踪特性，即倍频器本身几乎不引入额外的相位噪声。
 
@@ -100,13 +101,13 @@ LG 公司与 2017 年发布了的一款注入锁定倍频器，用于 5G 多通�
 
 注入锁定倍频器存在锁定带宽不足，容易失锁等问题。因此，近年来，学术界和工业界均投入大量的精力，对注入锁定倍频器的调谐和校准进行研究。
 
-<img src="PLL-3/image-20201024082112428.png" alt="Virginia Tech 28 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194306.png" alt="Virginia Tech 28 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;" />
 
 在诸多发表的用于校准的文章中，Virginia Tech 在 2016 年发布的一款工作在 28 GHz 的注入锁定三倍频器尤为突出，如上图所示。由于注入锁定倍频器在锁定时具有恒定输出包络，而当失锁时，其输出呈现为类调幅信号。因此，该工作通过对倍频器的输出进行包络检波，从而根据输出的包络情况判断注入锁定倍频器是否失锁。最后，通过数字控制电路调整注入锁定倍频器的调谐电压，从而建立反馈环路使倍频器保持锁定。虽然该电路具有较好的稳定性和相位噪声特性，但其工作带宽也仅为 11.4%。
 
 # 方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果
 
-<img src="PLL-3/image-20201023223800311.png" alt="低频信号源级联多个毫米波倍频器" style="zoom:33%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194313.png" alt="低频信号源级联多个毫米波倍频器" style="zoom:33%; margin: auto;" />
 
 该方案采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果。
 
@@ -126,7 +127,7 @@ LG 公司与 2017 年发布了的一款注入锁定倍频器，用于 5G 多通�
 
 ### 香港科技大学 21-48 GHz 宽带注入锁定频率源
 
-<img src="PLL-3/image-20201023222435774.png" alt="香港科技大学 21-48 GHz 宽带注入锁定频率源" style="zoom:55%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194325.png" alt="香港科技大学 21-48 GHz 宽带注入锁定频率源" style="zoom:55%; margin: auto;" />
 
 该方案由香港科技大学于 2014 年提出，工作原理如图所示。首先，使用一个 4.5-6.1 GHz 的低频小数分频锁相环产生输入信号；之后，对此信号进行除三除四双模分频，从而第一次展宽信号带宽，且产生正交输出；继而，将此信号注入一个三倍频器，该倍频器使用了一个锁相环来做校正，从而防止失锁；该倍频器的输出再次经过一个三倍频器，完成第二次倍频；最后，该倍频器的输出分别采用一个三倍频器和一个二倍频器对输入信号进行倍频，最终得到了覆盖 21-48 GHz 的毫米波宽带频率源。 
 

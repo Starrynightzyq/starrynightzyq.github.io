@@ -3,7 +3,8 @@ title: Delta-Sigma Modulator (2) — Simulink Simulation
 categories: Delta-Sigma
 tags:
   - IC_design
-updated: 2020-12-07 22:13:22  - Analog
+updated: 2020-12-07 22:13:22
+  - Analog
   - PLL
   - DSM
 toc: true
@@ -15,7 +16,7 @@ description:
 
 PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。
 
-<img src="DSM2/image-20201127220949901.png" alt="image-20201127220949901" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180306.png" alt="image-20201127220949901" style="zoom:33%;" />
 
 <!--more-->
 
@@ -23,7 +24,7 @@ PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工�
 
 如上图所示，一阶 DSM 由一个 Delta 调制器，一个积分器以及一个量化器组成。
 
-<img src="DSM2/image-20201127221245628.png" alt="image-20201127221245628" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180324.png" alt="image-20201127221245628" style="zoom:33%;" />
 
 一阶 DSM 等效的 Z 域模型如上图所示，其中量化器等效为一个噪声的叠加，可以得到：
 $$
@@ -49,15 +50,15 @@ V[z] = X[z] + (V[z] - Y[z])z^{-1}
 $$
 由此可以得到该 DSM 的另一种 Z 域模型：
 
-<img src="DSM2/image-20201127223250969.png" alt="image-20201127223250969" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180340.png" alt="image-20201127223250969" style="zoom:33%;" />
 
 可以看到该一阶 DSM 本质上就是一个累加器，因此其在电路中信号流图可以描述如下：
 
-<img src="DSM2/image-20201127223534482.png" alt="image-20201127223534482" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180353.png" alt="image-20201127223534482" style="zoom:33%;" />
 
 其中累加器为两个 m 位输入，m+1 位输出，输入 $X[n]$ 为缩放到 $2^m$ 的小数部分，例如，当 m = 24 时，$X[n] = 6291456$ 表示输入为 0.375 ($6291456/2^{24} = 0.375$)。$C[n]$ 为累加器输出结果的最高位，是累加的**进位**，相当于量化器的量化输出结果。累加器输出的低 m 位相当于量化误差。上面的结构可以用如下电路来实现：
 
-<img src="DSM2/image-20201127224405414.png" alt="image-20201127224405414" style="zoom:25%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180403.png" alt="image-20201127224405414" style="zoom:25%;" />
 
 其中 DFF 为 D 触发器，实现了延迟的功能。
 
@@ -65,11 +66,11 @@ $$
 
 根据上面的分析，可以在 Simulink 中对一阶 DSM 进行仿真。Simulink 中的结构如下图所示：
 
-<img src="DSM2/截屏2020-11-27 下午10.48.32.png" alt="截屏2020-11-27 下午10.48.32" style="zoom:25%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180419.png" alt="截屏2020-11-27 下午10.48.32" style="zoom:25%;" />
 
 累加器进位使用一个大于等于的比较运算实现，累加器的低位输出使用取余运算实现。
 
-![OneStage](DSM2/OneStage.svg)
+![OneStage](https://pic.zhouyuqian.com/img/20210727180222.svg)
 
 一阶 DSM 仿真结果如上图所示，第一个图是量化输出 C，第二个图是误差输出 e，输入设置为 6291456，累加器设置为 24 位，可以看到量化输出 C 每 8 个周期中会有 3 个高电平。
 
@@ -77,7 +78,7 @@ $$
 
 一阶的 DSM 输出周期性很明显，对噪声的整形效果不好。可以将其级联起来组成 MASH1-1-1 结构，如下图所示：
 
-<img src="DSM2/image-20201127225717497.png" alt="image-20201127225717497" style="zoom:40%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180436.png" alt="image-20201127225717497" style="zoom:40%;" />
 
 前一级的一阶 DSM 误差作为下一级的一阶 DSM 输入，每一级的输出通过延迟相加得到最终输出，传递函数推导如下：
 $$
@@ -96,23 +97,23 @@ $$
 
 Simulink 中的结构如下图所示：
 
-<img src="DSM2/截屏2020-11-28 上午9.14.25.png" alt="截屏2020-11-28 上午9.14.25" style="zoom:40%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180455.png" alt="截屏2020-11-28 上午9.14.25" style="zoom:40%;" />
 
 当输入为 0.375 ($6291456/2^{24} = 0.375$)，输出如下：
 
-![ThreeStage6291456](DSM2/ThreeStage6291456.svg)
+![ThreeStage6291456](https://pic.zhouyuqian.com/img/20210727180223.svg)
 
 当输入为 0.1 ($1677721/2^{24} = 0.1$)，输出如下：
 
-![ThreeStage1677721](DSM2/ThreeStage1677721.svg)
+![ThreeStage1677721](https://pic.zhouyuqian.com/img/20210727180224.svg)
 
 当输入为 0.9 ($15099494/2^{24} = 0.9$)，输出如下：
 
-![ThreeStage15099494](DSM2/ThreeStage15099494.svg)
+![ThreeStage15099494](https://pic.zhouyuqian.com/img/20210727180225.svg)
 
 输出信号的功率谱密度：
 
-![PSD](DSM2/PSD.svg)
+![PSD](https://pic.zhouyuqian.com/img/20210727180226.svg)
 
 **结果分析**：
 

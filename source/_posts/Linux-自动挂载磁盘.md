@@ -3,7 +3,8 @@ title: Linux 自动挂载磁盘
 toc: true
 date: 2020-03-15 22:17:19
 categories: Linux
-updated: 2020-03-21 14:04:35tags: [GEEK, Linux]
+updated: 2020-03-21 14:04:35
+tags: [GEEK, Linux]
 description:
 ---
 
@@ -13,7 +14,7 @@ description:
 
 1. Linux 常见的挂载目录结构：
 
-   ![img](Linux-自动挂载磁盘/4241038-2339e498c92de522.jpg)
+   ![img](https://pic.zhouyuqian.com/img/20210727183057.jpg)
 
 <!-- more -->
 

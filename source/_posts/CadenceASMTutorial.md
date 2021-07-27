@@ -3,7 +3,8 @@ title: Cadence ASM Tutorial
 toc: true
 comments: true
 date: 2020-12-16 11:25:31
-updated: 2020-12-17 19:09:56categories: Software
+updated: 2020-12-17 19:09:56
+categories: Software
 tags: [Software, Cadence, IC_design]
 description:
 ---
@@ -40,7 +41,7 @@ SOFTINCLUDE $INCISIVDIR/tools/inca/files/cds.lib
 
 ## *ieadl_dac (verilogA cellview)*
 
-<img src="CadenceASMTutorial/ieadl_dac.png" alt="ieadl_dac" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174104.png" alt="ieadl_dac" style="zoom:50%;" />
 
 首先创建一个新的 Library 叫做 ‘*AMS_Tutorial*’。然后创建一个 **verilogA** cellview 叫做 ‘*ieadl_dac*’。文件内容如下：
 
@@ -101,7 +102,7 @@ endmodule
 
 ## *dac_driver (verilog cellview)*
 
-<img src="CadenceASMTutorial/dac_driver.png" alt="dac_driver" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174132.png" alt="dac_driver" style="zoom:50%;" />
 
 然后创建一个 **verilog** cellview 叫做 ‘*dac_driver*’。文件内容如下：
 
@@ -132,7 +133,7 @@ endmodule
 
 ### *a_d (VerilogAMS cellview)*
 
-<img src="CadenceASMTutorial/a_d.png" alt="a_d" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174149.png" alt="a_d" style="zoom:50%;" />
 
 创建一个 **VerilogAMS** cellview 叫做 ‘a_d’。文件内容如下：
 
@@ -188,7 +189,7 @@ endmodule
 
 ### *d_a (VerilogAMS cellview)*
 
-<img src="CadenceASMTutorial/d_a.png" alt="d_a" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174202.png" alt="d_a" style="zoom:50%;" />
 
 创建一个 **VerilogAMS** cellview 叫做 ‘d_a’。文件内容如下：
 
@@ -249,11 +250,11 @@ endmodule
 
 ## *ideal_DAC_test （schematic cellview）*
 
-<img src="CadenceASMTutorial/ideal_DAC_test.png" alt="ideal_DAC_test" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174229.png" alt="ideal_DAC_test" style="zoom:50%;" />
 
 创建一个 **schematic** cellview 叫做 ‘ideal_DAC_test’。将器件按照下图进行连接。
 
-![schematic](CadenceASMTutorial/schematic.png)
+![schematic](https://pic.zhouyuqian.com/img/20210727170838.png)
 
 # 仿真
 
@@ -263,11 +264,11 @@ endmodule
 
 为 *ideal_DAC_test* 创建一个 **config cellview**，如下图所示。
 
-<img src="CadenceASMTutorial/config.png" alt="config" style="zoom: 50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174248.png" alt="config" style="zoom: 50%;" />
 
 创建完成后，配置窗口会自动弹出，如下图所示，首先选择 ‘Use Template…’，在弹出来的窗口中选择 ‘AMS’。剩下的信息按照下图配置。
 
-<img src="CadenceASMTutorial/AMSconfig.png" alt="AMSconfig" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174302.png" alt="AMSconfig" style="zoom:50%;" />
 
 创建完成后，把 config(Hierarchy Editor) 和 Schematic 窗口**都关闭**。
 
@@ -275,31 +276,31 @@ endmodule
 
 然后**再次打开 config 窗口**，这时会弹出一个窗口，两项都选 ‘yes’，如下图所示。
 
-<img src="CadenceASMTutorial/reopen.png" alt="reopen" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174315.png" alt="reopen" style="zoom:50%;" />
 
 点击 ‘OK’ 之后会看到 config 和 schematic 窗口都一起打开了。在 Hierarchy Editor 窗口中，右击 *View To Use* 上右击，选择 *Select View*，配置成如下图所示。
 
-![view](CadenceASMTutorial/view.png)
+![view](https://pic.zhouyuqian.com/img/20210727170839.png)
 
-<img src="CadenceASMTutorial/AMS_view.png" alt="AMS_view" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174329.png" alt="AMS_view" style="zoom:50%;" />
 
 ### 配置 AMS
 
 点击 Plugins -> AMS，然后 AMS 选项就会出现在 Hierarchy Editor 窗口中了。
 
-<img src="CadenceASMTutorial/AMS_Plugin.png" alt="AMS_Plugin" style="zoom: 50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174347.png" alt="AMS_Plugin" style="zoom: 50%;" />
 
 然后点击 AMS -> Initialize，配置 *Run Directory*，并且在 *Always use this run directory …* 后面打钩。
 
-<img src="CadenceASMTutorial/AMS_Initialize.png" alt="AMS_Initialize" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174357.png" alt="AMS_Initialize" style="zoom:50%;" />
 
 在 AMS -> Quick Setup 中，配置 *hdl.var* 为之前[初始化设置](#初始化设置)中创建的 *hdl.var* 文件。
 
-<img src="CadenceASMTutorial/AMS_quicksetup.png" alt="AMS_quicksetup" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174410.png" alt="AMS_quicksetup" style="zoom:50%;" />
 
 在 AMS -> Detalied Setup -> Analyses 中设置仿真结束时间，这里设置的是 *20e-6*。
 
-<img src="CadenceASMTutorial/stoptime.png" alt="stoptime" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174424.png" alt="stoptime" style="zoom:50%;" />
 
 上面几步做完了记得保存一下。
 
@@ -307,15 +308,15 @@ endmodule
 
 点击 AMS -> NetList and Run，打开一个 config 窗口，这里也可以设置仿真时间。需要注意的是 *Save/Plot…* 这个选项，该选项可以将需要观察的信号添加进来，不过不建议在这里添加，而是 Netlist 之后再添加，更加方便。
 
-<img src="CadenceASMTutorial/AMS_run_config.png" alt="AMS_run_config" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727174435.png" alt="AMS_run_config" style="zoom:50%;" />
 
 在上面的窗口中点击 *Run*，如果没有错误会弹出 SimVision 窗口。
 
 在 *Design Browser* 窗口中想要观察的信号上右击 -> **Send to Waveform Window**，然后再点击 SimVision Console 窗口中的 **Run** 按钮，仿真就开始运行了。
 
-![SimVision](CadenceASMTutorial/SimVision.png)
+![SimVision](https://pic.zhouyuqian.com/img/20210727170840.png)
 
-![wave](CadenceASMTutorial/wave.png)
+![wave](https://pic.zhouyuqian.com/img/20210727170841.png)
 
 > PS：如果模拟量信号观察不到，但可以看到数值，可能需要设置一下 View -> Zoom -> Full Y.
 

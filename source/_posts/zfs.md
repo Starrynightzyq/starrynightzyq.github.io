@@ -35,7 +35,7 @@ sudo zpool create tank mirror /dev/disk/by-id/xxxxxxx1 /dev/disk/by-id/xxxxxxx2
 zfs list
 ~~~
 
-![截屏2021-04-02 上午10.24.51](zfs/截屏2021-04-02 上午10.24.51.png)
+![截屏2021-04-02 上午10.24.51](https://pic.zhouyuqian.com/img/20210727233648.png)
 
 查看存储池的状态信息
 
@@ -43,7 +43,7 @@ zfs list
 zpool status tank
 ~~~
 
-![截屏2021-04-02 上午10.26.21](zfs/截屏2021-04-02 上午10.26.21.png)
+![截屏2021-04-02 上午10.26.21](https://pic.zhouyuqian.com/img/20210727233649.png)
 
 ## 其他命令：
 
@@ -108,7 +108,7 @@ sudo zfs set mountpoint=/home tank/home
 
 用 `zfs list` 命令可以看到用户目录是在 `rpool/USERDATA` 下的：
 
-![截屏2021-04-02 下午3.19.58](zfs/截屏2021-04-02 下午3.19.58.png)
+![截屏2021-04-02 下午3.19.58](https://pic.zhouyuqian.com/img/20210727233650.png)
 
 我想把他们迁移到 HDD 硬盘的存储池 `tank` 里，直接修改挂载点的方法是不行的，新建一个用户后挂载点还会在原来的 `rpool/USERDATA` 下，在[此处](https://github.com/ubuntu/zsys/issues/132)找到了方法。
 
@@ -132,7 +132,7 @@ sudo zfs set mountpoint=/home tank/home
 
    这时可以看到 `tank/USERDATA` 和 `rpool/USERDATA` 的结构是相同的：
 
-   ![截屏2021-04-02 下午3.32.16](zfs/截屏2021-04-02 下午3.32.16.png)
+   ![截屏2021-04-02 下午3.32.16](https://pic.zhouyuqian.com/img/20210727233651.png)
 
 3. 删除原来的 `rpool/USERDATA`：
 

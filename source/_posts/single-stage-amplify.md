@@ -3,7 +3,8 @@ title: 单级放大器
 categories: Analog
 tags:
   - IC_design
-updated: 2020-11-08 19:13:38  - Analog
+updated: 2020-11-08 19:13:38
+  - Analog
   - Amplify
 toc: true
 comments: true
@@ -27,7 +28,7 @@ description:
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="single-stage-amplify/amplify.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727194850.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -64,7 +65,7 @@ $$
 
 <center>
     <img style="zoom:133%; border-radius: 0.3125em; margin: auto;" 
-    src="single-stage-amplify/in_out.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727194906.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -91,7 +92,7 @@ $$
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="single-stage-amplify/diode_MOS.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727194925.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -115,7 +116,7 @@ $$
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="single-stage-amplify/amplify_mos.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727194943.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -148,7 +149,7 @@ $$
 
 <center>
     <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-    src="single-stage-amplify/amplifier_dc.png">
+    src="https://pic.zhouyuqian.com/img/20210727195002.png">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -169,7 +170,7 @@ $$
 
   <center>
       <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-      src="single-stage-amplify/amplifier_dc_wave.jpg">
+      src="https://pic.zhouyuqian.com/img/20210727195016.jpg">
       <br>
       <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
@@ -184,7 +185,7 @@ $$
 
   <center>
       <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-      src="single-stage-amplify/amplifier_L0_sweep.jpg">
+      src="https://pic.zhouyuqian.com/img/20210727195029.jpg">
       <br>
       <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
@@ -198,7 +199,7 @@ $$
 
   <center>
       <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-      src="single-stage-amplify/amplifier_W0_sweep.jpg">
+      src="https://pic.zhouyuqian.com/img/20210727195039.jpg">
       <br>
       <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
@@ -212,7 +213,7 @@ $$
 
     <center>
         <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-        src="single-stage-amplify/amplifier_ac_gain.jpg">
+        src="https://pic.zhouyuqian.com/img/20210727195100.jpg">
         <br>
         <div style="color:orange; border-bottom: 1px solid #d9d9d9;
         display: inline-block;
@@ -224,7 +225,7 @@ $$
 
     <center>
         <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-        src="single-stage-amplify/amplifier_ac_phase.jpg">
+        src="https://pic.zhouyuqian.com/img/20210727195114.jpg">
         <br>
         <div style="color:orange; border-bottom: 1px solid #d9d9d9;
         display: inline-block;

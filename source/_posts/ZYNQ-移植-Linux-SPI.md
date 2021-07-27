@@ -9,7 +9,7 @@ description:
 
 # 修改 vivado 工程，启用 PS-SPI
 
-![vivado SPI](ZYNQ-移植-Linux-SPI/SPI_enable-1588644338828.png)
+![vivado SPI](https://pic.zhouyuqian.com/img/20210727233811.png)
 
 <!--more-->
 
@@ -82,15 +82,15 @@ description:
 
 参考 [Xlinx wiki: SPI Zynq driver](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver) 需要启用 `CONFIG_SPI_CADENCE`，这个选项在 *xilinx_zynq_defconfig* 文件中是默认启用的：
 
-![SPI_CADENCE](ZYNQ-移植-Linux-SPI/SPI_CADENCE.png)
+![SPI_CADENCE](https://pic.zhouyuqian.com/img/20210727233812.png)
 
 参考 [Xlinx wiki: Linux SPI Driver](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver) 需要启用 `CONFIG_SPI_XILINX`，这个选项在 *xilinx_zynq_defconfig* 文件中也是默认启用的：
 
-![CONFIG_SPI_XILINX](ZYNQ-移植-Linux-SPI/CONFIG_SPI_XILINX.png)
+![CONFIG_SPI_XILINX](https://pic.zhouyuqian.com/img/20210727233813.png)
 
 但是这样配置怎么也找不到 *spidev* 设备，后来在 [forums.xilinx](https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133) 上看到的一个回答：
 
-![USER_MODE_SPI](ZYNQ-移植-Linux-SPI/USER_MODE_SPI.png)
+![USER_MODE_SPI](https://pic.zhouyuqian.com/img/20210727233814.png)
 
 需要启用 `CONFIG_SPI_SPIDEV` ，在 *Device Drivers -> SPI Support -> User mode SPI device driver support* 
 
@@ -123,7 +123,7 @@ arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test
 
 将生成的 *spidev_test* 拷贝到 ZYNQ 中，运行 `./spidev_test`，可以看到 SPI 接口上产生了正确的波形：
 
-![SPI-WAVE](ZYNQ-移植-Linux-SPI/SPI_WAVE.png)
+![SPI-WAVE](https://pic.zhouyuqian.com/img/20210727233815.png)
 
 
 

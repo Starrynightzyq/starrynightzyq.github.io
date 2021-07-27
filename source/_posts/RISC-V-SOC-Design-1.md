@@ -3,13 +3,14 @@ title: RISC-V SOC Design (1)
 toc: true
 date: 2020-03-27 21:39:24
 categories: RISC-V
-updated: 2020-03-27 22:28:32tags: [RISC-V, FPGA, 毕业设计]
+updated: 2020-03-27 22:28:32
+tags: [RISC-V, FPGA, 毕业设计]
 description:
 ---
 
 使用 vivado blockdesign 搭建，比较直观
 
-![ibex_bd](RISC-V-SOC-Design-1/ibex_bd.png)
+![ibex_bd](https://pic.zhouyuqian.com/img/20210727194616.png)
 
 <!--more-->
 

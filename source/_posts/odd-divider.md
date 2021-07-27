@@ -3,26 +3,27 @@ title: FPGA 实现任意奇数分频
 toc: true
 comments: true
 date: 2020-10-06 19:24:47
-updated: 2020-10-07 14:33:25categories: FPGA
+updated: 2020-10-07 14:33:25
+categories: FPGA
 tags: [FPGA, DSP]
 description:
 ---
 
 在做 FPGA 设计时，需要不同频率的时钟，通常会使用 Xilinx 提供 MMCM/PLL 时钟 IP 分频或者倍频得到。偶数分频很简单，只需要用一个以 分频数/2 为最大值的计数器控制输出时钟翻转即可。但奇数分频不能用这种方法来实现，以 3 分频为例，其每个周期的高电平时间占原始时钟的 1.5 个周期，计数器无法计数 0.5 个时钟周期。
 
-<img src="odd-divider/wavedrom.svg" alt="div3_0" style="zoom:100%; margin: auto;" />
+![wavedrom](https://pic.zhouyuqian.com/img/20210727183456.svg)
 
 <!--more-->
 
 但是换个角度来看，3 分频的波形其高电平占了 3 个 $\frac{1}{2}$ 的时钟周期，是否可以设计一种触发器，让其在时钟的上升沿和下降沿都触发，这样的计数器就可以计数半个时钟周期了。不过在 FPGA 中，这种触发器是不存在的，不过可以用一个上升沿触发的触发器和一个下降沿触发的触发器组合来达到这样的效果。
 
-<img src="odd-divider/div3.svg" alt="div3" style="zoom:100%; margin: auto;" />
+![div3](https://pic.zhouyuqian.com/img/20210727183457.svg)
 
 如上图所示，两个脉冲 `clk_div_p` 和 `clk_div_n` 分别在时钟的上升沿和下降沿变化，都是高电平占两个时钟周期，低电平占一个时钟周期，将两者做**与**运算，就得到了 3 分频时钟信号。
 
 同样的，可以推断出 5 分频的时序图：
 
-<img src="odd-divider/div5.svg" alt="div5" style="zoom:100%; margin: auto;" />
+![div5](https://pic.zhouyuqian.com/img/20210727183458.svg)
 
 高电平时间占 3 个时钟周期，低电平时间占 2 个时钟周期。
 
@@ -181,7 +182,7 @@ endmodule
 
 **5 分频仿真结果**
 
-<img src="odd-divider/tb_div5.png" alt="tb_div5" style="zoom:100%; margin: auto;" />
+![tb_div5](https://pic.zhouyuqian.com/img/20210727183459.png)
 
 >Reference:
 >

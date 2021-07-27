@@ -47,11 +47,11 @@ make menuconfig
 
 使用这种类似图像界面配置：
 
-![menuconfig](ZYNQ-移植-Linux-USB/menuconfig.png)
+![menuconfig](https://pic.zhouyuqian.com/img/20210727233832.png)
 
 然后 `<Load>` 配置文件：
 
-![load](ZYNQ-移植-Linux-USB/load.png)
+![load](https://pic.zhouyuqian.com/img/20210727233833.png)
 
  配置文件的路径是 *arch/arm/configs/xilinx_zynq_defconfig*，按照上面的要求进行配置，最后 `<Save>`，然后 `<Exit>`
 

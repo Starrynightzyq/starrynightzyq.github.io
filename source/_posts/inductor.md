@@ -13,17 +13,17 @@ description: VCO 中电感的选取及仿真
 
 这里使用的电感参数如下图所示：
 
-<img src="inductor/ind.png" alt="ind" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182509.png" alt="ind" style="zoom:50%;" />
 
 根据 TIF 的结果，其电感值在 2.4GHz 的频率下为 3.9 nH，我们可以使用 S 参数仿真来看一下电感的 L-Q 曲线。
 
 仿真的电路图如下（方法来自 [eetop-depend135](http://bbs.eetop.cn/forum.php?mod=redirect&goto=findpost&ptid=292661&pid=6034926)）：
 
-![schematic](inductor/schematic.png)
+![schematic](https://pic.zhouyuqian.com/img/20210727182450.png)
 
 SP 仿真的设置如下：
 
-![sp](inductor/sp.png)
+![sp](https://pic.zhouyuqian.com/img/20210727182451.png)
 
 这里注意频率的扫描范围不要从 0 开始，不然后面计算电感值时会出现除以 0 的现象，导致无法计算出电感值。
 
@@ -47,6 +47,6 @@ $$
 
 运行仿真，得到 L-Q 曲线如下图所示：
 
-![L-Q](inductor/L-Q.svg)
+![L-Q](https://pic.zhouyuqian.com/img/20210727182452.svg)
 
 这个曲线和 TIF 的结果是一致的。

@@ -3,7 +3,8 @@ title: 电流镜-1
 toc: true
 comments: true
 date: 2020-11-02 21:26:09
-updated: 2020-11-08 19:13:38categories: Analog
+updated: 2020-11-08 19:13:38
+categories: Analog
 tags: [IC_design, Analog, CM]
 description:
 ---
@@ -18,7 +19,7 @@ description:
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/CM.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727174902.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -58,7 +59,7 @@ $$
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/cascode.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727174920.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -88,7 +89,7 @@ $$
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/cascode_cm.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727174937.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -126,7 +127,7 @@ $$
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/lv_cascode_cm.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727174957.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -137,7 +138,7 @@ $$
 
 <center>
     <img style="zoom:67%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/lv2_cascode_cm.drawio.svg">
+    src="https://pic.zhouyuqian.com/img/20210727175012.svg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -170,7 +171,7 @@ $$
 
 <center>
     <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/CM3.png">
+    src="https://pic.zhouyuqian.com/img/20210727175030.png">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
@@ -180,7 +181,7 @@ $$
 
 <center>
     <img style="zoom:100%; border-radius: 0.3125em; margin: auto;" 
-    src="Current-Mirror/CM.pdf">
+    src="https://pic.zhouyuqian.com/img/20210727175346.jpg">
     <br>
     <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;

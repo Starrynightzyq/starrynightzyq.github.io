@@ -3,12 +3,13 @@ title: 使用 VSCode 编写 LaTeX — Mac 篇
 toc: true
 comments: true
 date: 2020-12-09 10:01:54
-updated: 2021-02-07 01:11:36categories: GEEK
+updated: 2021-02-07 01:11:36
+categories: GEEK
 tags: [GEEK, LaTex, MAC]
 description:
 ---
 
-<img src="TexOnVsCode/vscode1.png" class="full-image" style="zoom:200%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727195217.png" class="full-image" style="zoom:200%;" />
 
 之前在 Mac 上写 LaTex，一直用 Sublime 编写，用 TexPad 编译，TexPad 虽然很好用，界面也很好看，然而它是付费软件，一直用着\*\*版总觉得心里过意不去，就想着替代的方案。
 
@@ -34,13 +35,13 @@ Windows 环境可以参考 [使用VSCode编写LaTeX](https://zhuanlan.zhihu.com/
 
 安装 [LaTex Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop).
 
-![LaTexWorkshop](TexOnVsCode/LaTexWorkshop.png)
+![LaTexWorkshop](https://pic.zhouyuqian.com/img/20210727195158.png)
 
 # 编译配置命令
 
 打开用户配置文件（在 VSCode 界面下按下 F1，然后键入“setjson”，点击“首选项: 打开设置(JSON)”）：
 
-![settings](TexOnVsCode/settings.png)
+![settings](https://pic.zhouyuqian.com/img/20210727195159.png)
 
 在**中括号内**加入：
 
@@ -125,13 +126,13 @@ Windows 环境可以参考 [使用VSCode编写LaTeX](https://zhuanlan.zhihu.com/
 
 然后就可以进行编译了：
 
-![compile](TexOnVsCode/compile.png)
+![compile](https://pic.zhouyuqian.com/img/20210727195200.png)
 
 # 配置快捷键
 
 打开 *keybindings.json* 文件（在 VSCode 界面下按下 F1，然后键入“keyboard”，点击“Preference: Open Keyboard Shortcuts(JSON)”）：
 
-![keyboard](TexOnVsCode/keyboard.png)
+![keyboard](https://pic.zhouyuqian.com/img/20210727195201.png)
 
 在中括号内加入：
 
@@ -201,7 +202,7 @@ brew cask install skim
 
 skim-选项-同步-预设vscode:
 
-![skim](TexOnVsCode/skim.png)
+![skim](https://pic.zhouyuqian.com/img/20210727195202.png)
 
 然后从 VSCode 跳转到 Skim 使用快捷键 ***alt+s***，Skim 中 PDF 对应的位置会显示一个红点，从 Skim 跳转到 VSCode 使用 ***command+shift+鼠标左击***。
 

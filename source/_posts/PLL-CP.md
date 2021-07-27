@@ -3,7 +3,8 @@ title: PLL-CP
 categories: PLL
 tags:
   - IC_design
-updated: 2020-11-26 14:42:55  - Analog
+updated: 2020-11-26 14:42:55
+  - Analog
   - PLL
 toc: true
 comments: true
@@ -14,7 +15,7 @@ description:
 
 电荷泵是锁相环中重要的一个模块，其主要功能是将鉴频鉴相器 (PFD) 输出的时钟相位差值转化为电荷，将其传到环路滤波器，从而产生控制 VCO 的电压。下图是一个电荷泵的工作原理。
 
-<img src="PLL-CP/image-20201120183435924.png" alt="image-20201120183435924" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194418.png" alt="image-20201120183435924" style="zoom:50%;" />
 
 <!--more-->
 
@@ -37,7 +38,7 @@ $$
 
 ## 漏极开关电荷泵 (drain-switching charge pump)
 
-<img src="PLL-CP/image-20201120185406410.png" alt="image-20201120185406410" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194426.png" alt="image-20201120185406410" style="zoom:33%;" />
 
 最简单的一种 CP 结构如上图所示，其开关位于电流源 MOS 管的漏极，称为漏极开关电荷泵。不过该结构的电荷泵有很多问题：
 
@@ -47,7 +48,7 @@ $$
 
 ## 电流转向电荷泵 (current sterring charge pump)
 
-<img src="PLL-CP/image-20201120190555706.png" alt="image-20201120190555706" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194436.png" alt="image-20201120190555706" style="zoom:33%;" />
 
 该结构是在漏极开关电荷泵的基础上改进的，加入了一组**反相**信号控制的开光和一个**单位增益的缓冲器**。
 
@@ -64,7 +65,7 @@ $$
 
 ## 源级开关电荷泵 (source-switching charge pump)
 
-<img src="PLL-CP/image-20201120200115113.png" alt="image-20201120200115113" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194446.png" alt="image-20201120200115113" style="zoom:50%;" />
 
 该结构将开关置于电流源的源级，称为源级开关电荷泵。
 
@@ -83,7 +84,7 @@ $$
 
 一种方法可以使用 Cascode 结构增加电流源输电阻，但由于 Cascode 结构需要较高的电源电压，会减小电荷泵的输出电压范围。另一种方法是通过运算放大器使 UP 和 DOWN 电流相互跟踪。
 
-<img src="PLL-CP/image-20201121001945923.png" alt="image-20201121001945923" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194455.png" alt="image-20201121001945923" style="zoom:50%;" />
 
 如上图所示，由于运放的负反馈作用，电荷泵的输出端和 M1,M2 的漏极电位相等。这样可以保证 UP 和 DOWN 的电流分别精确跟踪 M1,M2 的电流源。由于流过偏置管 M1,M2 的电流始终是相等的，所以 UP 和 DOWN 的电流也不受输出电压的影响。
 

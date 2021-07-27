@@ -49,11 +49,11 @@ $$
 
 ## 电路原理图
 
-![vco-schematic](vco-param/vco-schematic.png)
+![vco-schematic](https://pic.zhouyuqian.com/img/20210727172519.png)
 
 电路原理图如上图所示，可变电容部分使用了三个可变电容并联并给不同的偏置的方法，用来提高可变电容的线性度，其结构如下图所示。
 
-<img src="vco-param/image-20210509152604001.png" alt="image-20210509152604001" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172647.png" alt="image-20210509152604001" style="zoom:33%;" />
 
 > 开关电容阵列结构还没有做好
 
@@ -61,9 +61,9 @@ $$
 
 pss 仿真设置如下图所示：
 
-<img src="vco-param/pss1.png" alt="pss1" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172740.png" alt="pss1" style="zoom:33%;" />
 
-<img src="vco-param/pss2.png" alt="pss2" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172754.png" alt="pss2" style="zoom:33%;" />
 
 **Beat Frequency:** 设置 VCO 的工作频率；
 
@@ -77,7 +77,7 @@ pss 仿真设置如下图所示：
 
 pnoise 仿真设置如下：
 
-<img src="vco-param/pnoise.png" alt="pnoise" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172815.png" alt="pnoise" style="zoom:33%;" />
 
 **Sweeptype : **设置为 relative；
 
@@ -91,39 +91,39 @@ pnoise 仿真设置如下：
 
 选择 **Results — Direct Plot — Main Form — tstab**
 
-<img src="vco-param/tstab.png" alt="tstab" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172835.png" alt="tstab" style="zoom:33%;" />
 
-![tstab](vco-param/tstab.svg)
+![tstab](https://pic.zhouyuqian.com/img/20210727172520.svg)
 
 ### 输出功率
 
-<img src="vco-param/power_tb.png" alt="power_tb" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172851.png" alt="power_tb" style="zoom:33%;" />
 
 选择 **Different Nets (specify R)** 并设置好负载，输出选择 **dBm**。
 
-![power](vco-param/power.svg)
+![power](https://pic.zhouyuqian.com/img/20210727172521.svg)
 
 ### Phase Noise
 
-<img src="vco-param/phase_noise_tb.png" alt="phase_noise_tb" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172927.png" style="zoom:33%;" />
 
-![phasenoise](vco-param/phasenoise.svg)
+![phasenoise](https://pic.zhouyuqian.com/img/20210727172522.svg)
 
 ### AM noise / PM noise
 
-<img src="vco-param/AM.png" alt="AM" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727172956.png" alt="AM" style="zoom:33%;" />
 
-<img src="vco-param/PM.png" alt="PM" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727173012.png" alt="PM" style="zoom:33%;" />
 
-![AMPMnoise](vco-param/AMPMnoise.svg)
+![AMPMnoise](https://pic.zhouyuqian.com/img/20210727172523.svg)
 
 ### 频率随 Vctrl 变化及 KVCO
 
-<img src="vco-param/vrtrl.png" alt="vrtrl" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727173031.png" alt="vrtrl" style="zoom:33%;" />
 
-KVCO 使用 `deriv` 函数计算得到。
+KVCO 使用 `deriv` 函数计算得到。
 
-![vctrl](vco-param/vctrl-0548766.svg)
+![vctrl](https://pic.zhouyuqian.com/img/20210727172524.svg)
 
 # 电路优化
 

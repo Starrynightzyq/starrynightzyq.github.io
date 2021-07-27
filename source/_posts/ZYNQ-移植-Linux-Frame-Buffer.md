@@ -21,7 +21,7 @@ Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个�
 
 使用的屏幕分辨率 80*160，驱动芯片是 ST7735s，屏幕上除了 SPI 接口外，还有 RES、DC、BLK 三个接口
 
-![spi-oled](ZYNQ-移植-Linux-Frame-Buffer/0.96inch_lcd_module_spi.png)
+![spi-oled](https://pic.zhouyuqian.com/img/20210727233727.png)
 
 > 注：与传统的SPI协议不同的地方是：由于是只需要显示，故而将从机发往主机的数据线进行了隐藏
 
@@ -39,7 +39,7 @@ CPOL的高低决定串行同步时钟的空闲状态电平，CPOL = 0，为低�
 
 可以看出需要一个 SPI 接口和两个 GPIO 口，GPIO 口用来控制 RESX 和 D/CX 信号，BlockDesign 如图：
 
-![vivado-bd](ZYNQ-移植-Linux-Frame-Buffer/vivado-fb.png)
+![vivado-bd](https://pic.zhouyuqian.com/img/20210727233728.png)
 
 其实驱动可以用 zynq 的 EMIO 的，但是一直没驱动起来，就用了 AXI-GPIO
 
@@ -77,7 +77,7 @@ CPOL的高低决定串行同步时钟的空闲状态电平，CPOL = 0，为低�
 
    load 之前的配置文件：
 
-   ![menuconfig](ZYNQ-移植-Linux-Frame-Buffer/menuconfig.png)
+   ![menuconfig](https://pic.zhouyuqian.com/img/20210727233729.png)
 
    启动 fbtft 驱动，路径：
 
@@ -89,7 +89,7 @@ CPOL的高低决定串行同步时钟的空闲状态电平，CPOL = 0，为低�
    	 		<M>   Module to for adding FBTFT devices       # fbtft_device 驱动
    ~~~
 
-   ![fbtft-configure](ZYNQ-移植-Linux-Frame-Buffer/fbtft-configure.png)
+   ![fbtft-configure](https://pic.zhouyuqian.com/img/20210727233730.png)
 
    > 注意这里至少需要选择两个驱动，一个是 fbtft_device，一个是屏幕芯片对应的驱动，如果这里没有所使用的屏幕芯片的驱动，可以选择 `Generic FB driver for TFT LCD displays` 通用驱动，不过用起来稍微有点烦，需要 init 参数。
    >
@@ -163,9 +163,9 @@ sudo insmod fb_st7735r.ko
 
 到这步还出现了个小问题，就是 fbtft 里面提供的 st7735 驱动是 160x128 分辨率的，而我的屏幕是 160x80 分辨率的，虽然已经在 fbtft_device.ko 的参数里制定了自定义的分辨率，但是屏幕的内容就显示不全，上面内容的冒到屏幕外了，下面还有一点屏幕空白，这应该是显示区域的起点错了，导致显示区域偏屏幕上方，看了下 st7735 的手册，发现这个芯片工作的逻辑是先发送要刷新区域的位置，然后再发送显示的内容：
 
-![y](ZYNQ-移植-Linux-Frame-Buffer/st7735-y.png)
+![y](https://pic.zhouyuqian.com/img/20210727233731.png)
 
-![y1](ZYNQ-移植-Linux-Frame-Buffer/st7789-y1.png)
+![y1](https://pic.zhouyuqian.com/img/20210727233732.png)
 
 然后就在驱动代码里找啊找，在 *linux-xlnx/drivers/staging/fbtft/fb_st7735r.c* 文件里找到了 `static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)` 这个函数，这应该就是发送显示区域的函数了，给 `ys` 和 `ye` 加了一个偏移，完美，显示区域到了屏幕中央了：
 

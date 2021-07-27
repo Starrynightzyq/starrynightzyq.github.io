@@ -3,14 +3,15 @@ title: PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器
 toc: true
 comments: true
 date: 2020-10-13 16:21:57
-updated: 2020-10-24 09:43:18categories: PLL
+updated: 2020-10-24 09:43:18
+categories: PLL
 tags: [IC_design, Analog, PLL]
 description:
 ---
 
 前一篇文章 [PLL(Phase-locked loop, 锁相环)](https://zhouyuqian.com/2020/09/11/PLL/) 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。
 
-<img src="PLL-2/小数频率综合器系统结构.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193424.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;" />
 
 <!--more-->
 
@@ -68,21 +69,21 @@ description:
 
 ## 基本模块
 
-<img src="PLL-2/电荷泵锁相环型小数频率综合器基本结构.png" alt="电荷泵锁相环型小数频率综合器基本结构" style="zoom:30%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193454.png" alt="电荷泵锁相环型小数频率综合器基本结构" style="zoom:30%; margin: auto;" />
 
 如上图所示，一个典型的电荷泵锁相环型小数频率综合器包括鉴频鉴相器 (Phase Frequency Detector, PFD)、电荷泵 (Charge Pump, CP)、环路滤波器 (Loop Filter, LF)、压控振荡器 (Voltage Controlled Oscillator, VCO)、可编程整数分频器、$\Delta-\Sigma$ 调制器 (Delta-Sigma Modulator, DSM) 和自动频率校准单元 (Auto-Frequency Calibration, AFC)。
 
 ### 鉴频鉴相器和电荷泵
 
-<img src="PLL-2/理想 PFD:CP 工作波形.png" alt="理想 PFD:CP 工作波形" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193527.png" alt="理想 PFD:CP 工作波形" style="zoom:35%; margin: auto;" />
 
 理想 PFD/CP 工作波形如上图所示。鉴频鉴相器 (PFD) 用以检测参考时钟 $f_{ref}$ 和分频器输出 $f_{div}$ 的频率差或者相位差，并输出与之形成正比的脉冲信号 UP 和 DN。电荷泵 (CP) 将 UP 和 DN 间的脉宽差值转换为电流脉冲，对环路滤波器进行充放电，产生压控振荡器的控制信号。
 
-<img src="PLL-2/边沿触发的 PFD:CP 结构图.png" alt="边沿触发的 PFD:CP 结构图" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193548.png" alt="边沿触发的 PFD:CP 结构图" style="zoom:35%; margin: auto;" />
 
 上图为边沿触发的 PFD/CP 结构图，包括两个带复位端的 D 触发器、一个两输入的与门和连接电荷泵开关的缓冲逻辑单元。由于电荷泵的开关分别采用了 PMOS 管和 NMOS 管，逻辑相反，所以需要在缓冲逻辑单元中对 UP 信号反向。为了使 UP 和 DN 信号到达 CP 开关的延迟保持一致，在缓冲单元中的传输门应尽量与非门保持相同的传输延迟。
 
-<img src="PLL-2/PFD:CP 传输特性曲线.png" alt="PFD:CP 传输特性曲线" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193620.png" alt="PFD:CP 传输特性曲线" style="zoom:35%; margin: auto;" />
 
 PFD/CP 传输特性曲线如上图所示，在环路锁定的过程中，PFD/CP 可分为三个工作状态：鉴频鉴 (相位差$>2\pi$)、鉴相 (相位差$<2\pi$)、锁定相位 (相位差$=0$)。当 PFD 的两个输入信号相位差绝对值大于 $2\pi$ 时，PFD 工作在鉴频状态，输出极性不再随相位变化。当相位差绝对值不超过 $2\pi$ 时，PFD 工作在鉴相状态，即环路进入锁定过程。此时，PFD/CP 的输出信号 UP 与 DN 之间脉宽差值 $\Delta t$ 与两个输入信号的相位差 $\Delta \varphi$ 成正比，即：
 $$
@@ -99,7 +100,7 @@ K_{PFDCP} = \frac{\overline{I_{out}}}{\Delta \varphi} = \frac{I_{CP}}{2\pi}
 $$
 可得到 PFD/CP 的线性相位在 s 域的模型如下图所示：
 
-<img src="PLL-2/PFD:CP 的线性相位在 s 域模型.png" alt="PFD:CP 的线性相位在 s 域模型" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193632.png" alt="PFD:CP 的线性相位在 s 域模型" style="zoom:35%; margin: auto;" />
 
 ### 环路滤波器
 
@@ -107,7 +108,7 @@ $$
 
 常见的环路滤波器可分为有源滤波器和无源滤波器。有源滤波器功耗大，并会产生有源噪声，因此在锁相环系统中通常会使用无源环路滤波器。一阶无源环路滤波器的电压纹波较大，实际应用中通常使用二阶和三阶无源环路滤波器。其结构如下图所示：
 
-<img src="PLL-2/常用无源环路滤波器.png" alt="常用无源环路滤波器" style="zoom:45%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193649.png" alt="常用无源环路滤波器" style="zoom:45%; margin: auto;" />
 
 上图二阶无源环路滤波器的传递函数为：
 $$
@@ -121,7 +122,7 @@ $$
 
 环路滤波器的线性相位 s 域模型如下图所示：
 
-<img src="PLL-2/环路滤波器的线性相位 s 域模型.png" alt="环路滤波器的线性相位 s 域模型" style="zoom:25%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193707.png" alt="环路滤波器的线性相位 s 域模型" style="zoom:25%; margin: auto;" />
 
 ### 压控振荡器
 
@@ -143,19 +144,19 @@ $$
 $$
 VCO 的线性相位 s 域模型如下图所示：
 
-<img src="PLL-2/VCO 的线性相位 s 域模型.png" alt="VCO 的线性相位 s 域模型" style="zoom:30%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193723.png" alt="VCO 的线性相位 s 域模型" style="zoom:30%; margin: auto;" />
 
 ### 可编程整数分频器
 
 可编程整数分频器位于锁相环的反馈回路中，将 VCO 输出的振荡信号进行分频后，输出给 PFD 与参考时钟比较，而形成环路。可编程整数分频器工作在整个 PLL 的**最高频率**处。常用的电路结构有：基于双模预分频的 P/S 计数器结构和 2/3 分频器链结构。
 
-<img src="PLL-2/基于双模预分频器的 P:S 计数器结构.png" alt="基于双模预分频器的 P:S 计数器结构" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193742.png" alt="基于双模预分频器的 P:S 计数器结构" style="zoom:40%; margin: auto;" />
 
 基于双模预分频器的 P/S 计数器结构如上图所示，这种结构的分频器总分频比为：
 $$
 M = (N+1)\cdot S + N\cdot (P-S) = N\cdot P + S
 $$
-<img src="PLL-2/基于 2:3 分频器链的结构.png" alt="基于 2:3 分频器链的结构" style="zoom:50%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193753.png" alt="基于 2:3 分频器链的结构" style="zoom:50%; margin: auto;" />
 
 基于 2/3 分频器链的结构如上图所示，这种分频器只要第一级工作在最高频率，后级工资频率逐渐降低，可以降低电路功耗；整个链路中不存在长延时回路，所有反馈路径只存在于相邻的两个单元之间，可靠性好；链路中的每一级都由相同的模块组成，电路的可复用性好。
 
@@ -167,13 +168,13 @@ n 级 2/2 分频器链的分频比范围为 $2^n \sim 2^{n+1}-1$，此外可以�
 
 可编程整数分频器的线性相位 s 域模型如下图所示：
 
-<img src="PLL-2/可编程整数分频器的线性相位 s 域模型.png" alt="可编程整数分频器的线性相位 s 域模型" style="zoom:25%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193817.png" alt="可编程整数分频器的线性相位 s 域模型" style="zoom:25%; margin: auto;" />
 
 ### $\Delta - \Sigma$ 调制器
 
 小数频率综合器中的小数分频器是通过“动态分频比”来实现的，在环路锁定时两个输入信号仍存在相位差。$\Delta - \Sigma$ 调制器可以将瞬时分频比随机化，在实现小数分频的同时，进行量化噪声的整形。
 
-<img src="PLL-2/Delta-Sigma 调制器的工作原理示意图.png" alt="Delta-Sigma 调制器的工作原理示意图" style="zoom:45%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193847.png" alt="Delta-Sigma 调制器的工作原理示意图" style="zoom:45%; margin: auto;" />
 
 $\Delta - \Sigma$ 调制器的工作原理如上图所示，小数分频器的分频比分为整数部分 $N$ 和小数部分 $a$，小数部分通过 $\Delta - \Sigma$ 调制器进行量化后，与整数部分相加，得到瞬时分频比。$\Delta - \Sigma$ 调制器将带内噪声推向带外，实现噪声整形，而带外的量化噪声可以通过环路滤波器进行抑制，从而改善小数频率综合器的输出相位噪声。
 
@@ -213,7 +214,7 @@ $$
 
 由于 VCO 的输出端直接送到小数分频器的输入端，因此小数分频器工作在整个环路的最高频率处。因此小数分频器的高频部分采用全定制电路实现，而低频模块则采用半定制电路实现。
 
-<img src="PLL-2/小数分频器结构.png" alt="小数分频器结构" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193930.png" alt="小数分频器结构" style="zoom:40%; margin: auto;" />
 
 小数分频器的结构如上图所示，主要由高速二分频器、可编程整数分频器和 $\Delta - \Sigma$ 调制器组成，其中可编程整数分频器包括四分频器和 2/3 分频器链。
 
@@ -242,11 +243,11 @@ $$
 
 可再生分频器和注入锁定分频器都属于模拟分频器，可以达到很高的工作频率。然而可再生分频器在低频下会产生高次谐波分量，注入式分频器的工作频率比较窄。SLC 触发器构成的分频器属于数字分频器，其工作频率高、工作范围大、灵敏度高、可输出理想的正交信号。
 
-<img src="PLL-2/触发器构成的二分频器.png" alt="触发器构成的二分频器" style="zoom:25%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193943.png" alt="触发器构成的二分频器" style="zoom:25%; margin: auto;" />
 
 如上图所示，将触发器的反相输出端 Qn 和数据输入端 D 相连就可以构成一个二分频器。
 
-<img src="PLL-2/SCL 锁存器构成的高速二分频器.png" alt="SCL 锁存器构成的高速二分频器" style="zoom:50%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727193957.png" alt="SCL 锁存器构成的高速二分频器" style="zoom:50%; margin: auto;" />
 
 如上图所示，SCL 触发器实际上是由两个 SCL 结构的锁存器级联而成的。
 
@@ -262,17 +263,17 @@ $$
 
 共源放大器结构的缓冲电路其偏置电流可调、工作频率高、反向隔离度好、并且可以抑制共模电流。
 
-<img src="PLL-2/共源放大器结构的缓冲电路结构.png" alt="共源放大器结构的缓冲电路结构" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194013.png" alt="共源放大器结构的缓冲电路结构" style="zoom:35%; margin: auto;" />
 
 共源放大器结构的缓冲电路结构如上图所示，单端输出信号峰峰值 $V_{PP}$ 为 $I_{SS} \cdot R_{D}$。
 
 ### 四分频器
 
-<img src="PLL-2/触发器构成的四分频器.png" alt="触发器构成的四分频器" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194023.png" alt="触发器构成的四分频器" style="zoom:40%; margin: auto;" />
 
 与高速二分频器的结构类似，两个完全相同的触发器就可以构成一个四分频器，其结构如上图所示。由于其工作频率范围为 $0.5 \sim 4.0GHz$，因此仍使用 SCL 结构的触发器电路结构来实现。
 
-<img src="PLL-2/四分频器的缓冲电路结构.png" alt="四分频器的缓冲电路结构" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194040.png" alt="四分频器的缓冲电路结构" style="zoom:35%; margin: auto;" />
 
 四分频器的缓冲电路结构如上图所示，四分频器的缓冲电路不仅要起到隔离和驱动的作用，还要实现模拟信号和数字逻辑信号的转换，因此缓冲电路分三级：
 
@@ -282,11 +283,11 @@ $$
 
 ### 2/3 分频器
 
-<img src="PLL-2/2:3 分频器链路结构.png" alt="2/3 分频器链路结构" style="zoom:45%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194101.png" alt="2/3 分频器链路结构" style="zoom:45%; margin: auto;" />
 
 2/3 分频器链路结构如上图所示，n 级 2/3 分频器链路的分频比范围为 $2^n \sim 2^{n+1}-1$，采用逻辑组合电路可以进一步将分频比拓展至 $2^k \sim 2^{n+1}-1$，因此采用 5 级 2/3 分频器链路，可以实现 $4 \sim 63$ 分频比范围。
 
-<img src="PLL-2/2:3 分频器结构.png" alt="2:3 分频器结构" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194114.png" alt="2:3 分频器结构" style="zoom:40%; margin: auto;" />
 
 每一级的 2/3 分频器结构如上图所示，有四个锁存器和三个与门构成。其包含两部分，上半部分是预分频逻辑 (Prescaler Logic)，下半部分是周期终止逻辑 (End-of-Cycle Logic)。周期终止逻辑根据分频比控制输入端 P 和模式输入端 $\mathrm{mod}_\mathrm{in}$ 来决定预分频逻辑的分频比。其分频比关系如下：
 
@@ -297,7 +298,7 @@ $$
 
 2/3 分频器链路的最高工作频率为 1GHz，可以采用真单相时钟 (True Single Phase Clocked, TSPC) 逻辑结构来实现，TSPC 逻辑有着结构简单、功耗小，并且只需要单相输入时钟的优点。TSPC 结构实现的 2/3 分频器电路结构如下图所示：
 
-<img src="PLL-2/TSPC 结构的 2:3 分频器.png" alt="TSPC 结构的 2:3 分频器" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727194127.png" alt="TSPC 结构的 2:3 分频器" style="zoom:40%; margin: auto;" />
 
 ### $\Delta-\Sigma$ 调制器
 

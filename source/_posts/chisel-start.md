@@ -164,7 +164,7 @@ visualize(() => new QueueModule(UInt(9.W), entries = 200))
 println(getVerilog(new QueueModule(UInt(9.W), entries = 200)))
 ~~~
 
-![q](chisel-start/q.png)
+![q](https://pic.zhouyuqian.com/img/20210727174715.png)
 
 **计算最大公约数：**
 
@@ -279,7 +279,7 @@ visualize(() => new MyQueue(32, 10))
 println(getVerilog(new MyQueue(32, 10)))
 ~~~
 
-![Queues](chisel-start/Queues.png)
+![Queues](https://pic.zhouyuqian.com/img/20210727174733.png)
 
 ## Arbiters
 

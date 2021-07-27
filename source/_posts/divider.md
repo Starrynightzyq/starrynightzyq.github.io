@@ -3,7 +3,8 @@ title: 分频器--锁存器
 toc: true
 comments: true
 date: 2020-09-23 16:20:31
-updated: 2020-09-25 11:01:11categories: PLL
+updated: 2020-09-25 11:01:11
+categories: PLL
 tags: [IC_design, Analog, PLL]
 description:
 ---
@@ -40,17 +41,17 @@ description:
 
 D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入端；在时钟输入端为低电平时，一直锁存当前数据保持不变。
 
-<img src="divider/截屏2020-09-23 下午5.00.33.png" alt="D 锁存器理想时序图" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175641.png" alt="D 锁存器理想时序图" style="zoom:40%; margin: auto;" />
 
 ## 主从锁存器
 
 锁存器的数据输出端在时钟时钟输入端为高电平时一直跟随数据输入端的变化而变化会引起一系列诸如不稳定、毛刺和竞争冒险等时序问题。可以使用由两个相位互反的时钟分别驱动两个串联的 D 锁存器来解决。
 
-<img src="divider/截屏2020-09-23 下午5.07.56.png" alt="主从锁存器理想时序图" style="zoom:60%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175655.png" alt="主从锁存器理想时序图" style="zoom:60%; margin: auto;" />
 
 ## 亚稳态/稳定性分析
 
-<img src="divider/截屏2020-09-23 下午5.40.50.png" alt="主从锁存器(a)亚稳态(b)实际时序图" style="zoom:50%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175705.png" alt="主从锁存器(a)亚稳态(b)实际时序图" style="zoom:50%; margin: auto;" />
 
 如图(a)所示，在时钟上升沿，数据输入发生变化，那么数据输出该如何变化。此时就产生了亚稳态问题。
 
@@ -68,7 +69,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 时序关系如下图所示：
 
-<img src="divider/截屏2020-09-24 下午7.28.14.png" alt="主从锁存器的稳定性" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175719.png" alt="主从锁存器的稳定性" style="zoom:40%; margin: auto;" />
 
 # 正交二分频器的结构
 
@@ -76,7 +77,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 ## 传输门主从锁存器
 
-<img src="divider/截屏2020-09-24 下午7.37.31.png" alt="基本传输门锁存器" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175730.png" alt="基本传输门锁存器" style="zoom:35%; margin: auto;" />
 
 基本的传输门锁存器如上图所示，一对互补的 MOS 管组成了一个传输门开关。
 
@@ -85,7 +86,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 实际中电容 C 可以用传输门和反相器的寄生电容来实现，但由于传输门关闭后仍有微小的漏电流存在，传输门寄存器需要**定期刷新**来保证数据不丢失。
 
-<img src="divider/截屏2020-09-24 下午7.56.47.png" alt="传输门主从锁存器" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175740.png" alt="传输门主从锁存器" style="zoom:35%; margin: auto;" />
 
 如上图所示，**传输门主从锁存器 (Transmission Gate Master-Slave Latch)**克服了**传输门锁存器**需要定期刷新的缺点。
 
@@ -105,7 +106,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 ## 时钟控制 CMOS 主从锁存器
 
-<img src="divider/截屏2020-09-25 上午8.34.30.png" alt="时钟控制 CMOS 主从锁存器" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175816.png" alt="时钟控制 CMOS 主从锁存器" style="zoom:35%; margin: auto;" />
 
 **时钟控制 CMOS 主从锁存器 (Clocked CMOS Master-Slave Latch)** 是在传输门主从锁存器的基础上发展而来，其主要变化是将传输门锁存器中的传输门和反相器合二为一，构成了如上图 (a) 所示的**时钟控制反相器**，从而简化了版图，提升了主从锁存器的工作速度。
 
@@ -113,7 +114,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 ## 共源共栅电压切换逻辑主从锁存器
 
-<img src="divider/截屏2020-09-25 上午8.54.58.png" alt="共源共栅电压切换逻辑主从锁存器" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175826.png" alt="共源共栅电压切换逻辑主从锁存器" style="zoom:40%; margin: auto;" />
 
 一种基于共源共栅电压切换逻辑的主从锁存器 (Cascode Voltage Switch Logic Master-Slave Latch) 如上图所示，$M_1 \sim M_6$ 构成了一级主锁存器，$M_7 \sim M_{12}$ 构成二级从锁存器。$M_1$ 和 $M_2$ 是一级主锁存器的**再生式管对 (???)**，$M_{11}$ 和 $M_{12}$ 是第二极从锁存器中的***再生式管对***。
 
@@ -141,7 +142,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 真单相时钟主从锁存器 (True Single-Phase Clock Master-Slave Latch) 是在时钟控制 CMOS 主从锁存器的基础上简化而来，主要是省略了同相锁存器，完全以节点寄生电容来存储电平。真单相时钟主从锁存器结构简单、MOS 管数量少、工作速度高、功耗低，特别适用于**高速分频器**。
 
-<img src="divider/截屏2020-09-25 上午9.23.50.png" alt="真单相时钟主从锁存器" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175841.png" alt="真单相时钟主从锁存器" style="zoom:40%; margin: auto;" />
 
 常用的一种真单相时钟主从锁存器结构如上图所示：$M_1 \sim M_3$ 构成第一级**时钟控制反相器**，$M_4 \sim M_6$ 构成第二级时钟控制反相器，$M_7 \sim M_9$ 构成第三级时钟控制反相器，$M_{10}$ 和 $M_{11}$ 构成输出反相器。
 
@@ -163,7 +164,7 @@ D 锁存器的数据输出在时钟输入端为高电平时，跟随数据输入
 
 电流模型主从锁存器 (Current Mode Logic Master-Slave Latch) 本质上是一个**模拟分频器**，其 MOS 管的静态工作点均位于**饱和区**且有**尾电流**，因此无论该锁存器有没有输入信号，其功耗都是一定的。相比于上述的 CMOS 逻辑锁存器，电流模型主从锁存器的**功耗**虽然**较大**，但其**工作频率**有很大优势，因此在**超高速分频器**中有广泛应用。
 
-<img src="divider/截屏2020-09-25 上午10.06.08.png" alt="电流模型主从锁存器" style="zoom:35%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727175853.png" alt="电流模型主从锁存器" style="zoom:35%; margin: auto;" />
 
 电流模型主从锁存器的结构如上图所示，由两个相同的电流模型锁存器串联组成。
 

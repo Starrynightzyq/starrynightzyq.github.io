@@ -106,11 +106,11 @@ source $HPEESOF_DIR/bin/setCSF.ksh
 
 然后启动 virtuoso，在CIW中可发现ADS已成功加载：
 
-![截屏2021-04-20 下午4.40.58](VirtuosoOnUbuntu/截屏2021-04-20 下午4.40.58.png)
+![截屏2021-04-20 下午4.40.58](https://pic.zhouyuqian.com/img/20210727233512.png)
 
 在 schematic 中选择 Launch-ADS Dynamic Link，就会弹出ADS窗口：
 
-![截屏2021-04-20 下午4.43.01](VirtuosoOnUbuntu/截屏2021-04-20 下午4.43.01.png)
+![截屏2021-04-20 下午4.43.01](https://pic.zhouyuqian.com/img/20210727233513.png)
 
 # Modelsim
 
@@ -372,7 +372,7 @@ libc_version=`echo $libc_file | sed -e 's/^[^-]*-//' -e 's/\.so//g'`
 libc_version=`echo $libc_file_tmp | sed -e 's/^[^-]*-//' -e 's/\.so//g'`
 ~~~
 
-![截屏2021-04-09 下午5.14.46](VirtuosoOnUbuntu/截屏2021-04-09 下午5.14.46.png)
+![截屏2021-04-09 下午5.14.46](https://pic.zhouyuqian.com/img/20210727233514.png)
 
 ## Since ptrace is used to monitor intelmpi CFX run, set the permission for all the users, just edit
 

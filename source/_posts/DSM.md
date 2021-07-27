@@ -3,7 +3,8 @@ title: Delta-Sigma Modulator
 categories: Delta-Sigma
 tags:
   - IC_design
-updated: 2020-12-07 22:13:22  - Analog
+updated: 2020-12-07 22:13:22
+  - Analog
   - PLL
   - DSM
 toc: true
@@ -23,13 +24,13 @@ description:
 
 整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了**差分积分调制器 (delta-sigma modulator, DSM)**，控制分频比在不同参考时钟周期采用不同的整数值，这样其“**平均**”分频比就是一个非整数值。
 
-<img src="DSM/image-20201126163214994.png" alt="image-20201126163214994" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;" />
 
 分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。
 
 # 差分积分调制器原理
 
-<img src="DSM/image-20201126163436341.png" alt="image-20201126163436341" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;" />
 
 差分积分调制器的工作原理如上图所示，其中 $N.f$ 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 $.f$，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 $.f$。
 
@@ -43,11 +44,11 @@ H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{
 $$
 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。
 
-<img src="DSM/image-20201126170555897.png" alt="image-20201126170555897" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;" />
 
 DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。
 
-<img src="DSM/image-20201126170450055.png" alt="image-20201126170450055" style="zoom:33%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;" />
 
 DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 $H(z)$，则量化噪声到输出噪声的传递函数为：
 $$
@@ -67,7 +68,7 @@ DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以�
 
 ## 单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)
 
-<img src="DSM/image-20201126181412774.png" alt="image-20201126181412774" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;" />
 
 上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。
 
@@ -77,7 +78,7 @@ DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以�
 
 ## MASH 结构
 
-<img src="DSM/image-20201126182429474.png" alt="image-20201126182429474" style="zoom:40%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;" />
 
 多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。
 
@@ -119,13 +120,13 @@ DSM 的输入和输出都是数字的，因此在每个参考周期内，在数�
 
 ## 通过电荷输出的 DAC 实现噪声补偿
 
-<img src="DSM/image-20201126194055426.png" alt="image-20201126194055426" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;" />
 
 如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用**最小二乘法**校准。
 
 ## 相位补偿
 
-<img src="DSM/image-20201126194607316.png" alt="image-20201126194607316" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;" />
 
 如上图所示，在分频器的输出端加一个**数控延迟线**来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过**最小二乘**的方式进行校准。
 

@@ -1,9 +1,18 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-03-15 16:02:49
+ * @LastEditTime: 2021-07-27 18:16:59
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /_posts/DSP-DDS.md
+-->
 ---
 title: DDS
 toc: true
 comments: true
 date: 2020-10-02 23:38:13
-updated: 2020-10-07 14:25:11categories: DSP
+updated: 2020-10-07 14:25:11
+categories: DSP
 tags: [FPGA, DSP]
 description:
 ---
@@ -18,13 +27,13 @@ description:
 
 ## DDS 算法原理
 
-<img src="DSP-DDS/DDS.png" alt="DDS" style="zoom:25%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181600.png" alt="DDS" style="zoom:25%; margin: auto;" />
 
 DDS结构如上图所示，在参考时钟的驱动下，相位累加器对频率控制字进行线性累加，得到的相位码对波形存储器寻址，使之输出相应的幅度码，经过数模转换器得到相应的阶梯波，最后再使用低通滤波器对其进行平滑，得到所需频率的平滑连续的波形。
 
 ### 相位累加器
 
-<img src="DSP-DDS/Phase_accumulator.png" alt="Phase_accumulator" style="zoom:25%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181601.png" alt="Phase_accumulator" style="zoom:25%; margin: auto;" />
 
 相位累加器的结构如上图所示，由 N 位加法器与 N 为累加寄存器级联构成。每来一个时钟 $f_{CLK}$，加法器将频率控制字 K 与累加寄存器输出的累加相位数据相加，把相加后的结果送至累加寄存器的数据输入端。这样在相位累加器在时钟的控制下，不断对频率控制字进行线性相位累加。由此可以看出，相位累加器在每一个时钟周期里，将频率控制字累加一次，相位累加器输出的数据就是合成信号的相位，相位累加器的溢出频率就是 DDS 的输出的信号频率。
 
@@ -41,7 +50,7 @@ $$
 
 波形存储器所存储的幅度值与余弦信号有关。用相位累加器输出的数据作为波形存储器（ROM）的相位取样地址，这样就可以将存储在波形存储器内的波形抽样值取出，完成相位到幅值的变换。
 
-<img src="DSP-DDS/截屏2020-10-03 上午9.37.34.png" alt="三角函数相位与幅度对应关系" style="zoom:40%; margin: auto;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181602.png" alt="三角函数相位与幅度对应关系" style="zoom:40%; margin: auto;" />
 
 余弦信号在一个周期内相位和幅度的变化关系如上图所示。一个 $N$ 位的相位累加器对应着圆上的 $2^N$ 个相位点，其分辨率为 $\Delta \phi = 2\pi/2^N$。上图 $N = 4$，共存在 16 种相位值与 16 种幅度值相对应，波形存储器的字节数决定了相位量化误差，量化的比特数决定了幅度量化误差。在实际的 DDS 中，可以利用余弦波形的对称性，将 $2\pi$ 范围内的幅值相位点减小到 $\pi/2$ 内以降低所需的存储量。
 

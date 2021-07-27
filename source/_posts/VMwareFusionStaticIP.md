@@ -31,11 +31,11 @@ host RHEL6_IC617_1.2 {
 }
 ~~~
 
-![constantip](VMwareFusionStaticIP/constantip.png)
+![constantip](https://pic.zhouyuqian.com/img/20210727233536.png)
 
 其中 `hardware ethernet` 表示 Mac 地址，`fixed-address` 表示 IP 地址，注意 IP 地址设置的范围要在 **subnet range** 的范围内（上图红框中）；
 
-![resource](VMwareFusionStaticIP/resource.png)
+![resource](https://pic.zhouyuqian.com/img/20210727233537.png)
 
 `RHEL6_IC617_1.2` 是虚拟机的名字，要和虚拟机资源库中的名字相同（上图红框中）。
 

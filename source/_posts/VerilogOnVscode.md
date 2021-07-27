@@ -13,7 +13,7 @@ description: 配置 VS Code 的 Verilog 开发环境
 
 首先我们安装 [Verilog-HDL/SystemVerilog/Bluespec SystemVerilog](https://marketplace.visualstudio.com/items?itemName=mshr-h.VerilogHDL)。
 
-![截屏2021-03-15 下午2.22.14](VerilogOnVscode/截屏2021-03-15 下午2.22.14.png)
+![截屏2021-03-15 下午2.22.14](https://pic.zhouyuqian.com/img/20210727233407.png)
 
 它能够为包括 Verilog 在内的多种 HDL 提供语法高亮、常用代码片段、符号补全以及代码分析的功能。
 
@@ -33,7 +33,7 @@ description: 配置 VS Code 的 Verilog 开发环境
 
 在 VS Code 的用户设置中 `Verilog > Linting: Linter` 一项选择 `verilator`:
 
-![截屏2021-03-15 下午2.26.05](VerilogOnVscode/截屏2021-03-15 下午2.26.05.png)
+![截屏2021-03-15 下午2.26.05](https://pic.zhouyuqian.com/img/20210727233408.png)
 
 # 使用 ctags 作为符号补全工具
 
@@ -45,7 +45,7 @@ description: 配置 VS Code 的 Verilog 开发环境
 
 **配置：**
 
-![ctags](VerilogOnVscode/ctags.png)
+![ctags](https://pic.zhouyuqian.com/img/20210727233409.png)
 
 **效果：**
 
@@ -65,7 +65,7 @@ description: 配置 VS Code 的 Verilog 开发环境
 
 接下来我们需要安装 [verilog-formatter](https://marketplace.visualstudio.com/items?itemName=IsaacT.verilog-formatter) 来进行格式化。
 
-![截屏2021-03-15 下午2.34.49](VerilogOnVscode/截屏2021-03-15 下午2.34.49.png)
+![截屏2021-03-15 下午2.34.49](https://pic.zhouyuqian.com/img/20210727233410.png)
 
 除此之外，我们需要下载 [编译后的 iStyle](https://github.com/0qinghao/istyle-verilog-formatter/releases) 或者 [iStyle 源代码](https://github.com/thomasrussellmurphy/istyle-verilog-formatter/releases)并手动编译(`make all`)。
 
@@ -73,7 +73,7 @@ description: 配置 VS Code 的 Verilog 开发环境
 
 另外在下方的 `Verilog-formatter > Istyle: Style` 一项，你可以选择多种格式化方式，我比较喜欢 `kr`。
 
-![截屏2021-03-15 下午2.37.03](VerilogOnVscode/截屏2021-03-15 下午2.37.03.png)
+![截屏2021-03-15 下午2.37.03](https://pic.zhouyuqian.com/img/20210727233411.png)
 
 之后在 VS Code 中，每当调用 `Format Document` 命令(`Ctrl+Shift+P` 后输入)，当前文件就会进行格式化（快捷键 `Shift + Alt + F`）。
 
@@ -109,7 +109,7 @@ description: 配置 VS Code 的 Verilog 开发环境
 
 通过 [gitignore.io](https://www.toptal.com/developers/gitignore)，你可以快速生成一份可用的 [`.gitignore` 文件](https://www.toptal.com/developers/gitignore/api/vivado,visualstudiocode)，或者基于此进行改进。
 
-![截屏2021-03-15 下午2.38.27](VerilogOnVscode/截屏2021-03-15 下午2.38.27.png)
+![截屏2021-03-15 下午2.38.27](https://pic.zhouyuqian.com/img/20210727233412.png)
 
 # 自动生成例化，自动生成testbench
 
@@ -125,7 +125,7 @@ verilog:instantiate
 
 需要安装插件 [Verilog_Testbench](https://marketplace.visualstudio.com/items?itemName=Truecrab.verilog-testbench-instance)
 
-![截屏2021-03-15 下午2.53.03](VerilogOnVscode/截屏2021-03-15 下午2.53.03.png)
+![截屏2021-03-15 下午2.53.03](https://pic.zhouyuqian.com/img/20210727233413.png)
 
 按F1或者Ctrl+Shift+P，输入:
 
@@ -134,7 +134,7 @@ Instance # 例化
 Testbench # tb
 ~~~
 
-![截屏2021-03-15 下午3.03.33](VerilogOnVscode/截屏2021-03-15 下午3.03.33.png)
+![截屏2021-03-15 下午3.03.33](https://pic.zhouyuqian.com/img/20210727233414.png)
 
 可以会报错缺少文件：
 
@@ -462,13 +462,13 @@ if __name__ == '__main__':
 
 ## [Verilog Snippet](https://marketplace.visualstudio.com/items?itemName=czh.czh-verilog-snippet) 可以提供更强大的补全
 
-![截屏2021-03-15 下午3.28.17](VerilogOnVscode/截屏2021-03-15 下午3.28.17.png)
+![截屏2021-03-15 下午3.28.17](https://pic.zhouyuqian.com/img/20210727233415.png)
 
 ## 自定义补全
 
 其实关于自动补全，还可以前往 "Preference->User Snippets"，来添加您自己的代码，虽然这个操作目前还是比较麻烦的。
 
-![截屏2021-03-15 下午3.31.12](VerilogOnVscode/截屏2021-03-15 下午3.31.12.png)
+![截屏2021-03-15 下午3.31.12](https://pic.zhouyuqian.com/img/20210727233416.png)
 
 # Reference
 

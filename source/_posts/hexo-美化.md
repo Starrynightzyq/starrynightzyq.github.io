@@ -421,7 +421,7 @@ anchor:
   <script type="text/javascript" src="/js/clicklove.js"></script>
 ~~~
 
-![clicklove](hexo-美化/clicklove.png)
+![clicklove](https://pic.zhouyuqian.com/img/20210727182411.png)
 
 # 修改字体大小
 

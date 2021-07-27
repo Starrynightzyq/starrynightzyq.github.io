@@ -19,8 +19,8 @@ updated: 2021-04-12 12:00:22
 ## 传统的 MASH 结构
 
 <div align="center">
-  <div style="display:inline-block;"><img src="DSM3/EFM.png" alt="EFM" width="350px"/></div>
-  <div style="display:inline-block;"><img src="DSM3/MASH.png" alt="MASH" width="350px"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727180617.png" alt="EFM" width="350px"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727180638.png" alt="MASH" width="350px"/></div>
 </div>
 
 
@@ -29,7 +29,7 @@ updated: 2021-04-12 12:00:22
 ## HK-MASH 结构
 
 <div align="center">
-  <img src="DSM3/HK_EFM.png" width="400"/>
+  <img src="https://pic.zhouyuqian.com/img/20210727181208.png" width="400"/>
 </div>
 
 HK-MASH 结构的 EFM 如上图所示，其相比于原始的 EFM，加入了一个在输出 $y[n]$ 到输入 $x[n]$ 之间加入了一个增益为 $a$ 的反馈通路，使得模 $(M-a)$ 成为一个**质数**，对于大多数输入其输出周期为 $(M-a)$，因此对于 $l$ 级的 MASH，其输出周期为 $(M-a)^l$。
@@ -38,15 +38,15 @@ HK-MASH 结构的 EFM 如上图所示，其相比于原始的 EFM，加入了一
 $$
 Mean(Y) = Mean(X)/(M-a)
 $$
-<img src="DSM3/HK_MASH_RES.png" alt="HK_MASH_RES" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181245.png" alt="HK_MASH_RES" style="zoom:50%;" />
 
 如果想让输出平均值为 $\alpha$，则输入值需要缩放为 $\alpha(M-a)/M$，因此 HK-MASH 结构的 DSM **不支持全范围输入**，并且需要额外的电路来实现这个缩放过程。
 
 ## SP-MASH
 
 <div align="center">
-  <div style="display:inline-block;"><img src="DSM3/SP_EFM.png" width="350px"/></div>
-  <div style="display:inline-block;"><img src="DSM3/SP_MASH.png" width="350px"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181245.png" width="350px"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181318.png" width="350px"/></div>
 </div>
 
 Spur-Free MASH 的结构如上图所示，相对于原始的 EFM，SP-EFM 增加了一个前一级的量化输出作为本级的输入。该结构的改动几乎不消耗额外的硬件资源，并且输入和输出是相等的，即输入时全范围的。
@@ -62,23 +62,23 @@ SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级�
 ## 传统的 MASH 结构
 
 <div align="center">
-  <div style="display:inline-block;"><img src="DSM3/Simulink_EFM.jpg" width="260"/></div>
-  <div style="display:inline-block;"><img src="DSM3/Simulink_MASH.jpg" width="600"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181332.jpg" width="260"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181344.jpg" width="600"/></div>
 </div>
 
 
 ## HK-MASH
 
 <div align="center">
-  <div style="display:inline-block;"><img src="DSM3/Simulink_HK_EFM.jpg" width="260"/></div>
-  <div style="display:inline-block;"><img src="DSM3/Simulink_HK_MASH.jpg" width="600"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181357.jpg" width="260"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181405.jpg" width="600"/></div>
 </div>
 
 ## SP-MASH
 
 <div align="center">
-  <div style="display:inline-block;"><img src="DSM3/Simulink_SP_EFM.jpg" width="260"/></div>
-  <div style="display:inline-block;"><img src="DSM3/Simulink_SP_MASH.jpg" width="600"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181421.jpg" width="260"/></div>
+  <div style="display:inline-block;"><img src="https://pic.zhouyuqian.com/img/20210727181507.jpg" width="600"/></div>
 </div>
 
 # 仿真结果 MASH & HK-MASH & SP-MASH
@@ -86,15 +86,15 @@ SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级�
 ## 输出序列
 
 {% gp 3-1 %}
-![MASH input 16](DSM3/mash_5bit_16_y.svg)
-![HK-MASH input 16](DSM3/hk_mash_5bit_16_y.svg)
-![SP-MASH input 16](DSM3/sp_mash_5bit_16_y.svg)
+![MASH input 16](https://pic.zhouyuqian.com/img/20210727180533.svg)
+![HK-MASH input 16](https://pic.zhouyuqian.com/img/20210727180534.svg)
+![SP-MASH input 16](https://pic.zhouyuqian.com/img/20210727180535.svg)
 {% endgp %}
 
 {% gp 3-1 %}
-![MASH input 17](DSM3/mash_5bit_17_y.svg)
-![HK-MASH input 17](DSM3/hk_mash_5bit_17_y.svg)
-![SP-MASH input 17](DSM3/sp_mash_5bit_17_y.svg)
+![MASH input 17](https://pic.zhouyuqian.com/img/20210727180536.svg)
+![HK-MASH input 17](https://pic.zhouyuqian.com/img/20210727180537.svg)
+![SP-MASH input 17](https://pic.zhouyuqian.com/img/20210727180538.svg)
 {% endgp %}
 
 三种 MASH DSM 结构的输出序列如上图所示，由左到右分别是传统的 MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值 16（相当于 0.5），第二行输入值为 17（相当于 17/32）。
@@ -103,15 +103,15 @@ SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级�
 ## 功率谱密度
 
 {% gp 3-1 %}
-![MASH input 16](DSM3/mash_5bit_16_psd.svg)
-![HK-MASH input 16](DSM3/hk_mash_5bit_16_psd.svg)
-![SP-MASH input 16](DSM3/sp_mash_5bit_16_psd.svg)
+![MASH input 16](https://pic.zhouyuqian.com/img/20210727180539.svg)
+![HK-MASH input 16](https://pic.zhouyuqian.com/img/20210727180540.svg)
+![SP-MASH input 16](https://pic.zhouyuqian.com/img/20210727180541.svg)
 {% endgp %}
 
 {% gp 3-1 %}
-![MASH input 17](DSM3/mash_5bit_17_psd.svg)
-![HK-MASH input 17](DSM3/hk_mash_5bit_17_psd.svg)
-![SP-MASH input 17](DSM3/sp_mash_5bit_17_psd.svg)
+![MASH input 17](https://pic.zhouyuqian.com/img/20210727180542.svg)
+![HK-MASH input 17](https://pic.zhouyuqian.com/img/20210727180543.svg)
+![SP-MASH input 17](https://pic.zhouyuqian.com/img/20210727180544.svg)
 {% endgp %}
 
 
@@ -137,11 +137,11 @@ SP-MASH 的输出的周期为 $N_1L^2$，其中 $L = 2^r$，$r$ 为后面几级�
 5. 就功率谱密度来看，感觉 SP-MASH 对比 HK-MASH 并没有明显的提升，我自己的仿真中没有论文中的差距那么大：
 
   {% gp 2 %}
-  ![HK-MASH input 16](DSM3/hk_mash_5bit_16_psd.svg)
-  ![SP-MASH input 16](DSM3/sp_mash_5bit_16_psd.svg)
+  ![HK-MASH input 16](https://pic.zhouyuqian.com/img/20210727180540.svg)
+  ![SP-MASH input 16](https://pic.zhouyuqian.com/img/20210727180541.svg)
   {% endgp %}
 
-  ![result in paper](DSM3/js_result.png)
+  ![result in paper](https://pic.zhouyuqian.com/img/20210727180545.png)
 
    上面一行是我自己的仿真结果，下面一行是论文中的结果，输入都为 16。
 

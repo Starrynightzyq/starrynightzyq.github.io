@@ -25,7 +25,7 @@ $$
 V_{ov} = V_{gs} - V_{T}
 $$
 
-<img src="gmid/image-20210310201310417.png" alt="image-20210310201310417" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181920.png" alt="image-20210310201310417" style="zoom:50%;" />
 
 在不同的 $V_{ds}$ 和 $V_{gs}$ 下，NMOS 管会工作在不同的区域：
 
@@ -57,9 +57,9 @@ $$
   I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L} V_{ov}^2
   $$
 
-<img src="gmid/image-20210310202752762.png" alt="image-20210310202752762" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181933.png" alt="image-20210310202752762" style="zoom:50%;" />
 
-<img src="gmid/image-20210310202909324.png" alt="image-20210310202909324" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727181942.png" alt="image-20210310202909324" style="zoom:50%;" />
 
 在**饱和区**，$I_D$ 是 $V_{ov}$ 的函数，小信号模型中的 $g_m$ 被定义为：
 $$
@@ -71,7 +71,7 @@ $$
 $$
 上述公式表明了 $g_m/I_D$ 和 $V_{ov}$ 之间的关系。
 
-<img src="gmid/image-20210310213132752.png" alt="image-20210310213132752" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182000.png" alt="image-20210310213132752" style="zoom:50%;" />
 
 定义晶体管的截止频率 (transit frequency) $f_T$:
 $$
@@ -87,7 +87,7 @@ $$
 
 
 
-<img src="gmid/image-20210310203850046.png" alt="image-20210310203850046" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182013.png" alt="image-20210310203850046" style="zoom:50%;" />
 
 在上图的电路中，假设 $V_{ov} = 300 mV, I_D=1mA$，则：
 $$
@@ -138,9 +138,9 @@ $$
 
 # 基于 $V_{ov}$ 设计方法的缺点
 
-<img src="gmid/image-20210310220510541.png" alt="image-20210310220510541" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182032.png" alt="image-20210310220510541" style="zoom:50%;" />
 
-<img src="gmid/image-20210310220527243.png" alt="image-20210310220527243" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182044.png" alt="image-20210310220527243" style="zoom:50%;" />
 
 从 Fig.12 可以看出，长沟道模型在 $V_{ov}$ 较小 (弱反型区) 时 $g_m/I_D$ 与 $V_{ov}$ 的关系预测值与仿真值相差较大，在亚阈值区 ($V_{ov} <0$) 则完全失效。
 
@@ -150,7 +150,7 @@ $$
 
 由于 $g_m/I_D$ 与 $V_{ov}$ 之间存在关系，则可以用 $g_m/I_D$ 取代 $V_{ov}$ 来表示与 $f_T$ 的关系，原来 Fig.9 的关系可以用 Fig.14 来表示。
 
-<img src="gmid/image-20210310221848963.png" alt="image-20210310221848963" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182058.png" alt="image-20210310221848963" style="zoom:50%;" />
 
 ## 设计流程
 
@@ -181,13 +181,13 @@ $$
    I_D = \frac{g_m}{g_m/I_D} = \frac{10mS}{17.5mS/mA}=570\mu A
    $$
 
-<img src="gmid/image-20210311101408375.png" alt="image-20210311101408375" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182116.png" alt="image-20210311101408375" style="zoom:50%;" />
 
 Fig.16 是不同的 $L$ 下，$f_T$ 与 $g_m/I_D$ 的关系，**越大的 $L$ 通常意味着晶体管更慢**。这就意味着要是没有其他的限制，我们就会选择最小的 $L$，这样晶体管速度最快，面积也最小。因此还需要一个限制会影响 $L$ 的选取，这个限制就是 $r_0$。
 
 ## 考虑 $r_0$
 
-<img src="gmid/image-20210311095357398.png" alt="image-20210311095357398" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182131.png" alt="image-20210311095357398" style="zoom:50%;" />
 
 从上图可以看到 $r_0$ 相当于一个和 $R_L$ 并联的负载，但我们考虑 $R_L \to \infty $ 时，可以忽略 $R_L$ 只考虑 $r_0$。则：
 $$
@@ -195,7 +195,7 @@ Intrinsic \ \ Gain = g_mr_0 (\frac{V}{V})
 $$
 **$Intrinsic \ \ Gain$ 是晶体管可以达到的最大增益**。
 
-<img src="gmid/image-20210311100239741.png" alt="image-20210311100239741" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182143.png" alt="image-20210311100239741" style="zoom:50%;" />
 
 从 Fig.19 中可以看到不同的 $L$ 对应不同的 $g_mr_0(Intrinsic \ \ Gain)$。
 
@@ -205,15 +205,15 @@ $$
 
 通过 Fig.16 和  Fig.19 可以确定 $L$ 和 $g_m/I_D$：为了满足增益的要求，通过 Fig.19 确定了 $L$；为了满足 $f_T$ 的要求，通过 Fig.16 确定了 $g_m/I_D$；通过 $g_m/I_D$ 和 $g_m$ 确定了 $I_D$。最后剩下的没有确定的量就是 $W$。
 
-<img src="gmid/image-20210311102457544.png" alt="image-20210311102457544" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182154.png" alt="image-20210311102457544" style="zoom:50%;" />
 
-<img src="gmid/image-20210311104821336.png" alt="image-20210311104821336" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182204.png" alt="image-20210311104821336" style="zoom:50%;" />
 
 在 Fig.21 中，由于 $V_b$ 和 $V_{DS}$ 相等，因此 a 和 b 的 $g_m$ 、$C_{gs}$ 相同，而 b 由于并联了两个晶体管，由此 $I_D$ 是 a 的两倍，c 和 b 等价。由此只要保证 $g_m$-to-$I_D$ 和 $g_m$-to-$C_{gs}$ 的比率相等，W 变为原来的 N 倍，$I_D$ 也变为原来的 N 倍，而 $g_m/I_D$ 和 $f_T$ 不变。
 
 # A Top-to-Bottom Design Example
 
-<img src="gmid/image-20210311095035057.png" alt="image-20210311095035057" style="zoom:50%;" />
+<img src="https://pic.zhouyuqian.com/img/20210727182215.png" alt="image-20210311095035057" style="zoom:50%;" />
 
 设计一个差分放大器，结构如 Fig.23 所示，要求：
 
@@ -225,35 +225,35 @@ $$
 
 ## 搭建电路
 
-![OPA](gmid/OPA.png)
+![OPA](https://pic.zhouyuqian.com/img/20210727181843.png)
 
 ## 获取晶体管参数
 
 通过 cadence 仿真并用 MATLAB 处理数据并画出图形。
 
 <center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="gmid/ft_or_gmro.svg">    
+  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="https://pic.zhouyuqian.com/img/20210727182230.svg">    
   <br>    
   <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 25: Fruquency and Gain Tradeoff
   </div> 
 </center>
 
 <center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="gmid/lamdba.svg">    
+  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="https://pic.zhouyuqian.com/img/20210727182245.svg">    
   <br>    
   <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 26
   </div> 
 </center>
 
 <center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="gmid/ld_W_L_gmid.svg">    
+  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="https://pic.zhouyuqian.com/img/20210727182256.svg">    
   <br>    
   <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 27
   </div> 
 </center>
 
 <center>    
-  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="gmid/Vov.svg">    
+  <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="https://pic.zhouyuqian.com/img/20210727182322.svg">    
   <br>    
   <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">Figure 28
   </div> 
@@ -304,7 +304,7 @@ $$
 
 ## 仿真结果
 
-![db](gmid/db.svg)
+![db](https://pic.zhouyuqian.com/img/20210727181844.svg)
 
 仿真的结果显示增益为 18.7 dB，带宽为 164.4 MHz。
 

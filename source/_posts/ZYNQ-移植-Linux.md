@@ -21,7 +21,7 @@ description:
 
 创建一个 zynq 的 vivado 工程，最小系统就行了，blockdesign 如图：
 
-![blockdesign](ZYNQ-移植-Linux/blockdesign.png)
+![blockdesign](https://pic.zhouyuqian.com/img/20210727233854.png)
 
 这里添加了一个 AXI-GPIO，是为了后面练习驱动。
 
@@ -81,11 +81,11 @@ export ARCH=arm
 
 SDK Menu: Xilinx > Repositories > New… `<device-tree-xlnx>` > OK
 
-![add-repositories](ZYNQ-移植-Linux/add-repositories.png)
+![add-repositories](https://pic.zhouyuqian.com/img/20210727233855.png)
 
 然后创建一个 BSP，选择 device_tree 模板：
 
-![bsp](ZYNQ-移植-Linux/bsp.png)
+![bsp](https://pic.zhouyuqian.com/img/20210727233856.png)
 
 生成的 .dts/.dtsi 在 */device_tree_bsp_0/ folder* 目录下，会使用到文件有：*system-top.dts, pcw.dtsi, pl.dtsi*
 
@@ -251,11 +251,11 @@ make # 或者 make -j8
 
 首先用 vivado sdk 生成 fsbl，即新建一个 `Application Project`，选择 `Zynq FSBL` 模板：
 
-![fsbl](ZYNQ-移植-Linux/fsbl.png)
+![fsbl](https://pic.zhouyuqian.com/img/20210727233857.png)
 
 然后在这个 Project 上右击 > Create Boot Image
 
-![Create-Boot-Image](ZYNQ-移植-Linux/Create-Boot-Image.png)
+![Create-Boot-Image](https://pic.zhouyuqian.com/img/20210727233858.png)
 
 依次添加 *fsbl.elf, .bit, u-boot.elf*，其中的 *u-boot.elf* 是在上一个步骤中生成的，最后点击 `Create Image`，会在 *<vivado_project>/<vivado_project>.sdk/fsbl/bootimage/* 目录下生成 *BOOT.bin* 文件。
 
