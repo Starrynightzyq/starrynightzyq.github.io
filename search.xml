@@ -682,9 +682,9 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
         <tag>UDP</tag>
       </tags>
   </entry>
@@ -728,87 +728,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <tag>HDB3</tag>
         <tag>BPSK</tag>
         <tag>通信原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux Samba Server</title>
-    <url>/2020/03/15/Linux-Samba-Server/</url>
-    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
-<blockquote>
-<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
-</blockquote>
-<h1 id="安装-samba">安装 Samba</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
-<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
-<p>结果类似这样：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
-<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
-<ol type="1">
-<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
-<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 普通用户：</p>
-<p>首先创建一个名为 <code>josh</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
-<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
-<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
-<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
-</ul>
-</blockquote>
-<p>创建该用户的 <code>home</code> 目录：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>chmod</code> 命令说明：</p>
-<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
-</blockquote>
-<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
-<p>在 Samba 中启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 管理员用户：</p>
-<p>过程与创建普通用户类似。</p>
-<p>首先创建名为 <code>sadmin</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
-<p>设置密码并启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
-<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
-<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
-</ol>
-<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
-<li><code>path</code> - The path to the share.</li>
-<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
-<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
-<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
-<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
-<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
-</ul>
-</blockquote>
-<p>最后重启 Samba 服务：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -929,6 +848,87 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
     <url>/2019/02/12/Linux-Learning/</url>
     <content><![CDATA[<p>磁盘分区工具：gparted</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Linux Samba Server</title>
+    <url>/2020/03/15/Linux-Samba-Server/</url>
+    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
+<blockquote>
+<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
+</blockquote>
+<h1 id="安装-samba">安装 Samba</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
+<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
+<p>结果类似这样：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
+<ol type="1">
+<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
+<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 普通用户：</p>
+<p>首先创建一个名为 <code>josh</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
+<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
+<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
+<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
+</ul>
+</blockquote>
+<p>创建该用户的 <code>home</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>chmod</code> 命令说明：</p>
+<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
+</blockquote>
+<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
+<p>在 Samba 中启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 管理员用户：</p>
+<p>过程与创建普通用户类似。</p>
+<p>首先创建名为 <code>sadmin</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
+<p>设置密码并启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
+<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
+<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
+</ol>
+<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
+<li><code>path</code> - The path to the share.</li>
+<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
+<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
+<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
+<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
+<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
+</ul>
+</blockquote>
+<p>最后重启 Samba 服务：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux Wake on Lan</title>
@@ -1227,8 +1227,8 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>课程设计</tag>
         <tag>MPIS32</tag>
+        <tag>课程设计</tag>
       </tags>
   </entry>
   <entry>
@@ -2116,6 +2116,70 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
       </tags>
   </entry>
   <entry>
+    <title>PLL-CP</title>
+    <url>/2020/11/20/PLL-CP/</url>
+    <content><![CDATA[<p>电荷泵是锁相环中重要的一个模块，其主要功能是将鉴频鉴相器 (PFD) 输出的时钟相位差值转化为电荷，将其传到环路滤波器，从而产生控制 VCO 的电压。下图是一个电荷泵的工作原理。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194418.png" alt="image-20201120183435924" style="zoom:50%;"></p>
+<a id="more"></a>
+<h1 id="工作原理">工作原理</h1>
+<p>由两个开关控制的电流源组成电荷泵，这两个开关分别由 PFD 产生的 UP,DOWN 信号控制。电荷泵的平均等效输出电流为： <span class="math display">\[
+\overline{I_{out}} = \frac{I_{cp}(\varphi_{ref} - \varphi_{div})}{2\pi}
+\]</span> 因此电荷泵的传输函数为： <span class="math display">\[
+H_{cp} = \frac{I_{out}}{\Delta \varphi} = \frac{I_{cp}}{2\pi}
+\]</span> 即电荷泵的增益为： <span class="math display">\[
+K_{cp} = \frac{I_{cp}}{2\pi}
+\]</span></p>
+<h1 id="常用电荷泵设计">常用电荷泵设计</h1>
+<h2 id="漏极开关电荷泵-drain-switching-charge-pump">漏极开关电荷泵 (drain-switching charge pump)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194426.png" alt="image-20201120185406410" style="zoom:33%;"></p>
+<p>最简单的一种 CP 结构如上图所示，其开关位于电流源 MOS 管的漏极，称为漏极开关电荷泵。不过该结构的电荷泵有很多问题：</p>
+<ol type="1">
+<li>由于开关直接连接电荷泵的输出端，开关栅极的<strong>时钟信号会通过漏极栅极电容串扰至输出</strong>，注入电荷而造成电荷误差；</li>
+<li><strong>电流源 MOS 管的漏极寄生电容会分流电荷信号</strong>。当 DN 开关打开时，电流源 NMOS 管的漏极寄生电容放电直至为地电平；当 DN 开关闭合时，电流源 NMOS 管的漏极寄生电容充电直至为高电平。这个过程中对漏极电容的充放电会分流电荷信号，而造成电荷误差；</li>
+<li>由于<strong>漏极电容充放电</strong>的过程存在，使该结构的电荷泵工作速度交慢。</li>
+</ol>
+<h2 id="电流转向电荷泵-current-sterring-charge-pump">电流转向电荷泵 (current sterring charge pump)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194436.png" alt="image-20201120190555706" style="zoom:33%;"></p>
+<p>该结构是在漏极开关电荷泵的基础上改进的，加入了一组<strong>反相</strong>信号控制的开光和一个<strong>单位增益的缓冲器</strong>。</p>
+<p>优点：</p>
+<ol type="1">
+<li>单位增益缓冲器的输出端跟踪电荷泵的输出端电位。因此不管开关打开还是闭合，两个电流源 MOS 管的漏极始终通过一组开关或者单位增益缓冲器与电荷泵的输出端相连。因此保持了与输出端一致的电压，这样就不存在开关 MOS 管源级到衬底的电容充放电问题，消除了电荷分流；</li>
+<li>由于电流源总可以通过一个开关保持电流的流通，因此电流源一直保持在开启状态，提高了电荷泵开关的速度。<strong>该结构的电荷泵几乎是所有电荷泵结构中速度最快的一种</strong>；</li>
+<li>流入电源和地的电流保持恒定，对电源的串扰少。</li>
+</ol>
+<p>缺点：</p>
+<ol type="1">
+<li>电流源一直保持在开启状态，存在静态电流，增加了功耗；</li>
+<li>开关在漏极，没有解决时钟信号的串扰。</li>
+</ol>
+<h2 id="源级开关电荷泵-source-switching-charge-pump">源级开关电荷泵 (source-switching charge pump)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194446.png" alt="image-20201120200115113" style="zoom:50%;"></p>
+<p>该结构将开关置于电流源的源级，称为源级开关电荷泵。</p>
+<p>优点：</p>
+<ol type="1">
+<li>开关管和输出端<strong>隔离</strong>，<strong>没有数字信号对输出信号的串扰问题</strong>；</li>
+<li>电流源 MOS 管的漏极始终和输出端连接，没有充放电问题，<strong>避免了电荷分流</strong>；</li>
+<li>电流源的漏极和栅极始终保持正常的偏置，且源级阻抗也比较低，因此该电荷泵具有<strong>较高的速度</strong>；</li>
+<li>与电流转向电荷泵相比，该结构<strong>没有静态电流损耗</strong>，降低了功耗。</li>
+</ol>
+<p>因此，源级开关电荷泵是<strong>应用最广泛的电荷泵</strong>。</p>
+<h2 id="输出电阻增强电荷泵">输出电阻增强电荷泵</h2>
+<p>以上电荷泵的共同问题是 PMOS 和 NMOS 电流源之间的失配，尤其在输出端的电压偏离中心点的时候。例如当输出电压接近地电位时，NMOS 电流源的电流会下降而 PMOS 电流源的电流会增加，而造成电流失配。</p>
+<p>一种方法可以使用 Cascode 结构增加电流源输电阻，但由于 Cascode 结构需要较高的电源电压，会减小电荷泵的输出电压范围。另一种方法是通过运算放大器使 UP 和 DOWN 电流相互跟踪。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194455.png" alt="image-20201121001945923" style="zoom:50%;"></p>
+<p>如上图所示，由于运放的负反馈作用，电荷泵的输出端和 M1,M2 的漏极电位相等。这样可以保证 UP 和 DOWN 的电流分别精确跟踪 M1,M2 的电流源。由于流过偏置管 M1,M2 的电流始终是相等的，所以 UP 和 DOWN 的电流也不受输出电压的影响。</p>
+<p>该结构需要注意的是要保证电路中的负反馈大于正反馈。该电路中，电荷泵输出端有开关，且大部分时间开关是关断的，所以输出端回路的反馈更弱，因此应将偏置管那一侧接为负反馈。</p>
+<h1 id="参考文献">参考文献</h1>
+<p>[1] 张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>高性能射频毫米波频率源三种主要解决方案</title>
     <url>/2020/10/23/PLL-3/</url>
     <content><![CDATA[<p>对频率源的研究可追溯上百年,而至今仍无完美解决频率、带宽、相位噪声三方面挑战的方案。随着现代无线电技术的发展，毫米波频段的无线射频系统越来有吸引力，毫米波频率源是目前制约无线射频系统的瓶颈所在。</p>
@@ -2287,70 +2351,6 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>PLL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PLL-CP</title>
-    <url>/2020/11/20/PLL-CP/</url>
-    <content><![CDATA[<p>电荷泵是锁相环中重要的一个模块，其主要功能是将鉴频鉴相器 (PFD) 输出的时钟相位差值转化为电荷，将其传到环路滤波器，从而产生控制 VCO 的电压。下图是一个电荷泵的工作原理。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194418.png" alt="image-20201120183435924" style="zoom:50%;"></p>
-<a id="more"></a>
-<h1 id="工作原理">工作原理</h1>
-<p>由两个开关控制的电流源组成电荷泵，这两个开关分别由 PFD 产生的 UP,DOWN 信号控制。电荷泵的平均等效输出电流为： <span class="math display">\[
-\overline{I_{out}} = \frac{I_{cp}(\varphi_{ref} - \varphi_{div})}{2\pi}
-\]</span> 因此电荷泵的传输函数为： <span class="math display">\[
-H_{cp} = \frac{I_{out}}{\Delta \varphi} = \frac{I_{cp}}{2\pi}
-\]</span> 即电荷泵的增益为： <span class="math display">\[
-K_{cp} = \frac{I_{cp}}{2\pi}
-\]</span></p>
-<h1 id="常用电荷泵设计">常用电荷泵设计</h1>
-<h2 id="漏极开关电荷泵-drain-switching-charge-pump">漏极开关电荷泵 (drain-switching charge pump)</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194426.png" alt="image-20201120185406410" style="zoom:33%;"></p>
-<p>最简单的一种 CP 结构如上图所示，其开关位于电流源 MOS 管的漏极，称为漏极开关电荷泵。不过该结构的电荷泵有很多问题：</p>
-<ol type="1">
-<li>由于开关直接连接电荷泵的输出端，开关栅极的<strong>时钟信号会通过漏极栅极电容串扰至输出</strong>，注入电荷而造成电荷误差；</li>
-<li><strong>电流源 MOS 管的漏极寄生电容会分流电荷信号</strong>。当 DN 开关打开时，电流源 NMOS 管的漏极寄生电容放电直至为地电平；当 DN 开关闭合时，电流源 NMOS 管的漏极寄生电容充电直至为高电平。这个过程中对漏极电容的充放电会分流电荷信号，而造成电荷误差；</li>
-<li>由于<strong>漏极电容充放电</strong>的过程存在，使该结构的电荷泵工作速度交慢。</li>
-</ol>
-<h2 id="电流转向电荷泵-current-sterring-charge-pump">电流转向电荷泵 (current sterring charge pump)</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194436.png" alt="image-20201120190555706" style="zoom:33%;"></p>
-<p>该结构是在漏极开关电荷泵的基础上改进的，加入了一组<strong>反相</strong>信号控制的开光和一个<strong>单位增益的缓冲器</strong>。</p>
-<p>优点：</p>
-<ol type="1">
-<li>单位增益缓冲器的输出端跟踪电荷泵的输出端电位。因此不管开关打开还是闭合，两个电流源 MOS 管的漏极始终通过一组开关或者单位增益缓冲器与电荷泵的输出端相连。因此保持了与输出端一致的电压，这样就不存在开关 MOS 管源级到衬底的电容充放电问题，消除了电荷分流；</li>
-<li>由于电流源总可以通过一个开关保持电流的流通，因此电流源一直保持在开启状态，提高了电荷泵开关的速度。<strong>该结构的电荷泵几乎是所有电荷泵结构中速度最快的一种</strong>；</li>
-<li>流入电源和地的电流保持恒定，对电源的串扰少。</li>
-</ol>
-<p>缺点：</p>
-<ol type="1">
-<li>电流源一直保持在开启状态，存在静态电流，增加了功耗；</li>
-<li>开关在漏极，没有解决时钟信号的串扰。</li>
-</ol>
-<h2 id="源级开关电荷泵-source-switching-charge-pump">源级开关电荷泵 (source-switching charge pump)</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194446.png" alt="image-20201120200115113" style="zoom:50%;"></p>
-<p>该结构将开关置于电流源的源级，称为源级开关电荷泵。</p>
-<p>优点：</p>
-<ol type="1">
-<li>开关管和输出端<strong>隔离</strong>，<strong>没有数字信号对输出信号的串扰问题</strong>；</li>
-<li>电流源 MOS 管的漏极始终和输出端连接，没有充放电问题，<strong>避免了电荷分流</strong>；</li>
-<li>电流源的漏极和栅极始终保持正常的偏置，且源级阻抗也比较低，因此该电荷泵具有<strong>较高的速度</strong>；</li>
-<li>与电流转向电荷泵相比，该结构<strong>没有静态电流损耗</strong>，降低了功耗。</li>
-</ol>
-<p>因此，源级开关电荷泵是<strong>应用最广泛的电荷泵</strong>。</p>
-<h2 id="输出电阻增强电荷泵">输出电阻增强电荷泵</h2>
-<p>以上电荷泵的共同问题是 PMOS 和 NMOS 电流源之间的失配，尤其在输出端的电压偏离中心点的时候。例如当输出电压接近地电位时，NMOS 电流源的电流会下降而 PMOS 电流源的电流会增加，而造成电流失配。</p>
-<p>一种方法可以使用 Cascode 结构增加电流源输电阻，但由于 Cascode 结构需要较高的电源电压，会减小电荷泵的输出电压范围。另一种方法是通过运算放大器使 UP 和 DOWN 电流相互跟踪。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194455.png" alt="image-20201121001945923" style="zoom:50%;"></p>
-<p>如上图所示，由于运放的负反馈作用，电荷泵的输出端和 M1,M2 的漏极电位相等。这样可以保证 UP 和 DOWN 的电流分别精确跟踪 M1,M2 的电流源。由于流过偏置管 M1,M2 的电流始终是相等的，所以 UP 和 DOWN 的电流也不受输出电压的影响。</p>
-<p>该结构需要注意的是要保证电路中的负反馈大于正反馈。该电路中，电荷泵输出端有开关，且大部分时间开关是关断的，所以输出端回路的反馈更弱，因此应将偏置管那一侧接为负反馈。</p>
-<h1 id="参考文献">参考文献</h1>
-<p>[1] 张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -2574,8 +2574,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>毕业设计</tag>
         <tag>RISC-V</tag>
+        <tag>毕业设计</tag>
       </tags>
   </entry>
   <entry>
@@ -2711,8 +2711,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>GEEK</tag>
-        <tag>LaTex</tag>
         <tag>MAC</tag>
+        <tag>LaTex</tag>
       </tags>
   </entry>
   <entry>
@@ -3286,112 +3286,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>配置 VS Code 的 Verilog 开发环境</title>
-    <url>/2021/03/15/VerilogOnVscode/</url>
-    <content><![CDATA[<h1 id="安装-hdl-语言支持插件">安装 HDL 语言支持插件</h1>
-<p>首先我们安装 <a href="https://marketplace.visualstudio.com/items?itemName=mshr-h.VerilogHDL">Verilog-HDL/SystemVerilog/Bluespec SystemVerilog</a>。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233407.png" alt="截屏2021-03-15 下午2.22.14"><figcaption aria-hidden="true">截屏2021-03-15 下午2.22.14</figcaption>
-</figure>
-<p>它能够为包括 Verilog 在内的多种 HDL 提供语法高亮、常用代码片段、符号补全以及代码分析的功能。</p>
-<p>然而不要着急，该插件并未实现后两种功能，而是从其他更专业的程序中获得帮助。因此我们还需要进行相应配置。</p>
-<h1 id="使用-verilatoriverilog-作为代码分析工具">使用 Verilator/iVerilog 作为代码分析工具</h1>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Mac 安装 Verilator</span></span><br><span class="line">❯ brew install verilator</span><br><span class="line"><span class="meta">#</span><span class="bash"> Debian 系</span></span><br><span class="line">❯ sudo apt-get install verilator</span><br><span class="line"><span class="meta">#</span><span class="bash"> Windows</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Windows 可以使用 WSL</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 需要开启 Verilog &gt; Linting &gt; Verilator: Use WSL</span></span><br></pre></td></tr></table></figure>
-<p>在 VS Code 的用户设置中 <code>Verilog &gt; Linting: Linter</code> 一项选择 <code>verilator</code>:</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233408.png" alt="截屏2021-03-15 下午2.26.05"><figcaption aria-hidden="true">截屏2021-03-15 下午2.26.05</figcaption>
-</figure>
-<h1 id="使用-ctags-作为符号补全工具">使用 ctags 作为符号补全工具</h1>
-<p><code>ctags</code> 是老牌的符号补全工具，至今你还可以在 <code>Vim</code> 中见到它的身影。</p>
-<p>在 Linux 中可以直接通过包管理安装。</p>
-<p>在 Windows 中则需要安装 <code>universal-ctags</code>。</p>
-<p><strong>配置：</strong></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233409.png" alt="ctags"><figcaption aria-hidden="true">ctags</figcaption>
-</figure>
-<p><strong>效果：</strong></p>
-<ul>
-<li><p>鼠标放在信号上，就会有声明显示在悬浮框中；</p></li>
-<li><p>Ctrl+左键，点击信号名，自动跳转到声明处，</p>
-<p>返回：</p>
-<ul>
-<li><strong>Windows</strong>: <code>Alt</code> + <code>←</code> ;或者 鼠标侧键</li>
-<li><strong>Linux</strong>: <code>Ctrl</code> + <code>Alt</code> + <code>-</code> ;貌似数字键盘的减号没效果</li>
-<li><strong>Mac</strong>: <code>Ctrl</code> + <code>-</code></li>
-</ul></li>
-<li><p>光标放在信号处，右键选择查看定义（快捷键可自行绑定），可以在此处展开声明处的代码，用于修改声明十分方便，就不用再来回跳转了。按ESC，关闭。</p></li>
-</ul>
-<h1 id="安装并配置代码格式化插件">安装并配置代码格式化插件</h1>
-<p>接下来我们需要安装 <a href="https://marketplace.visualstudio.com/items?itemName=IsaacT.verilog-formatter">verilog-formatter</a> 来进行格式化。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233410.png" alt="截屏2021-03-15 下午2.34.49"><figcaption aria-hidden="true">截屏2021-03-15 下午2.34.49</figcaption>
-</figure>
-<p>除此之外，我们需要下载 <a href="https://github.com/0qinghao/istyle-verilog-formatter/releases">编译后的 iStyle</a> 或者 <a href="https://github.com/thomasrussellmurphy/istyle-verilog-formatter/releases">iStyle 源代码</a>并手动编译(<code>make all</code>)。</p>
-<p>最后在 VS Code 中配置 <code>Verilog-formatter &gt; Istyle</code> 到你的可执行文件。</p>
-<p>另外在下方的 <code>Verilog-formatter &gt; Istyle: Style</code> 一项，你可以选择多种格式化方式，我比较喜欢 <code>kr</code>。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233411.png" alt="截屏2021-03-15 下午2.37.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.37.03</figcaption>
-</figure>
-<p>之后在 VS Code 中，每当调用 <code>Format Document</code> 命令(<code>Ctrl+Shift+P</code> 后输入)，当前文件就会进行格式化（快捷键 <code>Shift + Alt + F</code>）。</p>
-<h1 id="将文件代码与-vivado-项目分离">将文件代码与 Vivado 项目分离</h1>
-<p>通常来说，新手在创建一个 Vivado 项目之后，常常会在 Vivado 中新建 Verilog 文件，然后直接编辑。</p>
-<p>这样的结果就是，<strong>Verilog 代码会埋在 Vivado 项目很深的路径之中</strong>：</p>
-<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">└── vivado <span class="meta"># 你的 Vivado 项目</span></span><br><span class="line">    └── vivado.srcs</span><br><span class="line">        └── sources_1</span><br><span class="line">            └── <span class="keyword">new</span><span class="type"></span></span><br><span class="line"><span class="type"></span>                └── your-verilog-file.v <span class="meta"># 你的 Verilog 文件</span></span><br></pre></td></tr></table></figure>
-<p>但是这样既不方便你通过 VS Code 打开代码，也不方便使用 Git 进行版本控制。</p>
-<p>因此正确的方式应该是在<strong>独立的文件夹</strong>中手动创建 <code>.v</code> 文件：</p>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">├── vivado <span class="comment"># 你的 Vivado 项目</span></span><br><span class="line">└── src</span><br><span class="line">    └── your-verilog-<span class="built_in">file</span>.v <span class="comment"># 你的 Verilog 文件</span></span><br></pre></td></tr></table></figure>
-<p>然后在 Vivado 中通过 <code>Add Directory</code> 将整个 <code>src</code> 目录添加到 Vivado 开发环境中，Vivado 将自动寻找可能的顶层文件，并自动梳理文件间依赖关系。</p>
-<p>注意 Vivado 对文件更新的监听规则为：自动监听已经加入的文件，不监听新创建的文件。也就是说：<strong>如果你新建了一个 Verilog 文件，则需要再次添加入 Vivado 项目中</strong>。</p>
-<h1 id="用-git-进行版本控制">用 Git 进行版本控制</h1>
-<p>通过 <a href="https://www.toptal.com/developers/gitignore">gitignore.io</a>，你可以快速生成一份可用的 <a href="https://www.toptal.com/developers/gitignore/api/vivado,visualstudiocode"><code>.gitignore</code> 文件</a>，或者基于此进行改进。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233412.png" alt="截屏2021-03-15 下午2.38.27"><figcaption aria-hidden="true">截屏2021-03-15 下午2.38.27</figcaption>
-</figure>
-<h1 id="自动生成例化自动生成testbench">自动生成例化，自动生成testbench</h1>
-<p>安装的第一个插件Verilog-HDL/System...就有自动例化功能</p>
-<p>按F1或者Ctrl+Shift+P，输入</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">verilog:instantiate</span><br></pre></td></tr></table></figure>
-<p>非常的好用，但是不够完美。</p>
-<p>需要安装插件 <a href="https://marketplace.visualstudio.com/items?itemName=Truecrab.verilog-testbench-instance">Verilog_Testbench</a></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233413.png" alt="截屏2021-03-15 下午2.53.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.53.03</figcaption>
-</figure>
-<p>按F1或者Ctrl+Shift+P，输入:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Instance <span class="comment"># 例化</span></span><br><span class="line">Testbench <span class="comment"># tb</span></span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233414.png" alt="截屏2021-03-15 下午3.03.33"><figcaption aria-hidden="true">截屏2021-03-15 下午3.03.33</figcaption>
-</figure>
-<p>可以会报错缺少文件：</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">can<span class="string">&#x27;t open file &#x27;</span>~<span class="regexp">/.vscode/</span>extensions<span class="regexp">/truecrab.verilog-testbench-instance-0.0.5/</span>outvTbgenerator.py<span class="string">&#x27;: [Errno 2] No such file or directory</span></span><br></pre></td></tr></table></figure>
-<p>其实是路径的写法有问题：</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">python <span class="regexp">/Users/</span>zhouyuqian<span class="regexp">/.vscode/</span>extensions<span class="regexp">/truecrab.verilog-testbench-instance-0.0.5/</span>out\vTbgenerator.py</span><br></pre></td></tr></table></figure>
-<p>直接在对应位置创建一个超链接就可以了。</p>
-<p><del>创建相应的文件，内容如下：</del></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">vTbgenerator.py -- generate verilog module Testbench</span></span><br><span class="line"><span class="string">generated bench file like this:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        fifo_sc #(</span></span><br><span class="line"><span class="string">            .DATA_WIDTH ( 8 ),</span></span><br><span class="line"><span class="string">            .ADDR_WIDTH ( 8 )</span></span><br><span class="line"><span class="string">        )</span></span><br><span class="line"><span class="string">         u_fifo_sc (</span></span><br><span class="line"><span class="string">            .CLK   ( CLK                     ),</span></span><br><span class="line"><span class="string">            .RST_N ( RST_N                   ),</span></span><br><span class="line"><span class="string">            .RD_EN ( RD_EN                   ),</span></span><br><span class="line"><span class="string">            .WR_EN ( WR_EN                   ),</span></span><br><span class="line"><span class="string">            .DIN   ( DIN   [DATA_WIDTH-1 :0] ),</span></span><br><span class="line"><span class="string">            .DOUT  ( DOUT  [DATA_WIDTH-1 :0] ),</span></span><br><span class="line"><span class="string">            .EMPTY ( EMPTY                   ),</span></span><br><span class="line"><span class="string">            .FULL  ( FULL                    )</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Usage:</span></span><br><span class="line"><span class="string">      python vTbgenerator.py ModuleFileName.v</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delComment</span>(<span class="params">Text</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; removed comment &quot;&quot;&quot;</span></span><br><span class="line">    single_line_comment = re.<span class="built_in">compile</span>(<span class="string">r&quot;//(.*)$&quot;</span>, re.MULTILINE)</span><br><span class="line">    multi_line_comment = re.<span class="built_in">compile</span>(<span class="string">r&quot;/\*(.*?)\*/&quot;</span>, re.DOTALL)</span><br><span class="line">    Text = multi_line_comment.sub(<span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    Text = single_line_comment.sub(<span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    <span class="keyword">return</span> Text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delBlock</span>(<span class="params">Text</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; removed task and function block &quot;&quot;&quot;</span></span><br><span class="line">    Text = re.sub(<span class="string">r&#x27;\Wtask\W[\W\w]*?\Wendtask\W&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    Text = re.sub(<span class="string">r&#x27;\Wfunction\W[\W\w]*?\Wendfunction\W&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    <span class="keyword">return</span> Text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findName</span>(<span class="params">inText</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; find module name and port list&quot;&quot;&quot;</span></span><br><span class="line">    p = re.search(<span class="string">r&#x27;([a-zA-Z_][a-zA-Z_0-9]*)\s*&#x27;</span>, inText)</span><br><span class="line">    mo_Name = p.group(<span class="number">0</span>).strip()</span><br><span class="line">    <span class="keyword">return</span> mo_Name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">paraDeclare</span>(<span class="params">inText, portArr</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; find parameter declare &quot;&quot;&quot;</span></span><br><span class="line">    pat = <span class="string">r&#x27;\s&#x27;</span> + portArr + <span class="string">r&#x27;\s[\w\W]*?[;,)]&#x27;</span></span><br><span class="line">    ParaList = re.findall(pat, inText)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ParaList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portDeclare</span>(<span class="params">inText, portArr</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;find port declare, Syntax:</span></span><br><span class="line"><span class="string">       input [ net_type ] [ signed ] [ range ] list_of_port_identifiers</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       return list as : (port, [range])</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    port_definition = re.<span class="built_in">compile</span>(</span><br><span class="line">        <span class="string">r&#x27;\b&#x27;</span> + portArr +</span><br><span class="line">        <span class="string">r&#x27;&#x27;&#x27; (\s+(wire|reg|logic|interface)\s+)* (\s*signed\s+)*  (\s*\[.*?:.*?\]\s*)*</span></span><br><span class="line"><span class="string">        (?P&lt;port_list&gt;.*?)</span></span><br><span class="line"><span class="string">        (?= \binput\b | \boutput\b | \binout\b | ; | \) )</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span>,</span><br><span class="line">        re.VERBOSE | re.MULTILINE | re.DOTALL</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    pList = port_definition.findall(inText)</span><br><span class="line">    t = []</span><br><span class="line">    <span class="keyword">for</span> ls <span class="keyword">in</span> pList:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(ls) &gt;= <span class="number">2</span>:</span><br><span class="line">            t = t + portDic(ls[-<span class="number">2</span>:])</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portDic</span>(<span class="params">port</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;delet as : input a =c &amp;d;</span></span><br><span class="line"><span class="string">        return list as : (port, [range])</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    pRe = re.<span class="built_in">compile</span>(<span class="string">r&#x27;(.*?)\s*=.*&#x27;</span>, re.DOTALL)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    pRange = port[<span class="number">0</span>]</span><br><span class="line">    pList = port[<span class="number">1</span>].split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    pList = [i.strip() <span class="keyword">for</span> i <span class="keyword">in</span> pList <span class="keyword">if</span> i.strip() != <span class="string">&#x27;&#x27;</span>]</span><br><span class="line">    pList = [(pRe.sub(<span class="string">r&#x27;\1&#x27;</span>, p), pRange.strip()) <span class="keyword">for</span> p <span class="keyword">in</span> pList]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatPort</span>(<span class="params">AllPortList, isPortRange=<span class="number">1</span></span>):</span></span><br><span class="line">    PortList = AllPortList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> PortList != []:</span><br><span class="line">        l1 = <span class="built_in">max</span>([<span class="built_in">len</span>(i[<span class="number">0</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> PortList])+<span class="number">2</span></span><br><span class="line">        l3 = <span class="built_in">max</span>(<span class="number">18</span>, l1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        strList = []</span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&#x27;,\n&#x27;</span>.join([<span class="string">&#x27; &#x27;</span> * <span class="number">4</span> + <span class="string">&#x27;.&#x27;</span> + i[<span class="number">0</span>].ljust(l3)</span><br><span class="line">                          + <span class="string">&#x27;(&#x27;</span> + (i[<span class="number">0</span>]) + <span class="string">&#x27;)&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> AllPortList])</span><br><span class="line">        strList = strList + [<span class="built_in">str</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&#x27;,\n\n&#x27;</span>.join(strList)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatDeclare</span>(<span class="params">PortList, portArr, initial=<span class="string">&quot;&quot;</span></span>):</span></span><br><span class="line">    <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> PortList != []:</span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&#x27;\n&#x27;</span>.join([portArr.ljust(<span class="number">4</span>) + <span class="string">&#x27;  &#x27;</span>+(i[<span class="number">1</span>]+<span class="built_in">min</span>(<span class="built_in">len</span>(i[<span class="number">1</span>]), <span class="number">1</span>)*<span class="string">&#x27;  &#x27;</span></span><br><span class="line">                                                  + i[<span class="number">0</span>]) + <span class="string">&#x27;;&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> PortList])</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatPara</span>(<span class="params">ParaList</span>):</span></span><br><span class="line">    paraDec = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    paraDef = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> ParaList != []:</span><br><span class="line">        s = <span class="string">&#x27;\n&#x27;</span>.join(ParaList)</span><br><span class="line">        pat = <span class="string">r&#x27;([a-zA-Z_][a-zA-Z_0-9]*)\s*=\s*([\w\W]*?)\s*[;,)]&#x27;</span></span><br><span class="line">        p = re.findall(pat, s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        l1 = <span class="built_in">max</span>([<span class="built_in">len</span>(i[<span class="number">0</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> p])</span><br><span class="line">        l2 = <span class="built_in">max</span>([<span class="built_in">len</span>(i[<span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> p])</span><br><span class="line">        paraDec = <span class="string">&#x27;\n&#x27;</span>.join([<span class="string">&#x27;parameter %s = %s;&#x27;</span></span><br><span class="line">                             % (i[<span class="number">0</span>].ljust(l1 + <span class="number">1</span>), i[<span class="number">1</span>].ljust(l2))</span><br><span class="line">                             <span class="keyword">for</span> i <span class="keyword">in</span> p])</span><br><span class="line">        paraDef = <span class="string">&#x27;#(\n&#x27;</span> + <span class="string">&#x27;,\n&#x27;</span>.join([<span class="string">&#x27;    .&#x27;</span> + i[<span class="number">0</span>].ljust(l1 + <span class="number">1</span>)</span><br><span class="line">                                       + <span class="string">&#x27;( &#x27;</span> + i[<span class="number">1</span>].ljust(l2)+<span class="string">&#x27; )&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> p]) + <span class="string">&#x27;)\n&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> paraDec, paraDef</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portT</span>(<span class="params">inText, ioPadAttr</span>):</span></span><br><span class="line">    x = &#123;&#125;</span><br><span class="line">    count_list = []</span><br><span class="line">    order_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> ioPadAttr:</span><br><span class="line">        p = port_index_list(inText, i)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> p:</span><br><span class="line">            count_list.append(j)</span><br><span class="line">            x[j] = i</span><br><span class="line">    count_list = quick_sort(count_list, <span class="number">0</span>, <span class="built_in">len</span>(count_list)-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> count_list:</span><br><span class="line">        order_list.append(x.get(c))</span><br><span class="line">    <span class="keyword">return</span> order_list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span>(<span class="params">myList, start, end</span>):</span></span><br><span class="line">    <span class="keyword">if</span> start &lt; end:</span><br><span class="line">        i, j = start, end</span><br><span class="line">        base = myList[i]</span><br><span class="line">        <span class="keyword">while</span> i &lt; j:</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j) <span class="keyword">and</span> (myList[j] &gt;= base):</span><br><span class="line">                j = j - <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            myList[i] = myList[j]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (i &lt; j) <span class="keyword">and</span> (myList[i] &lt;= base):</span><br><span class="line">                i = i + <span class="number">1</span></span><br><span class="line">            myList[j] = myList[i]</span><br><span class="line">        myList[i] = base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        quick_sort(myList, start, i - <span class="number">1</span>)</span><br><span class="line">        quick_sort(myList, j + <span class="number">1</span>, end)</span><br><span class="line">    <span class="keyword">return</span> myList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatPort_order</span>(<span class="params">padAttr, orderList</span>):</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> padAttr:</span><br><span class="line">        q = Queue()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> padAttr.get(p):</span><br><span class="line">            q.put(i)</span><br><span class="line">        padAttr[p] = q</span><br><span class="line">    AllPortList = []</span><br><span class="line">    <span class="keyword">for</span> o <span class="keyword">in</span> orderList:</span><br><span class="line">        AllPortList.append(padAttr.get(o).get())</span><br><span class="line">    <span class="keyword">return</span> AllPortList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">port_index_list</span>(<span class="params">intext, text</span>):</span></span><br><span class="line">    l = []</span><br><span class="line">    t = intext</span><br><span class="line">    index = t.find(text)</span><br><span class="line">    <span class="keyword">while</span> index &gt; -<span class="number">1</span>:</span><br><span class="line">        t = t.replace(text, random_str(<span class="built_in">len</span>(text)), <span class="number">1</span>)</span><br><span class="line">        l.append(index)</span><br><span class="line">        index = t.find(text)</span><br><span class="line">    <span class="keyword">return</span> l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_str</span>(<span class="params">size</span>):</span></span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        s += <span class="built_in">str</span>(random.randint(<span class="number">0</span>, <span class="number">9</span>))</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPortMap</span>(<span class="params">AllPortList, ioPadAttr</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(AllPortList) != <span class="built_in">len</span>(ioPadAttr):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    p_map = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(AllPortList)):</span><br><span class="line">        p_map[ioPadAttr[i]] = AllPortList[i]</span><br><span class="line">    <span class="keyword">return</span> p_map</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeTestBench</span>(<span class="params">input_file</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; write testbench to file &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(input_file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f_info = chardet.detect(f.read())</span><br><span class="line">        f_encoding = f_info[<span class="string">&#x27;encoding&#x27;</span>]</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(input_file, encoding=f_encoding) <span class="keyword">as</span> inFile:</span><br><span class="line">        inText = inFile.read()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># removed comment,task,function</span></span><br><span class="line">    inText = delComment(inText)</span><br><span class="line">    inText = delBlock(inText)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># moduel ... endmodule  #</span></span><br><span class="line">    moPos_begin = re.search(<span class="string">r&#x27;(\b|^)module\b&#x27;</span>, inText).end()</span><br><span class="line">    moPos_end = re.search(<span class="string">r&#x27;\bendmodule\b&#x27;</span>, inText).start()</span><br><span class="line">    inText = inText[moPos_begin:moPos_end]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    name = findName(inText)</span><br><span class="line">    paraList = paraDeclare(inText, <span class="string">&#x27;parameter&#x27;</span>)</span><br><span class="line">    paraDec, paraDef = formatPara(paraList)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ioPadAttr = [<span class="string">&#x27;input&#x27;</span>, <span class="string">&#x27;output&#x27;</span>, <span class="string">&#x27;inout&#x27;</span>,<span class="string">&#x27;interface&#x27;</span>]</span><br><span class="line">    orlder = portT(inText, ioPadAttr)</span><br><span class="line">    <span class="built_in">input</span> = portDeclare(inText, ioPadAttr[<span class="number">0</span>])</span><br><span class="line">    output = portDeclare(inText, ioPadAttr[<span class="number">1</span>])</span><br><span class="line">    inout = portDeclare(inText, ioPadAttr[<span class="number">2</span>])</span><br><span class="line">    interface = portDeclare(inText, ioPadAttr[<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    portList = formatPort(formatPort_order(</span><br><span class="line">        getPortMap([<span class="built_in">input</span>, output, inout,interface], ioPadAttr), orlder))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">input</span> = formatDeclare(<span class="built_in">input</span>, <span class="string">&#x27;reg&#x27;</span>)</span><br><span class="line">    output = formatDeclare(output, <span class="string">&#x27;wire&#x27;</span>)</span><br><span class="line">    inout = formatDeclare(inout, <span class="string">&#x27;wire&#x27;</span>)</span><br><span class="line">    interface = formatDeclare(interface, <span class="string">&#x27;wire&#x27;</span>)</span><br><span class="line">    <span class="comment"># write Instance</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># module_parameter_port_list</span></span><br><span class="line">    <span class="keyword">if</span>(paraDec != <span class="string">&#x27;&#x27;</span>):</span><br><span class="line">        print(<span class="string">&quot;// %s Parameters\n%s\n&quot;</span> % (name, paraDec))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># list_of_port_declarations</span></span><br><span class="line">    <span class="comment">#print(&quot;// %s Inputs\n%s\n&quot; % (name, input))</span></span><br><span class="line">    <span class="comment">#print(&quot;// %s Outputs\n%s\n&quot; % (name, output))</span></span><br><span class="line">    <span class="comment">#if(inout != &#x27;&#x27;):</span></span><br><span class="line">    <span class="comment">#    print(&quot;// %s Bidirs\n%s\n&quot; % (name, inout))</span></span><br><span class="line">    print(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    <span class="comment"># UUT</span></span><br><span class="line">    print(<span class="string">&quot;%s %s inst_%s (\n%s\n);&quot;</span> % (name, paraDef, name, portList))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">     writeTestBench(sys.argv[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
-<h1 id="more">More</h1>
-<h2 id="verilog-snippet-可以提供更强大的补全"><a href="https://marketplace.visualstudio.com/items?itemName=czh.czh-verilog-snippet">Verilog Snippet</a> 可以提供更强大的补全</h2>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233415.png" alt="截屏2021-03-15 下午3.28.17"><figcaption aria-hidden="true">截屏2021-03-15 下午3.28.17</figcaption>
-</figure>
-<h2 id="自定义补全">自定义补全</h2>
-<p>其实关于自动补全，还可以前往 "Preference-&gt;User Snippets"，来添加您自己的代码，虽然这个操作目前还是比较麻烦的。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233416.png" alt="截屏2021-03-15 下午3.31.12"><figcaption aria-hidden="true">截屏2021-03-15 下午3.31.12</figcaption>
-</figure>
-<h1 id="reference">Reference</h1>
-<p>[1] <a href="https://blog.fkynjyq.com/write-verilog-with-vscode/"><strong>HDL 的现代代码编辑体验——配置 VS Code 的 Verilog 开发环境</strong></a></p>
-<p>[2] <a href="https://zhuanlan.zhihu.com/p/338497672">用VSCode编辑verilog代码、iverilog编译、自动例化、自动补全、自动格式化等常用插件</a></p>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>GEEK</tag>
-        <tag>Vscode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Cadence IC617 on Ubuntu</title>
     <url>/2021/03/07/VirtuosoOnUbuntu/</url>
     <content><![CDATA[<h1 id="cadence-reference">Cadence Reference</h1>
@@ -3532,6 +3426,112 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
+    <title>配置 VS Code 的 Verilog 开发环境</title>
+    <url>/2021/03/15/VerilogOnVscode/</url>
+    <content><![CDATA[<h1 id="安装-hdl-语言支持插件">安装 HDL 语言支持插件</h1>
+<p>首先我们安装 <a href="https://marketplace.visualstudio.com/items?itemName=mshr-h.VerilogHDL">Verilog-HDL/SystemVerilog/Bluespec SystemVerilog</a>。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233407.png" alt="截屏2021-03-15 下午2.22.14"><figcaption aria-hidden="true">截屏2021-03-15 下午2.22.14</figcaption>
+</figure>
+<p>它能够为包括 Verilog 在内的多种 HDL 提供语法高亮、常用代码片段、符号补全以及代码分析的功能。</p>
+<p>然而不要着急，该插件并未实现后两种功能，而是从其他更专业的程序中获得帮助。因此我们还需要进行相应配置。</p>
+<h1 id="使用-verilatoriverilog-作为代码分析工具">使用 Verilator/iVerilog 作为代码分析工具</h1>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Mac 安装 Verilator</span></span><br><span class="line">❯ brew install verilator</span><br><span class="line"><span class="meta">#</span><span class="bash"> Debian 系</span></span><br><span class="line">❯ sudo apt-get install verilator</span><br><span class="line"><span class="meta">#</span><span class="bash"> Windows</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Windows 可以使用 WSL</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 需要开启 Verilog &gt; Linting &gt; Verilator: Use WSL</span></span><br></pre></td></tr></table></figure>
+<p>在 VS Code 的用户设置中 <code>Verilog &gt; Linting: Linter</code> 一项选择 <code>verilator</code>:</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233408.png" alt="截屏2021-03-15 下午2.26.05"><figcaption aria-hidden="true">截屏2021-03-15 下午2.26.05</figcaption>
+</figure>
+<h1 id="使用-ctags-作为符号补全工具">使用 ctags 作为符号补全工具</h1>
+<p><code>ctags</code> 是老牌的符号补全工具，至今你还可以在 <code>Vim</code> 中见到它的身影。</p>
+<p>在 Linux 中可以直接通过包管理安装。</p>
+<p>在 Windows 中则需要安装 <code>universal-ctags</code>。</p>
+<p><strong>配置：</strong></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233409.png" alt="ctags"><figcaption aria-hidden="true">ctags</figcaption>
+</figure>
+<p><strong>效果：</strong></p>
+<ul>
+<li><p>鼠标放在信号上，就会有声明显示在悬浮框中；</p></li>
+<li><p>Ctrl+左键，点击信号名，自动跳转到声明处，</p>
+<p>返回：</p>
+<ul>
+<li><strong>Windows</strong>: <code>Alt</code> + <code>←</code> ;或者 鼠标侧键</li>
+<li><strong>Linux</strong>: <code>Ctrl</code> + <code>Alt</code> + <code>-</code> ;貌似数字键盘的减号没效果</li>
+<li><strong>Mac</strong>: <code>Ctrl</code> + <code>-</code></li>
+</ul></li>
+<li><p>光标放在信号处，右键选择查看定义（快捷键可自行绑定），可以在此处展开声明处的代码，用于修改声明十分方便，就不用再来回跳转了。按ESC，关闭。</p></li>
+</ul>
+<h1 id="安装并配置代码格式化插件">安装并配置代码格式化插件</h1>
+<p>接下来我们需要安装 <a href="https://marketplace.visualstudio.com/items?itemName=IsaacT.verilog-formatter">verilog-formatter</a> 来进行格式化。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233410.png" alt="截屏2021-03-15 下午2.34.49"><figcaption aria-hidden="true">截屏2021-03-15 下午2.34.49</figcaption>
+</figure>
+<p>除此之外，我们需要下载 <a href="https://github.com/0qinghao/istyle-verilog-formatter/releases">编译后的 iStyle</a> 或者 <a href="https://github.com/thomasrussellmurphy/istyle-verilog-formatter/releases">iStyle 源代码</a>并手动编译(<code>make all</code>)。</p>
+<p>最后在 VS Code 中配置 <code>Verilog-formatter &gt; Istyle</code> 到你的可执行文件。</p>
+<p>另外在下方的 <code>Verilog-formatter &gt; Istyle: Style</code> 一项，你可以选择多种格式化方式，我比较喜欢 <code>kr</code>。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233411.png" alt="截屏2021-03-15 下午2.37.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.37.03</figcaption>
+</figure>
+<p>之后在 VS Code 中，每当调用 <code>Format Document</code> 命令(<code>Ctrl+Shift+P</code> 后输入)，当前文件就会进行格式化（快捷键 <code>Shift + Alt + F</code>）。</p>
+<h1 id="将文件代码与-vivado-项目分离">将文件代码与 Vivado 项目分离</h1>
+<p>通常来说，新手在创建一个 Vivado 项目之后，常常会在 Vivado 中新建 Verilog 文件，然后直接编辑。</p>
+<p>这样的结果就是，<strong>Verilog 代码会埋在 Vivado 项目很深的路径之中</strong>：</p>
+<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">└── vivado <span class="meta"># 你的 Vivado 项目</span></span><br><span class="line">    └── vivado.srcs</span><br><span class="line">        └── sources_1</span><br><span class="line">            └── <span class="keyword">new</span><span class="type"></span></span><br><span class="line"><span class="type"></span>                └── your-verilog-file.v <span class="meta"># 你的 Verilog 文件</span></span><br></pre></td></tr></table></figure>
+<p>但是这样既不方便你通过 VS Code 打开代码，也不方便使用 Git 进行版本控制。</p>
+<p>因此正确的方式应该是在<strong>独立的文件夹</strong>中手动创建 <code>.v</code> 文件：</p>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">├── vivado <span class="comment"># 你的 Vivado 项目</span></span><br><span class="line">└── src</span><br><span class="line">    └── your-verilog-<span class="built_in">file</span>.v <span class="comment"># 你的 Verilog 文件</span></span><br></pre></td></tr></table></figure>
+<p>然后在 Vivado 中通过 <code>Add Directory</code> 将整个 <code>src</code> 目录添加到 Vivado 开发环境中，Vivado 将自动寻找可能的顶层文件，并自动梳理文件间依赖关系。</p>
+<p>注意 Vivado 对文件更新的监听规则为：自动监听已经加入的文件，不监听新创建的文件。也就是说：<strong>如果你新建了一个 Verilog 文件，则需要再次添加入 Vivado 项目中</strong>。</p>
+<h1 id="用-git-进行版本控制">用 Git 进行版本控制</h1>
+<p>通过 <a href="https://www.toptal.com/developers/gitignore">gitignore.io</a>，你可以快速生成一份可用的 <a href="https://www.toptal.com/developers/gitignore/api/vivado,visualstudiocode"><code>.gitignore</code> 文件</a>，或者基于此进行改进。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233412.png" alt="截屏2021-03-15 下午2.38.27"><figcaption aria-hidden="true">截屏2021-03-15 下午2.38.27</figcaption>
+</figure>
+<h1 id="自动生成例化自动生成testbench">自动生成例化，自动生成testbench</h1>
+<p>安装的第一个插件Verilog-HDL/System...就有自动例化功能</p>
+<p>按F1或者Ctrl+Shift+P，输入</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">verilog:instantiate</span><br></pre></td></tr></table></figure>
+<p>非常的好用，但是不够完美。</p>
+<p>需要安装插件 <a href="https://marketplace.visualstudio.com/items?itemName=Truecrab.verilog-testbench-instance">Verilog_Testbench</a></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233413.png" alt="截屏2021-03-15 下午2.53.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.53.03</figcaption>
+</figure>
+<p>按F1或者Ctrl+Shift+P，输入:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Instance <span class="comment"># 例化</span></span><br><span class="line">Testbench <span class="comment"># tb</span></span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233414.png" alt="截屏2021-03-15 下午3.03.33"><figcaption aria-hidden="true">截屏2021-03-15 下午3.03.33</figcaption>
+</figure>
+<p>可以会报错缺少文件：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">can<span class="string">&#x27;t open file &#x27;</span>~<span class="regexp">/.vscode/</span>extensions<span class="regexp">/truecrab.verilog-testbench-instance-0.0.5/</span>outvTbgenerator.py<span class="string">&#x27;: [Errno 2] No such file or directory</span></span><br></pre></td></tr></table></figure>
+<p>其实是路径的写法有问题：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">python <span class="regexp">/Users/</span>zhouyuqian<span class="regexp">/.vscode/</span>extensions<span class="regexp">/truecrab.verilog-testbench-instance-0.0.5/</span>out\vTbgenerator.py</span><br></pre></td></tr></table></figure>
+<p>直接在对应位置创建一个超链接就可以了。</p>
+<p><del>创建相应的文件，内容如下：</del></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">vTbgenerator.py -- generate verilog module Testbench</span></span><br><span class="line"><span class="string">generated bench file like this:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        fifo_sc #(</span></span><br><span class="line"><span class="string">            .DATA_WIDTH ( 8 ),</span></span><br><span class="line"><span class="string">            .ADDR_WIDTH ( 8 )</span></span><br><span class="line"><span class="string">        )</span></span><br><span class="line"><span class="string">         u_fifo_sc (</span></span><br><span class="line"><span class="string">            .CLK   ( CLK                     ),</span></span><br><span class="line"><span class="string">            .RST_N ( RST_N                   ),</span></span><br><span class="line"><span class="string">            .RD_EN ( RD_EN                   ),</span></span><br><span class="line"><span class="string">            .WR_EN ( WR_EN                   ),</span></span><br><span class="line"><span class="string">            .DIN   ( DIN   [DATA_WIDTH-1 :0] ),</span></span><br><span class="line"><span class="string">            .DOUT  ( DOUT  [DATA_WIDTH-1 :0] ),</span></span><br><span class="line"><span class="string">            .EMPTY ( EMPTY                   ),</span></span><br><span class="line"><span class="string">            .FULL  ( FULL                    )</span></span><br><span class="line"><span class="string">        );</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Usage:</span></span><br><span class="line"><span class="string">      python vTbgenerator.py ModuleFileName.v</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delComment</span>(<span class="params">Text</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; removed comment &quot;&quot;&quot;</span></span><br><span class="line">    single_line_comment = re.<span class="built_in">compile</span>(<span class="string">r&quot;//(.*)$&quot;</span>, re.MULTILINE)</span><br><span class="line">    multi_line_comment = re.<span class="built_in">compile</span>(<span class="string">r&quot;/\*(.*?)\*/&quot;</span>, re.DOTALL)</span><br><span class="line">    Text = multi_line_comment.sub(<span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    Text = single_line_comment.sub(<span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    <span class="keyword">return</span> Text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delBlock</span>(<span class="params">Text</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; removed task and function block &quot;&quot;&quot;</span></span><br><span class="line">    Text = re.sub(<span class="string">r&#x27;\Wtask\W[\W\w]*?\Wendtask\W&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    Text = re.sub(<span class="string">r&#x27;\Wfunction\W[\W\w]*?\Wendfunction\W&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>, Text)</span><br><span class="line">    <span class="keyword">return</span> Text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findName</span>(<span class="params">inText</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; find module name and port list&quot;&quot;&quot;</span></span><br><span class="line">    p = re.search(<span class="string">r&#x27;([a-zA-Z_][a-zA-Z_0-9]*)\s*&#x27;</span>, inText)</span><br><span class="line">    mo_Name = p.group(<span class="number">0</span>).strip()</span><br><span class="line">    <span class="keyword">return</span> mo_Name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">paraDeclare</span>(<span class="params">inText, portArr</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; find parameter declare &quot;&quot;&quot;</span></span><br><span class="line">    pat = <span class="string">r&#x27;\s&#x27;</span> + portArr + <span class="string">r&#x27;\s[\w\W]*?[;,)]&#x27;</span></span><br><span class="line">    ParaList = re.findall(pat, inText)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ParaList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portDeclare</span>(<span class="params">inText, portArr</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;find port declare, Syntax:</span></span><br><span class="line"><span class="string">       input [ net_type ] [ signed ] [ range ] list_of_port_identifiers</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       return list as : (port, [range])</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    port_definition = re.<span class="built_in">compile</span>(</span><br><span class="line">        <span class="string">r&#x27;\b&#x27;</span> + portArr +</span><br><span class="line">        <span class="string">r&#x27;&#x27;&#x27; (\s+(wire|reg|logic|interface)\s+)* (\s*signed\s+)*  (\s*\[.*?:.*?\]\s*)*</span></span><br><span class="line"><span class="string">        (?P&lt;port_list&gt;.*?)</span></span><br><span class="line"><span class="string">        (?= \binput\b | \boutput\b | \binout\b | ; | \) )</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span>,</span><br><span class="line">        re.VERBOSE | re.MULTILINE | re.DOTALL</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    pList = port_definition.findall(inText)</span><br><span class="line">    t = []</span><br><span class="line">    <span class="keyword">for</span> ls <span class="keyword">in</span> pList:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(ls) &gt;= <span class="number">2</span>:</span><br><span class="line">            t = t + portDic(ls[-<span class="number">2</span>:])</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portDic</span>(<span class="params">port</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;delet as : input a =c &amp;d;</span></span><br><span class="line"><span class="string">        return list as : (port, [range])</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    pRe = re.<span class="built_in">compile</span>(<span class="string">r&#x27;(.*?)\s*=.*&#x27;</span>, re.DOTALL)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    pRange = port[<span class="number">0</span>]</span><br><span class="line">    pList = port[<span class="number">1</span>].split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    pList = [i.strip() <span class="keyword">for</span> i <span class="keyword">in</span> pList <span class="keyword">if</span> i.strip() != <span class="string">&#x27;&#x27;</span>]</span><br><span class="line">    pList = [(pRe.sub(<span class="string">r&#x27;\1&#x27;</span>, p), pRange.strip()) <span class="keyword">for</span> p <span class="keyword">in</span> pList]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatPort</span>(<span class="params">AllPortList, isPortRange=<span class="number">1</span></span>):</span></span><br><span class="line">    PortList = AllPortList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> PortList != []:</span><br><span class="line">        l1 = <span class="built_in">max</span>([<span class="built_in">len</span>(i[<span class="number">0</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> PortList])+<span class="number">2</span></span><br><span class="line">        l3 = <span class="built_in">max</span>(<span class="number">18</span>, l1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        strList = []</span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&#x27;,\n&#x27;</span>.join([<span class="string">&#x27; &#x27;</span> * <span class="number">4</span> + <span class="string">&#x27;.&#x27;</span> + i[<span class="number">0</span>].ljust(l3)</span><br><span class="line">                          + <span class="string">&#x27;(&#x27;</span> + (i[<span class="number">0</span>]) + <span class="string">&#x27;)&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> AllPortList])</span><br><span class="line">        strList = strList + [<span class="built_in">str</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&#x27;,\n\n&#x27;</span>.join(strList)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatDeclare</span>(<span class="params">PortList, portArr, initial=<span class="string">&quot;&quot;</span></span>):</span></span><br><span class="line">    <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> PortList != []:</span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&#x27;\n&#x27;</span>.join([portArr.ljust(<span class="number">4</span>) + <span class="string">&#x27;  &#x27;</span>+(i[<span class="number">1</span>]+<span class="built_in">min</span>(<span class="built_in">len</span>(i[<span class="number">1</span>]), <span class="number">1</span>)*<span class="string">&#x27;  &#x27;</span></span><br><span class="line">                                                  + i[<span class="number">0</span>]) + <span class="string">&#x27;;&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> PortList])</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatPara</span>(<span class="params">ParaList</span>):</span></span><br><span class="line">    paraDec = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    paraDef = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> ParaList != []:</span><br><span class="line">        s = <span class="string">&#x27;\n&#x27;</span>.join(ParaList)</span><br><span class="line">        pat = <span class="string">r&#x27;([a-zA-Z_][a-zA-Z_0-9]*)\s*=\s*([\w\W]*?)\s*[;,)]&#x27;</span></span><br><span class="line">        p = re.findall(pat, s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        l1 = <span class="built_in">max</span>([<span class="built_in">len</span>(i[<span class="number">0</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> p])</span><br><span class="line">        l2 = <span class="built_in">max</span>([<span class="built_in">len</span>(i[<span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> p])</span><br><span class="line">        paraDec = <span class="string">&#x27;\n&#x27;</span>.join([<span class="string">&#x27;parameter %s = %s;&#x27;</span></span><br><span class="line">                             % (i[<span class="number">0</span>].ljust(l1 + <span class="number">1</span>), i[<span class="number">1</span>].ljust(l2))</span><br><span class="line">                             <span class="keyword">for</span> i <span class="keyword">in</span> p])</span><br><span class="line">        paraDef = <span class="string">&#x27;#(\n&#x27;</span> + <span class="string">&#x27;,\n&#x27;</span>.join([<span class="string">&#x27;    .&#x27;</span> + i[<span class="number">0</span>].ljust(l1 + <span class="number">1</span>)</span><br><span class="line">                                       + <span class="string">&#x27;( &#x27;</span> + i[<span class="number">1</span>].ljust(l2)+<span class="string">&#x27; )&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> p]) + <span class="string">&#x27;)\n&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> paraDec, paraDef</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portT</span>(<span class="params">inText, ioPadAttr</span>):</span></span><br><span class="line">    x = &#123;&#125;</span><br><span class="line">    count_list = []</span><br><span class="line">    order_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> ioPadAttr:</span><br><span class="line">        p = port_index_list(inText, i)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> p:</span><br><span class="line">            count_list.append(j)</span><br><span class="line">            x[j] = i</span><br><span class="line">    count_list = quick_sort(count_list, <span class="number">0</span>, <span class="built_in">len</span>(count_list)-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> count_list:</span><br><span class="line">        order_list.append(x.get(c))</span><br><span class="line">    <span class="keyword">return</span> order_list</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span>(<span class="params">myList, start, end</span>):</span></span><br><span class="line">    <span class="keyword">if</span> start &lt; end:</span><br><span class="line">        i, j = start, end</span><br><span class="line">        base = myList[i]</span><br><span class="line">        <span class="keyword">while</span> i &lt; j:</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j) <span class="keyword">and</span> (myList[j] &gt;= base):</span><br><span class="line">                j = j - <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            myList[i] = myList[j]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> (i &lt; j) <span class="keyword">and</span> (myList[i] &lt;= base):</span><br><span class="line">                i = i + <span class="number">1</span></span><br><span class="line">            myList[j] = myList[i]</span><br><span class="line">        myList[i] = base</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        quick_sort(myList, start, i - <span class="number">1</span>)</span><br><span class="line">        quick_sort(myList, j + <span class="number">1</span>, end)</span><br><span class="line">    <span class="keyword">return</span> myList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatPort_order</span>(<span class="params">padAttr, orderList</span>):</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> padAttr:</span><br><span class="line">        q = Queue()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> padAttr.get(p):</span><br><span class="line">            q.put(i)</span><br><span class="line">        padAttr[p] = q</span><br><span class="line">    AllPortList = []</span><br><span class="line">    <span class="keyword">for</span> o <span class="keyword">in</span> orderList:</span><br><span class="line">        AllPortList.append(padAttr.get(o).get())</span><br><span class="line">    <span class="keyword">return</span> AllPortList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">port_index_list</span>(<span class="params">intext, text</span>):</span></span><br><span class="line">    l = []</span><br><span class="line">    t = intext</span><br><span class="line">    index = t.find(text)</span><br><span class="line">    <span class="keyword">while</span> index &gt; -<span class="number">1</span>:</span><br><span class="line">        t = t.replace(text, random_str(<span class="built_in">len</span>(text)), <span class="number">1</span>)</span><br><span class="line">        l.append(index)</span><br><span class="line">        index = t.find(text)</span><br><span class="line">    <span class="keyword">return</span> l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_str</span>(<span class="params">size</span>):</span></span><br><span class="line">    s = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(size):</span><br><span class="line">        s += <span class="built_in">str</span>(random.randint(<span class="number">0</span>, <span class="number">9</span>))</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPortMap</span>(<span class="params">AllPortList, ioPadAttr</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(AllPortList) != <span class="built_in">len</span>(ioPadAttr):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    p_map = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(AllPortList)):</span><br><span class="line">        p_map[ioPadAttr[i]] = AllPortList[i]</span><br><span class="line">    <span class="keyword">return</span> p_map</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeTestBench</span>(<span class="params">input_file</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; write testbench to file &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(input_file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f_info = chardet.detect(f.read())</span><br><span class="line">        f_encoding = f_info[<span class="string">&#x27;encoding&#x27;</span>]</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(input_file, encoding=f_encoding) <span class="keyword">as</span> inFile:</span><br><span class="line">        inText = inFile.read()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># removed comment,task,function</span></span><br><span class="line">    inText = delComment(inText)</span><br><span class="line">    inText = delBlock(inText)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># moduel ... endmodule  #</span></span><br><span class="line">    moPos_begin = re.search(<span class="string">r&#x27;(\b|^)module\b&#x27;</span>, inText).end()</span><br><span class="line">    moPos_end = re.search(<span class="string">r&#x27;\bendmodule\b&#x27;</span>, inText).start()</span><br><span class="line">    inText = inText[moPos_begin:moPos_end]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    name = findName(inText)</span><br><span class="line">    paraList = paraDeclare(inText, <span class="string">&#x27;parameter&#x27;</span>)</span><br><span class="line">    paraDec, paraDef = formatPara(paraList)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ioPadAttr = [<span class="string">&#x27;input&#x27;</span>, <span class="string">&#x27;output&#x27;</span>, <span class="string">&#x27;inout&#x27;</span>,<span class="string">&#x27;interface&#x27;</span>]</span><br><span class="line">    orlder = portT(inText, ioPadAttr)</span><br><span class="line">    <span class="built_in">input</span> = portDeclare(inText, ioPadAttr[<span class="number">0</span>])</span><br><span class="line">    output = portDeclare(inText, ioPadAttr[<span class="number">1</span>])</span><br><span class="line">    inout = portDeclare(inText, ioPadAttr[<span class="number">2</span>])</span><br><span class="line">    interface = portDeclare(inText, ioPadAttr[<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    portList = formatPort(formatPort_order(</span><br><span class="line">        getPortMap([<span class="built_in">input</span>, output, inout,interface], ioPadAttr), orlder))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">input</span> = formatDeclare(<span class="built_in">input</span>, <span class="string">&#x27;reg&#x27;</span>)</span><br><span class="line">    output = formatDeclare(output, <span class="string">&#x27;wire&#x27;</span>)</span><br><span class="line">    inout = formatDeclare(inout, <span class="string">&#x27;wire&#x27;</span>)</span><br><span class="line">    interface = formatDeclare(interface, <span class="string">&#x27;wire&#x27;</span>)</span><br><span class="line">    <span class="comment"># write Instance</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># module_parameter_port_list</span></span><br><span class="line">    <span class="keyword">if</span>(paraDec != <span class="string">&#x27;&#x27;</span>):</span><br><span class="line">        print(<span class="string">&quot;// %s Parameters\n%s\n&quot;</span> % (name, paraDec))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># list_of_port_declarations</span></span><br><span class="line">    <span class="comment">#print(&quot;// %s Inputs\n%s\n&quot; % (name, input))</span></span><br><span class="line">    <span class="comment">#print(&quot;// %s Outputs\n%s\n&quot; % (name, output))</span></span><br><span class="line">    <span class="comment">#if(inout != &#x27;&#x27;):</span></span><br><span class="line">    <span class="comment">#    print(&quot;// %s Bidirs\n%s\n&quot; % (name, inout))</span></span><br><span class="line">    print(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    <span class="comment"># UUT</span></span><br><span class="line">    print(<span class="string">&quot;%s %s inst_%s (\n%s\n);&quot;</span> % (name, paraDef, name, portList))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">     writeTestBench(sys.argv[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<h1 id="more">More</h1>
+<h2 id="verilog-snippet-可以提供更强大的补全"><a href="https://marketplace.visualstudio.com/items?itemName=czh.czh-verilog-snippet">Verilog Snippet</a> 可以提供更强大的补全</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233415.png" alt="截屏2021-03-15 下午3.28.17"><figcaption aria-hidden="true">截屏2021-03-15 下午3.28.17</figcaption>
+</figure>
+<h2 id="自定义补全">自定义补全</h2>
+<p>其实关于自动补全，还可以前往 "Preference-&gt;User Snippets"，来添加您自己的代码，虽然这个操作目前还是比较麻烦的。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233416.png" alt="截屏2021-03-15 下午3.31.12"><figcaption aria-hidden="true">截屏2021-03-15 下午3.31.12</figcaption>
+</figure>
+<h1 id="reference">Reference</h1>
+<p>[1] <a href="https://blog.fkynjyq.com/write-verilog-with-vscode/"><strong>HDL 的现代代码编辑体验——配置 VS Code 的 Verilog 开发环境</strong></a></p>
+<p>[2] <a href="https://zhuanlan.zhihu.com/p/338497672">用VSCode编辑verilog代码、iverilog编译、自动例化、自动补全、自动格式化等常用插件</a></p>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>FPGA</tag>
+        <tag>Vscode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Xilinx_HLS_Learning</title>
     <url>/2019/03/05/Xilinx-HLS-Learning/</url>
     <content><![CDATA[<h1 id="优化">优化</h1>
@@ -3543,6 +3543,20 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>HLS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- AXI-GPIO</title>
+    <url>/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</url>
+    <content><![CDATA[
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
       </tags>
   </entry>
   <entry>
@@ -3680,20 +3694,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>ZYNQ 移植 Linux -- AXI-GPIO</title>
-    <url>/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</url>
-    <content><![CDATA[
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ZYNQ 移植 Linux -- Frame Buffer</title>
     <url>/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/</url>
     <content><![CDATA[<p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。 在 github 上有一个开源工程：<a href="https://github.com/notro/fbtft">framebuffer</a> 完整的实现了 framebuffer驱动</p>
@@ -3818,9 +3818,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3877,9 +3877,24 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- VDMA</title>
+    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
+    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
+<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
       </tags>
   </entry>
   <entry>
@@ -3934,24 +3949,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- VDMA</title>
-    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
-    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
-<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -4145,9 +4145,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -5023,30 +5023,6 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
 <figure>
 <img src="https://pic.zhouyuqian.com/img/20210727183202.gif" alt="love"><figcaption aria-hidden="true">love</figcaption>
 </figure>
-]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>我的第一个博客</title>
-    <url>/2018/01/13/my-first-blog/</url>
-    <content><![CDATA[<p>期末考终于结束了，终于可以愉快地学习了，很久之前就想搭建一个博客，记录自己的学习过程，对比了几种方案，Hexo+GitHub最简单（最重要是免费），于是试了一下。</p>
-<a id="more"></a>
-<p>参考了如下几个网站：</p>
-<h2 id="建站">1. 建站</h2>
-<blockquote>
-<p><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">好记的博客</a> <a href="http://www.lovebxm.com/2017/05/30/buildBlog/">可能是最详细的 Hexo + GitHub Pages 搭建博客的教程</a> <a href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
-</blockquote>
-<h2 id="优化">2. 优化</h2>
-<blockquote>
-<p><a href="http://blog.junyu.io/posts/0005-next-theme-settings.html#sociallinksandicons">浚宇的博客</a></p>
-<p><a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html">reuixiy</a></p>
-<p><a href="https://www.jianshu.com/p/30bf702f533c">Next主题个性化之自动更换背景图片</a></p>
-</blockquote>
 ]]></content>
       <categories>
         <category>随笔</category>
@@ -6252,73 +6228,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>项目</tag>
         <tag>课程设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>毕设--开题报告</title>
-    <url>/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/</url>
-    <content><![CDATA[<blockquote>
-<p>开题报告填写要求</p>
-<p>1．开题报告（含“文献综述”）作为毕业设计（论文）答辩委员会对学生答辩资格审查的依据材料之一。此报告应在指导教师指导下，由学生在毕业设计（论文）工作前期内完成，经指导教师签署意见及所在专业审查后生效；</p>
-<p>2．开题报告内容必须用黑墨水笔工整书写或按教务处统一设计的电子文档标准格式（可从教务处网页上下载）打印，禁止打印在其它纸上后剪贴，完成后应及时交给指导教师签署意见；</p>
-<p>3．“文献综述”应按论文的格式成文，并直接书写（或打印）在本开题报告第一栏目内，学生写文献综述的参考文献应不少于15篇（不包括辞典、手册）；</p>
-<p>4．有关年月日等日期的填写，应当按照国标GB/T 7408—94《数据元和交换格式、信息交换、日期和时间表示法》规定的要求，一律用阿拉伯数字书写。如“2004年4月26日”或“2004-04-26”。</p>
-</blockquote>
-<h1 id="文献综述">文献综述</h1>
-<blockquote>
-<p>结合毕业设计（论文）课题情况，根据所查阅的文献资料，每人撰写2000字左右的文献综述</p>
-</blockquote>
-<h2 id="研究背景及国内外研究现状">研究背景及国内外研究现状</h2>
-<p>卷积神经网络(CNN)现在是许多学科研究的热点之一，被广泛用于多种领域，特别是在模式识别、图像处理、计算机视觉等方面。但是卷积神经网络的主要问题在于计算量太大，特别是其中的卷积层，以Alex-Net为例，占用了90%<span class="citation" data-cites="chenEyerissEnergyefficientReconfigurable2016">[@chenEyerissEnergyefficientReconfigurable2016]</span>以上的计算量，卷积神经网络的硬件加速逐渐成为一个热门的研究问题。由于卷积神经网络自身特点，层与层之间可以看做顺序执行，而层内则有着较高的并行性，因此提高层内计算的并行度成为加速卷积神经网络的一个重要方向。</p>
-<p>在2009，Farabet等人<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>提出来一种基于FPGA的CNN，该结构使用卷积单元来处理数据，并使用一个通用CPU来控制卷积单元。但是由于FPGA资源的限制，该平台只实现了一个卷积核。如果计算需要多个卷积核，那么只能串行执行。2013年，Peemen等人<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>实现了一个以存储为中心的CNN协处理器，它利用CNN大量内存访问的特点，在存储部分使用SRAM，而PE部分使用SIMD指令。2015年，清华大学的方睿等人，提出一种多级流水线的管道加速器方案。CPU通过PCIE通道提供数据并进行控制整个逻辑单元。近年来，中科院的陈天石等人提出来DianNao系列的加速器<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>，目前是卷积神经网络硬件加速领域的较优的一种方案，可以实现多种结构的卷积网络，如MLP、CNN、DNN。存硬件实现的卷积神经网络加速器通用性不好。尽管可以通过配置来实现更多的结构，但是它的灵活性远不如通用CPU。因此可重构加速器与通用CPU相结合的模式是一种高效地解决卷积神经网络加速问题的方案。</p>
-<p>但是在这种定制结构中，CPU的选择具有极大的挑战。通常商业授权的IP会限制对指令集的修改，影响卷积神经网络加速器的实现效果。并且，商业授权的IP通常需要高昂的授权费，不利于高校和个人的研究。因此需要一个开源的指令集架构来进行定制加速器的研究。</p>
-<p>RISC-V是一种新的开源指令集架构（ISA）<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，目前已经有了一个完整的硬件和硬件生态<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>，包括完整的指令集、相应的编译器、模拟器和工具链。利用开源的RISC-V处理器，研究人员可以方便地将可重构加速器整合进SOC，并拓展相应的指令集来实现加速器的软件接口。</p>
-<h2 id="设计目标及平台的选择">设计目标及平台的选择</h2>
-<p>本设计主要包含三个部分，RISC-V Core和卷积神经网络加速器，以及将两部分结合起来实现完整功能的SOC部分。卷积神经网络的硬件加速通常可以采用ASIC或者FPGA来实现，两者均是采用定制的硬件电路来加速算法。通常ASIC的性能跟高，功耗更低，但是由于成本过高，因此在本设计中采用FPGA作为硬件平台。</p>
-<p>由于硬件实现CNN加速器需要较多资源，因此需要一款大容量的FPGA芯片，以实现更好的硬件加速效果。考虑各方面因素，最终选取了Nexys4 DDR作为硬件平台。Nexys4 DDR上使用Xilinx XC7A100T FPGA芯片。芯片包含了15,850个可编程逻辑单元，每个逻辑单元有4个6输入查找表和8个触发器。芯片有4,860 Kbits的块存储器，240个DSP运算单元，逻辑资源相对丰富。开发板引出数十个IO口和一个VGA接口，拥有128MB的DDR2，足够该系统使用。</p>
-<h2 id="研究意义及前景">研究意义及前景</h2>
-<p>卷积神经网络作为目前深度学习的一个重要手段，由于计算量巨大的问题限制了其应用于发展，通常需要在高性能的运算平台上进行模型的推演，因此主要被应用在主机场景，而非便携式应用。而利用卷积神经网络层内并行的特点，对卷积神经网络进行硬件加速，从而极大地提高了卷积网络的运行速度，使得便携设备也可以进行卷积神经网络运算，极大地拓展了深度学习的应用场合。</p>
-<h2 id="参考文献">参考文献</h2>
-<h1 id="研究手段">研究手段</h1>
-<blockquote>
-<p>本课题要研究或解决的问题和拟采用的研究手段（途径）</p>
-</blockquote>
-<h2 id="本课题要研究的问题">本课题要研究的问题</h2>
-<p>本课题设计搭建一个RISC-V处理器的SOC，并设计卷积神经网络加速器作为协处理器与RISC-V处理器配合工作，实现在低成本的嵌入式平台上进行卷积神经网络加速运算。</p>
-<p>本课题设计了一种RISC-V指令集的卷积神经网络处理器，实现了在低成本的嵌入式平台上进行卷积神经网络加速运算。本课题主要实现了以下功能：</p>
-<ol type="1">
-<li><p>使用RISC-V处理器搭建一个完整的SOC，包含RISC-V Core、片上总线、Debug调试模块以及基本的外设。</p></li>
-<li><p>设计可重构的卷积神经网络加速器，并将其作为协处理器，并为其设计设计专用的指令，包括矢量存储指令，矢量加载指令，矢量加法指令和卷积运算指令以加快卷积过程的执行速度。</p></li>
-</ol>
-<h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
-<p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
-</figure>
-<p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
-<p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1" role="doc-endnote"><p>C. Farabet, C. Poulet, J. Y. Han, and Y. Lecun, “Cnp: An fpga-based processor for convolutional networks,” in International Conference on Field Programmable Logic &amp; Applications, 2009.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>M. Peemen, A. A. A. Setio, B. Mesman, and H. Corporaal, “Memory-centric accelerator design for convolutional neural networks,” 2013.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>T. Chen, Z. Du, N. Sun, J. Wang, C. Wu, Y. Chen, and O. Temam, “Diannao: a small-footprint high-throughput accelerator for ubiquitous machine-learning,” Acm Sigplan Notices, vol. 49, no. 4, pp. 269–284, 2014.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>The RISC-V instruction set manual<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>K. Asanovic and D. Patterson. Instruction Sets Should Be Free: The Case for RISC-V. Technical Report UCB/EECS-2014-146, EECS Department, University of California, Berkeley, Aug 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>RISC-V Foundation. http://www.riscv.org, 2017 (accessed Aug 15, 2017).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>陆志坚 ． 基 于 FPGA 的卷积神经网络并行结构研究 ［ Ｄ ] 哈尔滨：哈尔滨工程大学,2013．<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>毕业设计</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>毕业设计</tag>
-        <tag>RISC-V</tag>
+        <tag>项目</tag>
       </tags>
   </entry>
   <entry>
@@ -6528,6 +6439,95 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>毕设--开题报告</title>
+    <url>/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/</url>
+    <content><![CDATA[<blockquote>
+<p>开题报告填写要求</p>
+<p>1．开题报告（含“文献综述”）作为毕业设计（论文）答辩委员会对学生答辩资格审查的依据材料之一。此报告应在指导教师指导下，由学生在毕业设计（论文）工作前期内完成，经指导教师签署意见及所在专业审查后生效；</p>
+<p>2．开题报告内容必须用黑墨水笔工整书写或按教务处统一设计的电子文档标准格式（可从教务处网页上下载）打印，禁止打印在其它纸上后剪贴，完成后应及时交给指导教师签署意见；</p>
+<p>3．“文献综述”应按论文的格式成文，并直接书写（或打印）在本开题报告第一栏目内，学生写文献综述的参考文献应不少于15篇（不包括辞典、手册）；</p>
+<p>4．有关年月日等日期的填写，应当按照国标GB/T 7408—94《数据元和交换格式、信息交换、日期和时间表示法》规定的要求，一律用阿拉伯数字书写。如“2004年4月26日”或“2004-04-26”。</p>
+</blockquote>
+<h1 id="文献综述">文献综述</h1>
+<blockquote>
+<p>结合毕业设计（论文）课题情况，根据所查阅的文献资料，每人撰写2000字左右的文献综述</p>
+</blockquote>
+<h2 id="研究背景及国内外研究现状">研究背景及国内外研究现状</h2>
+<p>卷积神经网络(CNN)现在是许多学科研究的热点之一，被广泛用于多种领域，特别是在模式识别、图像处理、计算机视觉等方面。但是卷积神经网络的主要问题在于计算量太大，特别是其中的卷积层，以Alex-Net为例，占用了90%<span class="citation" data-cites="chenEyerissEnergyefficientReconfigurable2016">[@chenEyerissEnergyefficientReconfigurable2016]</span>以上的计算量，卷积神经网络的硬件加速逐渐成为一个热门的研究问题。由于卷积神经网络自身特点，层与层之间可以看做顺序执行，而层内则有着较高的并行性，因此提高层内计算的并行度成为加速卷积神经网络的一个重要方向。</p>
+<p>在2009，Farabet等人<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>提出来一种基于FPGA的CNN，该结构使用卷积单元来处理数据，并使用一个通用CPU来控制卷积单元。但是由于FPGA资源的限制，该平台只实现了一个卷积核。如果计算需要多个卷积核，那么只能串行执行。2013年，Peemen等人<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>实现了一个以存储为中心的CNN协处理器，它利用CNN大量内存访问的特点，在存储部分使用SRAM，而PE部分使用SIMD指令。2015年，清华大学的方睿等人，提出一种多级流水线的管道加速器方案。CPU通过PCIE通道提供数据并进行控制整个逻辑单元。近年来，中科院的陈天石等人提出来DianNao系列的加速器<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>，目前是卷积神经网络硬件加速领域的较优的一种方案，可以实现多种结构的卷积网络，如MLP、CNN、DNN。存硬件实现的卷积神经网络加速器通用性不好。尽管可以通过配置来实现更多的结构，但是它的灵活性远不如通用CPU。因此可重构加速器与通用CPU相结合的模式是一种高效地解决卷积神经网络加速问题的方案。</p>
+<p>但是在这种定制结构中，CPU的选择具有极大的挑战。通常商业授权的IP会限制对指令集的修改，影响卷积神经网络加速器的实现效果。并且，商业授权的IP通常需要高昂的授权费，不利于高校和个人的研究。因此需要一个开源的指令集架构来进行定制加速器的研究。</p>
+<p>RISC-V是一种新的开源指令集架构（ISA）<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，目前已经有了一个完整的硬件和硬件生态<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>，包括完整的指令集、相应的编译器、模拟器和工具链。利用开源的RISC-V处理器，研究人员可以方便地将可重构加速器整合进SOC，并拓展相应的指令集来实现加速器的软件接口。</p>
+<h2 id="设计目标及平台的选择">设计目标及平台的选择</h2>
+<p>本设计主要包含三个部分，RISC-V Core和卷积神经网络加速器，以及将两部分结合起来实现完整功能的SOC部分。卷积神经网络的硬件加速通常可以采用ASIC或者FPGA来实现，两者均是采用定制的硬件电路来加速算法。通常ASIC的性能跟高，功耗更低，但是由于成本过高，因此在本设计中采用FPGA作为硬件平台。</p>
+<p>由于硬件实现CNN加速器需要较多资源，因此需要一款大容量的FPGA芯片，以实现更好的硬件加速效果。考虑各方面因素，最终选取了Nexys4 DDR作为硬件平台。Nexys4 DDR上使用Xilinx XC7A100T FPGA芯片。芯片包含了15,850个可编程逻辑单元，每个逻辑单元有4个6输入查找表和8个触发器。芯片有4,860 Kbits的块存储器，240个DSP运算单元，逻辑资源相对丰富。开发板引出数十个IO口和一个VGA接口，拥有128MB的DDR2，足够该系统使用。</p>
+<h2 id="研究意义及前景">研究意义及前景</h2>
+<p>卷积神经网络作为目前深度学习的一个重要手段，由于计算量巨大的问题限制了其应用于发展，通常需要在高性能的运算平台上进行模型的推演，因此主要被应用在主机场景，而非便携式应用。而利用卷积神经网络层内并行的特点，对卷积神经网络进行硬件加速，从而极大地提高了卷积网络的运行速度，使得便携设备也可以进行卷积神经网络运算，极大地拓展了深度学习的应用场合。</p>
+<h2 id="参考文献">参考文献</h2>
+<h1 id="研究手段">研究手段</h1>
+<blockquote>
+<p>本课题要研究或解决的问题和拟采用的研究手段（途径）</p>
+</blockquote>
+<h2 id="本课题要研究的问题">本课题要研究的问题</h2>
+<p>本课题设计搭建一个RISC-V处理器的SOC，并设计卷积神经网络加速器作为协处理器与RISC-V处理器配合工作，实现在低成本的嵌入式平台上进行卷积神经网络加速运算。</p>
+<p>本课题设计了一种RISC-V指令集的卷积神经网络处理器，实现了在低成本的嵌入式平台上进行卷积神经网络加速运算。本课题主要实现了以下功能：</p>
+<ol type="1">
+<li><p>使用RISC-V处理器搭建一个完整的SOC，包含RISC-V Core、片上总线、Debug调试模块以及基本的外设。</p></li>
+<li><p>设计可重构的卷积神经网络加速器，并将其作为协处理器，并为其设计设计专用的指令，包括矢量存储指令，矢量加载指令，矢量加法指令和卷积运算指令以加快卷积过程的执行速度。</p></li>
+</ol>
+<h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
+<p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
+</figure>
+<p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
+<p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1" role="doc-endnote"><p>C. Farabet, C. Poulet, J. Y. Han, and Y. Lecun, “Cnp: An fpga-based processor for convolutional networks,” in International Conference on Field Programmable Logic &amp; Applications, 2009.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>M. Peemen, A. A. A. Setio, B. Mesman, and H. Corporaal, “Memory-centric accelerator design for convolutional neural networks,” 2013.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>T. Chen, Z. Du, N. Sun, J. Wang, C. Wu, Y. Chen, and O. Temam, “Diannao: a small-footprint high-throughput accelerator for ubiquitous machine-learning,” Acm Sigplan Notices, vol. 49, no. 4, pp. 269–284, 2014.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>The RISC-V instruction set manual<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>K. Asanovic and D. Patterson. Instruction Sets Should Be Free: The Case for RISC-V. Technical Report UCB/EECS-2014-146, EECS Department, University of California, Berkeley, Aug 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>RISC-V Foundation. http://www.riscv.org, 2017 (accessed Aug 15, 2017).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>陆志坚 ． 基 于 FPGA 的卷积神经网络并行结构研究 ［ Ｄ ] 哈尔滨：哈尔滨工程大学,2013．<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>毕业设计</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>RISC-V</tag>
+        <tag>毕业设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一个博客</title>
+    <url>/2018/01/13/my-first-blog/</url>
+    <content><![CDATA[<p>期末考终于结束了，终于可以愉快地学习了，很久之前就想搭建一个博客，记录自己的学习过程，对比了几种方案，Hexo+GitHub最简单（最重要是免费），于是试了一下。</p>
+<a id="more"></a>
+<p>参考了如下几个网站：</p>
+<h2 id="建站">1. 建站</h2>
+<blockquote>
+<p><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">好记的博客</a> <a href="http://www.lovebxm.com/2017/05/30/buildBlog/">可能是最详细的 Hexo + GitHub Pages 搭建博客的教程</a> <a href="https://zhuanlan.zhihu.com/p/26625249">GitHub+Hexo 搭建个人网站详细教程</a></p>
+</blockquote>
+<h2 id="优化">2. 优化</h2>
+<blockquote>
+<p><a href="http://blog.junyu.io/posts/0005-next-theme-settings.html#sociallinksandicons">浚宇的博客</a></p>
+<p><a href="https://reuixiy.github.io/technology/computer/computer-aided-art/2017/06/09/hexo-next-optimization.html">reuixiy</a></p>
+<p><a href="https://www.jianshu.com/p/30bf702f533c">Next主题个性化之自动更换背景图片</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
       </tags>
   </entry>
 </search>
