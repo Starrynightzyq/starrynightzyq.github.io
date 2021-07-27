@@ -289,6 +289,13 @@
   </url>
   
   <url>
+    <loc>https://zhouyuqian.com/2020/10/02/DSP-DDS/</loc>
+    
+    <lastmod>2020-10-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/2020/09/23/divider/</loc>
     
     <lastmod>2020-09-25</lastmod>
@@ -522,13 +529,6 @@
 
   
   <url>
-    <loc>https://zhouyuqian.com/tags/FPGA/</loc>
-    <lastmod>2021-07-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/Software/</loc>
     <lastmod>2021-07-27</lastmod>
     <changefreq>daily</changefreq>
@@ -544,6 +544,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/IC-design/</loc>
+    <lastmod>2021-07-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/FPGA/</loc>
     <lastmod>2021-07-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -895,14 +902,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/FPGA/</loc>
+    <loc>https://zhouyuqian.com/categories/Linux/</loc>
     <lastmod>2021-07-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/Linux/</loc>
+    <loc>https://zhouyuqian.com/categories/FPGA/</loc>
     <lastmod>2021-07-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

@@ -547,6 +547,43 @@ N = \frac{M}{GCD(X, M)}
       </tags>
   </entry>
   <entry>
+    <title>DDS</title>
+    <url>/2020/10/02/DSP-DDS/</url>
+    <content><![CDATA[<h1 id="数控振荡器">数控振荡器</h1>
+<p>数控振荡器（NCO，numerically controlled oscillator）是软件无线电、直接数据频率合成器（DDS，Direct digital synthesizer）、快速傅立叶变换（FFT，Fast Fourier Transform）等的重要组成部分，同时也是决定其性能的主要因素之一，用于产生可控的正弦波或余弦波。</p>
+<p>数控振荡器有多种实现方法，最常用的方式就是基于直接数字频率合成技术（DDS，Direct digital synthesizer）的三角函数发生器。与传统的频率合成器相比，DDS 具有成本低、功耗低、分辨率高和转换时间短等优点。</p>
+<a id="more"></a>
+<h2 id="dds-算法原理">DDS 算法原理</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727181600.png" alt="DDS" style="zoom:25%; margin: auto;"></p>
+<p>DDS结构如上图所示，在参考时钟的驱动下，相位累加器对频率控制字进行线性累加，得到的相位码对波形存储器寻址，使之输出相应的幅度码，经过数模转换器得到相应的阶梯波，最后再使用低通滤波器对其进行平滑，得到所需频率的平滑连续的波形。</p>
+<h3 id="相位累加器">相位累加器</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727181601.png" alt="Phase_accumulator" style="zoom:25%; margin: auto;"></p>
+<p>相位累加器的结构如上图所示，由 N 位加法器与 N 为累加寄存器级联构成。每来一个时钟 <span class="math inline">\(f_{CLK}\)</span>，加法器将频率控制字 K 与累加寄存器输出的累加相位数据相加，把相加后的结果送至累加寄存器的数据输入端。这样在相位累加器在时钟的控制下，不断对频率控制字进行线性相位累加。由此可以看出，相位累加器在每一个时钟周期里，将频率控制字累加一次，相位累加器输出的数据就是合成信号的相位，相位累加器的溢出频率就是 DDS 的输出的信号频率。</p>
+<p>DDS 的输出的信号频率计算方式如下： <span class="math display">\[
+f_{OUT} = \frac{f_{CLK}K}{2^N}
+\]</span> 频率分辨率（即频率的变化间隔）为： <span class="math display">\[
+\Delta f=\frac{f_{CLK}}{2^N}
+\]</span></p>
+<h3 id="波形存储器">波形存储器</h3>
+<p>波形存储器所存储的幅度值与余弦信号有关。用相位累加器输出的数据作为波形存储器（ROM）的相位取样地址，这样就可以将存储在波形存储器内的波形抽样值取出，完成相位到幅值的变换。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727181602.png" alt="三角函数相位与幅度对应关系" style="zoom:40%; margin: auto;"></p>
+<p>余弦信号在一个周期内相位和幅度的变化关系如上图所示。一个 <span class="math inline">\(N\)</span> 位的相位累加器对应着圆上的 <span class="math inline">\(2^N\)</span> 个相位点，其分辨率为 <span class="math inline">\(\Delta \phi = 2\pi/2^N\)</span>。上图 <span class="math inline">\(N = 4\)</span>，共存在 16 种相位值与 16 种幅度值相对应，波形存储器的字节数决定了相位量化误差，量化的比特数决定了幅度量化误差。在实际的 DDS 中，可以利用余弦波形的对称性，将 <span class="math inline">\(2\pi\)</span> 范围内的幅值相位点减小到 <span class="math inline">\(\pi/2\)</span> 内以降低所需的存储量。</p>
+<h3 id="da-转化器-低通滤波器">D/A 转化器 &amp; 低通滤波器</h3>
+<p>波形存储器的输出送到 D/A 转换器，D/A 转换器将其转化为合成信号的模拟量幅值，低通信号用于滤除不需要的取样分量，以便输出频谱纯净的余弦信号。</p>
+<h2 id="dds-算法的-verilog-实现">DDS 算法的 Verilog 实现</h2>
+<blockquote>
+<p>待完成</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DSP</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FIR</title>
     <url>/2020/10/03/DSP-FIR/</url>
     <content><![CDATA[<p>数字滤波器是从原始信号中提取用户所需要的信息，滤除不需要的信号成分。根据信号与干扰的不同关系，可以从时域、频域或变换域（同态）进行信号滤波设计。</p>
@@ -691,6 +728,87 @@ N = \frac{M}{GCD(X, M)}
         <tag>HDB3</tag>
         <tag>BPSK</tag>
         <tag>通信原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Samba Server</title>
+    <url>/2020/03/15/Linux-Samba-Server/</url>
+    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
+<blockquote>
+<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
+</blockquote>
+<h1 id="安装-samba">安装 Samba</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
+<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
+<p>结果类似这样：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
+<ol type="1">
+<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
+<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 普通用户：</p>
+<p>首先创建一个名为 <code>josh</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
+<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
+<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
+<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
+</ul>
+</blockquote>
+<p>创建该用户的 <code>home</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>chmod</code> 命令说明：</p>
+<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
+</blockquote>
+<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
+<p>在 Samba 中启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 管理员用户：</p>
+<p>过程与创建普通用户类似。</p>
+<p>首先创建名为 <code>sadmin</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
+<p>设置密码并启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
+<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
+<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
+</ol>
+<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
+<li><code>path</code> - The path to the share.</li>
+<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
+<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
+<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
+<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
+<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
+</ul>
+</blockquote>
+<p>最后重启 Samba 服务：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -878,87 +996,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>Linux Samba Server</title>
-    <url>/2020/03/15/Linux-Samba-Server/</url>
-    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
-<blockquote>
-<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
-</blockquote>
-<h1 id="安装-samba">安装 Samba</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
-<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
-<p>结果类似这样：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
-<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
-<ol type="1">
-<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
-<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 普通用户：</p>
-<p>首先创建一个名为 <code>josh</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
-<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
-<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
-<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
-</ul>
-</blockquote>
-<p>创建该用户的 <code>home</code> 目录：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>chmod</code> 命令说明：</p>
-<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
-</blockquote>
-<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
-<p>在 Samba 中启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 管理员用户：</p>
-<p>过程与创建普通用户类似。</p>
-<p>首先创建名为 <code>sadmin</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
-<p>设置密码并启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
-<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
-<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
-</ol>
-<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
-<li><code>path</code> - The path to the share.</li>
-<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
-<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
-<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
-<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
-<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
-</ul>
-</blockquote>
-<p>最后重启 Samba 服务：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 权限问题</title>
     <url>/2020/03/10/Linux-%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>记录一下 Linux 下的用户、用户组、文件权限等基本知识，不能动不动就 777。</p>
@@ -1055,37 +1092,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -1135,6 +1141,37 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
