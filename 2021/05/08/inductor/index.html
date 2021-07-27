@@ -30,18 +30,18 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="VCO 中电感的选取及仿真">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/inductor/ind.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/inductor/schematic.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/inductor/sp.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/inductor/L-Q.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182509.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182450.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182451.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182452.svg">
 <meta property="article:published_time" content="2021-05-08T07:19:11.000Z">
 <meta property="article:modified_time" content="2021-05-08T07:19:11.000Z">
 <meta property="article:author" content="Fitz">
-<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="PLL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2021/05/08/inductor/ind.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727182509.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2021/05/08/inductor/">
 
@@ -293,15 +293,15 @@
       
         <p>本次设计使用的是 TSMC65 工艺，使用的电感是工艺库中提供的中心抽头差分电感，因此可以使用 TIF (TSMC Inductor Finder) 功能来找到合适的电感。TIF 的使用可以参考工艺库中的文档：<code>TIF_User_Guide.pdf</code>、<code>TIF_tutorial.pdf</code>。</p>
 <p>这里使用的电感参数如下图所示：</p>
-<p><img src="/2021/05/08/inductor/ind.png" alt="ind" style="zoom:50%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727182509.png" alt="ind" style="zoom:50%;"></p>
 <p>根据 TIF 的结果，其电感值在 2.4GHz 的频率下为 3.9 nH，我们可以使用 S 参数仿真来看一下电感的 L-Q 曲线。</p>
 <p>仿真的电路图如下（方法来自 <a target="_blank" rel="noopener" href="http://bbs.eetop.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=292661&amp;pid=6034926">eetop-depend135</a>）：</p>
 <figure>
-<img src="/2021/05/08/inductor/schematic.png" alt="schematic"><figcaption aria-hidden="true">schematic</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727182450.png" alt="schematic"><figcaption aria-hidden="true">schematic</figcaption>
 </figure>
 <p>SP 仿真的设置如下：</p>
 <figure>
-<img src="/2021/05/08/inductor/sp.png" alt="sp"><figcaption aria-hidden="true">sp</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727182451.png" alt="sp"><figcaption aria-hidden="true">sp</figcaption>
 </figure>
 <p>这里注意频率的扫描范围不要从 0 开始，不然后面计算电感值时会出现除以 0 的现象，导致无法计算出电感值。</p>
 <p>电感的 L 和 Q 计算公式分别为： <span class="math display">\[
@@ -318,7 +318,7 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
 \]</span></p>
 <p>运行仿真，得到 L-Q 曲线如下图所示：</p>
 <figure>
-<img src="/2021/05/08/inductor/L-Q.svg" alt="L-Q"><figcaption aria-hidden="true">L-Q</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727182452.svg" alt="L-Q"><figcaption aria-hidden="true">L-Q</figcaption>
 </figure>
 <p>这个曲线和 TIF 的结果是一致的。</p>
 
@@ -357,8 +357,8 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
           </div>
 
@@ -450,7 +450,7 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -463,7 +463,7 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -524,12 +524,12 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

@@ -30,16 +30,16 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="锁相环（PLL: Phase-locked loop）是一种利用反馈（Feedback）控制原理实现的频率及相位的同步技术，其作用是将电路输出的时钟与其外部的参考时钟保持同步。当参考时钟的频率或相位发生改变时，锁相回路会检测到这种变化，并且通过其内部的反馈系统来调节输出频率，直到两者重新同步，这种同步又称为“锁相”（Phase-locked）。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/09/11/PLL/Pll.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/09/11/PLL/Center.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194546.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194547.png">
 <meta property="article:published_time" content="2020-09-11T10:44:52.000Z">
 <meta property="article:modified_time" content="2020-09-25T02:33:43.000Z">
 <meta property="article:author" content="Fitz">
-<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="PLL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/09/11/PLL/Pll.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727194546.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/09/11/PLL/">
 
@@ -307,7 +307,7 @@
 <p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
 <h2 id="pll锁相环电路的概要">PLL(锁相环)电路的概要</h2>
 <figure>
-<img src="/2020/09/11/PLL/Pll.png" alt="Pll"><figcaption aria-hidden="true">Pll</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727194546.png" alt="Pll"><figcaption aria-hidden="true">Pll</figcaption>
 </figure>
 <p>PLL 通常由以下几个部分组成：</p>
 <ul>
@@ -319,7 +319,7 @@
 <p>PLL 工作的基本原理就是将压控振荡器的输出经过分频后与基准信号输入 PFD，PFD 通过比较这两个信号的频率差，输出一个代表两者差异的信号，再经过低通滤波器转变成一个直流脉冲电压去控制 VCO 使它的频率改变。这样经过一个很短的时间，VCO 的输出就会稳定下来。所以 PLL 并不是直接对晶振进行倍频，而是将频率稳定的晶振作为基准信号，与 PLL 内部振荡电路生成的信号分频后进行比较，使 PLL 输出的信号频率稳定。</p>
 <p>假设基准振荡器的频率为 <code>$f_r$</code>，VCO的频率为 <code>$f_o$</code>，在此一电路中，假设 <code>$f_r&gt;f_o$</code> 时，也即是 VCO 的振荡频率 <code>$f_o$</code> 比 <code>$f_r$</code> 低时。此时的相位比较器的输出 PFD 会如下图所示，产生正脉波信号，使 VCO 的振荡器频率提高。相反，如果 <code>$f_r&lt;f_o$</code> 时，会产生负脉波信号。</p>
 <figure>
-<img src="/2020/09/11/PLL/Center.png" alt="PFD"><figcaption aria-hidden="true">PFD</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727194547.png" alt="PFD"><figcaption aria-hidden="true">PFD</figcaption>
 </figure>
 <p>(此为利用脉波的边缘做二个信号的比较。如果有相位差存在时，便会产生正或负的脉波输出。)</p>
 <p>此 PD 脉波信号经过回路滤波器(LoopFilter)的积分，便可以得到直流电压 VR，可以控制 VCO 电路。由于控制电压 VR 的变化，VCO 振荡频率会提高。结果使得 <code>$f_r=f_o$</code>。在两者相位成为一致时，PD 端子会成为高阻抗状态，使 PLL 被锁栓(Lock)。</p>
@@ -369,8 +369,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
           </div>
 
@@ -463,7 +463,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -476,7 +476,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -537,12 +537,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

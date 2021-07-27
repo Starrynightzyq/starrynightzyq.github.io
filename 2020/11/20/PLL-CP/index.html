@@ -30,17 +30,17 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="电荷泵是锁相环中重要的一个模块，其主要功能是将鉴频鉴相器 (PFD) 输出的时钟相位差值转化为电荷，将其传到环路滤波器，从而产生控制 VCO 的电压。下图是一个电荷泵的工作原理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/20/PLL-CP/image-20201120183435924.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/20/PLL-CP/image-20201120185406410.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/20/PLL-CP/image-20201120190555706.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/20/PLL-CP/image-20201120200115113.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/20/PLL-CP/image-20201121001945923.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194418.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194426.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194436.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194446.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194455.png">
 <meta property="article:published_time" content="2020-11-20T10:25:50.000Z">
 <meta property="article:modified_time" content="2020-11-20T10:25:50.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="IC_design">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/11/20/PLL-CP/image-20201120183435924.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727194418.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/11/20/PLL-CP/">
 
@@ -290,7 +290,7 @@
 
       
         <p>电荷泵是锁相环中重要的一个模块，其主要功能是将鉴频鉴相器 (PFD) 输出的时钟相位差值转化为电荷，将其传到环路滤波器，从而产生控制 VCO 的电压。下图是一个电荷泵的工作原理。</p>
-<p><img src="/2020/11/20/PLL-CP/image-20201120183435924.png" alt="image-20201120183435924" style="zoom:50%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194418.png" alt="image-20201120183435924" style="zoom:50%;"></p>
 <a id="more"></a>
 <h1 id="工作原理">工作原理</h1>
 <p>由两个开关控制的电流源组成电荷泵，这两个开关分别由 PFD 产生的 UP,DOWN 信号控制。电荷泵的平均等效输出电流为： <span class="math display">\[
@@ -302,7 +302,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 \]</span></p>
 <h1 id="常用电荷泵设计">常用电荷泵设计</h1>
 <h2 id="漏极开关电荷泵-drain-switching-charge-pump">漏极开关电荷泵 (drain-switching charge pump)</h2>
-<p><img src="/2020/11/20/PLL-CP/image-20201120185406410.png" alt="image-20201120185406410" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194426.png" alt="image-20201120185406410" style="zoom:33%;"></p>
 <p>最简单的一种 CP 结构如上图所示，其开关位于电流源 MOS 管的漏极，称为漏极开关电荷泵。不过该结构的电荷泵有很多问题：</p>
 <ol type="1">
 <li>由于开关直接连接电荷泵的输出端，开关栅极的<strong>时钟信号会通过漏极栅极电容串扰至输出</strong>，注入电荷而造成电荷误差；</li>
@@ -310,7 +310,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <li>由于<strong>漏极电容充放电</strong>的过程存在，使该结构的电荷泵工作速度交慢。</li>
 </ol>
 <h2 id="电流转向电荷泵-current-sterring-charge-pump">电流转向电荷泵 (current sterring charge pump)</h2>
-<p><img src="/2020/11/20/PLL-CP/image-20201120190555706.png" alt="image-20201120190555706" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194436.png" alt="image-20201120190555706" style="zoom:33%;"></p>
 <p>该结构是在漏极开关电荷泵的基础上改进的，加入了一组<strong>反相</strong>信号控制的开光和一个<strong>单位增益的缓冲器</strong>。</p>
 <p>优点：</p>
 <ol type="1">
@@ -324,7 +324,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <li>开关在漏极，没有解决时钟信号的串扰。</li>
 </ol>
 <h2 id="源级开关电荷泵-source-switching-charge-pump">源级开关电荷泵 (source-switching charge pump)</h2>
-<p><img src="/2020/11/20/PLL-CP/image-20201120200115113.png" alt="image-20201120200115113" style="zoom:50%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194446.png" alt="image-20201120200115113" style="zoom:50%;"></p>
 <p>该结构将开关置于电流源的源级，称为源级开关电荷泵。</p>
 <p>优点：</p>
 <ol type="1">
@@ -337,7 +337,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
 <h2 id="输出电阻增强电荷泵">输出电阻增强电荷泵</h2>
 <p>以上电荷泵的共同问题是 PMOS 和 NMOS 电流源之间的失配，尤其在输出端的电压偏离中心点的时候。例如当输出电压接近地电位时，NMOS 电流源的电流会下降而 PMOS 电流源的电流会增加，而造成电流失配。</p>
 <p>一种方法可以使用 Cascode 结构增加电流源输电阻，但由于 Cascode 结构需要较高的电源电压，会减小电荷泵的输出电压范围。另一种方法是通过运算放大器使 UP 和 DOWN 电流相互跟踪。</p>
-<p><img src="/2020/11/20/PLL-CP/image-20201121001945923.png" alt="image-20201121001945923" style="zoom:50%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194455.png" alt="image-20201121001945923" style="zoom:50%;"></p>
 <p>如上图所示，由于运放的负反馈作用，电荷泵的输出端和 M1,M2 的漏极电位相等。这样可以保证 UP 和 DOWN 的电流分别精确跟踪 M1,M2 的电流源。由于流过偏置管 M1,M2 的电流始终是相等的，所以 UP 和 DOWN 的电流也不受输出电压的影响。</p>
 <p>该结构需要注意的是要保证电路中的负反馈大于正反馈。该电路中，电荷泵输出端有开关，且大部分时间开关是关断的，所以输出端回路的反馈更弱，因此应将偏置管那一侧接为负反馈。</p>
 <h1 id="参考文献">参考文献</h1>
@@ -470,7 +470,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -483,7 +483,7 @@ K_{cp} = \frac{I_{cp}}{2\pi}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -544,12 +544,12 @@ K_{cp} = \frac{I_{cp}}{2\pi}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

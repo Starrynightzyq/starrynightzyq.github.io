@@ -30,22 +30,22 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="单级放大器可以分为四种基本类型：  共源结构； 共栅结构； 源级跟随器； 共源共栅结构；">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplify.drawio.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/in_out.drawio.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/diode_MOS.drawio.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplify_mos.drawio.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplifier_dc.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplifier_dc_wave.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplifier_L0_sweep.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplifier_W0_sweep.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplifier_ac_gain.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplifier_ac_phase.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194850.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194906.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194925.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194943.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727195002.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727195016.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727195029.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727195039.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727195100.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727195114.jpg">
 <meta property="article:published_time" content="2020-11-07T07:24:46.000Z">
 <meta property="article:modified_time" content="2020-11-07T07:24:46.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="IC_design">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/11/07/single-stage-amplify/amplify.drawio.svg">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727194850.svg">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/11/07/single-stage-amplify/">
 
@@ -305,7 +305,7 @@
 <h1 id="电阻负载的共源级">1. 电阻负载的共源级</h1>
 <p>借助 MOS 管的跨导，可以将栅源电压转化为小信号漏极电流，再通过电阻将电流转为电压。</p>
 <center>
-<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplify.drawio.svg"> <br>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727194850.svg"> <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -327,7 +327,7 @@ V_{out}= V_{DD} - R_D \frac{1}{2} \mu _n C_{ox} \frac{W}{L} [ 2(V_{in1} - V_{TH}
 V_{out} = V_{DD} \frac{R_{on}}{R_{on} + R_D} = \frac{V_{DD}}{1+\mu _n C_{ox} \frac{W}{L} R_D (V_{in} - V_{TH})}
 \]</span> 因此其输入输出特性曲线如图1.2所示。</p>
 <center>
-<img style="zoom:133%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/in_out.drawio.svg"> <br>
+<img style="zoom:133%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727194906.svg"> <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -346,7 +346,7 @@ A_v = {}&amp; \frac{\partial V_{out}}{\partial V_{in}} \\
 <h2 id="电路分析">电路分析</h2>
 <p>如图2.1(a)所示，将 MOS 管的删漏短接，该 MOS 管可以起一个小信号电阻的作用。</p>
 <center>
-<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/diode_MOS.drawio.svg"> <br>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727194925.svg"> <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -362,7 +362,7 @@ r_{equ} = (1/g_m) || r_o \approx 1/g_m
 r_{eq} = \frac{V_X}{I_X} = \frac{1}{g_m+g_{mb}} || r_o \approx \frac{1}{g_m+g_{mb}}
 \]</span></p>
 <center>
-<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplify_mos.drawio.svg"> <br>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727194943.svg"> <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -386,7 +386,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 \]</span> 由等式可以看出，如果忽略 <span class="math inline">\(1/{1+\eta}\)</span> 随输出电压的变化，则只要 MOS 管工作在饱和区，增益和偏置电压电流没有关系。这表明输入输出特性呈线性。</p>
 <h2 id="仿真">仿真</h2>
 <center>
-<img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplifier_dc.png"> <br>
+<img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727195002.png"> <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -429,7 +429,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 </tbody>
 </table>
 <center>
-<img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplifier_dc_wave.jpg"> <br>
+<img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727195016.jpg"> <br>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
       display: inline-block;
       color: #999;
@@ -441,7 +441,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <li><p>M0 L sweep</p>
 <p>M1 参数不变，M0 W 不变，L 从 0.1u - 10u</p>
 <center>
-<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplifier_L0_sweep.jpg"> <br></p>
+<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727195029.jpg"> <br></p>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -452,7 +452,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <li><p>M0 W sweep</p>
 <p>M1 参数不变，M0 L 不变，W 从 1u - 100u</p>
 <center>
-<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplifier_W0_sweep.jpg"> <br></p>
+<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727195039.jpg"> <br></p>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -464,7 +464,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <ul>
 <li><p>Frequency-Gain</p>
 <center>
-<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplifier_ac_gain.jpg"> <br></p>
+<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727195100.jpg"> <br></p>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -474,7 +474,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 </center></li>
 <li><p>Frequency-Phase</p>
 <center>
-<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="/2020/11/07/single-stage-amplify/amplifier_ac_phase.jpg"> <br></p>
+<p><img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727195114.jpg"> <br></p>
 <div style="color:orange; border-bottom: 1px solid #d9d9d9;
     display: inline-block;
     color: #999;
@@ -620,7 +620,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -633,7 +633,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -694,12 +694,12 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

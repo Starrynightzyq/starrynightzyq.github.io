@@ -30,19 +30,19 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="使用传统方式在 ZYNQ 上移植 Linux。  reference: https:&#x2F;&#x2F;xilinx-wiki.atlassian.net&#x2F;wiki&#x2F;spaces&#x2F;A&#x2F;pages&#x2F;18841738&#x2F;Getting+Started 硬件平台: PYNQ-Z2 Vivado版本: 2018.2">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/blockdesign.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/add-repositories.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/bsp.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/fsbl.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/Create-Boot-Image.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233854.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233855.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233856.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233857.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233858.png">
 <meta property="article:published_time" content="2020-03-30T13:10:20.000Z">
 <meta property="article:modified_time" content="2020-05-11T15:38:53.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="FPGA">
-<meta property="article:tag" content="Linux">
 <meta property="article:tag" content="ZYNQ">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/blockdesign.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727233854.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/">
 
@@ -308,7 +308,7 @@
 <h1 id="vivado-工程创建">Vivado 工程创建</h1>
 <p>创建一个 zynq 的 vivado 工程，最小系统就行了，blockdesign 如图：</p>
 <figure>
-<img src="/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/blockdesign.png" alt="blockdesign"><figcaption aria-hidden="true">blockdesign</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233854.png" alt="blockdesign"><figcaption aria-hidden="true">blockdesign</figcaption>
 </figure>
 <p>这里添加了一个 AXI-GPIO，是为了后面练习驱动。</p>
 <p>生成 bitstream 后，导出到 sdk。</p>
@@ -385,11 +385,11 @@
 <p>在 vivado sdk 中添加设备树插件：</p>
 <p>SDK Menu: Xilinx &gt; Repositories &gt; New… <code>&lt;device-tree-xlnx&gt;</code> &gt; OK</p>
 <figure>
-<img src="/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/add-repositories.png" alt="add-repositories"><figcaption aria-hidden="true">add-repositories</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233855.png" alt="add-repositories"><figcaption aria-hidden="true">add-repositories</figcaption>
 </figure>
 <p>然后创建一个 BSP，选择 device_tree 模板：</p>
 <figure>
-<img src="/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/bsp.png" alt="bsp"><figcaption aria-hidden="true">bsp</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233856.png" alt="bsp"><figcaption aria-hidden="true">bsp</figcaption>
 </figure>
 <p>生成的 .dts/.dtsi 在 <em>/device_tree_bsp_0/ folder</em> 目录下，会使用到文件有：<em>system-top.dts, pcw.dtsi, pl.dtsi</em></p>
 <p>这几个文件在后面编译 u-boot 的时候会用到，在编译 u-boot 的时候同时生成 .dtb</p>
@@ -429,11 +429,11 @@
 </blockquote>
 <p>首先用 vivado sdk 生成 fsbl，即新建一个 <code>Application Project</code>，选择 <code>Zynq FSBL</code> 模板：</p>
 <figure>
-<img src="/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/fsbl.png" alt="fsbl"><figcaption aria-hidden="true">fsbl</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233857.png" alt="fsbl"><figcaption aria-hidden="true">fsbl</figcaption>
 </figure>
 <p>然后在这个 Project 上右击 &gt; Create Boot Image</p>
 <figure>
-<img src="/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/Create-Boot-Image.png" alt="Create-Boot-Image"><figcaption aria-hidden="true">Create-Boot-Image</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233858.png" alt="Create-Boot-Image"><figcaption aria-hidden="true">Create-Boot-Image</figcaption>
 </figure>
 <p>依次添加 <em>fsbl.elf, .bit, u-boot.elf</em>，其中的 <em>u-boot.elf</em> 是在上一个步骤中生成的，最后点击 <code>Create Image</code>，会在 <em><vivado_project>/<vivado_project>.sdk/fsbl/bootimage/</vivado_project></vivado_project></em> 目录下生成 <em>BOOT.bin</em> 文件。</p>
 <h1 id="编译内核">编译内核</h1>
@@ -518,8 +518,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/FPGA/" <i class="fa fa-tag"></i> FPGA</a>
-              <a href="/tags/Linux/" <i class="fa fa-tag"></i> Linux</a>
               <a href="/tags/ZYNQ/" <i class="fa fa-tag"></i> ZYNQ</a>
+              <a href="/tags/Linux/" <i class="fa fa-tag"></i> Linux</a>
           </div>
 
         
@@ -611,7 +611,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -624,7 +624,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -685,12 +685,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

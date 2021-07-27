@@ -30,30 +30,30 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="VCO 参数选取及仿真">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/vco-schematic.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/image-20210509152604001.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/pss1.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/pss2.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/pnoise.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/tstab.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/tstab.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/power_tb.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/power.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/phase_noise_tb.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/phasenoise.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/AM.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/PM.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/AMPMnoise.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/vrtrl.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/05/08/vco-param/vctrl-0548766.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172519.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172647.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172740.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172754.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172815.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172835.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172520.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172851.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172521.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172927.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172522.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172956.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173012.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172523.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173031.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727172524.svg">
 <meta property="article:published_time" content="2021-05-08T08:05:26.000Z">
 <meta property="article:modified_time" content="2021-05-08T08:05:26.000Z">
 <meta property="article:author" content="Fitz">
-<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
 <meta property="article:tag" content="PLL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2021/05/08/vco-param/vco-schematic.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727172519.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2021/05/08/vco-param/">
 
@@ -329,56 +329,56 @@ f=\frac{1}{2\pi\sqrt{LC}}
 </blockquote>
 <h2 id="电路原理图">电路原理图</h2>
 <figure>
-<img src="/2021/05/08/vco-param/vco-schematic.png" alt="vco-schematic"><figcaption aria-hidden="true">vco-schematic</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727172519.png" alt="vco-schematic"><figcaption aria-hidden="true">vco-schematic</figcaption>
 </figure>
 <p>电路原理图如上图所示，可变电容部分使用了三个可变电容并联并给不同的偏置的方法，用来提高可变电容的线性度，其结构如下图所示。</p>
-<p><img src="/2021/05/08/vco-param/image-20210509152604001.png" alt="image-20210509152604001" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172647.png" alt="image-20210509152604001" style="zoom:33%;"></p>
 <blockquote>
 <p>开关电容阵列结构还没有做好</p>
 </blockquote>
 <h2 id="psspnoise-仿真设置">pss+pnoise 仿真设置</h2>
 <p>pss 仿真设置如下图所示：</p>
-<p><img src="/2021/05/08/vco-param/pss1.png" alt="pss1" style="zoom:33%;"></p>
-<p><img src="/2021/05/08/vco-param/pss2.png" alt="pss2" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172740.png" alt="pss1" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172754.png" alt="pss2" style="zoom:33%;"></p>
 <p><strong>Beat Frequency:</strong> 设置 VCO 的工作频率；</p>
 <p><strong>Number of harmonics : </strong> 设置为 10；</p>
 <p><strong>stop time (stab) :</strong> 设置为 120n；</p>
 <p><strong>Oscillator : </strong> 勾选 Oscillator，分别设置 node+ 和 node- 为 VCO 的正负输出端口；</p>
 <p><strong>Sweep : </strong> 可以设置变容二极管的控制电压扫描范围；</p>
 <p>pnoise 仿真设置如下：</p>
-<p><img src="/2021/05/08/vco-param/pnoise.png" alt="pnoise" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172815.png" alt="pnoise" style="zoom:33%;"></p>
 <p><strong>Sweeptype : </strong>设置为 relative；</p>
 <p><strong>Output Frequency Sweep Range : </strong> 设置为 1K - 10M；</p>
 <p><strong>Noise Type : </strong>选择 time average - ALL</p>
 <h2 id="仿真结果查看">仿真结果查看</h2>
 <h3 id="瞬态输出">瞬态输出</h3>
 <p>选择 <strong>Results — Direct Plot — Main Form — tstab</strong></p>
-<p><img src="/2021/05/08/vco-param/tstab.png" alt="tstab" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172835.png" alt="tstab" style="zoom:33%;"></p>
 <figure>
-<img src="/2021/05/08/vco-param/tstab.svg" alt="tstab"><figcaption aria-hidden="true">tstab</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727172520.svg" alt="tstab"><figcaption aria-hidden="true">tstab</figcaption>
 </figure>
 <h3 id="输出功率">输出功率</h3>
-<p><img src="/2021/05/08/vco-param/power_tb.png" alt="power_tb" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172851.png" alt="power_tb" style="zoom:33%;"></p>
 <p>选择 <strong>Different Nets (specify R)</strong> 并设置好负载，输出选择 <strong>dBm</strong>。</p>
 <figure>
-<img src="/2021/05/08/vco-param/power.svg" alt="power"><figcaption aria-hidden="true">power</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727172521.svg" alt="power"><figcaption aria-hidden="true">power</figcaption>
 </figure>
 <h3 id="phase-noise">Phase Noise</h3>
-<p><img src="/2021/05/08/vco-param/phase_noise_tb.png" alt="phase_noise_tb" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172927.png" style="zoom:33%;"></p>
 <figure>
-<img src="/2021/05/08/vco-param/phasenoise.svg" alt="phasenoise"><figcaption aria-hidden="true">phasenoise</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727172522.svg" alt="phasenoise"><figcaption aria-hidden="true">phasenoise</figcaption>
 </figure>
 <h3 id="am-noise-pm-noise">AM noise / PM noise</h3>
-<p><img src="/2021/05/08/vco-param/AM.png" alt="AM" style="zoom:33%;"></p>
-<p><img src="/2021/05/08/vco-param/PM.png" alt="PM" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727172956.png" alt="AM" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727173012.png" alt="PM" style="zoom:33%;"></p>
 <figure>
-<img src="/2021/05/08/vco-param/AMPMnoise.svg" alt="AMPMnoise"><figcaption aria-hidden="true">AMPMnoise</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727172523.svg" alt="AMPMnoise"><figcaption aria-hidden="true">AMPMnoise</figcaption>
 </figure>
 <h3 id="频率随-vctrl-变化及-kvco">频率随 Vctrl 变化及 KVCO</h3>
-<p><img src="/2021/05/08/vco-param/vrtrl.png" alt="vrtrl" style="zoom:33%;"></p>
-<p>KVCO 使用 <code>deriv</code> 函数计算得到。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727173031.png" alt="vrtrl" style="zoom:33%;"></p>
+<p>KVCO 使用 <code>deriv</code> 函数计算得到。</p>
 <figure>
-<img src="/2021/05/08/vco-param/vctrl-0548766.svg" alt="vctrl"><figcaption aria-hidden="true">vctrl</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727172524.svg" alt="vctrl"><figcaption aria-hidden="true">vctrl</figcaption>
 </figure>
 <h1 id="电路优化">电路优化</h1>
 <blockquote>
@@ -423,8 +423,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
               <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
           </div>
 
@@ -517,7 +517,7 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -530,7 +530,7 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -591,12 +591,12 @@ f=\frac{1}{2\pi\sqrt{LC}}
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

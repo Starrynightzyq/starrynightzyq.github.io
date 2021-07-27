@@ -30,18 +30,18 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="学习 ZYNQ Linux 移植">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549966129865.png">
-<meta property="og:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549966192025.png">
-<meta property="og:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549975464135.png">
-<meta property="og:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549976437075.png">
-<meta property="og:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549976463868.png">
-<meta property="og:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549979677117.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233602.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233603.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233604.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233605.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233606.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233607.png">
 <meta property="article:published_time" content="2019-02-12T09:31:45.000Z">
 <meta property="article:modified_time" content="2020-03-12T07:22:31.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="ZYNQ">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/1549966129865.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727233602.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/">
 
@@ -335,10 +335,10 @@
 <h2 id="step3-安装petalinux需要的依赖库">step3 安装Petalinux需要的依赖库</h2>
 <p>参考ug1144，需要安装一些库。</p>
 <figure>
-<img src="/2019/02/12/Xilinx-Petalinux-Learning/1549966129865.png" alt="1549966129865"><figcaption aria-hidden="true">1549966129865</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233602.png" alt="1549966129865"><figcaption aria-hidden="true">1549966129865</figcaption>
 </figure>
 <figure>
-<img src="/2019/02/12/Xilinx-Petalinux-Learning/1549966192025.png" alt="1549966192025"><figcaption aria-hidden="true">1549966192025</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233603.png" alt="1549966192025"><figcaption aria-hidden="true">1549966192025</figcaption>
 </figure>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apt-get install tofrodos:i386</span><br><span class="line">apt-get install iproute2:i386</span><br><span class="line">apt-get install gawk:i386</span><br><span class="line">apt-get install gcc:i386</span><br><span class="line">apt-get install git-core:i386</span><br><span class="line">apt-get install make:i386</span><br><span class="line">apt-get install net-tools:i386</span><br><span class="line">apt-get install libncurses5-dev:i386</span><br><span class="line">apt-get install zlib1g-dev:i386</span><br><span class="line">apt-get install libssl-dev:i386</span><br><span class="line">apt-get install flex:i386</span><br><span class="line">apt-get install bison:i386</span><br><span class="line">apt-get install libselinux1:i386</span><br></pre></td></tr></table></figure>
 <p>然后是一些可能会导致不能正常安装petalinux，或是编译时出现问题的依赖库。</p>
@@ -354,7 +354,7 @@
 <p>如果权限不够，可用 <code>chmod 777</code> 提权。</p>
 <p>安装过程中有3个许可，需要都同意。</p>
 <figure>
-<img src="/2019/02/12/Xilinx-Petalinux-Learning/1549975464135.png" alt="1549975464135"><figcaption aria-hidden="true">1549975464135</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233604.png" alt="1549975464135"><figcaption aria-hidden="true">1549975464135</figcaption>
 </figure>
 <p>每次开机使用petalinux时，要在命令行输入：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">source /home/zyq/smbshare/petalinux/settings.sh</span><br><span class="line">echo $PETALINUX</span><br><span class="line"><span class="meta">#</span><span class="bash">会看到打印信息</span></span><br><span class="line"><span class="meta">#</span><span class="bash">/home/zyq/smbshare/petalinux/</span></span><br></pre></td></tr></table></figure>
@@ -366,10 +366,10 @@
 <p>这里我们使用第二种方法。</p>
 <p>使用vivado建立一个zynq工程，需要分配一些外设资源，参考ug1144。</p>
 <figure>
-<img src="/2019/02/12/Xilinx-Petalinux-Learning/1549976437075.png" alt="1549976437075"><figcaption aria-hidden="true">1549976437075</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233605.png" alt="1549976437075"><figcaption aria-hidden="true">1549976437075</figcaption>
 </figure>
 <figure>
-<img src="/2019/02/12/Xilinx-Petalinux-Learning/1549976463868.png" alt="1549976463868"><figcaption aria-hidden="true">1549976463868</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233606.png" alt="1549976463868"><figcaption aria-hidden="true">1549976463868</figcaption>
 </figure>
 <p>生成bitstream文件，导入到SDK。</p>
 <p>输出的文件都在"<code>/&lt;vivado project&gt;/&lt;project name&gt;.sdk/&lt;top module name&gt;_hw_platform_0</code>"文件夹下。</p>
@@ -384,7 +384,7 @@
 <p>这里我们先使用默认配置，直接按两次esc保存退出。</p>
 <p>config需要的时间较长，耐心等待。</p>
 <figure>
-<img src="/2019/02/12/Xilinx-Petalinux-Learning/1549979677117.png" alt="1549979677117"><figcaption aria-hidden="true">1549979677117</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233607.png" alt="1549979677117"><figcaption aria-hidden="true">1549979677117</figcaption>
 </figure>
 <p>如果config报错，可能是工程目录权限不够，执行命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 提示工程文件夹和petalinux的安装文件夹权限</span></span><br><span class="line">chmod 777 ../h1_petalinux</span><br><span class="line">chmod 777 petalinux</span><br><span class="line"><span class="meta">#</span><span class="bash"> 否则编译的时候，会发生错误</span></span><br></pre></td></tr></table></figure>
@@ -549,7 +549,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -562,7 +562,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -623,12 +623,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

@@ -30,16 +30,16 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="配置 VS Code 的 Verilog 开发环境">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.22.14.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.26.05.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/ctags.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.34.49.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.37.03.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.38.27.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.53.03.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午3.03.33.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午3.28.17.png">
-<meta property="og:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午3.31.12.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233407.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233408.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233409.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233410.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233411.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233412.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233413.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233414.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233415.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233416.png">
 <meta property="article:published_time" content="2021-03-15T06:18:36.000Z">
 <meta property="article:modified_time" content="2021-03-15T06:18:36.000Z">
 <meta property="article:author" content="Fitz">
@@ -47,7 +47,7 @@
 <meta property="article:tag" content="GEEK">
 <meta property="article:tag" content="Vscode">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.22.14.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727233407.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2021/03/15/VerilogOnVscode/">
 
@@ -300,7 +300,7 @@
         <h1 id="安装-hdl-语言支持插件">安装 HDL 语言支持插件</h1>
 <p>首先我们安装 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=mshr-h.VerilogHDL">Verilog-HDL/SystemVerilog/Bluespec SystemVerilog</a>。</p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.22.14.png" alt="截屏2021-03-15 下午2.22.14"><figcaption aria-hidden="true">截屏2021-03-15 下午2.22.14</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233407.png" alt="截屏2021-03-15 下午2.22.14"><figcaption aria-hidden="true">截屏2021-03-15 下午2.22.14</figcaption>
 </figure>
 <p>它能够为包括 Verilog 在内的多种 HDL 提供语法高亮、常用代码片段、符号补全以及代码分析的功能。</p>
 <p>然而不要着急，该插件并未实现后两种功能，而是从其他更专业的程序中获得帮助。因此我们还需要进行相应配置。</p>
@@ -308,7 +308,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Mac 安装 Verilator</span></span><br><span class="line">❯ brew install verilator</span><br><span class="line"><span class="meta">#</span><span class="bash"> Debian 系</span></span><br><span class="line">❯ sudo apt-get install verilator</span><br><span class="line"><span class="meta">#</span><span class="bash"> Windows</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Windows 可以使用 WSL</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 需要开启 Verilog &gt; Linting &gt; Verilator: Use WSL</span></span><br></pre></td></tr></table></figure>
 <p>在 VS Code 的用户设置中 <code>Verilog &gt; Linting: Linter</code> 一项选择 <code>verilator</code>:</p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.26.05.png" alt="截屏2021-03-15 下午2.26.05"><figcaption aria-hidden="true">截屏2021-03-15 下午2.26.05</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233408.png" alt="截屏2021-03-15 下午2.26.05"><figcaption aria-hidden="true">截屏2021-03-15 下午2.26.05</figcaption>
 </figure>
 <h1 id="使用-ctags-作为符号补全工具">使用 ctags 作为符号补全工具</h1>
 <p><code>ctags</code> 是老牌的符号补全工具，至今你还可以在 <code>Vim</code> 中见到它的身影。</p>
@@ -316,7 +316,7 @@
 <p>在 Windows 中则需要安装 <code>universal-ctags</code>。</p>
 <p><strong>配置：</strong></p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/ctags.png" alt="ctags"><figcaption aria-hidden="true">ctags</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233409.png" alt="ctags"><figcaption aria-hidden="true">ctags</figcaption>
 </figure>
 <p><strong>效果：</strong></p>
 <ul>
@@ -333,13 +333,13 @@
 <h1 id="安装并配置代码格式化插件">安装并配置代码格式化插件</h1>
 <p>接下来我们需要安装 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=IsaacT.verilog-formatter">verilog-formatter</a> 来进行格式化。</p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.34.49.png" alt="截屏2021-03-15 下午2.34.49"><figcaption aria-hidden="true">截屏2021-03-15 下午2.34.49</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233410.png" alt="截屏2021-03-15 下午2.34.49"><figcaption aria-hidden="true">截屏2021-03-15 下午2.34.49</figcaption>
 </figure>
 <p>除此之外，我们需要下载 <a target="_blank" rel="noopener" href="https://github.com/0qinghao/istyle-verilog-formatter/releases">编译后的 iStyle</a> 或者 <a target="_blank" rel="noopener" href="https://github.com/thomasrussellmurphy/istyle-verilog-formatter/releases">iStyle 源代码</a>并手动编译(<code>make all</code>)。</p>
 <p>最后在 VS Code 中配置 <code>Verilog-formatter &gt; Istyle</code> 到你的可执行文件。</p>
 <p>另外在下方的 <code>Verilog-formatter &gt; Istyle: Style</code> 一项，你可以选择多种格式化方式，我比较喜欢 <code>kr</code>。</p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.37.03.png" alt="截屏2021-03-15 下午2.37.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.37.03</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233411.png" alt="截屏2021-03-15 下午2.37.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.37.03</figcaption>
 </figure>
 <p>之后在 VS Code 中，每当调用 <code>Format Document</code> 命令(<code>Ctrl+Shift+P</code> 后输入)，当前文件就会进行格式化（快捷键 <code>Shift + Alt + F</code>）。</p>
 <h1 id="将文件代码与-vivado-项目分离">将文件代码与 Vivado 项目分离</h1>
@@ -354,7 +354,7 @@
 <h1 id="用-git-进行版本控制">用 Git 进行版本控制</h1>
 <p>通过 <a target="_blank" rel="noopener" href="https://www.toptal.com/developers/gitignore">gitignore.io</a>，你可以快速生成一份可用的 <a target="_blank" rel="noopener" href="https://www.toptal.com/developers/gitignore/api/vivado,visualstudiocode"><code>.gitignore</code> 文件</a>，或者基于此进行改进。</p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.38.27.png" alt="截屏2021-03-15 下午2.38.27"><figcaption aria-hidden="true">截屏2021-03-15 下午2.38.27</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233412.png" alt="截屏2021-03-15 下午2.38.27"><figcaption aria-hidden="true">截屏2021-03-15 下午2.38.27</figcaption>
 </figure>
 <h1 id="自动生成例化自动生成testbench">自动生成例化，自动生成testbench</h1>
 <p>安装的第一个插件Verilog-HDL/System...就有自动例化功能</p>
@@ -363,12 +363,12 @@
 <p>非常的好用，但是不够完美。</p>
 <p>需要安装插件 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=Truecrab.verilog-testbench-instance">Verilog_Testbench</a></p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午2.53.03.png" alt="截屏2021-03-15 下午2.53.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.53.03</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233413.png" alt="截屏2021-03-15 下午2.53.03"><figcaption aria-hidden="true">截屏2021-03-15 下午2.53.03</figcaption>
 </figure>
 <p>按F1或者Ctrl+Shift+P，输入:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Instance <span class="comment"># 例化</span></span><br><span class="line">Testbench <span class="comment"># tb</span></span><br></pre></td></tr></table></figure>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午3.03.33.png" alt="截屏2021-03-15 下午3.03.33"><figcaption aria-hidden="true">截屏2021-03-15 下午3.03.33</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233414.png" alt="截屏2021-03-15 下午3.03.33"><figcaption aria-hidden="true">截屏2021-03-15 下午3.03.33</figcaption>
 </figure>
 <p>可以会报错缺少文件：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">can<span class="string">&#x27;t open file &#x27;</span>~<span class="regexp">/.vscode/</span>extensions<span class="regexp">/truecrab.verilog-testbench-instance-0.0.5/</span>outvTbgenerator.py<span class="string">&#x27;: [Errno 2] No such file or directory</span></span><br></pre></td></tr></table></figure>
@@ -380,12 +380,12 @@
 <h1 id="more">More</h1>
 <h2 id="verilog-snippet-可以提供更强大的补全"><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=czh.czh-verilog-snippet">Verilog Snippet</a> 可以提供更强大的补全</h2>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午3.28.17.png" alt="截屏2021-03-15 下午3.28.17"><figcaption aria-hidden="true">截屏2021-03-15 下午3.28.17</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233415.png" alt="截屏2021-03-15 下午3.28.17"><figcaption aria-hidden="true">截屏2021-03-15 下午3.28.17</figcaption>
 </figure>
 <h2 id="自定义补全">自定义补全</h2>
 <p>其实关于自动补全，还可以前往 "Preference-&gt;User Snippets"，来添加您自己的代码，虽然这个操作目前还是比较麻烦的。</p>
 <figure>
-<img src="/2021/03/15/VerilogOnVscode/截屏2021-03-15%20下午3.31.12.png" alt="截屏2021-03-15 下午3.31.12"><figcaption aria-hidden="true">截屏2021-03-15 下午3.31.12</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233416.png" alt="截屏2021-03-15 下午3.31.12"><figcaption aria-hidden="true">截屏2021-03-15 下午3.31.12</figcaption>
 </figure>
 <h1 id="reference">Reference</h1>
 <p>[1] <a target="_blank" rel="noopener" href="https://blog.fkynjyq.com/write-verilog-with-vscode/"><strong>HDL 的现代代码编辑体验——配置 VS Code 的 Verilog 开发环境</strong></a></p>
@@ -520,7 +520,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,7 +533,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -594,12 +594,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

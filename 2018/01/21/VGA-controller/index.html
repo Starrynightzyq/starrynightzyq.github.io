@@ -30,14 +30,14 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="目标 ​ 设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。  硬件平台：Basys 3 开发板">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/行扫描.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/场扫描.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/VGA时序图.jpg">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/ROM1.png">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/ROM2.png">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/ROM3.png">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/ROM4.png">
-<meta property="og:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/整体连线图.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233440.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233441.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233442.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233443.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233444.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233445.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233446.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233447.png">
 <meta property="article:published_time" content="2018-01-21T08:57:19.000Z">
 <meta property="article:modified_time" content="2021-02-08T12:17:38.000Z">
 <meta property="article:author" content="Fitz">
@@ -46,7 +46,7 @@
 <meta property="article:tag" content="项目">
 <meta property="article:tag" content="VGA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2018/01/21/VGA-controller/行扫描.jpg">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727233440.jpg">
 
 <link rel="canonical" href="https://zhouyuqian.com/2018/01/21/VGA-controller/">
 
@@ -341,19 +341,19 @@
 </tbody>
 </table>
 <figure>
-<img src="/2018/01/21/VGA-controller/行扫描.jpg" title="行扫描时序" alt="行扫描"><figcaption aria-hidden="true">行扫描</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233440.jpg" title="行扫描时序" alt="行扫描"><figcaption aria-hidden="true">行扫描</figcaption>
 </figure>
 <blockquote>
 <p>行扫描时序</p>
 </blockquote>
 <figure>
-<img src="/2018/01/21/VGA-controller/场扫描.jpg" title="场扫描" alt="场扫描"><figcaption aria-hidden="true">场扫描</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233441.jpg" title="场扫描" alt="场扫描"><figcaption aria-hidden="true">场扫描</figcaption>
 </figure>
 <blockquote>
 <p>场扫描时序</p>
 </blockquote>
 <figure>
-<img src="/2018/01/21/VGA-controller/VGA时序图.jpg" title="VGA时序图" alt="VGA时序图"><figcaption aria-hidden="true">VGA时序图</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233442.jpg" title="VGA时序图" alt="VGA时序图"><figcaption aria-hidden="true">VGA时序图</figcaption>
 </figure>
 <blockquote>
 <p>VGA时序图</p>
@@ -377,25 +377,25 @@
 <ol type="1">
 <li><p>首先在Basis里选择Memory Type为Single Port ROM；</p>
 <figure>
-<img src="/2018/01/21/VGA-controller/ROM1.png" alt="ROM1"><figcaption aria-hidden="true">ROM1</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233443.png" alt="ROM1"><figcaption aria-hidden="true">ROM1</figcaption>
 </figure></li>
 <li><p>然后在Port A Options 里设置数据宽度和深度，因为Basys3上的VGA是RGB444格式的，所以数据宽度设为12位，深度可以理解为像素数，本来是想显示640*480的图片的，但Basys3上的RAM容量不够，所以就显示的150*150的图片,则深度为22500（150*150），不需要使能，所以Enable Port Type设为Always Enable；</p>
 <figure>
-<img src="/2018/01/21/VGA-controller/ROM2.png" alt="ROM2"><figcaption aria-hidden="true">ROM2</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233444.png" alt="ROM2"><figcaption aria-hidden="true">ROM2</figcaption>
 </figure></li>
 <li><p>Other Options里，装载 .coe文件。</p>
 <figure>
-<img src="/2018/01/21/VGA-controller/ROM3.png" alt="ROM3"><figcaption aria-hidden="true">ROM3</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233445.png" alt="ROM3"><figcaption aria-hidden="true">ROM3</figcaption>
 </figure>
 <figure>
-<img src="/2018/01/21/VGA-controller/ROM4.png" alt="ROM4"><figcaption aria-hidden="true">ROM4</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233446.png" alt="ROM4"><figcaption aria-hidden="true">ROM4</figcaption>
 </figure></li>
 <li><p>顶层文件</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> VGA_display_pictures_top</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="keyword">input</span> clk,reset,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_data,</span><br><span class="line">truetrue<span class="keyword">output</span> hsync,vsync</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="comment">//信号声明</span></span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">14</span>:<span class="number">0</span>] addr;</span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">11</span>:<span class="number">0</span>] rom_data;		<span class="comment">//rom输出rgb信号</span></span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y;</span><br><span class="line">true<span class="keyword">wire</span> video_on;</span><br><span class="line"></span><br><span class="line">    vga_sync U_vga_sync</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.hsync</span>(hsync),</span><br><span class="line">    	<span class="variable">.vsync</span>(vsync),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line">    vga_display U_vga_display</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.rgb_in</span>(rom_data),</span><br><span class="line">    	<span class="variable">.rgb_out</span>(rgb_data),</span><br><span class="line">    	<span class="variable">.addr_out</span>(addr),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line">truevga_picture vga_picture</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="variable">.clka</span>(clk),</span><br><span class="line">truetrue<span class="variable">.addra</span>(addr),</span><br><span class="line">truetrue<span class="variable">.douta</span>(rom_data)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
 </ol></li>
 <li><p>整体连线图</p>
 <figure>
-<img src="/2018/01/21/VGA-controller/整体连线图.png" alt="整体连线图"><figcaption aria-hidden="true">整体连线图</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727233447.png" alt="整体连线图"><figcaption aria-hidden="true">整体连线图</figcaption>
 </figure>
 <h2 id="总结">总结</h2>
 <ul>
@@ -534,7 +534,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -547,7 +547,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -608,12 +608,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

@@ -30,25 +30,25 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127220949901.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127221245628.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127223250969.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127223534482.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127224405414.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/截屏2020-11-27%20下午10.48.32.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/OneStage.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127225717497.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/截屏2020-11-28%20上午9.14.25.png">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/ThreeStage6291456.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/ThreeStage1677721.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/ThreeStage15099494.svg">
-<meta property="og:image" content="https://zhouyuqian.com/2020/11/27/DSM2/PSD.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180306.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180324.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180340.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180353.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180403.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180419.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180222.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180436.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180455.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180223.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180224.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180225.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180226.svg">
 <meta property="article:published_time" content="2020-11-27T02:52:23.000Z">
 <meta property="article:modified_time" content="2020-11-27T02:52:23.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="IC_design">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/11/27/DSM2/image-20201127220949901.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727180306.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/11/27/DSM2/">
 
@@ -298,11 +298,11 @@
 
       
         <p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
-<p><img src="/2020/11/27/DSM2/image-20201127220949901.png" alt="image-20201127220949901" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180306.png" alt="image-20201127220949901" style="zoom:33%;"></p>
 <a id="more"></a>
 <h1 id="一阶-dsm-传递函数计算">一阶 DSM 传递函数计算</h1>
 <p>如上图所示，一阶 DSM 由一个 Delta 调制器，一个积分器以及一个量化器组成。</p>
-<p><img src="/2020/11/27/DSM2/image-20201127221245628.png" alt="image-20201127221245628" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180324.png" alt="image-20201127221245628" style="zoom:33%;"></p>
 <p>一阶 DSM 等效的 Z 域模型如上图所示，其中量化器等效为一个噪声的叠加，可以得到： <span class="math display">\[
 W[z] = X[z] - z^{-1}Y[z] \\
 V[z] = W[z] + z^{-1}V[z] \\
@@ -317,23 +317,23 @@ NFT = \frac{Y[z]}{E[z]} = \frac{1}{1+z^{-1}H[z]} = 1-z^{-1}
 <p>由上式还可以推出： <span class="math display">\[
 V[z] = X[z] + (V[z] - Y[z])z^{-1}
 \]</span> 由此可以得到该 DSM 的另一种 Z 域模型：</p>
-<p><img src="/2020/11/27/DSM2/image-20201127223250969.png" alt="image-20201127223250969" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180340.png" alt="image-20201127223250969" style="zoom:33%;"></p>
 <p>可以看到该一阶 DSM 本质上就是一个累加器，因此其在电路中信号流图可以描述如下：</p>
-<p><img src="/2020/11/27/DSM2/image-20201127223534482.png" alt="image-20201127223534482" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180353.png" alt="image-20201127223534482" style="zoom:33%;"></p>
 <p>其中累加器为两个 m 位输入，m+1 位输出，输入 <span class="math inline">\(X[n]\)</span> 为缩放到 <span class="math inline">\(2^m\)</span> 的小数部分，例如，当 m = 24 时，<span class="math inline">\(X[n] = 6291456\)</span> 表示输入为 0.375 (<span class="math inline">\(6291456/2^{24} = 0.375\)</span>)。<span class="math inline">\(C[n]\)</span> 为累加器输出结果的最高位，是累加的<strong>进位</strong>，相当于量化器的量化输出结果。累加器输出的低 m 位相当于量化误差。上面的结构可以用如下电路来实现：</p>
-<p><img src="/2020/11/27/DSM2/image-20201127224405414.png" alt="image-20201127224405414" style="zoom:25%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180403.png" alt="image-20201127224405414" style="zoom:25%;"></p>
 <p>其中 DFF 为 D 触发器，实现了延迟的功能。</p>
 <h1 id="一阶-dsm-simulink-仿真">一阶 DSM Simulink 仿真</h1>
 <p>根据上面的分析，可以在 Simulink 中对一阶 DSM 进行仿真。Simulink 中的结构如下图所示：</p>
-<p><img src="/2020/11/27/DSM2/截屏2020-11-27 下午10.48.32.png" alt="截屏2020-11-27 下午10.48.32" style="zoom:25%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180419.png" alt="截屏2020-11-27 下午10.48.32" style="zoom:25%;"></p>
 <p>累加器进位使用一个大于等于的比较运算实现，累加器的低位输出使用取余运算实现。</p>
 <figure>
-<img src="/2020/11/27/DSM2/OneStage.svg" alt="OneStage"><figcaption aria-hidden="true">OneStage</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727180222.svg" alt="OneStage"><figcaption aria-hidden="true">OneStage</figcaption>
 </figure>
 <p>一阶 DSM 仿真结果如上图所示，第一个图是量化输出 C，第二个图是误差输出 e，输入设置为 6291456，累加器设置为 24 位，可以看到量化输出 C 每 8 个周期中会有 3 个高电平。</p>
 <h1 id="mash1-1-1">MASH1-1-1</h1>
 <p>一阶的 DSM 输出周期性很明显，对噪声的整形效果不好。可以将其级联起来组成 MASH1-1-1 结构，如下图所示：</p>
-<p><img src="/2020/11/27/DSM2/image-20201127225717497.png" alt="image-20201127225717497" style="zoom:40%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180436.png" alt="image-20201127225717497" style="zoom:40%;"></p>
 <p>前一级的一阶 DSM 误差作为下一级的一阶 DSM 输入，每一级的输出通过延迟相加得到最终输出，传递函数推导如下： <span class="math display">\[
 C_1 = e_1[n]*(1-z^{-1}) + X[n] \\
 C_2 = e_2[n]*(1-z^{-1}) - e_1[n] \\
@@ -344,22 +344,22 @@ Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
 \]</span> 可以看到最终输出的噪声只和第三级的噪声有关，并且对第三级噪声做了高阶整形。</p>
 <h1 id="mash1-1-1-simulink-仿真">MASH1-1-1 Simulink 仿真</h1>
 <p>Simulink 中的结构如下图所示：</p>
-<p><img src="/2020/11/27/DSM2/截屏2020-11-28 上午9.14.25.png" alt="截屏2020-11-28 上午9.14.25" style="zoom:40%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180455.png" alt="截屏2020-11-28 上午9.14.25" style="zoom:40%;"></p>
 <p>当输入为 0.375 (<span class="math inline">\(6291456/2^{24} = 0.375\)</span>)，输出如下：</p>
 <figure>
-<img src="/2020/11/27/DSM2/ThreeStage6291456.svg" alt="ThreeStage6291456"><figcaption aria-hidden="true">ThreeStage6291456</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727180223.svg" alt="ThreeStage6291456"><figcaption aria-hidden="true">ThreeStage6291456</figcaption>
 </figure>
 <p>当输入为 0.1 (<span class="math inline">\(1677721/2^{24} = 0.1\)</span>)，输出如下：</p>
 <figure>
-<img src="/2020/11/27/DSM2/ThreeStage1677721.svg" alt="ThreeStage1677721"><figcaption aria-hidden="true">ThreeStage1677721</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727180224.svg" alt="ThreeStage1677721"><figcaption aria-hidden="true">ThreeStage1677721</figcaption>
 </figure>
 <p>当输入为 0.9 (<span class="math inline">\(15099494/2^{24} = 0.9\)</span>)，输出如下：</p>
 <figure>
-<img src="/2020/11/27/DSM2/ThreeStage15099494.svg" alt="ThreeStage15099494"><figcaption aria-hidden="true">ThreeStage15099494</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727180225.svg" alt="ThreeStage15099494"><figcaption aria-hidden="true">ThreeStage15099494</figcaption>
 </figure>
 <p>输出信号的功率谱密度：</p>
 <figure>
-<img src="/2020/11/27/DSM2/PSD.svg" alt="PSD"><figcaption aria-hidden="true">PSD</figcaption>
+<img src="https://pic.zhouyuqian.com/img/20210727180226.svg" alt="PSD"><figcaption aria-hidden="true">PSD</figcaption>
 </figure>
 <p><strong>结果分析</strong>：</p>
 <p>从上面仿真的结果可以看到 MASH1-1-1 结构的 DSM 可以实现对噪声的高阶整形，将噪声推向高频。</p>
@@ -495,7 +495,7 @@ Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -508,7 +508,7 @@ Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -569,12 +569,12 @@ Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

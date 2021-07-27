@@ -280,7 +280,7 @@
 
       
           <p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
-<p><img src="/2020/11/27/DSM2/image-20201127220949901.png" alt="image-20201127220949901" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180306.png" alt="image-20201127220949901" style="zoom:33%;"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/27/DSM2/#more" rel="contents">
@@ -508,7 +508,7 @@
 
       
           <p>电荷泵是锁相环中重要的一个模块，其主要功能是将鉴频鉴相器 (PFD) 输出的时钟相位差值转化为电荷，将其传到环路滤波器，从而产生控制 VCO 的电压。下图是一个电荷泵的工作原理。</p>
-<p><img src="/2020/11/20/PLL-CP/image-20201120183435924.png" alt="image-20201120183435924" style="zoom:50%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194418.png" alt="image-20201120183435924" style="zoom:50%;"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/20/PLL-CP/#more" rel="contents">
@@ -629,7 +629,7 @@
 
       
           <p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
-<p><img src="/2020/11/17/TSPC/image-20201118103158126.png" alt="image-20201118103158126" style="zoom:50%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232823.png" alt="image-20201118103158126" style="zoom:50%;"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/17/TSPC/#more" rel="contents">
@@ -1110,7 +1110,7 @@
 
       
           <p>前一篇文章 <a href="https://zhouyuqian.com/2020/09/11/PLL/">PLL(Phase-locked loop, 锁相环)</a> 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。</p>
-<p><img src="/2020/10/13/PLL-2/小数频率综合器系统结构.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193424.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/10/13/PLL-2/#more" rel="contents">
@@ -1211,7 +1211,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1231,7 +1231,9 @@
 
       
           <p>在做 FPGA 设计时，需要不同频率的时钟，通常会使用 Xilinx 提供 MMCM/PLL 时钟 IP 分频或者倍频得到。偶数分频很简单，只需要用一个以 分频数/2 为最大值的计数器控制输出时钟翻转即可。但奇数分频不能用这种方法来实现，以 3 分频为例，其每个周期的高电平时间占原始时钟的 1.5 个周期，计数器无法计数 0.5 个时钟周期。</p>
-<p><img src="/2020/10/06/odd-divider/wavedrom.svg" alt="div3_0" style="zoom:100%; margin: auto;"></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183456.svg" alt="wavedrom"><figcaption aria-hidden="true">wavedrom</figcaption>
+</figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/10/06/odd-divider/#more" rel="contents">
@@ -1443,7 +1445,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1456,7 +1458,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1517,12 +1519,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>

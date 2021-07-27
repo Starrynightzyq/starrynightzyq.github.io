@@ -30,15 +30,15 @@
 <meta property="og:site_name" content="Fitz&#39;s Blog">
 <meta property="og:description" content="毕业设计：基于RISC-V处理器的卷积神经网络加速器设计与实现 开题报告">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhouyuqian.com/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/截屏2020-02-14%20下午11.13.52.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173444.png">
 <meta property="article:published_time" content="2020-02-11T05:41:09.000Z">
 <meta property="article:modified_time" content="2020-02-16T08:37:53.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="FPGA">
-<meta property="article:tag" content="RISC-V">
 <meta property="article:tag" content="毕业设计">
+<meta property="article:tag" content="RISC-V">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhouyuqian.com/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/截屏2020-02-14%20下午11.13.52.png">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727173444.png">
 
 <link rel="canonical" href="https://zhouyuqian.com/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/">
 
@@ -330,7 +330,9 @@
 </ol>
 <h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
 <p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
-<p><img src="/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/截屏2020-02-14 下午11.13.52.png" alt="截屏2020-02-14 下午11.13.52" style="zoom:67%;"></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
+</figure>
 <p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
 <p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
 <section class="footnotes" role="doc-endnotes">
@@ -382,8 +384,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/FPGA/" <i class="fa fa-tag"></i> FPGA</a>
-              <a href="/tags/RISC-V/" <i class="fa fa-tag"></i> RISC-V</a>
               <a href="/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/" <i class="fa fa-tag"></i> 毕业设计</a>
+              <a href="/tags/RISC-V/" <i class="fa fa-tag"></i> RISC-V</a>
           </div>
 
         
@@ -475,7 +477,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -488,7 +490,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -549,12 +551,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">219k</span>
+    <span title="站点总字数">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:19</span>
+    <span title="站点阅读时长">3:18</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
