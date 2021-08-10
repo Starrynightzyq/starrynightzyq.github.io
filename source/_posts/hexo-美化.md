@@ -481,6 +481,8 @@ $code-font-size = 13px
 > [Hexo博客进阶：为Next主题添加Valine评论系统](https://qianfanguojin.github.io/2019/07/23/Hexo博客进阶：为Next主题添加Valine评论系统/)
 >
 > [Valine评论系统详解(匹配QQ头像)](https://lovelijunyi.gitee.io/posts/e52c.html)
+>
+> [Valine 添加验证码、博主标签及评论微信、QQ 通知 (最终使用 Valine.min.js)](https://blog.hclonely.com/posts/409d3090/)
 
 # 评论邮件通知-[Valine-Admin](https://github.com/DesertsP/Valine-Admin)
 
