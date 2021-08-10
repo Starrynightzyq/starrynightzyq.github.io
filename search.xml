@@ -682,9 +682,9 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
         <tag>UDP</tag>
       </tags>
   </entry>
@@ -1227,8 +1227,8 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>课程设计</tag>
         <tag>MPIS32</tag>
+        <tag>课程设计</tag>
       </tags>
   </entry>
   <entry>
@@ -2574,8 +2574,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>毕业设计</tag>
         <tag>RISC-V</tag>
+        <tag>毕业设计</tag>
       </tags>
   </entry>
   <entry>
@@ -2711,8 +2711,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>GEEK</tag>
-        <tag>LaTex</tag>
         <tag>MAC</tag>
+        <tag>LaTex</tag>
       </tags>
   </entry>
   <entry>
@@ -3386,8 +3386,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>GEEK</tag>
+        <tag>FPGA</tag>
         <tag>Vscode</tag>
       </tags>
   </entry>
@@ -3688,9 +3688,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3818,9 +3818,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3877,9 +3877,24 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- VDMA</title>
+    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
+    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
+<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
       </tags>
   </entry>
   <entry>
@@ -3934,24 +3949,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- VDMA</title>
-    <url>/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</url>
-    <content><![CDATA[<p>https://lauri.xn--vsandi-pxa.com/hdl/zynq/xilinx-video-capture.html</p>
-<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842337/Linux+Soft+DMA+Driver</p>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -4145,9 +4145,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -4446,111 +4446,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>在 docker 中安装 vivado</title>
-    <url>/2021/06/01/docker-vivado/</url>
-    <content><![CDATA[<figure>
-<img src="https://pic.zhouyuqian.com/img/20210726231059.png" alt="docker_vivado"><figcaption aria-hidden="true">docker_vivado</figcaption>
-</figure>
-<p>最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇<a href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">文章</a>，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。<del>从此，vivado 成为了全平台软件，macOS 终于站起来了。</del>🤪</p>
-<a id="more"></a>
-<p>本次安装使用的 vivado 安装包是 <em>Xilinx_Unified_2020.2_1118_1232.tar.gz</em>，需要自行去 <a href="https://www.xilinx.com/support/download.html">Xilinx 官网</a>下载，其他的文件已经上传到 <a href="https://github.com/Starrynightzyq/MyDocker.git">github</a>。</p>
-<h1 id="准备">准备</h1>
-<p>在 Docker 中安装软件，用 Dockerfile 的方式，需要使用命令行的方式来安装软件，vivado 可以使用命令行的方式安装，安装的设置使用配置文件来实现。</p>
-<p>下载 vivado 的安装包，然后解压，然后运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(host)$ docker container run --rm -it -v &lt;/path/to/Xilinx_Vivado&gt;:/vivado -w /vivado ubuntu:xenial /bin/bash</span><br><span class="line">root@187602ac180d:/vivado<span class="comment"># ./xsetup -b ConfigGen</span></span><br><span class="line">Running <span class="keyword">in</span> batch mode...</span><br><span class="line">Copyright (c) 1986-2021 Xilinx, Inc.  All rights reserved.</span><br><span class="line"></span><br><span class="line">INFO : Log file location - /root/.Xilinx/xinstall/xinstall_1622527035477.log</span><br><span class="line">Select a Product from the list:</span><br><span class="line">1. Vitis</span><br><span class="line">2. Vivado</span><br><span class="line">3. On-Premises Install <span class="keyword">for</span> Cloud Deployments (Linux only)</span><br><span class="line">4. BootGen</span><br><span class="line">5. Lab Edition</span><br><span class="line">6. Hardware Server</span><br><span class="line">7. PetaLinux (Linux only)</span><br><span class="line">8. Documentation Navigator (Standalone)</span><br><span class="line"></span><br><span class="line">Please choose: 2</span><br><span class="line"></span><br><span class="line">Select an Edition from the list:</span><br><span class="line">1. Vivado HL WebPACK</span><br><span class="line">2. Vivado HL Design Edition</span><br><span class="line">3. Vivado HL System Edition</span><br><span class="line"></span><br><span class="line">Please choose: 3</span><br><span class="line"></span><br><span class="line">INFO : Config file available at /root/.Xilinx/install_config.txt. Please use -c &lt;filename&gt; to point to this install configuration.</span><br></pre></td></tr></table></figure>
-<p>这时生成了 vivado 安装的配置文件，将其从 docker 中拷贝出来，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@187602ac180d:/vivado<span class="comment"># cp /root/.Xilinx/install_config.txt ./</span></span><br></pre></td></tr></table></figure>
-<p>退出容器后，将 <em>install_config.txt</em> 拷贝到合适的位置，再作修改：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### Vivado HL System Edition Install Configuration ####</span></span><br><span class="line"><span class="attribute">Edition</span>=Vivado HL System Edition</span><br><span class="line"></span><br><span class="line"><span class="attribute">Product</span>=Vivado</span><br><span class="line"></span><br><span class="line"><span class="comment"># Path where Xilinx software will be installed.</span></span><br><span class="line"><span class="attribute">Destination</span>=/opt/Xilinx</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the Products/Devices the you would like to install.</span></span><br><span class="line"><span class="attribute">Modules</span>=Zynq UltraScale+ MPSoC:<span class="number">0</span>,Versal AI Core Series ES<span class="number">1</span>:<span class="number">0</span>,Versal Prime Series:<span class="number">0</span>,DocNav:<span class="number">1</span>,System Generator:<span class="number">0</span>,Virtex UltraScale+ HBM:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G ES:<span class="number">0</span>,Kintex-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+:<span class="number">0</span>,Zynq-<span class="number">7000</span>:<span class="number">1</span>,Versal AI Core Series:<span class="number">0</span>,Kintex UltraScale+:<span class="number">0</span>,Model Composer and System Generator:<span class="number">0</span>,Spartan-<span class="number">7</span>:<span class="number">0</span>,Kintex UltraScale:<span class="number">0</span>,Virtex UltraScale:<span class="number">0</span>,Engineering Sample Devices:<span class="number">0</span>,Zynq UltraScale+ RFSoC:<span class="number">0</span>,Virtex-<span class="number">7</span>:<span class="number">0</span>,Versal Prime Series ES<span class="number">1</span>:<span class="number">0</span>,Artix-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+ HBM ES:<span class="number">0</span>,Zynq UltraScale+ RFSoC ES:<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the post install scripts you&#x27;d like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.</span></span><br><span class="line"><span class="attribute">InstallOptions</span>=Acquire or Manage a License Key:<span class="number">0</span>,Enable WebTalk for Vivado to send usage statistics to Xilinx (Always enabled for WebPACK license):<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Shortcuts and File associations ##</span></span><br><span class="line"><span class="comment"># Choose whether Start menu/Application menu shortcuts will be created or not.</span></span><br><span class="line"><span class="attribute">CreateProgramGroupShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.</span></span><br><span class="line"><span class="attribute">ProgramGroupFolder</span>=Xilinx Design Tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.</span></span><br><span class="line"><span class="attribute">CreateShortcutsForAllUsers</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created on the desktop or not.</span></span><br><span class="line"><span class="attribute">CreateDesktopShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether file associations will be created or not.</span></span><br><span class="line"><span class="attribute">CreateFileAssociation</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether disk usage will be optimized (reduced) after installation</span></span><br><span class="line"><span class="attribute">EnableDiskUsageOptimization</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h1 id="创建-docker-镜像">创建 Docker 镜像</h1>
-<h2 id="ubuntu-xorg">ubuntu-xorg</h2>
-<p>第一个 <code>ubuntu-xorg</code> 的 <code>Dockerfile</code> 是这样的：</p>
-<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:xenial</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND noninteractive</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  sed -i <span class="string">&#x27;s/archive.ubuntu.com/mirrors.ustc.edu.cn/g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt upgrade -y &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    ca-certificates curl sudo xorg dbus dbus-x11 ubuntu-gnome-default-settings gtk2-engines \</span></span><br><span class="line"><span class="bash">    ttf-ubuntu-font-family fonts-ubuntu-font-family-console fonts-droid-fallback lxappearance &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/* &amp;&amp; \</span></span><br><span class="line"><span class="bash">  <span class="built_in">echo</span> <span class="string">&quot;%sudo ALL=(ALL) NOPASSWD: ALL&quot;</span> &gt;&gt; /etc/sudoers</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> gosu_version=<span class="number">1.10</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>&quot;</span> \</span></span><br><span class="line"><span class="bash">    -o /usr/<span class="built_in">local</span>/bin/gosu &amp;&amp; \</span></span><br><span class="line"><span class="bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>.asc&quot;</span> \</span></span><br><span class="line"><span class="bash">    -o /usr/<span class="built_in">local</span>/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  gpg --verify /usr/<span class="built_in">local</span>/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /usr/<span class="built_in">local</span>/bin/gosu.asc /root/.gnupg &amp;&amp; \</span></span><br><span class="line"><span class="bash">  chmod +x /usr/<span class="built_in">local</span>/bin/gosu</span></span><br></pre></td></tr></table></figure>
-<p>然后创建这个镜像：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker image build --rm --no-cache --pull -t ubuntu-xorg .</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><strong>--rm :</strong> 设置镜像成功后删除中间容器；</li>
-<li><strong>--no-cache : </strong>创建镜像的过程不使用缓存；</li>
-<li><strong>--pull :</strong> 尝试去更新镜像的新版本；</li>
-<li><strong>--tag, -t :</strong> 镜像的名字及标签，通常 name:tag 或者 name 格式；可以在一次构建中为一个镜像设置多个标签。</li>
-</ul>
-</blockquote>
-<h2 id="ubuntu-vivado">ubuntu-vivado</h2>
-<p>第二个镜像 <code>ubuntu-vivado</code> 的 <code>Dockerfile</code> 是这样的：</p>
-<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu-xorg</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  dpkg --add-architecture i386 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    build-essential git gcc-multilib libc6-dev:i386 ocl-icd-opencl-dev libjpeg62-dev &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y vim &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> install_config.txt /vivado-installer/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> Vivado_license_to2037.lic /vivado-installer/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> VIVADO_TAR_URI=http://host.docker.internal/Xilinx_Unified_2020.<span class="number">2</span>_1118_1232.tar.gz</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl <span class="variable">$&#123;VIVADO_TAR_URI&#125;</span> | tar zx --strip-components=1 -C /vivado-installer &amp;&amp; \</span></span><br><span class="line"><span class="bash">  /vivado-installer/xsetup \</span></span><br><span class="line"><span class="bash">    --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \</span></span><br><span class="line"><span class="bash">    --batch Install \</span></span><br><span class="line"><span class="bash">    --config /vivado-installer/install_config.txt &amp;&amp; \</span></span><br><span class="line"><span class="bash">  <span class="built_in">echo</span> <span class="string">&quot;source /opt/Xilinx/Vivado/2020.2/.settings64-Vivado.sh&quot;</span> &gt;&gt; /etc/bash.bashrc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  mkdir -p /work/.Xilinx &amp;&amp; \</span></span><br><span class="line"><span class="bash">  cp /vivado-installer/Vivado_license_to2037.lic /work/.Xilinx/Vivado_license_to2037.lic &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /vivado-installer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> pynq-z2.tar.gz /opt/Xilinx/Vivado/2020.2/data/boards/board_files/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> entrypoint.sh /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod +x /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;/usr/local/bin/entrypoint.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-l&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里使用 <code>http://host.docker.internal</code> 来访问宿主机，这种用法似乎只在 windows 和 macOS 版的 docker 上可以用，linux 要换种方法。</p>
-</blockquote>
-<p>这里使用 curl 来获取 vivado 安装包，避免了生成的镜像过大的问题（其实安装的时候还是需要很大空间，安装后的镜像有快 43G 了，安装过程中还有解压后的安装包，因此最好将 Disk image size 设置为大于 100G，否则可能会因为空间不足而安装失败），因此需要在本地搭建一个文件服务器，来提供 vivado 安装包。</p>
-<p>在含有 vivado 安装包的目录下运行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Dockerfile 中，vivado安装包的路径是 <code>http://host.docker.internal/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>，在宿主机中应该可以通过 <code>http://127.0.0.1/Xilinx_Unified_2020.2_1118_1232.tar.gz</code> 访问到 vivado 的安装包，路径不对的可以改一下。</p>
-</blockquote>
-<p>在运行 docker bulid 之前，先要确保在含有 <code>Dockerfile</code> 的文件夹下有这些文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ls</span><br><span class="line">Dockerfile                Vivado_license_to2037.lic entrypoint.sh             install_config.txt        pynq-z2.tar.gz</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>install_config.txt</strong> 是第一步生成的 vivado 安装配置文件；</p>
-<p><strong>pynq-z2.tar.gz</strong> 是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile；</p>
-<p><strong>Vivado_license_to2037.lic</strong> 是 license，<del>不要也没关系，反正还没找到用命令行安装 license 的方法</del>，会安装到 <em>/work/.Xilinx/</em> 目录下；</p>
-<p><strong>entrypoint.sh</strong> 是一个把宿主机用户和容器内用户的 UID 组合在一起的脚本，内容如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">UART_GROUP_ID=$&#123;UART_GROUP_ID:-20&#125;</span><br><span class="line">if ! grep -q &quot;x:$&#123;UART_GROUP_ID&#125;:&quot; /etc/group; then</span><br><span class="line">  groupadd -g &quot;$UART_GROUP_ID&quot; uart</span><br><span class="line">fi</span><br><span class="line">UART_GROUP=$(grep -Po &quot;^\\w+(?=:x:$&#123;UART_GROUP_ID&#125;:)&quot; /etc/group)</span><br><span class="line"></span><br><span class="line">if [[ -n &quot;$USER_ID&quot; ]]; then</span><br><span class="line">  useradd -s /bin/bash -u &quot;$USER_ID&quot; -o -d &quot;$PWD&quot; user</span><br><span class="line">  usermod -aG sudo user</span><br><span class="line">  usermod -aG &quot;$UART_GROUP&quot; user</span><br><span class="line">  chown user $(tty)</span><br><span class="line">  exec /usr/local/bin/gosu user &quot;$@&quot;</span><br><span class="line">else</span><br><span class="line">  exec &quot;$@&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-<p>然后含有 <code>Dockerfile</code> 的目录下运行：</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker image build --rm --no-cache -t ubuntu-vivado .</span><br></pre></td></tr></table></figure>
-<h1 id="使用已安装的-vivado">使用已安装的 Vivado</h1>
-<h2 id="在容器中创建一个工作用户"><del>在容器中创建一个工作用户</del></h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docke container run -it --rm -e USER_ID=<span class="variable">$UID</span> -v &lt;localhost/vivado/workspace&gt;:/work -w /work ubuntu-vivado</span><br></pre></td></tr></table></figure>
-<p>这一步只是演示如何以非 root 用户启动 docker 容器。</p>
-<h2 id="在-docker-中调用-x11">在 Docker 中调用 X11</h2>
-<blockquote>
-<p>在 MAC 上需要先安装 XQuartz 在转发 X11，可以使用 brew 安装：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install --cask xquartz</span><br></pre></td></tr></table></figure>
-<p>安装完需要重启电脑，并且在 XQuartz 的设置里勾选上 <em>安全性--允许从网络连接</em></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210726231129.png" alt="xquartz"><figcaption aria-hidden="true">xquartz</figcaption>
-</figure>
-</blockquote>
-<p>首先，允许工作用户使用以下命令在本地请求 X11：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ xhost +si:localuser:$(whoami)</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">$ xhost +</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210726231144.png" alt="X11"><figcaption aria-hidden="true">X11</figcaption>
-</figure>
-<p>接下来，使用以下选项启动 Docker 容器：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container run -it --rm \</span><br><span class="line">    -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line">    -e DISPLAY \</span><br><span class="line">    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line">    -v &lt;localhost/vivado/workspace&gt;:/work \</span><br><span class="line">    -w /work \</span><br><span class="line">    ubuntu-vivado</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>上面的命令在 MAC 中使用的时候会提示无权限使用 X11，将 <code>-e DISPLAY</code> 换成了 <code>-e DISPLAY=host.docker.internal:0</code> 就可以运行了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker container run -it --rm \</span><br><span class="line"> -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line"> -e DISPLAY=host.docker.internal:0 \</span><br><span class="line"> -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line"> -v <span class="variable">$PWD</span>:/work \</span><br><span class="line"> -w /work \</span><br><span class="line"> ubuntu-vivado</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>-i:</strong> 以交互模式运行容器，通常与 -t 同时使用；</li>
-<li><strong>-t:</strong> 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</li>
-<li><strong>--volume , -v:</strong> 绑定一个卷；</li>
-<li><strong>-w, --workdir= :</strong> Working directory inside the container；</li>
-<li><strong>-e, --env=[] :</strong> Set environment variables(设置环境变量) ；</li>
-<li><strong>--rm=false</strong> Automatically remove the container when it exits；</li>
-</ul>
-</blockquote>
-<p>这时，在终端里输入 <code>vivado</code>，就可以打开 vivado 了：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210726231202.png" alt="vivado"><figcaption aria-hidden="true">vivado</figcaption>
-</figure>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210726231221.png" alt="vivado2"><figcaption aria-hidden="true">vivado2</figcaption>
-</figure>
-<h1 id="reference">Reference</h1>
-<p>[1] <a href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">Xilinx の開発ツールを Docker コンテナに閉じ込める</a></p>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>Software</tag>
-        <tag>vivado</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>gmid 设计方法</title>
     <url>/2021/03/10/gmid/</url>
     <content><![CDATA[<h1 id="gmid-设计方法的优点">gm/id 设计方法的优点</h1>
@@ -4763,6 +4658,111 @@ W = 128um
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>gmid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在 docker 中安装 vivado</title>
+    <url>/2021/06/01/docker-vivado/</url>
+    <content><![CDATA[<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231059.png" alt="docker_vivado"><figcaption aria-hidden="true">docker_vivado</figcaption>
+</figure>
+<p>最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇<a href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">文章</a>，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。<del>从此，vivado 成为了全平台软件，macOS 终于站起来了。</del>🤪</p>
+<a id="more"></a>
+<p>本次安装使用的 vivado 安装包是 <em>Xilinx_Unified_2020.2_1118_1232.tar.gz</em>，需要自行去 <a href="https://www.xilinx.com/support/download.html">Xilinx 官网</a>下载，其他的文件已经上传到 <a href="https://github.com/Starrynightzyq/MyDocker.git">github</a>。</p>
+<h1 id="准备">准备</h1>
+<p>在 Docker 中安装软件，用 Dockerfile 的方式，需要使用命令行的方式来安装软件，vivado 可以使用命令行的方式安装，安装的设置使用配置文件来实现。</p>
+<p>下载 vivado 的安装包，然后解压，然后运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(host)$ docker container run --rm -it -v &lt;/path/to/Xilinx_Vivado&gt;:/vivado -w /vivado ubuntu:xenial /bin/bash</span><br><span class="line">root@187602ac180d:/vivado<span class="comment"># ./xsetup -b ConfigGen</span></span><br><span class="line">Running <span class="keyword">in</span> batch mode...</span><br><span class="line">Copyright (c) 1986-2021 Xilinx, Inc.  All rights reserved.</span><br><span class="line"></span><br><span class="line">INFO : Log file location - /root/.Xilinx/xinstall/xinstall_1622527035477.log</span><br><span class="line">Select a Product from the list:</span><br><span class="line">1. Vitis</span><br><span class="line">2. Vivado</span><br><span class="line">3. On-Premises Install <span class="keyword">for</span> Cloud Deployments (Linux only)</span><br><span class="line">4. BootGen</span><br><span class="line">5. Lab Edition</span><br><span class="line">6. Hardware Server</span><br><span class="line">7. PetaLinux (Linux only)</span><br><span class="line">8. Documentation Navigator (Standalone)</span><br><span class="line"></span><br><span class="line">Please choose: 2</span><br><span class="line"></span><br><span class="line">Select an Edition from the list:</span><br><span class="line">1. Vivado HL WebPACK</span><br><span class="line">2. Vivado HL Design Edition</span><br><span class="line">3. Vivado HL System Edition</span><br><span class="line"></span><br><span class="line">Please choose: 3</span><br><span class="line"></span><br><span class="line">INFO : Config file available at /root/.Xilinx/install_config.txt. Please use -c &lt;filename&gt; to point to this install configuration.</span><br></pre></td></tr></table></figure>
+<p>这时生成了 vivado 安装的配置文件，将其从 docker 中拷贝出来，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@187602ac180d:/vivado<span class="comment"># cp /root/.Xilinx/install_config.txt ./</span></span><br></pre></td></tr></table></figure>
+<p>退出容器后，将 <em>install_config.txt</em> 拷贝到合适的位置，再作修改：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### Vivado HL System Edition Install Configuration ####</span></span><br><span class="line"><span class="attribute">Edition</span>=Vivado HL System Edition</span><br><span class="line"></span><br><span class="line"><span class="attribute">Product</span>=Vivado</span><br><span class="line"></span><br><span class="line"><span class="comment"># Path where Xilinx software will be installed.</span></span><br><span class="line"><span class="attribute">Destination</span>=/opt/Xilinx</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the Products/Devices the you would like to install.</span></span><br><span class="line"><span class="attribute">Modules</span>=Zynq UltraScale+ MPSoC:<span class="number">0</span>,Versal AI Core Series ES<span class="number">1</span>:<span class="number">0</span>,Versal Prime Series:<span class="number">0</span>,DocNav:<span class="number">1</span>,System Generator:<span class="number">0</span>,Virtex UltraScale+ HBM:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G ES:<span class="number">0</span>,Kintex-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+:<span class="number">0</span>,Zynq-<span class="number">7000</span>:<span class="number">1</span>,Versal AI Core Series:<span class="number">0</span>,Kintex UltraScale+:<span class="number">0</span>,Model Composer and System Generator:<span class="number">0</span>,Spartan-<span class="number">7</span>:<span class="number">0</span>,Kintex UltraScale:<span class="number">0</span>,Virtex UltraScale:<span class="number">0</span>,Engineering Sample Devices:<span class="number">0</span>,Zynq UltraScale+ RFSoC:<span class="number">0</span>,Virtex-<span class="number">7</span>:<span class="number">0</span>,Versal Prime Series ES<span class="number">1</span>:<span class="number">0</span>,Artix-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+ HBM ES:<span class="number">0</span>,Zynq UltraScale+ RFSoC ES:<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the post install scripts you&#x27;d like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.</span></span><br><span class="line"><span class="attribute">InstallOptions</span>=Acquire or Manage a License Key:<span class="number">0</span>,Enable WebTalk for Vivado to send usage statistics to Xilinx (Always enabled for WebPACK license):<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Shortcuts and File associations ##</span></span><br><span class="line"><span class="comment"># Choose whether Start menu/Application menu shortcuts will be created or not.</span></span><br><span class="line"><span class="attribute">CreateProgramGroupShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.</span></span><br><span class="line"><span class="attribute">ProgramGroupFolder</span>=Xilinx Design Tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.</span></span><br><span class="line"><span class="attribute">CreateShortcutsForAllUsers</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created on the desktop or not.</span></span><br><span class="line"><span class="attribute">CreateDesktopShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether file associations will be created or not.</span></span><br><span class="line"><span class="attribute">CreateFileAssociation</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether disk usage will be optimized (reduced) after installation</span></span><br><span class="line"><span class="attribute">EnableDiskUsageOptimization</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-docker-镜像">创建 Docker 镜像</h1>
+<h2 id="ubuntu-xorg">ubuntu-xorg</h2>
+<p>第一个 <code>ubuntu-xorg</code> 的 <code>Dockerfile</code> 是这样的：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:xenial</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND noninteractive</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  sed -i <span class="string">&#x27;s/archive.ubuntu.com/mirrors.ustc.edu.cn/g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt upgrade -y &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    ca-certificates curl sudo xorg dbus dbus-x11 ubuntu-gnome-default-settings gtk2-engines \</span></span><br><span class="line"><span class="bash">    ttf-ubuntu-font-family fonts-ubuntu-font-family-console fonts-droid-fallback lxappearance &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/* &amp;&amp; \</span></span><br><span class="line"><span class="bash">  <span class="built_in">echo</span> <span class="string">&quot;%sudo ALL=(ALL) NOPASSWD: ALL&quot;</span> &gt;&gt; /etc/sudoers</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> gosu_version=<span class="number">1.10</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>&quot;</span> \</span></span><br><span class="line"><span class="bash">    -o /usr/<span class="built_in">local</span>/bin/gosu &amp;&amp; \</span></span><br><span class="line"><span class="bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>.asc&quot;</span> \</span></span><br><span class="line"><span class="bash">    -o /usr/<span class="built_in">local</span>/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  gpg --verify /usr/<span class="built_in">local</span>/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /usr/<span class="built_in">local</span>/bin/gosu.asc /root/.gnupg &amp;&amp; \</span></span><br><span class="line"><span class="bash">  chmod +x /usr/<span class="built_in">local</span>/bin/gosu</span></span><br></pre></td></tr></table></figure>
+<p>然后创建这个镜像：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker image build --rm --no-cache --pull -t ubuntu-xorg .</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>--rm :</strong> 设置镜像成功后删除中间容器；</li>
+<li><strong>--no-cache : </strong>创建镜像的过程不使用缓存；</li>
+<li><strong>--pull :</strong> 尝试去更新镜像的新版本；</li>
+<li><strong>--tag, -t :</strong> 镜像的名字及标签，通常 name:tag 或者 name 格式；可以在一次构建中为一个镜像设置多个标签。</li>
+</ul>
+</blockquote>
+<h2 id="ubuntu-vivado">ubuntu-vivado</h2>
+<p>第二个镜像 <code>ubuntu-vivado</code> 的 <code>Dockerfile</code> 是这样的：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu-xorg</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  dpkg --add-architecture i386 &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="bash">    build-essential git gcc-multilib libc6-dev:i386 ocl-icd-opencl-dev libjpeg62-dev &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get install -y vim &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> install_config.txt /vivado-installer/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> Vivado_license_to2037.lic /vivado-installer/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> VIVADO_TAR_URI=http://host.docker.internal/Xilinx_Unified_2020.<span class="number">2</span>_1118_1232.tar.gz</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> \</span></span><br><span class="line"><span class="bash">  curl <span class="variable">$&#123;VIVADO_TAR_URI&#125;</span> | tar zx --strip-components=1 -C /vivado-installer &amp;&amp; \</span></span><br><span class="line"><span class="bash">  /vivado-installer/xsetup \</span></span><br><span class="line"><span class="bash">    --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \</span></span><br><span class="line"><span class="bash">    --batch Install \</span></span><br><span class="line"><span class="bash">    --config /vivado-installer/install_config.txt &amp;&amp; \</span></span><br><span class="line"><span class="bash">  <span class="built_in">echo</span> <span class="string">&quot;source /opt/Xilinx/Vivado/2020.2/.settings64-Vivado.sh&quot;</span> &gt;&gt; /etc/bash.bashrc &amp;&amp; \</span></span><br><span class="line"><span class="bash">  mkdir -p /work/.Xilinx &amp;&amp; \</span></span><br><span class="line"><span class="bash">  cp /vivado-installer/Vivado_license_to2037.lic /work/.Xilinx/Vivado_license_to2037.lic &amp;&amp; \</span></span><br><span class="line"><span class="bash">  rm -rf /vivado-installer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> pynq-z2.tar.gz /opt/Xilinx/Vivado/2020.2/data/boards/board_files/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> entrypoint.sh /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> chmod +x /usr/<span class="built_in">local</span>/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;/usr/local/bin/entrypoint.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-l&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里使用 <code>http://host.docker.internal</code> 来访问宿主机，这种用法似乎只在 windows 和 macOS 版的 docker 上可以用，linux 要换种方法。</p>
+</blockquote>
+<p>这里使用 curl 来获取 vivado 安装包，避免了生成的镜像过大的问题（其实安装的时候还是需要很大空间，安装后的镜像有快 43G 了，安装过程中还有解压后的安装包，因此最好将 Disk image size 设置为大于 100G，否则可能会因为空间不足而安装失败），因此需要在本地搭建一个文件服务器，来提供 vivado 安装包。</p>
+<p>在含有 vivado 安装包的目录下运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dockerfile 中，vivado安装包的路径是 <code>http://host.docker.internal/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>，在宿主机中应该可以通过 <code>http://127.0.0.1/Xilinx_Unified_2020.2_1118_1232.tar.gz</code> 访问到 vivado 的安装包，路径不对的可以改一下。</p>
+</blockquote>
+<p>在运行 docker bulid 之前，先要确保在含有 <code>Dockerfile</code> 的文件夹下有这些文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ls</span><br><span class="line">Dockerfile                Vivado_license_to2037.lic entrypoint.sh             install_config.txt        pynq-z2.tar.gz</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>install_config.txt</strong> 是第一步生成的 vivado 安装配置文件；</p>
+<p><strong>pynq-z2.tar.gz</strong> 是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile；</p>
+<p><strong>Vivado_license_to2037.lic</strong> 是 license，<del>不要也没关系，反正还没找到用命令行安装 license 的方法</del>，会安装到 <em>/work/.Xilinx/</em> 目录下；</p>
+<p><strong>entrypoint.sh</strong> 是一个把宿主机用户和容器内用户的 UID 组合在一起的脚本，内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">UART_GROUP_ID=$&#123;UART_GROUP_ID:-20&#125;</span><br><span class="line">if ! grep -q &quot;x:$&#123;UART_GROUP_ID&#125;:&quot; /etc/group; then</span><br><span class="line">  groupadd -g &quot;$UART_GROUP_ID&quot; uart</span><br><span class="line">fi</span><br><span class="line">UART_GROUP=$(grep -Po &quot;^\\w+(?=:x:$&#123;UART_GROUP_ID&#125;:)&quot; /etc/group)</span><br><span class="line"></span><br><span class="line">if [[ -n &quot;$USER_ID&quot; ]]; then</span><br><span class="line">  useradd -s /bin/bash -u &quot;$USER_ID&quot; -o -d &quot;$PWD&quot; user</span><br><span class="line">  usermod -aG sudo user</span><br><span class="line">  usermod -aG &quot;$UART_GROUP&quot; user</span><br><span class="line">  chown user $(tty)</span><br><span class="line">  exec /usr/local/bin/gosu user &quot;$@&quot;</span><br><span class="line">else</span><br><span class="line">  exec &quot;$@&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>然后含有 <code>Dockerfile</code> 的目录下运行：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker image build --rm --no-cache -t ubuntu-vivado .</span><br></pre></td></tr></table></figure>
+<h1 id="使用已安装的-vivado">使用已安装的 Vivado</h1>
+<h2 id="在容器中创建一个工作用户"><del>在容器中创建一个工作用户</del></h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docke container run -it --rm -e USER_ID=<span class="variable">$UID</span> -v &lt;localhost/vivado/workspace&gt;:/work -w /work ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<p>这一步只是演示如何以非 root 用户启动 docker 容器。</p>
+<h2 id="在-docker-中调用-x11">在 Docker 中调用 X11</h2>
+<blockquote>
+<p>在 MAC 上需要先安装 XQuartz 在转发 X11，可以使用 brew 安装：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install --cask xquartz</span><br></pre></td></tr></table></figure>
+<p>安装完需要重启电脑，并且在 XQuartz 的设置里勾选上 <em>安全性--允许从网络连接</em></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231129.png" alt="xquartz"><figcaption aria-hidden="true">xquartz</figcaption>
+</figure>
+</blockquote>
+<p>首先，允许工作用户使用以下命令在本地请求 X11：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ xhost +si:localuser:$(whoami)</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">$ xhost +</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231144.png" alt="X11"><figcaption aria-hidden="true">X11</figcaption>
+</figure>
+<p>接下来，使用以下选项启动 Docker 容器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container run -it --rm \</span><br><span class="line">    -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line">    -e DISPLAY \</span><br><span class="line">    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line">    -v &lt;localhost/vivado/workspace&gt;:/work \</span><br><span class="line">    -w /work \</span><br><span class="line">    ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的命令在 MAC 中使用的时候会提示无权限使用 X11，将 <code>-e DISPLAY</code> 换成了 <code>-e DISPLAY=host.docker.internal:0</code> 就可以运行了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker container run -it --rm \</span><br><span class="line"> -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line"> -e DISPLAY=host.docker.internal:0 \</span><br><span class="line"> -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line"> -v <span class="variable">$PWD</span>:/work \</span><br><span class="line"> -w /work \</span><br><span class="line"> ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>-i:</strong> 以交互模式运行容器，通常与 -t 同时使用；</li>
+<li><strong>-t:</strong> 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</li>
+<li><strong>--volume , -v:</strong> 绑定一个卷；</li>
+<li><strong>-w, --workdir= :</strong> Working directory inside the container；</li>
+<li><strong>-e, --env=[] :</strong> Set environment variables(设置环境变量) ；</li>
+<li><strong>--rm=false</strong> Automatically remove the container when it exits；</li>
+</ul>
+</blockquote>
+<p>这时，在终端里输入 <code>vivado</code>，就可以打开 vivado 了：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231202.png" alt="vivado"><figcaption aria-hidden="true">vivado</figcaption>
+</figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231221.png" alt="vivado2"><figcaption aria-hidden="true">vivado2</figcaption>
+</figure>
+<h1 id="reference">Reference</h1>
+<p>[1] <a href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">Xilinx の開発ツールを Docker コンテナに閉じ込める</a></p>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>vivado</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -6252,8 +6252,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>项目</tag>
         <tag>课程设计</tag>
+        <tag>项目</tag>
       </tags>
   </entry>
   <entry>
@@ -6317,8 +6317,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>毕业设计</tag>
         <tag>RISC-V</tag>
+        <tag>毕业设计</tag>
       </tags>
   </entry>
   <entry>

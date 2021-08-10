@@ -34,8 +34,8 @@
 <meta property="article:modified_time" content="2018-12-19T11:01:14.000Z">
 <meta property="article:author" content="Fitz">
 <meta property="article:tag" content="FPGA">
-<meta property="article:tag" content="课程设计">
 <meta property="article:tag" content="MPIS32">
+<meta property="article:tag" content="课程设计">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://zhouyuqian.com/2018/12/19/MIPS%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%8A%A5%E5%91%8A/">
@@ -142,6 +142,11 @@
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>留言板</a>
 
   </li>
         <li class="menu-item menu-item-ariang">
@@ -368,8 +373,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/FPGA/" <i class="fa fa-tag"></i> FPGA</a>
-              <a href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" <i class="fa fa-tag"></i> 课程设计</a>
               <a href="/tags/MPIS32/" <i class="fa fa-tag"></i> MPIS32</a>
+              <a href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" <i class="fa fa-tag"></i> 课程设计</a>
           </div>
 
         
@@ -727,7 +732,7 @@ window.addEventListener('pjax:success', () => {
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
-    var guest = 'nick,mail';
+    var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
       return GUEST.includes(item);
     });
