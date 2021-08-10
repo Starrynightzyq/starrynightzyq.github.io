@@ -488,6 +488,14 @@ $code-font-size = 13px
 
 Valine Admin 是 [Valine 评论系统](https://deserts.io/diy-a-comment-system/)的扩展和增强，主要实现评论邮件通知、评论管理、垃圾评论过滤等功能。支持完全自定义的邮件通知模板。基于Akismet API实现准确的垃圾评论过滤。此外，使用云函数等技术解决了免费版云引擎休眠问题，支持云引擎自动唤醒，漏发邮件自动补发。兼容云淡风轻及Deserts维护的多版本Valine。
 
+增加了 [server酱](https://sct.ftqq.com/) 微信提醒：[Valine-Admin-Server](https://github.com/Starrynightzyq/Valine-Admin-Server)
+
+配置变量参考：https://www.antmoe.com/posts/2380732b/
+
+> 新版的 server酱 推荐使用企业微信应用来推送消息，可以参考：
+>
+> https://shimo.im/docs/38dpjtwWtRRVQ6Wy/read
+
 # 文章结语
 
 > Ref:
