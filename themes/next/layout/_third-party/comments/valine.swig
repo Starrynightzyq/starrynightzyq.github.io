@@ -22,7 +22,9 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       lang       : '{{ theme.valine.language }}' || 'zh-cn',
       path       : location.pathname,
       recordIP   : {{ theme.valine.recordIP }},
-      serverURLs : '{{ theme.valine.serverURLs }}'
+      serverURLs : '{{ theme.valine.serverURLs }}',
+      master     : '{{ theme.valine.master }}',
+      enableQQ   : {{ theme.valine.enableQQ }}
     });
   }, window.Valine);
 });
