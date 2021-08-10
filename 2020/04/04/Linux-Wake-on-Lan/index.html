@@ -742,7 +742,7 @@ window.addEventListener('pjax:success', () => {
 
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/gh/HCLonely/Valine@latest/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
     var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
@@ -754,7 +754,7 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       notify     : false,
       appId      : '06xpdnUk8FAtRgIQKBcdj5A4-MdYXbMMI',
       appKey     : 'WvMytjHhcjUC8rjt9lFopOI3',
-      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!\n(昵称填写QQ号或者邮箱填写QQ邮箱会自动获取QQ头像哦) ",
       avatar     : 'robohash',
       meta       : guest,
       pageSize   : '10' || 10,
@@ -762,7 +762,9 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       lang       : '' || 'zh-cn',
       path       : location.pathname,
       recordIP   : false,
-      serverURLs : ''
+      serverURLs : '',
+      master     : '6ff544e9d280cfce4188462edd527e16,454ae2eee519f69d06b211747b2028e6,de34823a81fe95217008866e1685a1fa',
+      enableQQ   : true
     });
   }, window.Valine);
 });

@@ -373,14 +373,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</loc>
+    <loc>https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</loc>
+    <loc>https://zhouyuqian.com/2020/04/09/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-VDMA/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
@@ -753,13 +753,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Vscode/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/HLS/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
@@ -768,13 +761,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/chisel/</loc>
-    <lastmod>2021-08-10</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/gmid/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -795,6 +781,13 @@
   </url>
   
   <url>
+    <loc>https://zhouyuqian.com/tags/Vscode/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/tags/hexo/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
@@ -803,6 +796,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/%E7%BE%8E%E5%8C%96/</loc>
+    <lastmod>2021-08-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/gmid/</loc>
     <lastmod>2021-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

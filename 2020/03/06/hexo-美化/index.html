@@ -450,6 +450,7 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43405525/article/details/99228698?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.compare&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.compare">Valine评论系统</a></p>
 <p><a target="_blank" rel="noopener" href="https://qianfanguojin.github.io/2019/07/23/Hexo博客进阶：为Next主题添加Valine评论系统/">Hexo博客进阶：为Next主题添加Valine评论系统</a></p>
 <p><a target="_blank" rel="noopener" href="https://lovelijunyi.gitee.io/posts/e52c.html">Valine评论系统详解(匹配QQ头像)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.hclonely.com/posts/409d3090/">Valine 添加验证码、博主标签及评论微信、QQ 通知 (最终使用 Valine.min.js)</a></p>
 </blockquote>
 <h1 id="评论邮件通知-valine-admin">评论邮件通知-<a target="_blank" rel="noopener" href="https://github.com/DesertsP/Valine-Admin">Valine-Admin</a></h1>
 <p>Valine Admin 是 <a target="_blank" rel="noopener" href="https://deserts.io/diy-a-comment-system/">Valine 评论系统</a>的扩展和增强，主要实现评论邮件通知、评论管理、垃圾评论过滤等功能。支持完全自定义的邮件通知模板。基于Akismet API实现准确的垃圾评论过滤。此外，使用云函数等技术解决了免费版云引擎休眠问题，支持云引擎自动唤醒，漏发邮件自动补发。兼容云淡风轻及Deserts维护的多版本Valine。</p>
@@ -882,7 +883,7 @@ window.addEventListener('pjax:success', () => {
 
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
-  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/gh/HCLonely/Valine@latest/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
     var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
@@ -894,7 +895,7 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       notify     : false,
       appId      : '06xpdnUk8FAtRgIQKBcdj5A4-MdYXbMMI',
       appKey     : 'WvMytjHhcjUC8rjt9lFopOI3',
-      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+      placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!\n(昵称填写QQ号或者邮箱填写QQ邮箱会自动获取QQ头像哦) ",
       avatar     : 'robohash',
       meta       : guest,
       pageSize   : '10' || 10,
@@ -902,7 +903,9 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       lang       : '' || 'zh-cn',
       path       : location.pathname,
       recordIP   : false,
-      serverURLs : ''
+      serverURLs : '',
+      master     : '6ff544e9d280cfce4188462edd527e16,454ae2eee519f69d06b211747b2028e6,de34823a81fe95217008866e1685a1fa',
+      enableQQ   : true
     });
   }, window.Valine);
 });
