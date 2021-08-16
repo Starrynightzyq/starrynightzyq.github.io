@@ -682,9 +682,9 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
         <category>Ethernet</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
         <tag>UDP</tag>
       </tags>
   </entry>
@@ -1227,8 +1227,8 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>课程设计</tag>
         <tag>MPIS32</tag>
+        <tag>课程设计</tag>
       </tags>
   </entry>
   <entry>
@@ -2574,8 +2574,75 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>毕业设计</tag>
         <tag>RISC-V</tag>
+        <tag>毕业设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 VSCode 编写 LaTeX — Mac 篇</title>
+    <url>/2020/12/09/TexOnVsCode/</url>
+    <content><![CDATA[<p><img src="https://pic.zhouyuqian.com/img/20210727195217.png" class="full-image" style="zoom:200%;"></p>
+<p>之前在 Mac 上写 LaTex，一直用 Sublime 编写，用 TexPad 编译，TexPad 虽然很好用，界面也很好看，然而它是付费软件，一直用着**版总觉得心里过意不去，就想着替代的方案。</p>
+<p>LaTex 可以直接用命令编译，可以写一个脚本，把编译命令放在里面，为了之前写本科毕业论文就是这样做的，然而这样还是不太方便，太 Geek 了。</p>
+<p>直到我把文本编辑器从 Sublime 换成 VSCode 后，发现 VSCode 真是太强大了，可以把 LaTex 编写和编译都一起做了，方法如下。</p>
+<a id="more"></a>
+<p>Windows 环境可以参考 <a href="https://zhuanlan.zhihu.com/p/38178015">使用VSCode编写LaTeX</a>。</p>
+<h1 id="安装-latex-环境">安装 LaTex 环境</h1>
+<p>阿巴阿巴，这个省略，Windows 可以装 <strong>texlive</strong>，Mac 装 <a href="https://www.tug.org/mactex/">MacTex</a>。</p>
+<blockquote>
+<p>Mac 可以用 <a href="https://brew.sh/">Homebrew</a> 安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install --cask mactex-no-gui</span><br></pre></td></tr></table></figure>
+<h1 id="安装-vscode-上的-latex-插件">安装 VSCode 上的 LaTex 插件</h1>
+</blockquote>
+<p>安装 <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTex Workshop</a>.</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727195158.png" alt="LaTexWorkshop"><figcaption aria-hidden="true">LaTexWorkshop</figcaption>
+</figure>
+<h1 id="编译配置命令">编译配置命令</h1>
+<p>打开用户配置文件（在 VSCode 界面下按下 F1，然后键入“setjson”，点击“首选项: 打开设置(JSON)”）：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727195159.png" alt="settings"><figcaption aria-hidden="true">settings</figcaption>
+</figure>
+<p>在<strong>中括号内</strong>加入：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// LaTeX</span></span><br><span class="line"><span class="comment">// 不在保存的时候自动编译</span></span><br><span class="line">  &quot;latex-workshop.latex.autoBuild.run&quot;: &quot;never&quot;,</span><br><span class="line"><span class="comment">// 编译工具</span></span><br><span class="line">  &quot;latex-workshop.latex.tools&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;-synctex=1&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-interaction=nonstopmode&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-file-line-error&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-pdf&quot;</span>,</span><br><span class="line">              <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;-synctex=1&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-interaction=nonstopmode&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-file-line-error&quot;</span>,</span><br><span class="line">              <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;</span><br><span class="line">  ],</span><br><span class="line"><span class="comment">// 编译命令</span></span><br><span class="line">  &quot;latex-workshop.latex.recipes&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">          ],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xelatex*2&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">          ],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xe-&gt;bib-&gt;xe-&gt;xe&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pdf-&gt;bib-&gt;pdf-&gt;pdf&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+<p><em>latex-workshop.latex.tools</em> 下面的是编译工具，<em>latex-workshop.latex.recipes</em> 下面的是编译命令，可以根据需要自行修改，其中第一个 <em>recipes</em> 是 默认的编译命令。</p>
+<p>然后就可以进行编译了：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727195200.png" alt="compile"><figcaption aria-hidden="true">compile</figcaption>
+</figure>
+<h1 id="配置快捷键">配置快捷键</h1>
+<p>打开 <em>keybindings.json</em> 文件（在 VSCode 界面下按下 F1，然后键入“keyboard”，点击“Preference: Open Keyboard Shortcuts(JSON)”）：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727195201.png" alt="keyboard"><figcaption aria-hidden="true">keyboard</figcaption>
+</figure>
+<p>在中括号内加入：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 前向搜索</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+s&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.synctex&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;editorTextFocus&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 使用默认 recipe 编译</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+b&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.build&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;editorTextFocus&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 终止编译</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+t&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.kill&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;editorTextFocus&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 选择其他 recipe 编译</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+e&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.recipes&quot;</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>这段的意义是将 Alt+s 绑定到<strong>正向搜索</strong>，将 Alt+b 绑定到<strong>使用默认 recipe 编译</strong>，将 Alt+t 绑定到<strong>终止编译</strong>，将 Alt+e 绑定到<strong>选择其他 recipe 编译</strong>，可以自行更换为适合自己的快捷键，只需修改“key”那一项即可。</p>
+<h1 id="配合-skim-正向搜索和逆向搜索">配合 <a href="https://skim-app.sourceforge.io/">Skim</a> 正向搜索和逆向搜索</h1>
+<h2 id="安装-skim">安装 Skim</h2>
+<p>Mac 上安装 Skim，可以去 <em>sourceforge.net</em> 下载，或者使用 brew 安装:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew cask install skim</span><br></pre></td></tr></table></figure>
+<h2 id="vscode-配置">VSCode 配置</h2>
+<p>在用户配置文件 (settings.json) 中加入：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// 使能从 VSCode跳转到 Skim 里相应位置</span></span><br><span class="line"><span class="comment">// external pdf viewer</span></span><br><span class="line">  &quot;latex-workshop.view.pdf.viewer&quot;: &quot;external&quot;,</span><br><span class="line">  &quot;latex-workshop.view.pdf.external.synctex.command&quot;: &quot;/usr/local/bin/displayline&quot;,</span><br><span class="line">  &quot;latex-workshop.view.pdf.external.synctex.args&quot;: [</span><br><span class="line">      &quot;-r&quot;,</span><br><span class="line">      &quot;%LINE%&quot;,</span><br><span class="line">      &quot;%PDF%&quot;,</span><br><span class="line">      <span class="string">&quot;%TEX%&quot;</span></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使能从 VSCode 中直接打开 Skim</span></span><br><span class="line">  &quot;latex-workshop.view.pdf.external.viewer.command&quot;: &quot;/usr/local/bin/displayline&quot;,</span><br><span class="line">  &quot;latex-workshop.view.pdf.external.viewer.args&quot;: [</span><br><span class="line">      &quot;0&quot;,</span><br><span class="line">      <span class="string">&quot;%PDF%&quot;</span></span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+<h2 id="skim-配置">Skim 配置</h2>
+<p>skim-选项-同步-预设vscode:</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727195202.png" alt="skim"><figcaption aria-hidden="true">skim</figcaption>
+</figure>
+<p>然后从 VSCode 跳转到 Skim 使用快捷键 <strong><em>alt+s</em></strong>，Skim 中 PDF 对应的位置会显示一个红点，从 Skim 跳转到 VSCode 使用 <strong><em>command+shift+鼠标左击</em></strong>。</p>
+<h1 id="reference">Reference</h1>
+<p>[1] <a href="https://blog.csdn.net/weixin_38842968/article/details/89922030">Mac上使用VSCode编辑Latex+Skim跳转预览</a></p>
+<p>[2] <a href="https://zhuanlan.zhihu.com/p/38178015">使用VSCode编写LaTeX</a></p>
+<p>[3] <a href="https://liam.page/2018/04/24/Working-with-VSCode-on-macOS-configuration-LaTeX-workshop-and-Skim/">在 macOS 上配置 VSCode 与 Skim 的 LaTeX 正反跳转</a></p>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
+        <tag>LaTex</tag>
       </tags>
   </entry>
   <entry>
@@ -2646,73 +2713,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>PLL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 VSCode 编写 LaTeX — Mac 篇</title>
-    <url>/2020/12/09/TexOnVsCode/</url>
-    <content><![CDATA[<p><img src="https://pic.zhouyuqian.com/img/20210727195217.png" class="full-image" style="zoom:200%;"></p>
-<p>之前在 Mac 上写 LaTex，一直用 Sublime 编写，用 TexPad 编译，TexPad 虽然很好用，界面也很好看，然而它是付费软件，一直用着**版总觉得心里过意不去，就想着替代的方案。</p>
-<p>LaTex 可以直接用命令编译，可以写一个脚本，把编译命令放在里面，为了之前写本科毕业论文就是这样做的，然而这样还是不太方便，太 Geek 了。</p>
-<p>直到我把文本编辑器从 Sublime 换成 VSCode 后，发现 VSCode 真是太强大了，可以把 LaTex 编写和编译都一起做了，方法如下。</p>
-<a id="more"></a>
-<p>Windows 环境可以参考 <a href="https://zhuanlan.zhihu.com/p/38178015">使用VSCode编写LaTeX</a>。</p>
-<h1 id="安装-latex-环境">安装 LaTex 环境</h1>
-<p>阿巴阿巴，这个省略，Windows 可以装 <strong>texlive</strong>，Mac 装 <a href="https://www.tug.org/mactex/">MacTex</a>。</p>
-<blockquote>
-<p>Mac 可以用 <a href="https://brew.sh/">Homebrew</a> 安装</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install --cask mactex-no-gui</span><br></pre></td></tr></table></figure>
-<h1 id="安装-vscode-上的-latex-插件">安装 VSCode 上的 LaTex 插件</h1>
-</blockquote>
-<p>安装 <a href="https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop">LaTex Workshop</a>.</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727195158.png" alt="LaTexWorkshop"><figcaption aria-hidden="true">LaTexWorkshop</figcaption>
-</figure>
-<h1 id="编译配置命令">编译配置命令</h1>
-<p>打开用户配置文件（在 VSCode 界面下按下 F1，然后键入“setjson”，点击“首选项: 打开设置(JSON)”）：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727195159.png" alt="settings"><figcaption aria-hidden="true">settings</figcaption>
-</figure>
-<p>在<strong>中括号内</strong>加入：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// LaTeX</span></span><br><span class="line"><span class="comment">// 不在保存的时候自动编译</span></span><br><span class="line">  &quot;latex-workshop.latex.autoBuild.run&quot;: &quot;never&quot;,</span><br><span class="line"><span class="comment">// 编译工具</span></span><br><span class="line">  &quot;latex-workshop.latex.tools&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;-synctex=1&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-interaction=nonstopmode&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-file-line-error&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-pdf&quot;</span>,</span><br><span class="line">              <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;-synctex=1&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-interaction=nonstopmode&quot;</span>,</span><br><span class="line">              <span class="string">&quot;-file-line-error&quot;</span>,</span><br><span class="line">              <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;</span><br><span class="line">  ],</span><br><span class="line"><span class="comment">// 编译命令</span></span><br><span class="line">  &quot;latex-workshop.latex.recipes&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">          ],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xelatex*2&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">          ],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;xe-&gt;bib-&gt;xe-&gt;xe&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;pdf-&gt;bib-&gt;pdf-&gt;pdf&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;tools&quot;</span>: [</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;bibtex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span>,</span><br><span class="line">              <span class="string">&quot;pdflatex&quot;</span></span><br><span class="line">          ]</span><br><span class="line">      &#125;</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
-<p><em>latex-workshop.latex.tools</em> 下面的是编译工具，<em>latex-workshop.latex.recipes</em> 下面的是编译命令，可以根据需要自行修改，其中第一个 <em>recipes</em> 是 默认的编译命令。</p>
-<p>然后就可以进行编译了：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727195200.png" alt="compile"><figcaption aria-hidden="true">compile</figcaption>
-</figure>
-<h1 id="配置快捷键">配置快捷键</h1>
-<p>打开 <em>keybindings.json</em> 文件（在 VSCode 界面下按下 F1，然后键入“keyboard”，点击“Preference: Open Keyboard Shortcuts(JSON)”）：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727195201.png" alt="keyboard"><figcaption aria-hidden="true">keyboard</figcaption>
-</figure>
-<p>在中括号内加入：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 前向搜索</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+s&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.synctex&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;editorTextFocus&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 使用默认 recipe 编译</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+b&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.build&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;editorTextFocus&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 终止编译</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+t&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.kill&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;when&quot;</span>: <span class="string">&quot;editorTextFocus&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 选择其他 recipe 编译</span></span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;alt+e&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;command&quot;</span>: <span class="string">&quot;latex-workshop.recipes&quot;</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-<p>这段的意义是将 Alt+s 绑定到<strong>正向搜索</strong>，将 Alt+b 绑定到<strong>使用默认 recipe 编译</strong>，将 Alt+t 绑定到<strong>终止编译</strong>，将 Alt+e 绑定到<strong>选择其他 recipe 编译</strong>，可以自行更换为适合自己的快捷键，只需修改“key”那一项即可。</p>
-<h1 id="配合-skim-正向搜索和逆向搜索">配合 <a href="https://skim-app.sourceforge.io/">Skim</a> 正向搜索和逆向搜索</h1>
-<h2 id="安装-skim">安装 Skim</h2>
-<p>Mac 上安装 Skim，可以去 <em>sourceforge.net</em> 下载，或者使用 brew 安装:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew cask install skim</span><br></pre></td></tr></table></figure>
-<h2 id="vscode-配置">VSCode 配置</h2>
-<p>在用户配置文件 (settings.json) 中加入：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// 使能从 VSCode跳转到 Skim 里相应位置</span></span><br><span class="line"><span class="comment">// external pdf viewer</span></span><br><span class="line">  &quot;latex-workshop.view.pdf.viewer&quot;: &quot;external&quot;,</span><br><span class="line">  &quot;latex-workshop.view.pdf.external.synctex.command&quot;: &quot;/usr/local/bin/displayline&quot;,</span><br><span class="line">  &quot;latex-workshop.view.pdf.external.synctex.args&quot;: [</span><br><span class="line">      &quot;-r&quot;,</span><br><span class="line">      &quot;%LINE%&quot;,</span><br><span class="line">      &quot;%PDF%&quot;,</span><br><span class="line">      <span class="string">&quot;%TEX%&quot;</span></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使能从 VSCode 中直接打开 Skim</span></span><br><span class="line">  &quot;latex-workshop.view.pdf.external.viewer.command&quot;: &quot;/usr/local/bin/displayline&quot;,</span><br><span class="line">  &quot;latex-workshop.view.pdf.external.viewer.args&quot;: [</span><br><span class="line">      &quot;0&quot;,</span><br><span class="line">      <span class="string">&quot;%PDF%&quot;</span></span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
-<h2 id="skim-配置">Skim 配置</h2>
-<p>skim-选项-同步-预设vscode:</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727195202.png" alt="skim"><figcaption aria-hidden="true">skim</figcaption>
-</figure>
-<p>然后从 VSCode 跳转到 Skim 使用快捷键 <strong><em>alt+s</em></strong>，Skim 中 PDF 对应的位置会显示一个红点，从 Skim 跳转到 VSCode 使用 <strong><em>command+shift+鼠标左击</em></strong>。</p>
-<h1 id="reference">Reference</h1>
-<p>[1] <a href="https://blog.csdn.net/weixin_38842968/article/details/89922030">Mac上使用VSCode编辑Latex+Skim跳转预览</a></p>
-<p>[2] <a href="https://zhuanlan.zhihu.com/p/38178015">使用VSCode编写LaTeX</a></p>
-<p>[3] <a href="https://liam.page/2018/04/24/Working-with-VSCode-on-macOS-configuration-LaTeX-workshop-and-Skim/">在 macOS 上配置 VSCode 与 Skim 的 LaTeX 正反跳转</a></p>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>LaTex</tag>
-        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -3386,8 +3386,8 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>GEEK</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
         <tag>GEEK</tag>
+        <tag>FPGA</tag>
         <tag>Vscode</tag>
       </tags>
   </entry>
@@ -3688,9 +3688,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3818,9 +3818,66 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- USB</title>
+    <url>/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</url>
+    <content><![CDATA[<p>在之前 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-移植-Linux/">ZYNQ 移植 Linux</a> 的基础上，下一步就是要移植驱动了，但是每次都把 SD 卡拔下来把驱动拷进去再重新开机太麻烦了，ZYNQ 上有两个 USB 外设，可以配成 Host、Peripheral、OTG 三种模式，因此我们可以将 USB 配置成 Host 模式，这样 ZYNQ 上的 Linux 系统就可以读取 USB 接口上的 U盘了。</p>
+<a id="more"></a>
+<blockquote>
+<p>Reference:</p>
+<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode</p>
+<p>https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8</p>
+<p>https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly</p>
+</blockquote>
+<p>这里现在只写了 Host 模式的配置，其他模式的配置可以参考 <a href="https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8">ZYNQ学习之路8.USB总线学习(一)</a> 和 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a>。</p>
+<h1 id="配置内核">配置内核</h1>
+<p>按照 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中的步骤，需要对内核进行如下配置：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Device</span> Drivers</span><br><span class="line"><span class="attribute">USB</span> support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">Support</span> for Host-side USB</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">EHCI</span> HCD (USB <span class="number">2</span>.<span class="number">0</span>) support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">USB</span> Mass Storage support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">ChipIdea</span> Highspeed Dual Role Controller</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">ChipIdea</span> host controller</span><br><span class="line">        <span class="attribute">USB</span> Physical Layer drivers ---&gt;</span><br><span class="line">        <span class="section">&lt;*&gt;</span> <span class="attribute">Generic</span> ULPI Transceiver Driver</span><br></pre></td></tr></table></figure>
+<p>不过这些在 <em>xilinx_zynq_defconfig</em> 这个文件里好像都配置好了，不过还是按照步骤来一遍：</p>
+<p>在 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E7%BC%96%E8%AF%91%E5%86%85%E6%A0%B8">编译内核</a> 这一步，先运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+<p>使用这种类似图像界面配置：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233832.png" alt="menuconfig"><figcaption aria-hidden="true">menuconfig</figcaption>
+</figure>
+<p>然后 <code>&lt;Load&gt;</code> 配置文件：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233833.png" alt="load"><figcaption aria-hidden="true">load</figcaption>
+</figure>
+<p>配置文件的路径是 <em>arch/arm/configs/xilinx_zynq_defconfig</em>，按照上面的要求进行配置，最后 <code>&lt;Save&gt;</code>，然后 <code>&lt;Exit&gt;</code></p>
+<p>然后重新编译内核：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
+<h1 id="修改设备树">修改设备树</h1>
+<p>之前的在这里被坑了一下，<a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 写的不太明白，像我这种菜鸡没看懂怎么去修改设备树，后来在 <a href="https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly">stackoverflow</a> 上找到了一篇文章解决了问题。</p>
+<p>在前一篇的 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a> 步骤中，会生成 <em>system-top.dts, pcw.dtsi, pl.dtsi</em> 三个文件，需要修改 <em>system-top.dts, pcw.dtsi</em> 这两个文件：</p>
+<p>修改 <em>pcw.dtsi</em> ：</p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CAUTION: This file is automatically generated by Xilinx.</span></span><br><span class="line"><span class="comment"> * Version:</span></span><br><span class="line"><span class="comment"> * Today is: Thu Apr  9 12:48:12 2020</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class">/ &#123;</span></span><br><span class="line"><span class="class">    <span class="class">cpus </span>&#123;</span></span><br><span class="line"><span class="class">        <span class="class">cpu@0 </span>&#123;</span></span><br><span class="line"><span class="class">            operating-points = <span class="params">&lt;<span class="number">650000</span> <span class="number">1000000</span> <span class="number">325000</span> <span class="number">1000000</span>&gt;</span>;</span></span><br><span class="line"><span class="class">        &#125;;</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;gem0</span> &#123;</span><br><span class="line">    phy-mode = <span class="string">&quot;rgmii-id&quot;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    xlnx,ptp-enet-clock = <span class="params">&lt;<span class="number">0x6750918</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;i2c0</span> &#123;</span><br><span class="line">    clock-frequency = <span class="params">&lt;<span class="number">400000</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;intc</span> &#123;</span><br><span class="line">    num_cpus = <span class="params">&lt;<span class="number">2</span>&gt;</span>;</span><br><span class="line">    num_interrupts = <span class="params">&lt;<span class="number">96</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;qspi</span> &#123;</span><br><span class="line">    is-dual = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</span><br><span class="line">    num-cs = <span class="params">&lt;<span class="number">1</span>&gt;</span>;</span><br><span class="line">    spi-rx-bus-width = <span class="params">&lt;<span class="number">4</span>&gt;</span>;</span><br><span class="line">    spi-tx-bus-width = <span class="params">&lt;<span class="number">4</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;sdhci0</span> &#123;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    xlnx,has-cd = <span class="params">&lt;<span class="number">0x1</span>&gt;</span>;</span><br><span class="line">    xlnx,has-power = <span class="params">&lt;<span class="number">0x0</span>&gt;</span>;</span><br><span class="line">    xlnx,has-wp = <span class="params">&lt;<span class="number">0x0</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;uart0</span> &#123;</span><br><span class="line">    device_type = <span class="string">&quot;serial&quot;</span>;</span><br><span class="line">    port-number = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;usb0</span> &#123;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    dr_mode = <span class="string">&quot;host&quot;</span>;</span><br><span class="line">    phy_type = <span class="string">&quot;ulpi&quot;</span>;</span><br><span class="line">    usb-phy = <span class="params">&lt;<span class="variable">&amp;usb_phy0</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;clkc</span> &#123;</span><br><span class="line">    fclk-enable = <span class="params">&lt;<span class="number">0x7</span>&gt;</span>;</span><br><span class="line">    ps-clk-frequency = <span class="params">&lt;<span class="number">50000000</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后修改 <em>system-top.dts</em> :</p>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CAUTION: This file is automatically generated by Xilinx.</span></span><br><span class="line"><span class="comment"> * Version:</span></span><br><span class="line"><span class="comment"> * Today is: Thu Apr  9 12:48:12 2020</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta-keyword">/dts-v1/</span>;</span><br><span class="line"><span class="meta-keyword">/include/</span> <span class="string">&quot;zynq-7000.dtsi&quot;</span></span><br><span class="line"><span class="meta-keyword">/include/</span> <span class="string">&quot;pl.dtsi&quot;</span></span><br><span class="line"><span class="meta-keyword">/include/</span> <span class="string">&quot;pcw.dtsi&quot;</span></span><br><span class="line"><span class="class">/ &#123;</span></span><br><span class="line"><span class="class">    <span class="class">chosen </span>&#123;</span></span><br><span class="line"><span class="class">        bootargs = <span class="string">&quot;earlycon&quot;</span>;</span></span><br><span class="line"><span class="class">        stdout-path = <span class="string">&quot;serial0:115200n8&quot;</span>;</span></span><br><span class="line"><span class="class">    &#125;;</span></span><br><span class="line">    <span class="class">aliases </span>&#123;</span><br><span class="line">        ethernet0 = <span class="variable">&amp;gem0</span>;</span><br><span class="line">        i2c0 = <span class="variable">&amp;i2c0</span>;</span><br><span class="line">        serial0 = <span class="variable">&amp;uart0</span>;</span><br><span class="line">        spi0 = <span class="variable">&amp;qspi</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="class">memory </span>&#123;</span><br><span class="line">        device_type = <span class="string">&quot;memory&quot;</span>;</span><br><span class="line">        reg = <span class="params">&lt;<span class="number">0x0</span> <span class="number">0x20000000</span>&gt;</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="symbol">    usb_phy0:</span> <span class="class">phy0 </span>&#123;</span><br><span class="line">        compatible = <span class="string">&quot;ulpi-phy&quot;</span>;</span><br><span class="line">        <span class="meta">#phy-cells = &lt;0&gt;;</span></span><br><span class="line">        reg = <span class="params">&lt;<span class="number">0xe0002000</span> <span class="number">0x1000</span>&gt;</span>;</span><br><span class="line">        view-port = <span class="params">&lt;<span class="number">0x170</span>&gt;</span>;</span><br><span class="line">        drv-vbus;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看到，在 <em>pcw.dtsi</em> 中修改了 <em>usb0</em> 这一项，设置了 <code>dr_mode</code> 为 <code>host</code>，设置了 <code>usb-phy</code> 为 <code>usb_phy0</code>，然后在 <em>system-top.dts</em> 对 <code>usb_phy0</code> 进行了定义，这个与 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中略有不同，其实是在 <em>zynq-7000.dtsi</em> 文件中对 <code>usb0</code> 有定义，而 <em>pcw.dtsi</em> 中对 <code>usb0</code> 的是一个覆盖定义(表述不是很准确，等我后面再去查一下 dts 的语法)。</p>
+<p>然后重新编译设备树：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
+<h1 id="最后">最后</h1>
+<p>最后将内核 <em>uImage</em> 和 设备树 <em>devicetree.dtb</em> 拷贝到 SD 卡重新启动 ZYNQ，在将 U盘插入 USB 口后，可以看到 <em>/dev/</em> 下多了 <em>sda</em> 设备，将其挂载，便可读写 U盘的文件了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mount /dev/sda1 /mnt</span><br></pre></td></tr></table></figure>
+<p>通过访问 <em>/mnt</em> 文件夹就可以访问 U盘的文件了。</p>
+<h1 id="主要问题总结">主要问题总结</h1>
+<ul>
+<li>不熟悉设备树编写的规则，卡了好久；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
         <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
       </tags>
   </entry>
   <entry>
@@ -3877,66 +3934,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- USB</title>
-    <url>/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</url>
-    <content><![CDATA[<p>在之前 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-移植-Linux/">ZYNQ 移植 Linux</a> 的基础上，下一步就是要移植驱动了，但是每次都把 SD 卡拔下来把驱动拷进去再重新开机太麻烦了，ZYNQ 上有两个 USB 外设，可以配成 Host、Peripheral、OTG 三种模式，因此我们可以将 USB 配置成 Host 模式，这样 ZYNQ 上的 Linux 系统就可以读取 USB 接口上的 U盘了。</p>
-<a id="more"></a>
-<blockquote>
-<p>Reference:</p>
-<p>https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode</p>
-<p>https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8</p>
-<p>https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly</p>
-</blockquote>
-<p>这里现在只写了 Host 模式的配置，其他模式的配置可以参考 <a href="https://blog.csdn.net/u010580016/article/details/104188236?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-8">ZYNQ学习之路8.USB总线学习(一)</a> 和 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a>。</p>
-<h1 id="配置内核">配置内核</h1>
-<p>按照 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中的步骤，需要对内核进行如下配置：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Device</span> Drivers</span><br><span class="line"><span class="attribute">USB</span> support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">Support</span> for Host-side USB</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">EHCI</span> HCD (USB <span class="number">2</span>.<span class="number">0</span>) support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">USB</span> Mass Storage support</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">ChipIdea</span> Highspeed Dual Role Controller</span><br><span class="line">    <span class="section">&lt;*&gt;</span> <span class="attribute">ChipIdea</span> host controller</span><br><span class="line">        <span class="attribute">USB</span> Physical Layer drivers ---&gt;</span><br><span class="line">        <span class="section">&lt;*&gt;</span> <span class="attribute">Generic</span> ULPI Transceiver Driver</span><br></pre></td></tr></table></figure>
-<p>不过这些在 <em>xilinx_zynq_defconfig</em> 这个文件里好像都配置好了，不过还是按照步骤来一遍：</p>
-<p>在 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E7%BC%96%E8%AF%91%E5%86%85%E6%A0%B8">编译内核</a> 这一步，先运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
-<p>使用这种类似图像界面配置：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233832.png" alt="menuconfig"><figcaption aria-hidden="true">menuconfig</figcaption>
-</figure>
-<p>然后 <code>&lt;Load&gt;</code> 配置文件：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233833.png" alt="load"><figcaption aria-hidden="true">load</figcaption>
-</figure>
-<p>配置文件的路径是 <em>arch/arm/configs/xilinx_zynq_defconfig</em>，按照上面的要求进行配置，最后 <code>&lt;Save&gt;</code>，然后 <code>&lt;Exit&gt;</code></p>
-<p>然后重新编译内核：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
-<h1 id="修改设备树">修改设备树</h1>
-<p>之前的在这里被坑了一下，<a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 写的不太明白，像我这种菜鸡没看懂怎么去修改设备树，后来在 <a href="https://stackoverflow.com/questions/57823438/how-to-configure-petalinux-device-tree-with-usb-correctly">stackoverflow</a> 上找到了一篇文章解决了问题。</p>
-<p>在前一篇的 <a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a> 步骤中，会生成 <em>system-top.dts, pcw.dtsi, pl.dtsi</em> 三个文件，需要修改 <em>system-top.dts, pcw.dtsi</em> 这两个文件：</p>
-<p>修改 <em>pcw.dtsi</em> ：</p>
-<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CAUTION: This file is automatically generated by Xilinx.</span></span><br><span class="line"><span class="comment"> * Version:</span></span><br><span class="line"><span class="comment"> * Today is: Thu Apr  9 12:48:12 2020</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class">/ &#123;</span></span><br><span class="line"><span class="class">    <span class="class">cpus </span>&#123;</span></span><br><span class="line"><span class="class">        <span class="class">cpu@0 </span>&#123;</span></span><br><span class="line"><span class="class">            operating-points = <span class="params">&lt;<span class="number">650000</span> <span class="number">1000000</span> <span class="number">325000</span> <span class="number">1000000</span>&gt;</span>;</span></span><br><span class="line"><span class="class">        &#125;;</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;gem0</span> &#123;</span><br><span class="line">    phy-mode = <span class="string">&quot;rgmii-id&quot;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    xlnx,ptp-enet-clock = <span class="params">&lt;<span class="number">0x6750918</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;i2c0</span> &#123;</span><br><span class="line">    clock-frequency = <span class="params">&lt;<span class="number">400000</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;intc</span> &#123;</span><br><span class="line">    num_cpus = <span class="params">&lt;<span class="number">2</span>&gt;</span>;</span><br><span class="line">    num_interrupts = <span class="params">&lt;<span class="number">96</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;qspi</span> &#123;</span><br><span class="line">    is-dual = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</span><br><span class="line">    num-cs = <span class="params">&lt;<span class="number">1</span>&gt;</span>;</span><br><span class="line">    spi-rx-bus-width = <span class="params">&lt;<span class="number">4</span>&gt;</span>;</span><br><span class="line">    spi-tx-bus-width = <span class="params">&lt;<span class="number">4</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;sdhci0</span> &#123;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    xlnx,has-cd = <span class="params">&lt;<span class="number">0x1</span>&gt;</span>;</span><br><span class="line">    xlnx,has-power = <span class="params">&lt;<span class="number">0x0</span>&gt;</span>;</span><br><span class="line">    xlnx,has-wp = <span class="params">&lt;<span class="number">0x0</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;uart0</span> &#123;</span><br><span class="line">    device_type = <span class="string">&quot;serial&quot;</span>;</span><br><span class="line">    port-number = <span class="params">&lt;<span class="number">0</span>&gt;</span>;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;usb0</span> &#123;</span><br><span class="line">    status = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">    dr_mode = <span class="string">&quot;host&quot;</span>;</span><br><span class="line">    phy_type = <span class="string">&quot;ulpi&quot;</span>;</span><br><span class="line">    usb-phy = <span class="params">&lt;<span class="variable">&amp;usb_phy0</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">&amp;clkc</span> &#123;</span><br><span class="line">    fclk-enable = <span class="params">&lt;<span class="number">0x7</span>&gt;</span>;</span><br><span class="line">    ps-clk-frequency = <span class="params">&lt;<span class="number">50000000</span>&gt;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>然后修改 <em>system-top.dts</em> :</p>
-<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * CAUTION: This file is automatically generated by Xilinx.</span></span><br><span class="line"><span class="comment"> * Version:</span></span><br><span class="line"><span class="comment"> * Today is: Thu Apr  9 12:48:12 2020</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta-keyword">/dts-v1/</span>;</span><br><span class="line"><span class="meta-keyword">/include/</span> <span class="string">&quot;zynq-7000.dtsi&quot;</span></span><br><span class="line"><span class="meta-keyword">/include/</span> <span class="string">&quot;pl.dtsi&quot;</span></span><br><span class="line"><span class="meta-keyword">/include/</span> <span class="string">&quot;pcw.dtsi&quot;</span></span><br><span class="line"><span class="class">/ &#123;</span></span><br><span class="line"><span class="class">    <span class="class">chosen </span>&#123;</span></span><br><span class="line"><span class="class">        bootargs = <span class="string">&quot;earlycon&quot;</span>;</span></span><br><span class="line"><span class="class">        stdout-path = <span class="string">&quot;serial0:115200n8&quot;</span>;</span></span><br><span class="line"><span class="class">    &#125;;</span></span><br><span class="line">    <span class="class">aliases </span>&#123;</span><br><span class="line">        ethernet0 = <span class="variable">&amp;gem0</span>;</span><br><span class="line">        i2c0 = <span class="variable">&amp;i2c0</span>;</span><br><span class="line">        serial0 = <span class="variable">&amp;uart0</span>;</span><br><span class="line">        spi0 = <span class="variable">&amp;qspi</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="class">memory </span>&#123;</span><br><span class="line">        device_type = <span class="string">&quot;memory&quot;</span>;</span><br><span class="line">        reg = <span class="params">&lt;<span class="number">0x0</span> <span class="number">0x20000000</span>&gt;</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="symbol">    usb_phy0:</span> <span class="class">phy0 </span>&#123;</span><br><span class="line">        compatible = <span class="string">&quot;ulpi-phy&quot;</span>;</span><br><span class="line">        <span class="meta">#phy-cells = &lt;0&gt;;</span></span><br><span class="line">        reg = <span class="params">&lt;<span class="number">0xe0002000</span> <span class="number">0x1000</span>&gt;</span>;</span><br><span class="line">        view-port = <span class="params">&lt;<span class="number">0x170</span>&gt;</span>;</span><br><span class="line">        drv-vbus;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>可以看到，在 <em>pcw.dtsi</em> 中修改了 <em>usb0</em> 这一项，设置了 <code>dr_mode</code> 为 <code>host</code>，设置了 <code>usb-phy</code> 为 <code>usb_phy0</code>，然后在 <em>system-top.dts</em> 对 <code>usb_phy0</code> 进行了定义，这个与 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842272/Zynq+Linux+USB+Device+Driver#ZynqLinuxUSBDeviceDriver-PeripheralMode">xilinx-wiki</a> 中略有不同，其实是在 <em>zynq-7000.dtsi</em> 文件中对 <code>usb0</code> 有定义，而 <em>pcw.dtsi</em> 中对 <code>usb0</code> 的是一个覆盖定义(表述不是很准确，等我后面再去查一下 dts 的语法)。</p>
-<p>然后重新编译设备树：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
-<h1 id="最后">最后</h1>
-<p>最后将内核 <em>uImage</em> 和 设备树 <em>devicetree.dtb</em> 拷贝到 SD 卡重新启动 ZYNQ，在将 U盘插入 USB 口后，可以看到 <em>/dev/</em> 下多了 <em>sda</em> 设备，将其挂载，便可读写 U盘的文件了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mount /dev/sda1 /mnt</span><br></pre></td></tr></table></figure>
-<p>通过访问 <em>/mnt</em> 文件夹就可以访问 U盘的文件了。</p>
-<h1 id="主要问题总结">主要问题总结</h1>
-<ul>
-<li>不熟悉设备树编写的规则，卡了好久；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3949,9 +3949,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -4145,9 +4145,9 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <category>ZYNQ 移植 Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -6259,8 +6259,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>FPGA</tag>
         <tag>ZYNQ</tag>
-        <tag>项目</tag>
         <tag>课程设计</tag>
+        <tag>项目</tag>
       </tags>
   </entry>
   <entry>
@@ -6324,8 +6324,8 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>毕业设计</tag>
         <tag>RISC-V</tag>
+        <tag>毕业设计</tag>
       </tags>
   </entry>
   <entry>
@@ -6488,12 +6488,14 @@ f=\frac{1}{2\pi\sqrt{LC}}
 <p><a href="https://www.jianshu.com/p/cec753473ec9">nginx实现no-www和www跳转</a></p>
 </blockquote>
 <h1 id="强制-https-跳转">强制 HTTPs 跳转</h1>
-<h2 id="首先查看-nginx-是否有-ssl-支持模块">首先查看 Nginx 是否有 SSL 支持模块</h2>
+<h2 id="首先查看-nginx-是否有-ssl-支持模块"><del>首先查看 Nginx 是否有 SSL 支持模块</del></h2>
 <p>使用命令：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nginx -V</span><br></pre></td></tr></table></figure>
 <p>看输出中是否有：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">configure arguments:</span><br><span class="line">...</span><br><span class="line">--with-http_ssl_module</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>如果没有，则需要重新编译 nginx，增加 SSL 支持模块，参考<a href="https://www.codelast.com/原创-为nginx添加ssl支持模块/">为nginx添加SSL支持模块</a>。</p>
+<h2 id="安装-nginx">安装 Nginx</h2>
+<p>参考：https://blog.csdn.net/qq_40015566/article/details/90169882</p>
 <h1 id="申请下载证书略">申请&amp;下载证书（略）</h1>
 <h1 id="上传证书">上传证书</h1>
 <p>在 Nginx 的安装目录 <em>/etc/nginx/</em> 下创建 cert 目录，并将证书文件（SSL Key 和 CSR 文件）上传到 cert 目录中。</p>
