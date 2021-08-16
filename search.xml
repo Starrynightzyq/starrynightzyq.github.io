@@ -1929,180 +1929,6 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
       </tags>
   </entry>
   <entry>
-    <title>高性能射频毫米波频率源三种主要解决方案</title>
-    <url>/2020/10/23/PLL-3/</url>
-    <content><![CDATA[<p>对频率源的研究可追溯上百年,而至今仍无完美解决频率、带宽、相位噪声三方面挑战的方案。随着现代无线电技术的发展，毫米波频段的无线射频系统越来有吸引力，毫米波频率源是目前制约无线射频系统的瓶颈所在。</p>
-<p>高性能射频毫米波频率源三种主要解决方案：直接采用工作在毫米波频段的锁相环、低频信号源级联单个毫米波倍频器和采用多个倍频器共同协作的方式。</p>
-<a id="more"></a>
-<blockquote>
-<p>Reference:</p>
-<p><a href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CDFD&amp;dbname=CDFDLAST2020&amp;filename=1020716365.nh&amp;v=9gG9zJPy1pyL%25mmd2BNFc3B4ib7qfNZGDrB9Q5%25mmd2FYZlVysxZvVCYIVvIJQd0gDPf71zaqg">高性能射频毫米波频率源集成电路研究-张净植-电子科技大学</a></p>
-</blockquote>
-<h1 id="方案一直接采用工作在毫米波频段的锁相环">方案一：直接采用工作在毫米波频段的锁相环</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194159.png" alt="毫米波锁相环" style="zoom:35%; margin: auto;"></p>
-<h2 id="优缺点分析">优缺点分析</h2>
-<ul>
-<li><p>优点：</p>
-<p>由于锁相环的存在，其对 VCO 表现为高通特性，故而可以滤除 VCO 在锁相环带内的相位噪声；</p></li>
-<li><p>缺点：</p>
-<p>然而，由于该 VCO 仍工作在毫米波频段，故而存在较高的无法被滤除的带外噪声；</p>
-<p>并且，为更好地优化总体噪声输出，锁相环的增益和带宽均需要设置为较高的数值，这对环路的稳定性带来了一定的挑战；</p>
-<p>除此之外，由于采用了较高的倍频比，锁相环环路所产生的噪声较高，继而恶化总体输出噪声；</p>
-<p>与此同时，所有采用此方案的频率源工作带宽均小于 30%，难以满足宽带要求(相对带宽大于 50%)。这是由于，该方案需要 VCO 工作在毫米波频段，难以实现较大的带宽。在工作频率和带宽的双重严格要求下，此 VCO 的设计难度极大，因而未有较好的相关成果发表。</p></li>
-</ul>
-<h2 id="相关研究成果">相关研究成果</h2>
-<h3 id="双-vco-方案">1. 双 VCO 方案</h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194211.png" alt="Xilinx 7.4-14 GHz 锁相环" style="zoom:100%; margin: auto;"></p>
-<p>Xilinx 18 年发布了一款可覆盖 7.4-14 GHz 的宽带锁相环，采用 16-nm FinFET 工艺，实现了 54 <span class="math inline">\(fs_{rms}\)</span>的时钟抖动。该方案为了实现宽带输出要求，在芯片中集成了两颗 VCO，一颗工作在高频段，另一颗工作在低频段，从而有效地扩展了总带宽。这个方案是一种对带宽和噪声很好的折衷方案，通过牺牲一定的芯片面积和系统复杂度，换取了不错的带宽和相位噪声特性。然而，也因为使用了两颗 VCO，使得该方案无法成为完美的解决方案。</p>
-<h3 id="sub-sampling-锁相环方案">2. Sub-sampling 锁相环方案</h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194221.png" alt="澳门大学 25.4-29.5GHz 锁相环" style="zoom:67%; margin: auto;"></p>
-<p>澳门大学于 2019 年发布了一款工作在 25.4-29.5 GHz 的锁相环，采用 Sub-sampling 锁相环方案，实现了 71 <span class="math inline">\(fs_{rms}\)</span>的时钟抖动,同时仅消耗 10.2 mW 的功耗。Sub-sampling 锁相环是另一种比较好的解决方案，因为其去掉了环路中的分频器，相比于传统锁相环，该锁相环不产生分频器噪声，继而降低了环路总噪声。同时，该 Sub-sampling 鉴相器具有极高的增益，可以最大程度地抑制环路内电荷泵噪声。因此，Sub-sampling 锁相环有着极佳的带内噪声特性。</p>
-<p>但该方案仍有一些明显不足。首先是其输出相对带宽较低。澳门大学的这款锁相环其相对带宽只有 14.9%；其次，Sub-sampling 锁相环固有的采样方式，使其仅能实现整数分频，进一步限制了该锁相环的应用空间。现有很多工作对该锁相环的小数分频方法进行了探索，取得了一定成果，但技术仍不成熟，分频精度和相位噪声均未达到理想结果。</p>
-<h3 id="耦合锁相环方案">3. 耦合锁相环方案</h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194231.png" alt="Oregon State University 28 GHz 锁相环" style="zoom:60%; margin: auto;"></p>
-<p>Oregon State University 在 2018 年发布了一款 28 GHz 耦合锁相环。这种锁相环主要目的是实现不同电路板上的本振信号同步，从而支持大规模相控阵应用。通过这种耦合，不仅能实现相位上的同步，其特殊的环路响应使得其具备相位噪声滤波效应。然后此方案主要针对特殊应用而设计的，固然通过耦合后相位噪声可以得到改善,但若使用在其他应用中,这种相位噪声的改善无法弥补其功耗和面积上的损失。</p>
-<h1 id="方案二低频信号源级联单个毫米波倍频器">方案二：低频信号源级联单个毫米波倍频器</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194245.png" alt="低频信号源级联单个毫米波倍频器" style="zoom:30%; margin: auto;"></p>
-<p>该方案使用低频率的频率源作为输入，并用倍频器将低频信号倍频值毫米波频段。</p>
-<h2 id="优缺点分析-1">优缺点分析</h2>
-<ul>
-<li><p>优点：</p>
-<p>规避了高频 VCO 的需求。在 VCO 工作在低频时，可以获得较好的相位噪声特性，且倍频器的引入几乎不会恶化 VCO 的相位噪声特性，因而可以在毫米波频段获得较好的相位噪声特性。</p></li>
-<li><p>缺点：</p>
-<p>该方案在带宽方面的表现不佳。</p>
-<p>首先，宽带毫米波倍频器在设计上存在巨大的挑战，在实现宽带的同时，还要保证低功耗和高的谐波抑制，存在着极大地挑战。</p>
-<p>其次，该低频信号源仍需具备较宽的带宽，即使频率降低，在保证相位噪声性能的同时扩展带宽同样具有非常大的挑战。</p>
-<p>因而，现阶段对于此方案的研究还主要局限在窄带毫米波频率源中。</p></li>
-</ul>
-<h2 id="相关研究成果-1">相关研究成果</h2>
-<h3 id="注入锁定倍频器">1. 注入锁定倍频器</h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194254.png" alt="Delft 60 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
-<p>Delft University of Technology 在 2008 年首先尝试了该方法实现了 60 GHz 注入锁定倍频器。在该设计中，作者使用了注入锁定的方式实现三倍频器的效果。由于需要正交输出, 作者首先设计了一个 R-C 多相滤波(Polyphase filter, PPF)，将输入的 20 GHz 差分信号转变成正交信号；然后，将生成的正交信号注入至耦合的正交注入锁定振荡器中。由于注入锁定振荡器工作在 60 GHz 频率附近，其输入信号在经过非线性变换后，产生的三次谐波用以锁定注入锁定振荡器，因此，此时的注入锁定振荡器将受迫振荡于输入信号的三次谐波处，从而实现了三倍频的效果。该芯片可工作在 56-65 GHz 的频率范围内，且具备良好的相位噪声跟踪特性，即倍频器本身几乎不引入额外的相位噪声。</p>
-<h3 id="多级倍频器级联方案">2. 多级倍频器级联方案</h3>
-<p>LG 公司与 2017 年发布了的一款注入锁定倍频器，用于 5G 多通道相控阵系统，其采用两级注入锁定三倍频器级联，获得了九倍频特性，将 3.11 GHz 的输入信号 9 倍频至 28 GHz，取得了极佳的相位噪声特性。</p>
-<p>同样，该方案在宽带方面具有先天性的不足，需要较多方法进行弥补。</p>
-<h3 id="校准方案">3. 校准方案</h3>
-<p>注入锁定倍频器存在锁定带宽不足，容易失锁等问题。因此，近年来，学术界和工业界均投入大量的精力，对注入锁定倍频器的调谐和校准进行研究。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194306.png" alt="Virginia Tech 28 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
-<p>在诸多发表的用于校准的文章中，Virginia Tech 在 2016 年发布的一款工作在 28 GHz 的注入锁定三倍频器尤为突出，如上图所示。由于注入锁定倍频器在锁定时具有恒定输出包络，而当失锁时，其输出呈现为类调幅信号。因此，该工作通过对倍频器的输出进行包络检波，从而根据输出的包络情况判断注入锁定倍频器是否失锁。最后，通过数字控制电路调整注入锁定倍频器的调谐电压，从而建立反馈环路使倍频器保持锁定。虽然该电路具有较好的稳定性和相位噪声特性，但其工作带宽也仅为 11.4%。</p>
-<h1 id="方案三采用多个倍频器共同协作的方式产生毫米波宽带信号实现了带宽展宽的效果">方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194313.png" alt="低频信号源级联多个毫米波倍频器" style="zoom:33%; margin: auto;"></p>
-<p>该方案采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果。</p>
-<h2 id="优缺点分析-2">优缺点分析</h2>
-<ul>
-<li><p>优势：</p>
-<p>输入信号不仅工作在低频处，其带宽同样较窄，因而可以设计出极低相位噪声的输入信号。</p></li>
-<li><p>缺点：</p>
-<p>首先，由于其较为复杂的系统架构，该电路设计困难，容易失败，且因为倍频器数量较多，难以保证不引入额外的相位噪声；</p>
-<p>因为采用了此复杂的架构，芯片功耗较大。另一方面，芯片存在低频、高频两个输出端口，通常需要一个多路复用器将两路合并方能使用，而此多路复用器同样需要具备 80% 的带宽, 亦难以实现。</p></li>
-</ul>
-<h2 id="相关研究成果-2">相关研究成果</h2>
-<h3 id="香港科技大学-21-48-ghz-宽带注入锁定频率源">香港科技大学 21-48 GHz 宽带注入锁定频率源</h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727194325.png" alt="香港科技大学 21-48 GHz 宽带注入锁定频率源" style="zoom:55%; margin: auto;"></p>
-<p>该方案由香港科技大学于 2014 年提出，工作原理如图所示。首先，使用一个 4.5-6.1 GHz 的低频小数分频锁相环产生输入信号；之后，对此信号进行除三除四双模分频，从而第一次展宽信号带宽，且产生正交输出；继而，将此信号注入一个三倍频器，该倍频器使用了一个锁相环来做校正，从而防止失锁；该倍频器的输出再次经过一个三倍频器，完成第二次倍频；最后，该倍频器的输出分别采用一个三倍频器和一个二倍频器对输入信号进行倍频，最终得到了覆盖 21-48 GHz 的毫米波宽带频率源。</p>
-<p>从该结构可以看出，整个系统共对输入信号进行了两次带宽展宽。第一次，通过除三除四双模分频器，将输入的 4.5-6.1 GHz 信号转变为 1.1- 2.0 GHz 的信号，带宽从 30.2% 变为 58.1%。第二次，采用输出的三倍频和二倍频，对输入信号进行了不同处理，此时，带宽从 57.7% 变为 80.2%。</p>
-<h1 id="各方案性能对比">各方案性能对比</h1>
-<table>
-<colgroup>
-<col style="width: 11%">
-<col style="width: 18%">
-<col style="width: 15%">
-<col style="width: 14%">
-<col style="width: 39%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>文献</th>
-<th>Xilinx ISSCC’18</th>
-<th>Univ.Macau ISSCC’19</th>
-<th>Virgina Tech JSSC’19</th>
-<th>HKUST JSSC’14</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>实现方式</td>
-<td>高频锁相环</td>
-<td>高频锁相环</td>
-<td>低频信号源+高频倍频器</td>
-<td>低频信号源+多个倍频器</td>
-</tr>
-<tr class="even">
-<td>工作带宽 (GHz)</td>
-<td>7.4-14</td>
-<td>25.4-29.5</td>
-<td>26.5-29.7</td>
-<td>21-48</td>
-</tr>
-<tr class="odd">
-<td>输入频率 (GHz)</td>
-<td>无</td>
-<td>无</td>
-<td>8.8-9.9</td>
-<td>4.5-6.1</td>
-</tr>
-<tr class="even">
-<td>输入带宽</td>
-<td>无</td>
-<td>无</td>
-<td>11.4</td>
-<td>30.2</td>
-</tr>
-<tr class="odd">
-<td>RMS 时钟抖动</td>
-<td>54</td>
-<td>71</td>
-<td>无</td>
-<td>1020</td>
-</tr>
-<tr class="even">
-<td>功耗 (mW)</td>
-<td>45</td>
-<td>10.2</td>
-<td>38.6</td>
-<td>148.3</td>
-</tr>
-<tr class="odd">
-<td>芯片面积 (mm<span class="math inline">\(^2\)</span>)</td>
-<td>0.35</td>
-<td>0.24</td>
-<td>1</td>
-<td>2.1</td>
-</tr>
-<tr class="even">
-<td>复杂度</td>
-<td>双 VCO</td>
-<td>单 VCO</td>
-<td>单倍频器</td>
-<td>多倍频器</td>
-</tr>
-<tr class="odd">
-<td>优点</td>
-<td>1. 带宽宽；2. 噪声好；</td>
-<td>1. 频率高；2. 功耗低；</td>
-<td>1. 频率高；</td>
-<td>1. 频率高；2. 带宽宽；3.输入带宽窄；</td>
-</tr>
-<tr class="even">
-<td>问题</td>
-<td>1. 工作频率低；2. 多个 VCO；</td>
-<td>1. 带宽窄；2. 噪声一般；</td>
-<td>1. 带宽窄；2. 功耗高；</td>
-<td>1. 结构复杂；2. 功耗大；3. 芯片面积大；4. 噪声差；5. 结构复杂；</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器</title>
     <url>/2020/10/13/PLL-2/</url>
     <content><![CDATA[<p>前一篇文章 <a href="https://zhouyuqian.com/2020/09/11/PLL/">PLL(Phase-locked loop, 锁相环)</a> 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。</p>
@@ -2279,6 +2105,180 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
 <p><img src="https://pic.zhouyuqian.com/img/20210727194127.png" alt="TSPC 结构的 2:3 分频器" style="zoom:40%; margin: auto;"></p>
 <h3 id="delta-sigma-调制器"><span class="math inline">\(\Delta-\Sigma\)</span> 调制器</h3>
 <h2 id="afc">AFC</h2>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高性能射频毫米波频率源三种主要解决方案</title>
+    <url>/2020/10/23/PLL-3/</url>
+    <content><![CDATA[<p>对频率源的研究可追溯上百年,而至今仍无完美解决频率、带宽、相位噪声三方面挑战的方案。随着现代无线电技术的发展，毫米波频段的无线射频系统越来有吸引力，毫米波频率源是目前制约无线射频系统的瓶颈所在。</p>
+<p>高性能射频毫米波频率源三种主要解决方案：直接采用工作在毫米波频段的锁相环、低频信号源级联单个毫米波倍频器和采用多个倍频器共同协作的方式。</p>
+<a id="more"></a>
+<blockquote>
+<p>Reference:</p>
+<p><a href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CDFD&amp;dbname=CDFDLAST2020&amp;filename=1020716365.nh&amp;v=9gG9zJPy1pyL%25mmd2BNFc3B4ib7qfNZGDrB9Q5%25mmd2FYZlVysxZvVCYIVvIJQd0gDPf71zaqg">高性能射频毫米波频率源集成电路研究-张净植-电子科技大学</a></p>
+</blockquote>
+<h1 id="方案一直接采用工作在毫米波频段的锁相环">方案一：直接采用工作在毫米波频段的锁相环</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194159.png" alt="毫米波锁相环" style="zoom:35%; margin: auto;"></p>
+<h2 id="优缺点分析">优缺点分析</h2>
+<ul>
+<li><p>优点：</p>
+<p>由于锁相环的存在，其对 VCO 表现为高通特性，故而可以滤除 VCO 在锁相环带内的相位噪声；</p></li>
+<li><p>缺点：</p>
+<p>然而，由于该 VCO 仍工作在毫米波频段，故而存在较高的无法被滤除的带外噪声；</p>
+<p>并且，为更好地优化总体噪声输出，锁相环的增益和带宽均需要设置为较高的数值，这对环路的稳定性带来了一定的挑战；</p>
+<p>除此之外，由于采用了较高的倍频比，锁相环环路所产生的噪声较高，继而恶化总体输出噪声；</p>
+<p>与此同时，所有采用此方案的频率源工作带宽均小于 30%，难以满足宽带要求(相对带宽大于 50%)。这是由于，该方案需要 VCO 工作在毫米波频段，难以实现较大的带宽。在工作频率和带宽的双重严格要求下，此 VCO 的设计难度极大，因而未有较好的相关成果发表。</p></li>
+</ul>
+<h2 id="相关研究成果">相关研究成果</h2>
+<h3 id="双-vco-方案">1. 双 VCO 方案</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194211.png" alt="Xilinx 7.4-14 GHz 锁相环" style="zoom:100%; margin: auto;"></p>
+<p>Xilinx 18 年发布了一款可覆盖 7.4-14 GHz 的宽带锁相环，采用 16-nm FinFET 工艺，实现了 54 <span class="math inline">\(fs_{rms}\)</span>的时钟抖动。该方案为了实现宽带输出要求，在芯片中集成了两颗 VCO，一颗工作在高频段，另一颗工作在低频段，从而有效地扩展了总带宽。这个方案是一种对带宽和噪声很好的折衷方案，通过牺牲一定的芯片面积和系统复杂度，换取了不错的带宽和相位噪声特性。然而，也因为使用了两颗 VCO，使得该方案无法成为完美的解决方案。</p>
+<h3 id="sub-sampling-锁相环方案">2. Sub-sampling 锁相环方案</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194221.png" alt="澳门大学 25.4-29.5GHz 锁相环" style="zoom:67%; margin: auto;"></p>
+<p>澳门大学于 2019 年发布了一款工作在 25.4-29.5 GHz 的锁相环，采用 Sub-sampling 锁相环方案，实现了 71 <span class="math inline">\(fs_{rms}\)</span>的时钟抖动,同时仅消耗 10.2 mW 的功耗。Sub-sampling 锁相环是另一种比较好的解决方案，因为其去掉了环路中的分频器，相比于传统锁相环，该锁相环不产生分频器噪声，继而降低了环路总噪声。同时，该 Sub-sampling 鉴相器具有极高的增益，可以最大程度地抑制环路内电荷泵噪声。因此，Sub-sampling 锁相环有着极佳的带内噪声特性。</p>
+<p>但该方案仍有一些明显不足。首先是其输出相对带宽较低。澳门大学的这款锁相环其相对带宽只有 14.9%；其次，Sub-sampling 锁相环固有的采样方式，使其仅能实现整数分频，进一步限制了该锁相环的应用空间。现有很多工作对该锁相环的小数分频方法进行了探索，取得了一定成果，但技术仍不成熟，分频精度和相位噪声均未达到理想结果。</p>
+<h3 id="耦合锁相环方案">3. 耦合锁相环方案</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194231.png" alt="Oregon State University 28 GHz 锁相环" style="zoom:60%; margin: auto;"></p>
+<p>Oregon State University 在 2018 年发布了一款 28 GHz 耦合锁相环。这种锁相环主要目的是实现不同电路板上的本振信号同步，从而支持大规模相控阵应用。通过这种耦合，不仅能实现相位上的同步，其特殊的环路响应使得其具备相位噪声滤波效应。然后此方案主要针对特殊应用而设计的，固然通过耦合后相位噪声可以得到改善,但若使用在其他应用中,这种相位噪声的改善无法弥补其功耗和面积上的损失。</p>
+<h1 id="方案二低频信号源级联单个毫米波倍频器">方案二：低频信号源级联单个毫米波倍频器</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194245.png" alt="低频信号源级联单个毫米波倍频器" style="zoom:30%; margin: auto;"></p>
+<p>该方案使用低频率的频率源作为输入，并用倍频器将低频信号倍频值毫米波频段。</p>
+<h2 id="优缺点分析-1">优缺点分析</h2>
+<ul>
+<li><p>优点：</p>
+<p>规避了高频 VCO 的需求。在 VCO 工作在低频时，可以获得较好的相位噪声特性，且倍频器的引入几乎不会恶化 VCO 的相位噪声特性，因而可以在毫米波频段获得较好的相位噪声特性。</p></li>
+<li><p>缺点：</p>
+<p>该方案在带宽方面的表现不佳。</p>
+<p>首先，宽带毫米波倍频器在设计上存在巨大的挑战，在实现宽带的同时，还要保证低功耗和高的谐波抑制，存在着极大地挑战。</p>
+<p>其次，该低频信号源仍需具备较宽的带宽，即使频率降低，在保证相位噪声性能的同时扩展带宽同样具有非常大的挑战。</p>
+<p>因而，现阶段对于此方案的研究还主要局限在窄带毫米波频率源中。</p></li>
+</ul>
+<h2 id="相关研究成果-1">相关研究成果</h2>
+<h3 id="注入锁定倍频器">1. 注入锁定倍频器</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194254.png" alt="Delft 60 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
+<p>Delft University of Technology 在 2008 年首先尝试了该方法实现了 60 GHz 注入锁定倍频器。在该设计中，作者使用了注入锁定的方式实现三倍频器的效果。由于需要正交输出, 作者首先设计了一个 R-C 多相滤波(Polyphase filter, PPF)，将输入的 20 GHz 差分信号转变成正交信号；然后，将生成的正交信号注入至耦合的正交注入锁定振荡器中。由于注入锁定振荡器工作在 60 GHz 频率附近，其输入信号在经过非线性变换后，产生的三次谐波用以锁定注入锁定振荡器，因此，此时的注入锁定振荡器将受迫振荡于输入信号的三次谐波处，从而实现了三倍频的效果。该芯片可工作在 56-65 GHz 的频率范围内，且具备良好的相位噪声跟踪特性，即倍频器本身几乎不引入额外的相位噪声。</p>
+<h3 id="多级倍频器级联方案">2. 多级倍频器级联方案</h3>
+<p>LG 公司与 2017 年发布了的一款注入锁定倍频器，用于 5G 多通道相控阵系统，其采用两级注入锁定三倍频器级联，获得了九倍频特性，将 3.11 GHz 的输入信号 9 倍频至 28 GHz，取得了极佳的相位噪声特性。</p>
+<p>同样，该方案在宽带方面具有先天性的不足，需要较多方法进行弥补。</p>
+<h3 id="校准方案">3. 校准方案</h3>
+<p>注入锁定倍频器存在锁定带宽不足，容易失锁等问题。因此，近年来，学术界和工业界均投入大量的精力，对注入锁定倍频器的调谐和校准进行研究。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194306.png" alt="Virginia Tech 28 GHz 注入锁定倍频器" style="zoom:60%; margin: auto;"></p>
+<p>在诸多发表的用于校准的文章中，Virginia Tech 在 2016 年发布的一款工作在 28 GHz 的注入锁定三倍频器尤为突出，如上图所示。由于注入锁定倍频器在锁定时具有恒定输出包络，而当失锁时，其输出呈现为类调幅信号。因此，该工作通过对倍频器的输出进行包络检波，从而根据输出的包络情况判断注入锁定倍频器是否失锁。最后，通过数字控制电路调整注入锁定倍频器的调谐电压，从而建立反馈环路使倍频器保持锁定。虽然该电路具有较好的稳定性和相位噪声特性，但其工作带宽也仅为 11.4%。</p>
+<h1 id="方案三采用多个倍频器共同协作的方式产生毫米波宽带信号实现了带宽展宽的效果">方案三：采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194313.png" alt="低频信号源级联多个毫米波倍频器" style="zoom:33%; margin: auto;"></p>
+<p>该方案采用多个倍频器共同协作的方式，产生毫米波宽带信号，实现了带宽展宽的效果。</p>
+<h2 id="优缺点分析-2">优缺点分析</h2>
+<ul>
+<li><p>优势：</p>
+<p>输入信号不仅工作在低频处，其带宽同样较窄，因而可以设计出极低相位噪声的输入信号。</p></li>
+<li><p>缺点：</p>
+<p>首先，由于其较为复杂的系统架构，该电路设计困难，容易失败，且因为倍频器数量较多，难以保证不引入额外的相位噪声；</p>
+<p>因为采用了此复杂的架构，芯片功耗较大。另一方面，芯片存在低频、高频两个输出端口，通常需要一个多路复用器将两路合并方能使用，而此多路复用器同样需要具备 80% 的带宽, 亦难以实现。</p></li>
+</ul>
+<h2 id="相关研究成果-2">相关研究成果</h2>
+<h3 id="香港科技大学-21-48-ghz-宽带注入锁定频率源">香港科技大学 21-48 GHz 宽带注入锁定频率源</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194325.png" alt="香港科技大学 21-48 GHz 宽带注入锁定频率源" style="zoom:55%; margin: auto;"></p>
+<p>该方案由香港科技大学于 2014 年提出，工作原理如图所示。首先，使用一个 4.5-6.1 GHz 的低频小数分频锁相环产生输入信号；之后，对此信号进行除三除四双模分频，从而第一次展宽信号带宽，且产生正交输出；继而，将此信号注入一个三倍频器，该倍频器使用了一个锁相环来做校正，从而防止失锁；该倍频器的输出再次经过一个三倍频器，完成第二次倍频；最后，该倍频器的输出分别采用一个三倍频器和一个二倍频器对输入信号进行倍频，最终得到了覆盖 21-48 GHz 的毫米波宽带频率源。</p>
+<p>从该结构可以看出，整个系统共对输入信号进行了两次带宽展宽。第一次，通过除三除四双模分频器，将输入的 4.5-6.1 GHz 信号转变为 1.1- 2.0 GHz 的信号，带宽从 30.2% 变为 58.1%。第二次，采用输出的三倍频和二倍频，对输入信号进行了不同处理，此时，带宽从 57.7% 变为 80.2%。</p>
+<h1 id="各方案性能对比">各方案性能对比</h1>
+<table>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 14%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>文献</th>
+<th>Xilinx ISSCC’18</th>
+<th>Univ.Macau ISSCC’19</th>
+<th>Virgina Tech JSSC’19</th>
+<th>HKUST JSSC’14</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>实现方式</td>
+<td>高频锁相环</td>
+<td>高频锁相环</td>
+<td>低频信号源+高频倍频器</td>
+<td>低频信号源+多个倍频器</td>
+</tr>
+<tr class="even">
+<td>工作带宽 (GHz)</td>
+<td>7.4-14</td>
+<td>25.4-29.5</td>
+<td>26.5-29.7</td>
+<td>21-48</td>
+</tr>
+<tr class="odd">
+<td>输入频率 (GHz)</td>
+<td>无</td>
+<td>无</td>
+<td>8.8-9.9</td>
+<td>4.5-6.1</td>
+</tr>
+<tr class="even">
+<td>输入带宽</td>
+<td>无</td>
+<td>无</td>
+<td>11.4</td>
+<td>30.2</td>
+</tr>
+<tr class="odd">
+<td>RMS 时钟抖动</td>
+<td>54</td>
+<td>71</td>
+<td>无</td>
+<td>1020</td>
+</tr>
+<tr class="even">
+<td>功耗 (mW)</td>
+<td>45</td>
+<td>10.2</td>
+<td>38.6</td>
+<td>148.3</td>
+</tr>
+<tr class="odd">
+<td>芯片面积 (mm<span class="math inline">\(^2\)</span>)</td>
+<td>0.35</td>
+<td>0.24</td>
+<td>1</td>
+<td>2.1</td>
+</tr>
+<tr class="even">
+<td>复杂度</td>
+<td>双 VCO</td>
+<td>单 VCO</td>
+<td>单倍频器</td>
+<td>多倍频器</td>
+</tr>
+<tr class="odd">
+<td>优点</td>
+<td>1. 带宽宽；2. 噪声好；</td>
+<td>1. 频率高；2. 功耗低；</td>
+<td>1. 频率高；</td>
+<td>1. 频率高；2. 带宽宽；3.输入带宽窄；</td>
+</tr>
+<tr class="even">
+<td>问题</td>
+<td>1. 工作频率低；2. 多个 VCO；</td>
+<td>1. 带宽窄；2. 噪声一般；</td>
+<td>1. 带宽窄；2. 功耗高；</td>
+<td>1. 结构复杂；2. 功耗大；3. 芯片面积大；4. 噪声差；5. 结构复杂；</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
       <categories>
         <category>PLL</category>
@@ -5063,49 +5063,6 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
       </tags>
   </entry>
   <entry>
-    <title>FPGA 实现任意奇数分频</title>
-    <url>/2020/10/06/odd-divider/</url>
-    <content><![CDATA[<p>在做 FPGA 设计时，需要不同频率的时钟，通常会使用 Xilinx 提供 MMCM/PLL 时钟 IP 分频或者倍频得到。偶数分频很简单，只需要用一个以 分频数/2 为最大值的计数器控制输出时钟翻转即可。但奇数分频不能用这种方法来实现，以 3 分频为例，其每个周期的高电平时间占原始时钟的 1.5 个周期，计数器无法计数 0.5 个时钟周期。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183456.svg" alt="wavedrom"><figcaption aria-hidden="true">wavedrom</figcaption>
-</figure>
-<a id="more"></a>
-<p>但是换个角度来看，3 分频的波形其高电平占了 3 个 <span class="math inline">\(\frac{1}{2}\)</span> 的时钟周期，是否可以设计一种触发器，让其在时钟的上升沿和下降沿都触发，这样的计数器就可以计数半个时钟周期了。不过在 FPGA 中，这种触发器是不存在的，不过可以用一个上升沿触发的触发器和一个下降沿触发的触发器组合来达到这样的效果。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183457.svg" alt="div3"><figcaption aria-hidden="true">div3</figcaption>
-</figure>
-<p>如上图所示，两个脉冲 <code>clk_div_p</code> 和 <code>clk_div_n</code> 分别在时钟的上升沿和下降沿变化，都是高电平占两个时钟周期，低电平占一个时钟周期，将两者做<strong>与</strong>运算，就得到了 3 分频时钟信号。</p>
-<p>同样的，可以推断出 5 分频的时序图：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183458.svg" alt="div5"><figcaption aria-hidden="true">div5</figcaption>
-</figure>
-<p>高电平时间占 3 个时钟周期，低电平时间占 2 个时钟周期。</p>
-<p>为此，可以推断出，在这种结构下，任意奇数分频数 <span class="math inline">\(N(N \geq 3)\)</span>，则 <code>clk_div_[p/n]</code> 高电平时间为 <span class="math inline">\(N/2 + 0.5\)</span>，低电平时间为 <span class="math inline">\(N/2-0.5\)</span>。</p>
-<hr>
-<p>代码如下：</p>
-<p><strong>divider.v</strong></p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> divider #(</span><br><span class="line">    <span class="keyword">parameter</span> DIV_P = <span class="number">2</span></span><br><span class="line">    )(</span><br><span class="line">    <span class="keyword">input</span> clk,</span><br><span class="line">    <span class="keyword">input</span> rst_n,</span><br><span class="line">    <span class="keyword">output</span> clk_div);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> DIV_N = DIV_P-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">parameter</span> DIV_W = <span class="built_in">$clog2</span>(DIV_P);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">reg</span> [DIV_W-<span class="number">1</span>:<span class="number">0</span>] counter_p;</span><br><span class="line">    <span class="keyword">reg</span> [DIV_W-<span class="number">1</span>:<span class="number">0</span>] counter_n;</span><br><span class="line">    <span class="keyword">reg</span> clk_div_p;</span><br><span class="line">    <span class="keyword">reg</span> clk_div_n;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            counter_p &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_p) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_p &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_p &lt;= counter_p + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_p &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_p &lt;= counter_p + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            counter_n &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_n) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_n &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_n &lt;= counter_n + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_n &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_n &lt;= counter_n + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            clk_div_p &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_p) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                clk_div_p &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                clk_div_p &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            clk_div_n &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_n) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                clk_div_n &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                clk_div_n &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> clk_div = clk_div_p &amp;&amp; clk_div_n;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p><strong>tb_divider.sv</strong></p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns/1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;divider.v&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> tb_divider ();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">logic</span> rst_n;</span><br><span class="line">    <span class="keyword">logic</span> srst;</span><br><span class="line">    <span class="keyword">logic</span> clk;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// clock</span></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        clk = &#x27;<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">forever</span> <span class="variable">#(0.5)</span> clk = ~clk;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// reset</span></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        rst_n &lt;= &#x27;<span class="number">0</span>;</span><br><span class="line">        srst &lt;= &#x27;<span class="number">0</span>;</span><br><span class="line">        #<span class="number">20</span></span><br><span class="line">        rst_n &lt;= &#x27;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">repeat</span> (<span class="number">5</span>) @(<span class="keyword">posedge</span> clk);</span><br><span class="line">        srst &lt;= &#x27;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">repeat</span> (<span class="number">1</span>) @(<span class="keyword">posedge</span> clk);</span><br><span class="line">        srst &lt;= &#x27;<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// (*NOTE*) replace reset, clock, others</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> DIV_P   = <span class="number">3</span>; <span class="comment">// (奇数分频数)/2 + 0.5, 5 分频则 3, (&gt;= 2)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">logic</span>  clk_div;</span><br><span class="line"></span><br><span class="line">    divider #(</span><br><span class="line">        <span class="variable">.DIV_P</span>(DIV_P)</span><br><span class="line">    )</span><br><span class="line">    inst_divider (</span><br><span class="line">        <span class="variable">.clk</span>(clk), </span><br><span class="line">        <span class="variable">.rst_n</span>(rst_n), </span><br><span class="line">        <span class="variable">.clk_div</span>(clk_div));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">repeat</span>(<span class="number">100</span>)@(<span class="keyword">posedge</span> clk);</span><br><span class="line">        <span class="built_in">$finish</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// dump wave</span></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="built_in">$dumpfile</span>(<span class="string">&quot;tb_divider.vcd&quot;</span>);</span><br><span class="line">        <span class="built_in">$dumpvars</span>(<span class="number">0</span>, tb_divider);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p><strong>5 分频仿真结果</strong></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183459.png" alt="tb_div5"><figcaption aria-hidden="true">tb_div5</figcaption>
-</figure>
-<blockquote>
-<p>Reference:</p>
-<p><a href="https://blog.csdn.net/lt66ds/article/details/10035187">FPGA三分频,五分频,奇数分频</a></p>
-<p><a href="https://www.cnblogs.com/xiaoxie2014/p/4135078.html">基于Verilog的偶数、奇数、半整数分频以及任意分频器设计</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>FPGA</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>DSP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx 反向代理</title>
     <url>/2021/07/24/nginx/</url>
     <content><![CDATA[<h1 id="nginx-配置文件位置">Nginx 配置文件位置</h1>
@@ -5165,6 +5122,49 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FPGA 实现任意奇数分频</title>
+    <url>/2020/10/06/odd-divider/</url>
+    <content><![CDATA[<p>在做 FPGA 设计时，需要不同频率的时钟，通常会使用 Xilinx 提供 MMCM/PLL 时钟 IP 分频或者倍频得到。偶数分频很简单，只需要用一个以 分频数/2 为最大值的计数器控制输出时钟翻转即可。但奇数分频不能用这种方法来实现，以 3 分频为例，其每个周期的高电平时间占原始时钟的 1.5 个周期，计数器无法计数 0.5 个时钟周期。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183456.svg" alt="wavedrom"><figcaption aria-hidden="true">wavedrom</figcaption>
+</figure>
+<a id="more"></a>
+<p>但是换个角度来看，3 分频的波形其高电平占了 3 个 <span class="math inline">\(\frac{1}{2}\)</span> 的时钟周期，是否可以设计一种触发器，让其在时钟的上升沿和下降沿都触发，这样的计数器就可以计数半个时钟周期了。不过在 FPGA 中，这种触发器是不存在的，不过可以用一个上升沿触发的触发器和一个下降沿触发的触发器组合来达到这样的效果。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183457.svg" alt="div3"><figcaption aria-hidden="true">div3</figcaption>
+</figure>
+<p>如上图所示，两个脉冲 <code>clk_div_p</code> 和 <code>clk_div_n</code> 分别在时钟的上升沿和下降沿变化，都是高电平占两个时钟周期，低电平占一个时钟周期，将两者做<strong>与</strong>运算，就得到了 3 分频时钟信号。</p>
+<p>同样的，可以推断出 5 分频的时序图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183458.svg" alt="div5"><figcaption aria-hidden="true">div5</figcaption>
+</figure>
+<p>高电平时间占 3 个时钟周期，低电平时间占 2 个时钟周期。</p>
+<p>为此，可以推断出，在这种结构下，任意奇数分频数 <span class="math inline">\(N(N \geq 3)\)</span>，则 <code>clk_div_[p/n]</code> 高电平时间为 <span class="math inline">\(N/2 + 0.5\)</span>，低电平时间为 <span class="math inline">\(N/2-0.5\)</span>。</p>
+<hr>
+<p>代码如下：</p>
+<p><strong>divider.v</strong></p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> divider #(</span><br><span class="line">    <span class="keyword">parameter</span> DIV_P = <span class="number">2</span></span><br><span class="line">    )(</span><br><span class="line">    <span class="keyword">input</span> clk,</span><br><span class="line">    <span class="keyword">input</span> rst_n,</span><br><span class="line">    <span class="keyword">output</span> clk_div);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> DIV_N = DIV_P-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">parameter</span> DIV_W = <span class="built_in">$clog2</span>(DIV_P);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">reg</span> [DIV_W-<span class="number">1</span>:<span class="number">0</span>] counter_p;</span><br><span class="line">    <span class="keyword">reg</span> [DIV_W-<span class="number">1</span>:<span class="number">0</span>] counter_n;</span><br><span class="line">    <span class="keyword">reg</span> clk_div_p;</span><br><span class="line">    <span class="keyword">reg</span> clk_div_n;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            counter_p &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_p) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_p &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_p &lt;= counter_p + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_p &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_p &lt;= counter_p + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            counter_n &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_n) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_n &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_n &lt;= counter_n + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                counter_n &lt;= <span class="number">&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                counter_n &lt;= counter_n + <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            clk_div_p &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_p) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                clk_div_p &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_p == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                clk_div_p &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> rst_n) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span>(!rst_n) <span class="keyword">begin</span></span><br><span class="line">            clk_div_n &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (clk_div_n) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_P-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                clk_div_n &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (counter_n == DIV_N-<span class="number">1</span>) <span class="keyword">begin</span>  </span><br><span class="line">                clk_div_n &lt;= <span class="number">1&#x27;b1</span>;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> clk_div = clk_div_p &amp;&amp; clk_div_n;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p><strong>tb_divider.sv</strong></p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns/1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;divider.v&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> tb_divider ();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">logic</span> rst_n;</span><br><span class="line">    <span class="keyword">logic</span> srst;</span><br><span class="line">    <span class="keyword">logic</span> clk;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// clock</span></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        clk = &#x27;<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">forever</span> <span class="variable">#(0.5)</span> clk = ~clk;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// reset</span></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        rst_n &lt;= &#x27;<span class="number">0</span>;</span><br><span class="line">        srst &lt;= &#x27;<span class="number">0</span>;</span><br><span class="line">        #<span class="number">20</span></span><br><span class="line">        rst_n &lt;= &#x27;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">repeat</span> (<span class="number">5</span>) @(<span class="keyword">posedge</span> clk);</span><br><span class="line">        srst &lt;= &#x27;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">repeat</span> (<span class="number">1</span>) @(<span class="keyword">posedge</span> clk);</span><br><span class="line">        srst &lt;= &#x27;<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// (*NOTE*) replace reset, clock, others</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> DIV_P   = <span class="number">3</span>; <span class="comment">// (奇数分频数)/2 + 0.5, 5 分频则 3, (&gt;= 2)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">logic</span>  clk_div;</span><br><span class="line"></span><br><span class="line">    divider #(</span><br><span class="line">        <span class="variable">.DIV_P</span>(DIV_P)</span><br><span class="line">    )</span><br><span class="line">    inst_divider (</span><br><span class="line">        <span class="variable">.clk</span>(clk), </span><br><span class="line">        <span class="variable">.rst_n</span>(rst_n), </span><br><span class="line">        <span class="variable">.clk_div</span>(clk_div));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">repeat</span>(<span class="number">100</span>)@(<span class="keyword">posedge</span> clk);</span><br><span class="line">        <span class="built_in">$finish</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// dump wave</span></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="built_in">$dumpfile</span>(<span class="string">&quot;tb_divider.vcd&quot;</span>);</span><br><span class="line">        <span class="built_in">$dumpvars</span>(<span class="number">0</span>, tb_divider);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p><strong>5 分频仿真结果</strong></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183459.png" alt="tb_div5"><figcaption aria-hidden="true">tb_div5</figcaption>
+</figure>
+<blockquote>
+<p>Reference:</p>
+<p><a href="https://blog.csdn.net/lt66ds/article/details/10035187">FPGA三分频,五分频,奇数分频</a></p>
+<p><a href="https://www.cnblogs.com/xiaoxie2014/p/4135078.html">基于Verilog的偶数、奇数、半整数分频以及任意分频器设计</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>FPGA</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>DSP</tag>
       </tags>
   </entry>
   <entry>
@@ -5268,6 +5268,76 @@ S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>PA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VCO 中变容二极管的 C-V 曲线仿真</title>
+    <url>/2021/04/25/varactor/</url>
+    <content><![CDATA[<p><img src="https://pic.zhouyuqian.com/img/20210727233152.png" alt="cross" style="zoom:50%;"></p>
+<a id="more"></a>
+<h1 id="c-v-曲线仿真">C-V 曲线仿真</h1>
+<p>通过 <strong>S 参数仿真</strong>的方法来得到变容二极管的 C-V 曲线。变容二极管使用的是 tsmc65 工艺中的 moscap_rf_nw，其横切面的示意图如上图所示。其中 Ground 端作为控制电压的接入端，Bulk 接地，Gate 端接在电路中，最后的电容是 Gate 和 Bulk 之间的电容。该种接线方法为累积型 MOS 可变电容 (Accumulation NMOS Varactor)。</p>
+<p>其等效电路模型如下图所示：（下图的 Gnode 端应该就是上图的 Ground 端）</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233204.png" alt="电路模型" style="zoom:50%;"></p>
+<p>为了后续说明的方便，将模型简化为下图：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233217.png" alt="image-20210427212534544" style="zoom:50%;"></p>
+<p>在 G 端接入一个 Port，DC 设置为 0，在 S 接入第二个 Port，DC 设置为 vctrl（此时 vctrl 相当于 <span class="math inline">\(V_{SG}\)</span>），然后在 S 参数仿真时，扫描 vctrl，就可以获得变容二极管的 C-V 曲线。</p>
+<p>仿真使用的原理图如下：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233225.png" alt="schematic" style="zoom:33%;"></p>
+<p>Port0 和 Port1 的设置如下：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233235.png" alt="port0" style="zoom:33%;"></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233245.png" alt="port1" style="zoom:33%;"></p>
+<p>Varactor 的参数暂时设置为：WR/LR/GR/BR : 1.6μm/1.6μm/4/2，可以在元件参数设置的窗口里看到电容的 C 为：284fF(VDD)/192(0)/45(-VDD)</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233253.png" alt="var" style="zoom:33%;"></p>
+<p>在 AED 中选择 <strong>sp</strong>，设置如下：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233301.png" alt="sp" style="zoom:40%;"></p>
+<p>求电容的公式为：$imag(Y_{11})/(2f) $，因此在输出结果中填入如下公式：</p>
+<figure class="highlight clojure"><table><tr><td class="code"><pre><span class="line">(<span class="name">imag</span>(<span class="name">yp</span>(<span class="number">1</span> <span class="number">1</span> ?result <span class="string">&quot;sp&quot;</span>)) /(<span class="number">2</span>*pi) / <span class="number">2.4</span>e+09)</span><br></pre></td></tr></table></figure>
+<p>然后运行仿真，就可以得到 C-V 曲线啦：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233126.svg" alt="cv_br2_gr4"><figcaption aria-hidden="true">cv_br2_gr4</figcaption>
+</figure>
+<p>可以看到基本上和之前预测的电容值差不多。</p>
+<h1 id="线性度补偿">线性度补偿</h1>
+<p>在上图的曲线中，可以观察到电容和控制电压的关系不是线性的，这将直接恶化 VCO 调谐增益的稳定性。为了提高 A-MOS 可变电容的线性度，把可变电容偏置在不同的偏置电压 Vb1、Vb2 和 Vb3 下，然后将它们并联在一起形成可变电容阵列，通过可变电容在不同偏置电压下不同的 C-V 特性的相互补偿，从而获得线性的可变电容 C-V 曲线。结构如下图所示，电阻 R 为偏置电阻，为了减小偏置电阻的热噪声对 VCO 输出相位噪声的影响，一般设置偏置电阻 R 是 LC 谐振腔并联寄生电阻的 10 倍以上。同样，电容 C 用于隔直，避免不同偏置电压对 VCO 输出偏置电压的影响，一般大小设置为可变电容的 10 倍左右。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233312.png" alt="image-20210427214916852" style="zoom:50%;"></p>
+<p>仿真使用的原理图如下：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727233320.png" alt="schematic2" style="zoom:50%;"></p>
+<p><strong>偏置0</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 都设置为 0 时，C-V 曲线如下（Kc 是 C 的变化率，公式 <code>deriv(C)</code>）。此时相当于直接将 3 个电容并在一起。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233127.svg" alt="cv_nofixed"><figcaption aria-hidden="true">cv_nofixed</figcaption>
+</figure>
+<p><strong>偏置1</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 分别设置为 0.3, 0.7, 1.1 时，C-V 曲线如下。相较于偏置0的设置，可以看到电容值中心值的控制电压向右移动了，同时变化率变小了，但变化范围没变。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233128.svg" alt="cv_fixed"><figcaption aria-hidden="true">cv_fixed</figcaption>
+</figure>
+<p><strong>偏置2</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 分别设置为 0.5, 0.8, 1.1 时，C-V 曲线如下。相较于偏置0的设置，可以看到电容值中心值的控制电压继续向右移动，但变化率（1.5）相较于偏置0的变化率（1.2）变大了。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233129.svg" alt="cv_fixed2"><figcaption aria-hidden="true">cv_fixed2</figcaption>
+</figure>
+<p><strong>偏置3</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 分别设置为 0.1, 0.6, 1.1 时，C-V 曲线如下。可以看到电容值中心值的控制电压想左移动，其变化率（1.0）相较于偏置0的变化率（1.2）变小了。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233130.svg" alt="cv_fixed3"><figcaption aria-hidden="true">cv_fixed3</figcaption>
+</figure>
+<p>因此可以得到一个大概的<strong>规律</strong>：</p>
+<ul>
+<li><p>偏置电压越分散，变化得越平坦，即线性度越高；</p></li>
+<li><p>偏置电压的平均值越大，电容值中心值的控制电压越大。</p></li>
+</ul>
+<p>其实可以想象三条相同变化趋势的 C-V 曲线平移后叠加，在一定范围内，平移越多，叠加后的曲线越平坦。</p>
+<h1 id="reference">Reference</h1>
+<p>[1] CMOS多模多频小数频率综合器的关键技术研究与实现_廖一龙</p>
+<p>[2] <a href="https://comp.cad.cadence.narkive.com/NqQk3p8T/about-varactor-simulation">https://comp.cad.cadence.narkive.com/NqQk3p8T/about-varactor-simulation</a></p>
+<p>[3] <a href="https://community.cadence.com/cadence_blogs_8/b/rf/posts/tip-of-the-week-when-to-use-harmonic-balance-engine-vs-shooting-newton-engine">Tip of the Week: When should I use the pss/qpss Harmonic Balance vs. Shooting Newton Engine?</a></p>
+<p>[4] <a href="https://community.cadence.com/cadence_blogs_8/b/rf/posts/guidelines-for-simulating-oscillators-phase-noise-simulations">Tip of the Week: Guidelines for simulating oscillators - phase noise simulations</a></p>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PLL</tag>
       </tags>
   </entry>
   <entry>
@@ -5566,76 +5636,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
 <li>相位噪声优化；</li>
 </ol>
 </blockquote>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VCO 中变容二极管的 C-V 曲线仿真</title>
-    <url>/2021/04/25/varactor/</url>
-    <content><![CDATA[<p><img src="https://pic.zhouyuqian.com/img/20210727233152.png" alt="cross" style="zoom:50%;"></p>
-<a id="more"></a>
-<h1 id="c-v-曲线仿真">C-V 曲线仿真</h1>
-<p>通过 <strong>S 参数仿真</strong>的方法来得到变容二极管的 C-V 曲线。变容二极管使用的是 tsmc65 工艺中的 moscap_rf_nw，其横切面的示意图如上图所示。其中 Ground 端作为控制电压的接入端，Bulk 接地，Gate 端接在电路中，最后的电容是 Gate 和 Bulk 之间的电容。该种接线方法为累积型 MOS 可变电容 (Accumulation NMOS Varactor)。</p>
-<p>其等效电路模型如下图所示：（下图的 Gnode 端应该就是上图的 Ground 端）</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233204.png" alt="电路模型" style="zoom:50%;"></p>
-<p>为了后续说明的方便，将模型简化为下图：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233217.png" alt="image-20210427212534544" style="zoom:50%;"></p>
-<p>在 G 端接入一个 Port，DC 设置为 0，在 S 接入第二个 Port，DC 设置为 vctrl（此时 vctrl 相当于 <span class="math inline">\(V_{SG}\)</span>），然后在 S 参数仿真时，扫描 vctrl，就可以获得变容二极管的 C-V 曲线。</p>
-<p>仿真使用的原理图如下：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233225.png" alt="schematic" style="zoom:33%;"></p>
-<p>Port0 和 Port1 的设置如下：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233235.png" alt="port0" style="zoom:33%;"></p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233245.png" alt="port1" style="zoom:33%;"></p>
-<p>Varactor 的参数暂时设置为：WR/LR/GR/BR : 1.6μm/1.6μm/4/2，可以在元件参数设置的窗口里看到电容的 C 为：284fF(VDD)/192(0)/45(-VDD)</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233253.png" alt="var" style="zoom:33%;"></p>
-<p>在 AED 中选择 <strong>sp</strong>，设置如下：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233301.png" alt="sp" style="zoom:40%;"></p>
-<p>求电容的公式为：$imag(Y_{11})/(2f) $，因此在输出结果中填入如下公式：</p>
-<figure class="highlight clojure"><table><tr><td class="code"><pre><span class="line">(<span class="name">imag</span>(<span class="name">yp</span>(<span class="number">1</span> <span class="number">1</span> ?result <span class="string">&quot;sp&quot;</span>)) /(<span class="number">2</span>*pi) / <span class="number">2.4</span>e+09)</span><br></pre></td></tr></table></figure>
-<p>然后运行仿真，就可以得到 C-V 曲线啦：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233126.svg" alt="cv_br2_gr4"><figcaption aria-hidden="true">cv_br2_gr4</figcaption>
-</figure>
-<p>可以看到基本上和之前预测的电容值差不多。</p>
-<h1 id="线性度补偿">线性度补偿</h1>
-<p>在上图的曲线中，可以观察到电容和控制电压的关系不是线性的，这将直接恶化 VCO 调谐增益的稳定性。为了提高 A-MOS 可变电容的线性度，把可变电容偏置在不同的偏置电压 Vb1、Vb2 和 Vb3 下，然后将它们并联在一起形成可变电容阵列，通过可变电容在不同偏置电压下不同的 C-V 特性的相互补偿，从而获得线性的可变电容 C-V 曲线。结构如下图所示，电阻 R 为偏置电阻，为了减小偏置电阻的热噪声对 VCO 输出相位噪声的影响，一般设置偏置电阻 R 是 LC 谐振腔并联寄生电阻的 10 倍以上。同样，电容 C 用于隔直，避免不同偏置电压对 VCO 输出偏置电压的影响，一般大小设置为可变电容的 10 倍左右。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233312.png" alt="image-20210427214916852" style="zoom:50%;"></p>
-<p>仿真使用的原理图如下：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727233320.png" alt="schematic2" style="zoom:50%;"></p>
-<p><strong>偏置0</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 都设置为 0 时，C-V 曲线如下（Kc 是 C 的变化率，公式 <code>deriv(C)</code>）。此时相当于直接将 3 个电容并在一起。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233127.svg" alt="cv_nofixed"><figcaption aria-hidden="true">cv_nofixed</figcaption>
-</figure>
-<p><strong>偏置1</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 分别设置为 0.3, 0.7, 1.1 时，C-V 曲线如下。相较于偏置0的设置，可以看到电容值中心值的控制电压向右移动了，同时变化率变小了，但变化范围没变。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233128.svg" alt="cv_fixed"><figcaption aria-hidden="true">cv_fixed</figcaption>
-</figure>
-<p><strong>偏置2</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 分别设置为 0.5, 0.8, 1.1 时，C-V 曲线如下。相较于偏置0的设置，可以看到电容值中心值的控制电压继续向右移动，但变化率（1.5）相较于偏置0的变化率（1.2）变大了。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233129.svg" alt="cv_fixed2"><figcaption aria-hidden="true">cv_fixed2</figcaption>
-</figure>
-<p><strong>偏置3</strong>：当 <span class="math inline">\(V_{b1},V_{b2},V_{b3}\)</span> 分别设置为 0.1, 0.6, 1.1 时，C-V 曲线如下。可以看到电容值中心值的控制电压想左移动，其变化率（1.0）相较于偏置0的变化率（1.2）变小了。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233130.svg" alt="cv_fixed3"><figcaption aria-hidden="true">cv_fixed3</figcaption>
-</figure>
-<p>因此可以得到一个大概的<strong>规律</strong>：</p>
-<ul>
-<li><p>偏置电压越分散，变化得越平坦，即线性度越高；</p></li>
-<li><p>偏置电压的平均值越大，电容值中心值的控制电压越大。</p></li>
-</ul>
-<p>其实可以想象三条相同变化趋势的 C-V 曲线平移后叠加，在一定范围内，平移越多，叠加后的曲线越平坦。</p>
-<h1 id="reference">Reference</h1>
-<p>[1] CMOS多模多频小数频率综合器的关键技术研究与实现_廖一龙</p>
-<p>[2] <a href="https://comp.cad.cadence.narkive.com/NqQk3p8T/about-varactor-simulation">https://comp.cad.cadence.narkive.com/NqQk3p8T/about-varactor-simulation</a></p>
-<p>[3] <a href="https://community.cadence.com/cadence_blogs_8/b/rf/posts/tip-of-the-week-when-to-use-harmonic-balance-engine-vs-shooting-newton-engine">Tip of the Week: When should I use the pss/qpss Harmonic Balance vs. Shooting Newton Engine?</a></p>
-<p>[4] <a href="https://community.cadence.com/cadence_blogs_8/b/rf/posts/guidelines-for-simulating-oscillators-phase-noise-simulations">Tip of the Week: Guidelines for simulating oscillators - phase noise simulations</a></p>
 ]]></content>
       <categories>
         <category>PLL</category>
@@ -6481,6 +6481,7 @@ f=\frac{1}{2\pi\sqrt{LC}}
 <blockquote>
 <p>Ref:</p>
 <p><a href="https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/">Hexo博客进阶：将Hexo部署到云服务器</a></p>
+<p><a href="https://www.cnblogs.com/jie-fang/p/13445939.html"><strong>将Hexo部署到自己的服务器上</strong></a></p>
 </blockquote>
 <h1 id="no-www和www跳转">no-www和www跳转</h1>
 <blockquote>
