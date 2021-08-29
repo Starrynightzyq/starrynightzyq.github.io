@@ -3,7 +3,7 @@ title: Ubuntu安装软件备份
 toc: true
 date: 2020-02-05 15:18:27
 categories: GEEK
-updated: 2021-04-11 15:21:15
+updated: 2021-08-28 15:21:15
 tags: [Ubuntu, Linux, 软件]
 description: 安装Ubuntu后要安装的一些软件
 ---
@@ -36,7 +36,7 @@ description: 安装Ubuntu后要安装的一些软件
    sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
    ~~~
 
-5. 安装oh-my-zsh插件
+5. ~~安装oh-my-zsh插件~~
 
    - git # 自带
 
@@ -77,6 +77,32 @@ description: 安装Ubuntu后要安装的一些软件
      ~~~
 
    - sublime
+   
+6. 安装oh-my-zsh插件 （new）
+
+   ~~~bash
+   sudo apt-get install autojump
+   ~~~
+
+   ~~~bash
+   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+   ~~~
+
+   ~~~bash
+   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+   ~~~
+
+   ~~~bash
+   sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="ys"/g' ~/.zshrc
+   ~~~
+
+   ~~~bash
+   sed -i 's/plugins=(git)/plugins=(git extract autojump zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
+   ~~~
+
+   ~~~bash
+   source ~/.zshrc
+   ~~~
 
 # MarkDown编辑器：[Typaro](https://typora.io/)
 

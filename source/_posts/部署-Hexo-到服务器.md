@@ -3,7 +3,8 @@ title: 部署 Hexo 到服务器
 toc: true
 date: 2020-07-09 13:38:24
 categories: hexo
-updated: 2020-07-20 14:53:48tags: [hexo, GEEK, 美化]
+updated: 2021-08-16 14:53:48
+tags: [hexo, GEEK, 美化]
 description:
 ---
 
@@ -12,6 +13,8 @@ description:
 > Ref:
 >
 > [Hexo博客进阶：将Hexo部署到云服务器](https://qianfanguojin.github.io/2020/03/03/Hexo博客进阶：将Hexo部署到云服务器/)
+>
+> [**将Hexo部署到自己的服务器上**](https://www.cnblogs.com/jie-fang/p/13445939.html)
 
 # no-www和www跳转
 
@@ -21,7 +24,7 @@ description:
 
 # 强制 HTTPs 跳转
 
-## 首先查看 Nginx 是否有 SSL 支持模块
+## ~~首先查看 Nginx 是否有 SSL 支持模块~~
 
 使用命令：
 
@@ -39,6 +42,10 @@ configure arguments:
 ~~~
 
 如果没有，则需要重新编译 nginx，增加 SSL 支持模块，参考[为nginx添加SSL支持模块](https://www.codelast.com/原创-为nginx添加ssl支持模块/)。
+
+## 安装 Nginx
+
+参考：[北海骆驼-Nginx的编译安装并支持ssl](https://blog.csdn.net/qq_40015566/article/details/90169882)
 
 # 申请&下载证书（略）
 

@@ -3,7 +3,7 @@ title: xrdp
 toc: true
 comments: true
 date: 2021-04-02 18:35:51
-updated: 2021-04-02 18:35:51
+updated: 2021-08-28 18:35:51
 categories: GEEK
 tags: [GEEK, Linux]
 description: 安装 Xrdp
@@ -38,7 +38,7 @@ sudo adduser xrdp ssl-cert
 sudo systemctl restart xrdp
 ```
 
-# 配置Xrdp
+# ~~配置Xrdp~~
 
 Xrdp配置文件位于 `/etc/xrdp` 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：
 
@@ -54,6 +54,12 @@ exec startxfce4
 
 ```bash
 sudo systemctl restart xrdp
+```
+
+# 配置 Xrdp（new）
+
+```shell
+echo xfce4-session > ~/.xsession
 ```
 
 # 配置防火墙
