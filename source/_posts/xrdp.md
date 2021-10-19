@@ -3,7 +3,7 @@ title: xrdp
 toc: true
 comments: true
 date: 2021-04-02 18:35:51
-updated: 2021-08-28 18:35:51
+updated: 2021-09-09 10:15:51
 categories: GEEK
 tags: [GEEK, Linux]
 description: 安装 Xrdp
@@ -127,4 +127,19 @@ Section "InputDevice"
     Option "CorePointer"
 EndSection
 ```
+
+# 问题3：“色彩管理设备” / “color managed device” 弹窗
+
+> https://blog.csdn.net/wu_weijie/article/details/108481456
+
+创建文件 */etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla* 并写入内容：
+
+~~~shell
+[Allow Colord all Users]
+Identity=unix-user:*
+Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+~~~
 

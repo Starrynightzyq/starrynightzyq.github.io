@@ -24,6 +24,8 @@ tinc is a Virtual Private Network (VPN) daemon that uses tunnelling and encrypti
 > https://blog.lvaohui.top/article/202101251558/
 >
 > Mac: https://chanix.github.io/TincCookbook/examples/4-HowToInstallTincOnMacOSMojave.html
+>
+> Ansible 部署(快速部署大规模的 tinc 网络): [https://wener.me/notes/howto/network/tinc-multi-path-failover](https://wener.me/notes/howto/network/tinc-multi-path-failover/#ansible-%E9%83%A8%E7%BD%B2)
 
 # Use
 
