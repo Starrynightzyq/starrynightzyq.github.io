@@ -3,7 +3,7 @@ title: tinc 安装
 toc: true
 comments: true
 date: 2021-08-29 14:02:19
-updated: 2021-08-29 14:02:19
+updated: 2021-10-26 09:35:19
 categories: Geek
 tags: [Geek, tinc]
 description: 
@@ -30,6 +30,7 @@ tinc is a Virtual Private Network (VPN) daemon that uses tunnelling and encrypti
 # Use
 
 ~~~
+debug: tincd -n netname -d5 -D
 start command: sudo tincd -n netname
 stop command: sudo tincd -n netname -k
 use systemctl enable tinc@netname to enable individual networks

@@ -3,7 +3,7 @@ title: Ubuntu安装软件备份
 toc: true
 date: 2020-02-05 15:18:27
 categories: GEEK
-updated: 2021-08-28 15:21:15
+updated: 2021-10-19 13:21:15
 tags: [Ubuntu, Linux, 软件]
 description: 安装Ubuntu后要安装的一些软件
 ---
@@ -359,6 +359,12 @@ sudo service lightdm start
 >    ```
 
 # 增加 Swap 分区
+
+> Ref:
+>
+> [pip install Killed 使用pip安装python包时因内存不足被系统kill掉导致安装失败](https://xilou.info/p/120)
+>
+> [How To Add Swap Space on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04)
 
 1. 禁用 swap 功能
 
