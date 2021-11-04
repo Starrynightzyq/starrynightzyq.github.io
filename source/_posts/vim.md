@@ -325,6 +325,10 @@ Vim 中的光标键是 `h`, `j`, `k`, `l` (左，上，下，右)，要在各个
 >
 > 可以用 `v` 选中多行后再移动
 
+## 查看保存的版本和已编辑的相同文件的差异
+
+`:w !diff % -`
+
 # [vim-plug](https://github.com/junegunn/vim-plug)
 
 > Reference:
