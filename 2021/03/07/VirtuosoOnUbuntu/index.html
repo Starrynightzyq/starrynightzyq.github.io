@@ -349,7 +349,7 @@
 </blockquote>
 <h2 id="生成-license-file">生成 license file</h2>
 <p>使用 wine 运行 <code>MentorKG.exe</code> 文件，首先要安装 wine：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wine</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wine</span><br><span class="line">sudo dpkg --add-architecture i386 &amp;&amp; sudo apt-get update &amp;&amp; sudo apt-get install wine32</span><br></pre></td></tr></table></figure>
 <p>在成功安装Wine之后，需要在第一次使用之前使用下面的命令初始化wine配置文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo winecfg</span><br></pre></td></tr></table></figure>
 <p>然后 patch，<code>&lt;Modelsim install path&gt;</code> 在我的电脑上为 <code>/opt/ModelSim</code>：</p>
