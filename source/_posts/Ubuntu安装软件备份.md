@@ -281,6 +281,22 @@ sudo apt-get install kubuntu-desktop
 
 主题：[Orchis-kde](https://github.com/vinceliuice/Orchis-kde)
 
+# 设置默认桌面环境
+
+可用的桌面环境位于 */usr/share/xsessions*：
+
+~~~bash
+$ ls /usr/share/xsessions
+ubuntu.desktop  xfce.desktop  xubuntu.desktop
+~~~
+
+为用户指定默认会话，在文件 */var/lib/AccountsService/users/\<username\>* 中修改：
+
+~~~bash
+[User]
+XSession=xubuntu
+~~~
+
 # 关闭图形化界面
 
 > 参考 [Ubuntu桌面版关闭GUI环境](https://dslztx.github.io/blog/2017/08/27/Ubuntu桌面版关闭GUI环境/)

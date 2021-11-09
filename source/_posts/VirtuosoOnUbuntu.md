@@ -139,6 +139,7 @@ sudo ./modelsim-2020.4_Downloadly.ir.aol # 安装
 
 ~~~bash
 sudo apt-get install wine
+sudo dpkg --add-architecture i386 && sudo apt-get update && sudo apt-get install wine32
 ~~~
 
 在成功安装Wine之后，需要在第一次使用之前使用下面的命令初始化wine配置文件：

@@ -329,6 +329,25 @@ Vim 中的光标键是 `h`, `j`, `k`, `l` (左，上，下，右)，要在各个
 
 `:w !diff % -`
 
+## 重新载入文件/刷新文件
+
+> 在 git 提交后，可以用这个命令刷新文件，刷新 gitdiff 的高亮
+
+1. 重新载入当前文件：
+
+    ~~~bash
+    :e
+    :e! # 放弃当前修改，强制重新载入
+    ~~~
+
+2. 重新载入所有打开的文件：
+
+    ~~~bash
+    :bufdo e
+    :bufdo !e # 放弃当前修改，强制重新载入
+    ~~~
+
+
 # [vim-plug](https://github.com/junegunn/vim-plug)
 
 > Reference:

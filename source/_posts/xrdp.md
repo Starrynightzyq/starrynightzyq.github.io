@@ -3,7 +3,7 @@ title: xrdp
 toc: true
 comments: true
 date: 2021-04-02 18:35:51
-updated: 2021-09-09 10:15:51
+updated: 2021-11-09 12:40:51
 categories: GEEK
 tags: [GEEK, Linux]
 description: 安装 Xrdp
@@ -17,9 +17,19 @@ description: 安装 Xrdp
 
 # 安装 Xrdp
 
+安装 xfce 桌面环境：
+
 ~~~
 sudo apt-get install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
 ~~~
+
+或者安装 xubuntu 环境：
+
+~~~bash
+sudo apt-get install xubuntu-desktop
+~~~
+
+再安装 xrdp：
 
 ~~~
 sudo apt-get install xrdp
