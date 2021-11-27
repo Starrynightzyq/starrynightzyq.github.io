@@ -274,87 +274,6 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
       </tags>
   </entry>
   <entry>
-    <title>Delta-Sigma Modulator (2) — Simulink Simulation</title>
-    <url>/2020/11/27/DSM2/</url>
-    <content><![CDATA[<p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180306.png" alt="image-20201127220949901" style="zoom:33%;"></p>
-<a id="more"></a>
-<h1 id="一阶-dsm-传递函数计算">一阶 DSM 传递函数计算</h1>
-<p>如上图所示，一阶 DSM 由一个 Delta 调制器，一个积分器以及一个量化器组成。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180324.png" alt="image-20201127221245628" style="zoom:33%;"></p>
-<p>一阶 DSM 等效的 Z 域模型如上图所示，其中量化器等效为一个噪声的叠加，可以得到： <span class="math display">\[
-W[z] = X[z] - z^{-1}Y[z] \\
-V[z] = W[z] + z^{-1}V[z] \\
-Y[z] = E[z] + V[z]
-\]</span> 可以推导出传递函数为： <span class="math display">\[
-H[z] = \frac{1}{1-z^{-1}} \\
-Y[z] = X[z] + (1-z^{-1})E[z]
-\]</span> 以及： <span class="math display">\[
-STF = \frac{Y[z]}{X[z]} = \frac{H[z]}{1-z^{-1}H[z]} = 1\\
-NFT = \frac{Y[z]}{E[z]} = \frac{1}{1+z^{-1}H[z]} = 1-z^{-1}
-\]</span> 可以看到，一阶 DSM 对输入信号起到传递作用，增益为 1，而对噪声起到了高通滤波作用，因此实现了对噪声的整形，将噪声推向高频。</p>
-<p>由上式还可以推出： <span class="math display">\[
-V[z] = X[z] + (V[z] - Y[z])z^{-1}
-\]</span> 由此可以得到该 DSM 的另一种 Z 域模型：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180340.png" alt="image-20201127223250969" style="zoom:33%;"></p>
-<p>可以看到该一阶 DSM 本质上就是一个累加器，因此其在电路中信号流图可以描述如下：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180353.png" alt="image-20201127223534482" style="zoom:33%;"></p>
-<p>其中累加器为两个 m 位输入，m+1 位输出，输入 <span class="math inline">\(X[n]\)</span> 为缩放到 <span class="math inline">\(2^m\)</span> 的小数部分，例如，当 m = 24 时，<span class="math inline">\(X[n] = 6291456\)</span> 表示输入为 0.375 (<span class="math inline">\(6291456/2^{24} = 0.375\)</span>)。<span class="math inline">\(C[n]\)</span> 为累加器输出结果的最高位，是累加的<strong>进位</strong>，相当于量化器的量化输出结果。累加器输出的低 m 位相当于量化误差。上面的结构可以用如下电路来实现：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180403.png" alt="image-20201127224405414" style="zoom:25%;"></p>
-<p>其中 DFF 为 D 触发器，实现了延迟的功能。</p>
-<h1 id="一阶-dsm-simulink-仿真">一阶 DSM Simulink 仿真</h1>
-<p>根据上面的分析，可以在 Simulink 中对一阶 DSM 进行仿真。Simulink 中的结构如下图所示：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180419.png" alt="截屏2020-11-27 下午10.48.32" style="zoom:25%;"></p>
-<p>累加器进位使用一个大于等于的比较运算实现，累加器的低位输出使用取余运算实现。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727180222.svg" alt="OneStage"><figcaption aria-hidden="true">OneStage</figcaption>
-</figure>
-<p>一阶 DSM 仿真结果如上图所示，第一个图是量化输出 C，第二个图是误差输出 e，输入设置为 6291456，累加器设置为 24 位，可以看到量化输出 C 每 8 个周期中会有 3 个高电平。</p>
-<h1 id="mash1-1-1">MASH1-1-1</h1>
-<p>一阶的 DSM 输出周期性很明显，对噪声的整形效果不好。可以将其级联起来组成 MASH1-1-1 结构，如下图所示：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180436.png" alt="image-20201127225717497" style="zoom:40%;"></p>
-<p>前一级的一阶 DSM 误差作为下一级的一阶 DSM 输入，每一级的输出通过延迟相加得到最终输出，传递函数推导如下： <span class="math display">\[
-C_1 = e_1[n]*(1-z^{-1}) + X[n] \\
-C_2 = e_2[n]*(1-z^{-1}) - e_1[n] \\
-C_3 = e_3[n]*(1-z^{-1}) - e_2[n] \\
-Y[n] = C_1 + C_2(1-z^{-1}) + C_3(1-z^{-1})^2
-\]</span> 可以得到： <span class="math display">\[
-Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
-\]</span> 可以看到最终输出的噪声只和第三级的噪声有关，并且对第三级噪声做了高阶整形。</p>
-<h1 id="mash1-1-1-simulink-仿真">MASH1-1-1 Simulink 仿真</h1>
-<p>Simulink 中的结构如下图所示：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180455.png" alt="截屏2020-11-28 上午9.14.25" style="zoom:40%;"></p>
-<p>当输入为 0.375 (<span class="math inline">\(6291456/2^{24} = 0.375\)</span>)，输出如下：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727180223.svg" alt="ThreeStage6291456"><figcaption aria-hidden="true">ThreeStage6291456</figcaption>
-</figure>
-<p>当输入为 0.1 (<span class="math inline">\(1677721/2^{24} = 0.1\)</span>)，输出如下：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727180224.svg" alt="ThreeStage1677721"><figcaption aria-hidden="true">ThreeStage1677721</figcaption>
-</figure>
-<p>当输入为 0.9 (<span class="math inline">\(15099494/2^{24} = 0.9\)</span>)，输出如下：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727180225.svg" alt="ThreeStage15099494"><figcaption aria-hidden="true">ThreeStage15099494</figcaption>
-</figure>
-<p>输出信号的功率谱密度：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727180226.svg" alt="PSD"><figcaption aria-hidden="true">PSD</figcaption>
-</figure>
-<p><strong>结果分析</strong>：</p>
-<p>从上面仿真的结果可以看到 MASH1-1-1 结构的 DSM 可以实现对噪声的高阶整形，将噪声推向高频。</p>
-<p>MASH1-1-1 结构的 DSM 理论上输出范围是 [-3,4]，但实际上输入不同的值，输出范围也是不同的，某些输入值对应的输出周期性还是比较明显的，例如输入为 0.375 的时候。看论文上说要在低位加 dither，可以改善这种情况，让输出的随机性更高。</p>
-<h1 id="参考文献">参考文献</h1>
-<p>[1]Y. Wu, M. Shahmohammadi, Y. Chen, P. Lu and R. B. Staszewski, "A 3.5–6.8-GHz Wide-Bandwidth DTC-Assisted Fractional-N All-Digital PLL With a MASH $$ -TDC for Low In-Band Phase Noise," in <em>IEEE Journal of Solid-State Circuits</em>, vol. 52, no. 7, pp. 1885-1903, July 2017, doi: 10.1109/JSSC.2017.2682841.</p>
-<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
-]]></content>
-      <categories>
-        <category>Delta-Sigma</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Delta-Sigma Modulator</title>
     <url>/2020/11/26/DSM/</url>
     <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
@@ -433,6 +352,87 @@ y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
 <p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
 <h1 id="参考文章">参考文章</h1>
 <p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+]]></content>
+      <categories>
+        <category>Delta-Sigma</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delta-Sigma Modulator (2) — Simulink Simulation</title>
+    <url>/2020/11/27/DSM2/</url>
+    <content><![CDATA[<p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180306.png" alt="image-20201127220949901" style="zoom:33%;"></p>
+<a id="more"></a>
+<h1 id="一阶-dsm-传递函数计算">一阶 DSM 传递函数计算</h1>
+<p>如上图所示，一阶 DSM 由一个 Delta 调制器，一个积分器以及一个量化器组成。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180324.png" alt="image-20201127221245628" style="zoom:33%;"></p>
+<p>一阶 DSM 等效的 Z 域模型如上图所示，其中量化器等效为一个噪声的叠加，可以得到： <span class="math display">\[
+W[z] = X[z] - z^{-1}Y[z] \\
+V[z] = W[z] + z^{-1}V[z] \\
+Y[z] = E[z] + V[z]
+\]</span> 可以推导出传递函数为： <span class="math display">\[
+H[z] = \frac{1}{1-z^{-1}} \\
+Y[z] = X[z] + (1-z^{-1})E[z]
+\]</span> 以及： <span class="math display">\[
+STF = \frac{Y[z]}{X[z]} = \frac{H[z]}{1-z^{-1}H[z]} = 1\\
+NFT = \frac{Y[z]}{E[z]} = \frac{1}{1+z^{-1}H[z]} = 1-z^{-1}
+\]</span> 可以看到，一阶 DSM 对输入信号起到传递作用，增益为 1，而对噪声起到了高通滤波作用，因此实现了对噪声的整形，将噪声推向高频。</p>
+<p>由上式还可以推出： <span class="math display">\[
+V[z] = X[z] + (V[z] - Y[z])z^{-1}
+\]</span> 由此可以得到该 DSM 的另一种 Z 域模型：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180340.png" alt="image-20201127223250969" style="zoom:33%;"></p>
+<p>可以看到该一阶 DSM 本质上就是一个累加器，因此其在电路中信号流图可以描述如下：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180353.png" alt="image-20201127223534482" style="zoom:33%;"></p>
+<p>其中累加器为两个 m 位输入，m+1 位输出，输入 <span class="math inline">\(X[n]\)</span> 为缩放到 <span class="math inline">\(2^m\)</span> 的小数部分，例如，当 m = 24 时，<span class="math inline">\(X[n] = 6291456\)</span> 表示输入为 0.375 (<span class="math inline">\(6291456/2^{24} = 0.375\)</span>)。<span class="math inline">\(C[n]\)</span> 为累加器输出结果的最高位，是累加的<strong>进位</strong>，相当于量化器的量化输出结果。累加器输出的低 m 位相当于量化误差。上面的结构可以用如下电路来实现：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180403.png" alt="image-20201127224405414" style="zoom:25%;"></p>
+<p>其中 DFF 为 D 触发器，实现了延迟的功能。</p>
+<h1 id="一阶-dsm-simulink-仿真">一阶 DSM Simulink 仿真</h1>
+<p>根据上面的分析，可以在 Simulink 中对一阶 DSM 进行仿真。Simulink 中的结构如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180419.png" alt="截屏2020-11-27 下午10.48.32" style="zoom:25%;"></p>
+<p>累加器进位使用一个大于等于的比较运算实现，累加器的低位输出使用取余运算实现。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727180222.svg" alt="OneStage"><figcaption aria-hidden="true">OneStage</figcaption>
+</figure>
+<p>一阶 DSM 仿真结果如上图所示，第一个图是量化输出 C，第二个图是误差输出 e，输入设置为 6291456，累加器设置为 24 位，可以看到量化输出 C 每 8 个周期中会有 3 个高电平。</p>
+<h1 id="mash1-1-1">MASH1-1-1</h1>
+<p>一阶的 DSM 输出周期性很明显，对噪声的整形效果不好。可以将其级联起来组成 MASH1-1-1 结构，如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180436.png" alt="image-20201127225717497" style="zoom:40%;"></p>
+<p>前一级的一阶 DSM 误差作为下一级的一阶 DSM 输入，每一级的输出通过延迟相加得到最终输出，传递函数推导如下： <span class="math display">\[
+C_1 = e_1[n]*(1-z^{-1}) + X[n] \\
+C_2 = e_2[n]*(1-z^{-1}) - e_1[n] \\
+C_3 = e_3[n]*(1-z^{-1}) - e_2[n] \\
+Y[n] = C_1 + C_2(1-z^{-1}) + C_3(1-z^{-1})^2
+\]</span> 可以得到： <span class="math display">\[
+Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
+\]</span> 可以看到最终输出的噪声只和第三级的噪声有关，并且对第三级噪声做了高阶整形。</p>
+<h1 id="mash1-1-1-simulink-仿真">MASH1-1-1 Simulink 仿真</h1>
+<p>Simulink 中的结构如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180455.png" alt="截屏2020-11-28 上午9.14.25" style="zoom:40%;"></p>
+<p>当输入为 0.375 (<span class="math inline">\(6291456/2^{24} = 0.375\)</span>)，输出如下：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727180223.svg" alt="ThreeStage6291456"><figcaption aria-hidden="true">ThreeStage6291456</figcaption>
+</figure>
+<p>当输入为 0.1 (<span class="math inline">\(1677721/2^{24} = 0.1\)</span>)，输出如下：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727180224.svg" alt="ThreeStage1677721"><figcaption aria-hidden="true">ThreeStage1677721</figcaption>
+</figure>
+<p>当输入为 0.9 (<span class="math inline">\(15099494/2^{24} = 0.9\)</span>)，输出如下：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727180225.svg" alt="ThreeStage15099494"><figcaption aria-hidden="true">ThreeStage15099494</figcaption>
+</figure>
+<p>输出信号的功率谱密度：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727180226.svg" alt="PSD"><figcaption aria-hidden="true">PSD</figcaption>
+</figure>
+<p><strong>结果分析</strong>：</p>
+<p>从上面仿真的结果可以看到 MASH1-1-1 结构的 DSM 可以实现对噪声的高阶整形，将噪声推向高频。</p>
+<p>MASH1-1-1 结构的 DSM 理论上输出范围是 [-3,4]，但实际上输入不同的值，输出范围也是不同的，某些输入值对应的输出周期性还是比较明显的，例如输入为 0.375 的时候。看论文上说要在低位加 dither，可以改善这种情况，让输出的随机性更高。</p>
+<h1 id="参考文献">参考文献</h1>
+<p>[1]Y. Wu, M. Shahmohammadi, Y. Chen, P. Lu and R. B. Staszewski, "A 3.5–6.8-GHz Wide-Bandwidth DTC-Assisted Fractional-N All-Digital PLL With a MASH $$ -TDC for Low In-Band Phase Noise," in <em>IEEE Journal of Solid-State Circuits</em>, vol. 52, no. 7, pp. 1885-1903, July 2017, doi: 10.1109/JSSC.2017.2682841.</p>
 <p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
 ]]></content>
       <categories>
@@ -584,6 +584,19 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       </tags>
   </entry>
   <entry>
+    <title>FIR</title>
+    <url>/2020/10/03/DSP-FIR/</url>
+    <content><![CDATA[<p>数字滤波器是从原始信号中提取用户所需要的信息，滤除不需要的信号成分。根据信号与干扰的不同关系，可以从时域、频域或变换域（同态）进行信号滤波设计。</p>
+]]></content>
+      <categories>
+        <category>DSP</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>以太网视频传输</title>
     <url>/2020/07/31/EthernetVideo/</url>
     <content><![CDATA[<p>在用 FPGA 进行图像处理时，通常的作法是接一个显示器，查看输出结果，不过这也太不方便了，手上的这块 <a href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">PYNQ-Z2</a> 带有千兆以太网口，就想着用以太网传输视频，这样就可以抛弃笨重的显示器了。由于 Lei 同学已经完成了裸机的方案（见<a href="http://leiblog.wang/Ethernet-Video/">千兆以太网视频传输</a>）,并且之前已经在 ZYNQ 上移植了 Linux 系统，那就做一个运行在 Linux 系统上的以太网图像传输吧。其实这样做起来更简单，网上可以参考的也一大堆。</p>
@@ -676,16 +689,45 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       </tags>
   </entry>
   <entry>
-    <title>FIR</title>
-    <url>/2020/10/03/DSP-FIR/</url>
-    <content><![CDATA[<p>数字滤波器是从原始信号中提取用户所需要的信息，滤除不需要的信号成分。根据信号与干扰的不同关系，可以从时域、频域或变换域（同态）进行信号滤波设计。</p>
+    <title>HDB3&amp;BPSK</title>
+    <url>/2018/12/24/HDB3-BPSK/</url>
+    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
+<h2 id="需要的资源">需要的资源</h2>
+<ul>
+<li>ADC；</li>
+<li>DDS；</li>
+<li>DAC；</li>
+</ul>
+<h2 id="实现">实现</h2>
+<p>根据上述要求，选择EGo1板卡。</p>
+<ul>
+<li><p>ADC可使用Artix7芯片自带的XADC；</p>
+<blockquote>
+<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
+<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
+<p>https://zhuanlan.zhihu.com/p/44495333</p>
+</blockquote>
+<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
+<li><p>DDS可使用xilinx的DDS IP核；</p>
+<blockquote>
+<p>https://zhuanlan.zhihu.com/p/36929424</p>
+</blockquote></li>
+<li><p>DAC可使用板卡上的DAC0832芯片；</p>
+<blockquote>
+<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
+</blockquote></li>
+</ul>
+<h1 id="hdb3-编码">HDB3 编码</h1>
+<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
 ]]></content>
       <categories>
-        <category>DSP</category>
+        <category>课设</category>
       </categories>
       <tags>
         <tag>FPGA</tag>
-        <tag>DSP</tag>
+        <tag>HDB3</tag>
+        <tag>BPSK</tag>
+        <tag>通信原理</tag>
       </tags>
   </entry>
   <entry>
@@ -802,54 +844,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>HDB3&amp;BPSK</title>
-    <url>/2018/12/24/HDB3-BPSK/</url>
-    <content><![CDATA[<h1 id="可行性分析">可行性分析</h1>
-<h2 id="需要的资源">需要的资源</h2>
-<ul>
-<li>ADC；</li>
-<li>DDS；</li>
-<li>DAC；</li>
-</ul>
-<h2 id="实现">实现</h2>
-<p>根据上述要求，选择EGo1板卡。</p>
-<ul>
-<li><p>ADC可使用Artix7芯片自带的XADC；</p>
-<blockquote>
-<p>http://xilinx.eetrend.com/d6-xilinx/blog/2014-02/6676.html</p>
-<p>https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-104-XADC-with-Real-World/ba-p/659668</p>
-<p>https://zhuanlan.zhihu.com/p/44495333</p>
-</blockquote>
-<p><a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842057/Zynq+AXI+XADC+App+Note">Zynq AXI XADC App Note</a></p></li>
-<li><p>DDS可使用xilinx的DDS IP核；</p>
-<blockquote>
-<p>https://zhuanlan.zhihu.com/p/36929424</p>
-</blockquote></li>
-<li><p>DAC可使用板卡上的DAC0832芯片；</p>
-<blockquote>
-<p>https://e-elements.readthedocs.io/zh/ego1_v2.1/EGo1.html#dac</p>
-</blockquote></li>
-</ul>
-<h1 id="hdb3-编码">HDB3 编码</h1>
-<p><a href="https://wenku.baidu.com/view/24b7bc227fd5360cba1adb6c">参考</a></p>
-]]></content>
-      <categories>
-        <category>课设</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>HDB3</tag>
-        <tag>BPSK</tag>
-        <tag>通信原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux-Learning</title>
-    <url>/2019/02/12/Linux-Learning/</url>
-    <content><![CDATA[<p>磁盘分区工具：gparted</p>
-]]></content>
-  </entry>
-  <entry>
     <title>Linux Samba Server</title>
     <url>/2020/03/15/Linux-Samba-Server/</url>
     <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
@@ -929,6 +923,12 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <tag>Linux</tag>
         <tag>GEEK</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Linux-Learning</title>
+    <url>/2019/02/12/Linux-Learning/</url>
+    <content><![CDATA[<p>磁盘分区工具：gparted</p>
+]]></content>
   </entry>
   <entry>
     <title>Linux Wake on Lan</title>
@@ -1134,6 +1134,28 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo blkid</span></span><br></pre></td></tr></table></figure></li>
 </ul></li>
 </ol>
+<h1 id="自动挂载-smb">自动挂载 smb</h1>
+<blockquote>
+<p>ref：https://gythialy.github.io/How-to-Mount-a-SMB-Share-in-Ubuntu/</p>
+</blockquote>
+<h2 id="临时挂载">临时挂载</h2>
+<ol type="1">
+<li><p>安装 cifs-utils</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install cifs-utils</span><br></pre></td></tr></table></figure></li>
+<li><p>挂载</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mount -t cifs //xx.xx.xx.x/share /mnt -o username=xx,password=xx,vers=1.0</span><br></pre></td></tr></table></figure>
+<h2 id="开机自动挂载">开机自动挂载</h2></li>
+<li><p>创建一个挂载点</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">sudo mkdir <span class="regexp">/mnt/</span>local_share</span><br></pre></td></tr></table></figure></li>
+<li><p>创建文件保存 <em>~/.smbcredentials</em> 来保存 SMB 用户名和密码</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">username</span>=smb_share</span><br><span class="line"><span class="attr">password</span>=share_password</span><br></pre></td></tr></table></figure></li>
+<li><p>在 <em>/etc/fstab</em> 最后添加配置实现自动挂载</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="comment"># /etc/fstab</span></span><br><span class="line"><span class="regexp">/$smb_server/</span>share <span class="regexp">/mnt/</span>local_share cifs credentials=<span class="regexp">/home/</span><span class="variable">$user</span>/.smbcredentials,uid=<span class="number">1000</span>,gid=<span class="number">1000</span>,iocharset=utf8 <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS：<code>$smb_server</code> 为 SMB 服务器地址，<code>$user</code> 为当前用户名，<code>uid/gid</code> 为当前用户的 <code>uid</code> 和 <code>gid</code>，可以通过 <code>id $(whoami)</code> 查看</p>
+</blockquote></li>
+<li><p>通过 <code>mount -a</code> 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。</p></li>
+</ol>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -1172,63 +1194,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       <tags>
         <tag>GEEK</tag>
         <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MIPS处理器学习报告</title>
-    <url>/2018/12/19/MIPS%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%8A%A5%E5%91%8A/</url>
-    <content><![CDATA[<a id="more"></a>
-<blockquote>
-<p>未完成，占坑</p>
-</blockquote>
-<blockquote>
-<p>参考《自己动手写CPU》</p>
-</blockquote>
-<h1 id="报告框架">报告框架</h1>
-<h2 id="一-设计方案工作原理">一、 设计方案工作原理</h2>
-<ol type="1">
-<li><p>系统总体介绍</p>
-<ol type="1">
-<li>计算机的简单组成模型(P2)与计算机的简单实用模型(P3);</li>
-<li>MIPS32指令集架构(P9);</li>
-</ol></li>
-<li><p>预期实现目标定位</p>
-<p>本课设的目标是实现一款兼容MIPS32指令集架构的处理器，该处理器是通过硬件描述语言Verilog HDL编写代码实现的，编写后的代码经过编译可以下载到FPGA芯片上，组成实际的硬件电路。</p>
-<p>目标：五级流水线、 ... (P50)</p>
-<p>实现的指令集：(P11)</p></li>
-<li><p>系统结构工作原理</p>
-<p>(P56 图3-7)</p>
-<p>将编译好的指令放入指令存储器，五级流水线在时钟的控制下完成取址、译码、执行、访存、回写这5个阶段，完成程序的执行。</p></li>
-</ol>
-<h2 id="二-核心部件设计">二、 核心部件设计</h2>
-<ol type="1">
-<li>五级流水线的整体架构，工作流程：(P50)(详细)</li>
-<li>详细说明ori指令的实现过程：(P58)(详细)</li>
-<li>最小SOPC的实现：(P87)</li>
-<li>流水线数据相关问题：(P107,P135)</li>
-<li>流水线暂停机制：(P174)</li>
-<li>除法指令的实现：(P192)(详细)</li>
-<li>转移指令与延迟槽：(P206)</li>
-<li>协处理器CP0的功能与实现：(P287)</li>
-<li>异常处理：(P316)(详细)</li>
-</ol>
-<h2 id="三-作品成效总结">三、 作品成效总结</h2>
-<ol type="1">
-<li>整体RTL图；</li>
-<li>实现的指令集的仿真图；</li>
-<li>异常处理的仿真；</li>
-<li>下载到FPGA芯片里的运行情况；</li>
-</ol>
-<h2 id="四-参考资料及文献">四、 参考资料及文献</h2>
-<h2 id="五-附件">五、 附件</h2>
-]]></content>
-      <categories>
-        <category>MIPS32学习</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>MPIS32</tag>
-        <tag>课程设计</tag>
       </tags>
   </entry>
   <entry>
@@ -1419,6 +1384,63 @@ x_1 +  &amp; 5x_2 - &amp; 9x_3 - &amp; 8x_4 &amp; = &amp; 0
       <tags>
         <tag>Matlab</tag>
         <tag>数字信号处理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MIPS处理器学习报告</title>
+    <url>/2018/12/19/MIPS%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%8A%A5%E5%91%8A/</url>
+    <content><![CDATA[<a id="more"></a>
+<blockquote>
+<p>未完成，占坑</p>
+</blockquote>
+<blockquote>
+<p>参考《自己动手写CPU》</p>
+</blockquote>
+<h1 id="报告框架">报告框架</h1>
+<h2 id="一-设计方案工作原理">一、 设计方案工作原理</h2>
+<ol type="1">
+<li><p>系统总体介绍</p>
+<ol type="1">
+<li>计算机的简单组成模型(P2)与计算机的简单实用模型(P3);</li>
+<li>MIPS32指令集架构(P9);</li>
+</ol></li>
+<li><p>预期实现目标定位</p>
+<p>本课设的目标是实现一款兼容MIPS32指令集架构的处理器，该处理器是通过硬件描述语言Verilog HDL编写代码实现的，编写后的代码经过编译可以下载到FPGA芯片上，组成实际的硬件电路。</p>
+<p>目标：五级流水线、 ... (P50)</p>
+<p>实现的指令集：(P11)</p></li>
+<li><p>系统结构工作原理</p>
+<p>(P56 图3-7)</p>
+<p>将编译好的指令放入指令存储器，五级流水线在时钟的控制下完成取址、译码、执行、访存、回写这5个阶段，完成程序的执行。</p></li>
+</ol>
+<h2 id="二-核心部件设计">二、 核心部件设计</h2>
+<ol type="1">
+<li>五级流水线的整体架构，工作流程：(P50)(详细)</li>
+<li>详细说明ori指令的实现过程：(P58)(详细)</li>
+<li>最小SOPC的实现：(P87)</li>
+<li>流水线数据相关问题：(P107,P135)</li>
+<li>流水线暂停机制：(P174)</li>
+<li>除法指令的实现：(P192)(详细)</li>
+<li>转移指令与延迟槽：(P206)</li>
+<li>协处理器CP0的功能与实现：(P287)</li>
+<li>异常处理：(P316)(详细)</li>
+</ol>
+<h2 id="三-作品成效总结">三、 作品成效总结</h2>
+<ol type="1">
+<li>整体RTL图；</li>
+<li>实现的指令集的仿真图；</li>
+<li>异常处理的仿真；</li>
+<li>下载到FPGA芯片里的运行情况；</li>
+</ol>
+<h2 id="四-参考资料及文献">四、 参考资料及文献</h2>
+<h2 id="五-附件">五、 附件</h2>
+]]></content>
+      <categories>
+        <category>MIPS32学习</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>MPIS32</tag>
+        <tag>课程设计</tag>
       </tags>
   </entry>
   <entry>
@@ -1870,65 +1892,6 @@ V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
       </tags>
   </entry>
   <entry>
-    <title>Power Amplifier -- 基础知识</title>
-    <url>/2021/02/08/PA/</url>
-    <content><![CDATA[<h1 id="无线发射机结构">无线发射机结构</h1>
-<p>无线发射机按结构类型主要分为三种：直接上变频、超外插和直接数字调制。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183748.png" alt="image-20210219214746388"><figcaption aria-hidden="true">image-20210219214746388</figcaption>
-</figure>
-<p>上图为<strong>直接上变频</strong>结构，通过一次变频将 I、Q 两路基带信号变为射频信号。</p>
-<ul>
-<li>优点：
-<ul>
-<li>结构简单；</li>
-<li>能较好得抑制镜像的产生；</li>
-</ul></li>
-<li>缺点：
-<ul>
-<li>工作在射频上的两个混频器需要消耗很大电流；</li>
-<li>当振荡器和输出处于同一频率时，高频载波馈通和注入锁定 (Injection) 是两个可能出现的问题；</li>
-</ul></li>
-</ul>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183749.png" alt="image-20210219215427587"><figcaption aria-hidden="true">image-20210219215427587</figcaption>
-</figure>
-<p>上图为<strong>超外差</strong>结构，其将数字调制上变频产生的信号再与射频前端的本振进行一次上变频，最后送入功放。</p>
-<ul>
-<li>优点：
-<ul>
-<li>该发射机在本振和功放之间加入一个滤波器，具有良好的隔离度；</li>
-</ul></li>
-<li>缺点：
-<ul>
-<li>与直接上变频相比，由于采用了两次上变频，复杂度较高；</li>
-</ul></li>
-</ul>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727183750.png" alt="image-20210219220156205"><figcaption aria-hidden="true">image-20210219220156205</figcaption>
-</figure>
-<p>上图为<strong>直接数字调制</strong>结构，直接将频率合成器的输出送入到功放。</p>
-<h1 id="功率放大器的主要技术指标">功率放大器的主要技术指标</h1>
-<h2 id="输出功率">输出功率</h2>
-<h2 id="功率附加效率">功率附加效率</h2>
-<h2 id="线性度">线性度</h2>
-<h1 id="功率放大器的分类">功率放大器的分类</h1>
-<p>功率放大器按晶体管的工作特性可以分为<strong>线性功率放大器</strong>和<strong>开关功率放大器</strong>。</p>
-<h1 id="线性化技术">线性化技术</h1>
-<p>目前针对高功率功放提高线性度的方法主要有：功率回退法 (Power Back-off)、前馈法 (Feedforward)、负反馈技术 (Feedback)、预失真技术 (Predistortion)、包络消除与恢复 (Envelope Elimination and Restoration)等。</p>
-<h1 id="匹配补偿技术">匹配补偿技术</h1>
-<h1 id="功率合成技术">功率合成技术</h1>
-]]></content>
-      <categories>
-        <category>PA</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器</title>
     <url>/2020/10/13/PLL-2/</url>
     <content><![CDATA[<p>前一篇文章 <a href="https://zhouyuqian.com/2020/09/11/PLL/">PLL(Phase-locked loop, 锁相环)</a> 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。</p>
@@ -2113,6 +2076,65 @@ cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Power Amplifier -- 基础知识</title>
+    <url>/2021/02/08/PA/</url>
+    <content><![CDATA[<h1 id="无线发射机结构">无线发射机结构</h1>
+<p>无线发射机按结构类型主要分为三种：直接上变频、超外插和直接数字调制。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183748.png" alt="image-20210219214746388"><figcaption aria-hidden="true">image-20210219214746388</figcaption>
+</figure>
+<p>上图为<strong>直接上变频</strong>结构，通过一次变频将 I、Q 两路基带信号变为射频信号。</p>
+<ul>
+<li>优点：
+<ul>
+<li>结构简单；</li>
+<li>能较好得抑制镜像的产生；</li>
+</ul></li>
+<li>缺点：
+<ul>
+<li>工作在射频上的两个混频器需要消耗很大电流；</li>
+<li>当振荡器和输出处于同一频率时，高频载波馈通和注入锁定 (Injection) 是两个可能出现的问题；</li>
+</ul></li>
+</ul>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183749.png" alt="image-20210219215427587"><figcaption aria-hidden="true">image-20210219215427587</figcaption>
+</figure>
+<p>上图为<strong>超外差</strong>结构，其将数字调制上变频产生的信号再与射频前端的本振进行一次上变频，最后送入功放。</p>
+<ul>
+<li>优点：
+<ul>
+<li>该发射机在本振和功放之间加入一个滤波器，具有良好的隔离度；</li>
+</ul></li>
+<li>缺点：
+<ul>
+<li>与直接上变频相比，由于采用了两次上变频，复杂度较高；</li>
+</ul></li>
+</ul>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183750.png" alt="image-20210219220156205"><figcaption aria-hidden="true">image-20210219220156205</figcaption>
+</figure>
+<p>上图为<strong>直接数字调制</strong>结构，直接将频率合成器的输出送入到功放。</p>
+<h1 id="功率放大器的主要技术指标">功率放大器的主要技术指标</h1>
+<h2 id="输出功率">输出功率</h2>
+<h2 id="功率附加效率">功率附加效率</h2>
+<h2 id="线性度">线性度</h2>
+<h1 id="功率放大器的分类">功率放大器的分类</h1>
+<p>功率放大器按晶体管的工作特性可以分为<strong>线性功率放大器</strong>和<strong>开关功率放大器</strong>。</p>
+<h1 id="线性化技术">线性化技术</h1>
+<p>目前针对高功率功放提高线性度的方法主要有：功率回退法 (Power Back-off)、前馈法 (Feedforward)、负反馈技术 (Feedback)、预失真技术 (Predistortion)、包络消除与恢复 (Envelope Elimination and Restoration)等。</p>
+<h1 id="匹配补偿技术">匹配补偿技术</h1>
+<h1 id="功率合成技术">功率合成技术</h1>
+]]></content>
+      <categories>
+        <category>PA</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
       </tags>
   </entry>
   <entry>
@@ -2753,6 +2775,181 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu 安装 Tensorflow-gpu</title>
+    <url>/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</url>
+    <content><![CDATA[<blockquote>
+<p><strong>更正!!!</strong></p>
+<p>tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Software</th>
+<th style="text-align: left;">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nvidia driver</td>
+<td style="text-align: left;">nvidia-440.82</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Python</td>
+<td style="text-align: left;">3.6.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tensorflow</td>
+<td style="text-align: left;">tensorflow-gpu==1.15.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cuDNN</td>
+<td style="text-align: left;">7.6.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CUDA</td>
+<td style="text-align: left;">10.1(V10.1.243)</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h1 id="安装-nvidia-显卡驱动">安装 NVIDIA 显卡驱动</h1>
+<ol type="1">
+<li><p>下载 NVIDIA 显卡对应的<a href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p></li>
+<li><p>bios 禁用 secure boot，也就是设置为 disable</p>
+<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p></li>
+<li><p>禁用 nouveau 开源驱动</p>
+<p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
+<p>由于nouveau是在内核中的，还需要更新一下，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
+<p>之后重启电脑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+<p>重启后查看禁用是否成功：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
+<p>没有输出代表nouveau被禁用了</p></li>
+<li><p>关闭 GUI 界面，进入命令行模式</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
+<li><p>安装 NVIDIA 驱动</p>
+<p>如果以前安装过 nvidia 驱动，需要卸载：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get autoremove –purge <span class="string">&quot;*nvidia*&quot;</span></span><br></pre></td></tr></table></figure>
+<p>首先给驱动文件增加可执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA-Linux-*******.run</span><br></pre></td></tr></table></figure>
+<p>然后执行安装：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo sh ./NVIDIA-Linux-*******.run -no-opengl-files</span><br></pre></td></tr></table></figure>
+<p><strong>安装完成后重启 !!!</strong></p>
+<blockquote>
+<p><strong>–no-opengl-files</strong> 参数必须加否则会循环登录，也就是 loop login</p>
+</blockquote>
+<p>参数介绍：</p>
+<blockquote>
+<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要； –no-x-check 安装驱动时不检查 X服务； –no-nouveau-check 安装驱动时不检查 nouveau； 后面两个参数可不加。</p>
+</blockquote></li>
+<li><p>最后切换回 GUI 界面</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
+<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p></li>
+</ol>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233030.png" alt="nvidia-smi"><figcaption aria-hidden="true">nvidia-smi</figcaption>
+</figure>
+<p><strong>最后我装的是 430.50 版本的驱动</strong></p>
+<a id="more"></a>
+<h1 id="显示使用核显计算使用独显">显示使用核显，计算使用独显</h1>
+<blockquote>
+<p>https://forums.developer.nvidia.com/t/ubuntu-18-04-headless-390-intel-igpu-after-prime-select-intel-lost-contact-to-geforce-1050ti/66698</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo prime-select nvidia</span><br></pre></td></tr></table></figure>
+<p>add ‘nogpumanager’ kernel parameter</p>
+<p>create /etc/X11/xorg.conf</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;Device&quot;</span></span><br><span class="line">    Identifier     <span class="string">&quot;intel&quot;</span></span><br><span class="line">    Driver         <span class="string">&quot;modesetting&quot;</span></span><br><span class="line">    BusID          <span class="string">&quot;PCI:0:2:0&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+<h1 id="安装-cuda-version-10.0">安装 <a href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1>
+<p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233031.png" alt="version"><figcaption aria-hidden="true">version</figcaption>
+</figure>
+<p>我要装的是 Tensorflow-gpu 1.14.0，因此我安装 CUDA10.0 和 cuDNN7.4</p>
+<p>下载 CUDA https://developer.nvidia.com/cuda-toolkit-archive</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233032.png" alt="download"><figcaption aria-hidden="true">download</figcaption>
+</figure>
+<p>运行如下命令安装</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_&lt;<span class="keyword">version</span>&gt;_linux.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
+<p>安装过程中会有一些选项，<strong>显卡驱动不要装 !!!</strong> 因为之前已经装过了</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233033.png" alt="installer"><figcaption aria-hidden="true">installer</figcaption>
+</figure>
+<p>安装完成输出的 log 会有提示</p>
+<p>最后将cuda添加到系统环境中</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
+<p>检查是否安装成功：</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
+<h1 id="安装-cudnn-version-7.4.2">安装 cudnn (version 7.4.2)</h1>
+<p>下载 <a href="https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10">cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0</a></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233034.png" alt="cudnn-download"><figcaption aria-hidden="true">cudnn-download</figcaption>
+</figure>
+<p>解压后，会得到一个名为 <em>cuda</em> 的文件夹，将问价拷贝到 cuda 的安装目录下</p>
+<p><strong>注意!!! <em>cuda/lib64</em> 里的文件有链接的结构，如下，不能直接 cp，使用 <code>-a</code> 参数可以保持软链接结构</strong></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233035.png" alt="la"><figcaption aria-hidden="true">la</figcaption>
+</figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp -a cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda-10.0/lib64/</span><br><span class="line">sudo cp -a cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda-10.0/include/</span><br></pre></td></tr></table></figure>
+<p><strong>需要注意下这几个文件的权限！！！</strong></p>
+<h1 id="测试-cuda-是否安装成功">测试 CUDA 是否安装成功</h1>
+<ol type="1">
+<li><p>切换到测试目录下：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/cuda-10.0/</span>samples<span class="regexp">/1_Utilities/</span>deviceQuery</span><br></pre></td></tr></table></figure></li>
+<li><p>编译</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo make</span></span><br></pre></td></tr></table></figure></li>
+<li><p>进行测试，运行文件</p>
+<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line"><span class="string">./deviceQuery</span></span><br></pre></td></tr></table></figure>
+<p>会看到类似这种结果：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233036.png" alt="deviceQuery"><figcaption aria-hidden="true">deviceQuery</figcaption>
+</figure></li>
+</ol>
+<h1 id="安装多个版本的-cuda">安装多个版本的 cuda</h1>
+<p>因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233037.png" alt="cuda"><figcaption aria-hidden="true">cuda</figcaption>
+</figure>
+<p>使用命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rm -rf cuda <span class="comment"># 删除原来的软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/cuda-&lt;version&gt; /usr/<span class="built_in">local</span>/cuda <span class="comment"># 建立新的软链接</span></span><br></pre></td></tr></table></figure>
+<p>注意环境变量的修改，可以将 cuda-<version> 修改为 cuda 这种通用形式</version></p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
+<p>最后查看当前的 cuda 版本</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
+<p>如果确实软链接修改成功了，环境变量也改好了，版本依旧没有切换，尝试<strong>重启</strong>一下</p>
+<h1 id="安装-tensorflow">安装 tensorflow</h1>
+<p>参考<a href="https://www.tensorflow.org/install/pip">使用 pip 安装 TensorFlow</a></p>
+<h1 id="坑">坑！！！</h1>
+<ol type="1">
+<li><p><code>Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR</code></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233038.png" alt="error1"><figcaption aria-hidden="true">error1</figcaption>
+</figure>
+<p>这个报错可能是 tensorflow 和 cuda 版本不符合，但如果已经按照<a href="https://www.tensorflow.org/install/source#gpu">推荐列表</a>里的对应关系安装了 tensorflow 和 cuda，任然这样报错就可能是 tensorflow 占用的显存过多，进程直接被系统 kill 了，因此可以对 tensorflow 的显存进行限制。</p>
+<blockquote>
+<p>参考：http://www.cnblogs.com/darkknightzh/p/6591923.html</p>
+</blockquote>
+<ul>
+<li><p>定量设置显存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=<span class="number">0.7</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) </span><br></pre></td></tr></table></figure>
+<p>在程序开始的地方加上这两行，这样运行TensorFlow程序时，每个使用的GPU中，占用的显存都不超过总显存的0.7。</p></li>
+<li><p>按需设置显存</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(allow_growth=<span class="literal">True</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))   </span><br></pre></td></tr></table></figure>
+<p>这样设置以后，程序就会按需占用GPU显存。</p></li>
+</ul></li>
+</ol>
+]]></content>
+      <categories>
+        <category>tensorflow</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+        <tag>tensorflow</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu安装软件备份</title>
     <url>/2020/02/05/Ubuntu%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
     <content><![CDATA[<h1 id="shellzsh">shell：zsh</h1>
@@ -2972,181 +3169,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>软件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 安装 Tensorflow-gpu</title>
-    <url>/2020/04/29/Ubuntu-%E5%AE%89%E8%A3%85-Tensorflow-gpu/</url>
-    <content><![CDATA[<blockquote>
-<p><strong>更正!!!</strong></p>
-<p>tensorflow1.14.0 似乎有 bug，在 NVIDIA 2070 super 上运行时会直接把显存占满，导致进程被 kill，换成 tensorflow1.15.3 后就好了，因此最终配置如下：</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Software</th>
-<th style="text-align: left;">Version</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">nvidia driver</td>
-<td style="text-align: left;">nvidia-440.82</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Python</td>
-<td style="text-align: left;">3.6.9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">tensorflow</td>
-<td style="text-align: left;">tensorflow-gpu==1.15.3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">cuDNN</td>
-<td style="text-align: left;">7.6.4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CUDA</td>
-<td style="text-align: left;">10.1(V10.1.243)</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<h1 id="安装-nvidia-显卡驱动">安装 NVIDIA 显卡驱动</h1>
-<ol type="1">
-<li><p>下载 NVIDIA 显卡对应的<a href="https://nvidiageforcedrivers.com/nvidia-geforce-rtx-2070-super-driver-for-linux/">驱动</a>，下载后的文件格式为 <em>.run</em></p></li>
-<li><p>bios 禁用 secure boot，也就是设置为 disable</p>
-<p>如果没有禁用 secure boot,会导致 NVIDIA 驱动安装失败，或者不正常。</p></li>
-<li><p>禁用 nouveau 开源驱动</p>
-<p>编辑 <em>/etc/modprobe.d/blacklist.conf</em> 文件，在最后加入：</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">blacklist nouveau</span></span><br></pre></td></tr></table></figure>
-<p>由于nouveau是在内核中的，还需要更新一下，执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
-<p>之后重启电脑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
-<p>重启后查看禁用是否成功：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
-<p>没有输出代表nouveau被禁用了</p></li>
-<li><p>关闭 GUI 界面，进入命令行模式</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 3</span><br></pre></td></tr></table></figure></li>
-<li><p>安装 NVIDIA 驱动</p>
-<p>如果以前安装过 nvidia 驱动，需要卸载：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get autoremove –purge <span class="string">&quot;*nvidia*&quot;</span></span><br></pre></td></tr></table></figure>
-<p>首先给驱动文件增加可执行权限：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x NVIDIA-Linux-*******.run</span><br></pre></td></tr></table></figure>
-<p>然后执行安装：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo sh ./NVIDIA-Linux-*******.run -no-opengl-files</span><br></pre></td></tr></table></figure>
-<p><strong>安装完成后重启 !!!</strong></p>
-<blockquote>
-<p><strong>–no-opengl-files</strong> 参数必须加否则会循环登录，也就是 loop login</p>
-</blockquote>
-<p>参数介绍：</p>
-<blockquote>
-<p>–no-opengl-files 只安装驱动文件，不安装 OpenGL 文件，这个参数最重要； –no-x-check 安装驱动时不检查 X服务； –no-nouveau-check 安装驱动时不检查 nouveau； 后面两个参数可不加。</p>
-</blockquote></li>
-<li><p>最后切换回 GUI 界面</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo telinit 5</span><br></pre></td></tr></table></figure>
-<p>输入 <code>nvidia-smi</code> 查看驱动安装是否成功</p></li>
-</ol>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233030.png" alt="nvidia-smi"><figcaption aria-hidden="true">nvidia-smi</figcaption>
-</figure>
-<p><strong>最后我装的是 430.50 版本的驱动</strong></p>
-<a id="more"></a>
-<h1 id="显示使用核显计算使用独显">显示使用核显，计算使用独显</h1>
-<blockquote>
-<p>https://forums.developer.nvidia.com/t/ubuntu-18-04-headless-390-intel-igpu-after-prime-select-intel-lost-contact-to-geforce-1050ti/66698</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo prime-select nvidia</span><br></pre></td></tr></table></figure>
-<p>add ‘nogpumanager’ kernel parameter</p>
-<p>create /etc/X11/xorg.conf</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;Device&quot;</span></span><br><span class="line">    Identifier     <span class="string">&quot;intel&quot;</span></span><br><span class="line">    Driver         <span class="string">&quot;modesetting&quot;</span></span><br><span class="line">    BusID          <span class="string">&quot;PCI:0:2:0&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
-<h1 id="安装-cuda-version-10.0">安装 <a href="https://developer.nvidia.com/cuda-toolkit">CUDA</a> (version 10.0)</h1>
-<p><strong>Tensorflow 与 CUDA 有对应关系</strong>，可以参考<a href="https://www.tensorflow.org/install/source#gpu">这里</a>，主要是因为 tensorflow 会调用 <em>usr/local/cuda/lib64</em> 目录下的 <code>.so</code> 文件，我尝试过了，<code>1.14</code>,<code>1.15</code> 版本的 tensorflow 调用的都是 <code>10.0</code> 的 cuda，装错版本会提示 <code>.so</code> 文件找不到</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233031.png" alt="version"><figcaption aria-hidden="true">version</figcaption>
-</figure>
-<p>我要装的是 Tensorflow-gpu 1.14.0，因此我安装 CUDA10.0 和 cuDNN7.4</p>
-<p>下载 CUDA https://developer.nvidia.com/cuda-toolkit-archive</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233032.png" alt="download"><figcaption aria-hidden="true">download</figcaption>
-</figure>
-<p>运行如下命令安装</p>
-<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">sudo <span class="keyword">sh</span> cuda_&lt;<span class="keyword">version</span>&gt;_linux.<span class="keyword">run</span></span><br></pre></td></tr></table></figure>
-<p>安装过程中会有一些选项，<strong>显卡驱动不要装 !!!</strong> 因为之前已经装过了</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233033.png" alt="installer"><figcaption aria-hidden="true">installer</figcaption>
-</figure>
-<p>安装完成输出的 log 会有提示</p>
-<p>最后将cuda添加到系统环境中</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
-<p>检查是否安装成功：</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
-<h1 id="安装-cudnn-version-7.4.2">安装 cudnn (version 7.4.2)</h1>
-<p>下载 <a href="https://developer.nvidia.com/rdp/cudnn-archive#a-collapse742-10">cuDNN v7.4.2 (Dec 14, 2018), for CUDA 10.0</a></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233034.png" alt="cudnn-download"><figcaption aria-hidden="true">cudnn-download</figcaption>
-</figure>
-<p>解压后，会得到一个名为 <em>cuda</em> 的文件夹，将问价拷贝到 cuda 的安装目录下</p>
-<p><strong>注意!!! <em>cuda/lib64</em> 里的文件有链接的结构，如下，不能直接 cp，使用 <code>-a</code> 参数可以保持软链接结构</strong></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233035.png" alt="la"><figcaption aria-hidden="true">la</figcaption>
-</figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp -a cuda/lib64/libcudnn* /usr/<span class="built_in">local</span>/cuda-10.0/lib64/</span><br><span class="line">sudo cp -a cuda/include/cudnn.h /usr/<span class="built_in">local</span>/cuda-10.0/include/</span><br></pre></td></tr></table></figure>
-<p><strong>需要注意下这几个文件的权限！！！</strong></p>
-<h1 id="测试-cuda-是否安装成功">测试 CUDA 是否安装成功</h1>
-<ol type="1">
-<li><p>切换到测试目录下：</p>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cd <span class="regexp">/usr/</span>local<span class="regexp">/cuda-10.0/</span>samples<span class="regexp">/1_Utilities/</span>deviceQuery</span><br></pre></td></tr></table></figure></li>
-<li><p>编译</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo make</span></span><br></pre></td></tr></table></figure></li>
-<li><p>进行测试，运行文件</p>
-<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line"><span class="string">./deviceQuery</span></span><br></pre></td></tr></table></figure>
-<p>会看到类似这种结果：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233036.png" alt="deviceQuery"><figcaption aria-hidden="true">deviceQuery</figcaption>
-</figure></li>
-</ol>
-<h1 id="安装多个版本的-cuda">安装多个版本的 cuda</h1>
-<p>因为 cuda 安装目录下是用软链接的方式实现的，因此我们可以安装多个版本的 cuda，只要将软链接链接到对应的 cuda 就行，如下：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233037.png" alt="cuda"><figcaption aria-hidden="true">cuda</figcaption>
-</figure>
-<p>使用命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rm -rf cuda <span class="comment"># 删除原来的软链接</span></span><br><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/cuda-&lt;version&gt; /usr/<span class="built_in">local</span>/cuda <span class="comment"># 建立新的软链接</span></span><br></pre></td></tr></table></figure>
-<p>注意环境变量的修改，可以将 cuda-<version> 修改为 cuda 这种通用形式</version></p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=<span class="variable">$LD_LIBRARY_PATH</span><span class="symbol">:/usr/local/cuda/lib64</span></span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/cuda/bin</span></span><br><span class="line">export CUDA_HOME=<span class="variable">$CUDA_HOME</span><span class="symbol">:/usr/local/cuda</span></span><br></pre></td></tr></table></figure>
-<p>最后查看当前的 cuda 版本</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">nvcc -V</span></span><br></pre></td></tr></table></figure>
-<p>如果确实软链接修改成功了，环境变量也改好了，版本依旧没有切换，尝试<strong>重启</strong>一下</p>
-<h1 id="安装-tensorflow">安装 tensorflow</h1>
-<p>参考<a href="https://www.tensorflow.org/install/pip">使用 pip 安装 TensorFlow</a></p>
-<h1 id="坑">坑！！！</h1>
-<ol type="1">
-<li><p><code>Could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR</code></p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233038.png" alt="error1"><figcaption aria-hidden="true">error1</figcaption>
-</figure>
-<p>这个报错可能是 tensorflow 和 cuda 版本不符合，但如果已经按照<a href="https://www.tensorflow.org/install/source#gpu">推荐列表</a>里的对应关系安装了 tensorflow 和 cuda，任然这样报错就可能是 tensorflow 占用的显存过多，进程直接被系统 kill 了，因此可以对 tensorflow 的显存进行限制。</p>
-<blockquote>
-<p>参考：http://www.cnblogs.com/darkknightzh/p/6591923.html</p>
-</blockquote>
-<ul>
-<li><p>定量设置显存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=<span class="number">0.7</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) </span><br></pre></td></tr></table></figure>
-<p>在程序开始的地方加上这两行，这样运行TensorFlow程序时，每个使用的GPU中，占用的显存都不超过总显存的0.7。</p></li>
-<li><p>按需设置显存</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gpu_options = tf.GPUOptions(allow_growth=<span class="literal">True</span>)</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))   </span><br></pre></td></tr></table></figure>
-<p>这样设置以后，程序就会按需占用GPU显存。</p></li>
-</ul></li>
-</ol>
-]]></content>
-      <categories>
-        <category>tensorflow</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-        <tag>tensorflow</tag>
       </tags>
   </entry>
   <entry>
@@ -5278,109 +5300,6 @@ Q = \rm{((- imag(ypm(&#39;sp 1 1))) / real(ypm(&#39;sp 1 1)))}
       </tags>
   </entry>
   <entry>
-    <title>SCS in LINC PA</title>
-    <url>/2021/04/03/scs/</url>
-    <content><![CDATA[<p>LINC (Linear amplification with nonlinear components) 是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194755.png" alt="LINC"><figcaption aria-hidden="true">LINC</figcaption>
-</figure>
-<p>LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放大器放大，最后通过组合两路信号获得原始信号的放大后的信号。</p>
-<p>在 LINC 系统中，需要使用到 SCS，其实现可以使用模拟的方案，也可以使用全数字的方案。</p>
-<p>本文记录了全数字 SCS 的实现方法。</p>
-<a id="more"></a>
-<h1 id="基于-cordic-算法的-scs-原理">基于 CORDIC 算法的 SCS 原理</h1>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194756.png" alt="image-20210411155141497"><figcaption aria-hidden="true">image-20210411155141497</figcaption>
-</figure>
-<p>基于 CORDIC 算法的 SCS 原理图如上图所示，基带信号 I Q 经过 <em>CORDIC-V</em> 模块，从笛卡尔转换到极坐标，得到振幅 <span class="math inline">\(A\)</span> 和相位 <span class="math inline">\(\theta\)</span>，振幅 <span class="math inline">\(A\)</span> 经过 <em>DOUBLE CORDIC</em> 模块，进行 <span class="math inline">\(\rm{cos}^{-1}(A/A_{MAX})\)</span> 的运算，得到 <span class="math inline">\(\varphi\)</span>，相当于把振幅信号转为相位信号。然后通过两个 <em>CORDIC-R</em> 模块，分别对 <span class="math inline">\(\theta + \varphi\)</span> 和 <span class="math inline">\(\theta - \varphi\)</span> 做相位到笛卡尔坐标的转换，得到四路调相信号：<span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span>。</p>
-<p>具体计算过程如下：</p>
-<p>假设基带信号 (baseband signal) 为： <span class="math display">\[
-S_b(t)=S_i(t)+jS_q(t)
-\]</span> 则频带信号 (transmitted signal) 可以表示为： <span class="math display">\[
-S(t)=Re\left\{ (S_i(t)+jS_q(t))e^{j\omega _ct} \right\}=A(t)\cos\left(w_{c}t+\theta(t)\right)
-\]</span> <em>DOUBLE CORDIC</em>： <span class="math display">\[
-\phi(t)=\cos^{-1}\left(A(t)/A_{\max}\right)
-\]</span> <em>CORDIC-R</em>： <span class="math display">\[
-S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t)]
-\]</span></p>
-<p><span class="math display">\[
-S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)]
-\]</span></p>
-<p><span class="math display">\[
-S_{2I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)-\phi(t)]
-\]</span></p>
-<p><span class="math display">\[
-S_{2Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)-\phi(t)]
-\]</span></p>
-<p>混频： <span class="math display">\[
-S_1(t)=S_{1I}(t)\rm{cos}(\omega _c t)-S_{1Q}(t)\rm{sin}(\omega _c t)
-\]</span></p>
-<p><span class="math display">\[
-S_2(t)=S_{2I}(t)\rm{cos}(\omega _c t)-S_{2Q}(t)\rm{sin}(\omega _c t)
-\]</span></p>
-<p><span class="math display">\[
-S(t) = S_1(t)+S_2(t)=A(t)\rm{cos}[\omega _c t+\phi(t)]
-\]</span></p>
-<h1 id="scs-的原理图">SCS 的原理图</h1>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194757.png" alt="image-20210411161107543"><figcaption aria-hidden="true">image-20210411161107543</figcaption>
-</figure>
-<p>SCS 原理图如上图所示。其中基带 I Q 信号为 64QAM 信号。为了简化算法实现的复杂度，首先将 I Q 信号变换到第一象限，并记录下 I Q 信号原本的象限，最后在输出的时候做符号调整就可以了。上图红框中将 <span class="math inline">\(\varphi - \pi/2\)</span>，原因是因为在实际的设计过程中发现 <span class="math inline">\(\theta + \varphi\)</span> 会大于 <span class="math inline">\(\pi /2\)</span>，为了避免溢出而将其减了 <span class="math inline">\(\pi /2\)</span>，因此在进行符号调整之前： <span class="math display">\[
-S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t) - \pi/2]
-\]</span></p>
-<p><span class="math display">\[
-S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
-\]</span></p>
-<h1 id="matlab-行为级仿真">Matlab 行为级仿真</h1>
-<p>在进行 MATLAB 仿真时，为了让仿真结果和真实结果更加接近，进行了每一步计算过程都进行了浮点转定点数的操作。</p>
-<h2 id="仿真结果">仿真结果</h2>
-<ol type="1">
-<li><p>64QAM 基带信号：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194758.svg" alt="64QAM基带信号"><figcaption aria-hidden="true">64QAM基带信号</figcaption>
-</figure></li>
-<li><p>64QAM 频带信号：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194759.svg" alt="QAM信号波形"><figcaption aria-hidden="true">QAM信号波形</figcaption>
-</figure></li>
-<li><p>64QAM 星座图：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194800.svg" alt="QAM信号星座图"><figcaption aria-hidden="true">QAM信号星座图</figcaption>
-</figure></li>
-<li><p>对基带信号进行 SCS 运算得到的 <span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span> 信号：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194801.svg" alt="QAM基带信号信号SCS"><figcaption aria-hidden="true">QAM基带信号信号SCS</figcaption>
-</figure></li>
-<li><p>将 SCS 后的基带信号与载波相乘：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194802.svg" alt="QAM信号SCS"><figcaption aria-hidden="true">QAM信号SCS</figcaption>
-</figure>
-<p>可以看到两路信号 S1 和 S2 是两路恒包络的调相信号，说明 SCS 模块实现了将原来的调幅调相信号转为两路恒包络的调相信号。</p></li>
-<li><p>两路信号 S1 和 S2 合成：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194803.svg" alt="QAM信号SCS合成"><figcaption aria-hidden="true">QAM信号SCS合成</figcaption>
-</figure>
-<p>可以看到合成后的信号与原始信号一致，说明在 SCS 的过程中信号的信息没有丢失。</p></li>
-</ol>
-<h2 id="matlab-代码">Matlab 代码</h2>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% main.m</span></span><br><span class="line">clc</span><br><span class="line">clear all</span><br><span class="line">mkdir image</span><br><span class="line"></span><br><span class="line"><span class="comment">% fixed word length and fraction length bits</span></span><br><span class="line">wl = <span class="number">16</span>;</span><br><span class="line">fl_1 = <span class="number">15</span>;</span><br><span class="line">fl_pi = <span class="number">14</span>;</span><br><span class="line"></span><br><span class="line">M=<span class="number">64</span>;</span><br><span class="line">xmax = <span class="number">8</span>;</span><br><span class="line">ymax = <span class="number">8</span>;</span><br><span class="line">Amax = <span class="built_in">sqrt</span>(xmax^<span class="number">2</span> + ymax^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">msg = <span class="number">0</span>:<span class="number">1</span>:<span class="number">63</span>; <span class="comment">%消息信号</span></span><br><span class="line"><span class="comment">% msg = random_msg([0 M-1], M);</span></span><br><span class="line"></span><br><span class="line">ts = <span class="number">0.01</span>; <span class="comment">%抽样时间间隔</span></span><br><span class="line">T = <span class="number">1</span>; <span class="comment">%符号周期</span></span><br><span class="line">t = <span class="number">0</span>:ts:T; <span class="comment">%符号持续时间向量</span></span><br><span class="line">x = <span class="number">0</span>:ts:<span class="built_in">length</span>(msg); <span class="comment">%所有符号的传输时间</span></span><br><span class="line">fc = <span class="number">1</span>; <span class="comment">%载波频率</span></span><br><span class="line">c = <span class="built_in">sqrt</span>(<span class="number">2</span>/T)*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">j</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t); <span class="comment">%载波信号</span></span><br><span class="line">msg_qam = qammod(msg,M).&#x27;; <span class="comment">%基带8-QAM调制</span></span><br><span class="line">tx_i_qam = <span class="built_in">real</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_q_qam = <span class="built_in">imag</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_i_qam= <span class="built_in">reshape</span>(tx_i_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line">tx_q_qam= <span class="built_in">reshape</span>(tx_q_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="comment">% plot(x,tx_i_qam(1:length(x)),x,tx_q_qam(1:length(x)));</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,tx_i_qam(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号波形&#x27;</span>]) </span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;载波振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号波形.svg&#x27;</span>);</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">real</span>(msg_qam),<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">imag</span>(msg_qam))</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;基带振幅&quot;</span>);</span><br><span class="line">tit = [num2str(M) <span class="string">&#x27;QAM基带信号&#x27;</span>];</span><br><span class="line">title(tit); </span><br><span class="line">saveas(gcf, [<span class="string">&#x27;image/&#x27;</span> tit], <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"><span class="comment">% figure(2);</span></span><br><span class="line"><span class="comment">% scatterplot(msg_qam)</span></span><br><span class="line"><span class="comment">% title([num2str(M) &#x27;QAM信号星座图&#x27;])</span></span><br><span class="line"><span class="comment">% xlabel(&quot;同相分量&quot;);ylabel(&quot;正交分量&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-V Cartesian to Polar</span></span><br><span class="line"><span class="comment">% 将 QAM 信号变换到第一象限，并记录下符号</span></span><br><span class="line">[msg_qam_tarns, msg_qam_symbol] = transform(msg_qam);</span><br><span class="line">x_qam = <span class="built_in">real</span>(msg_qam_tarns);</span><br><span class="line">y_qam = <span class="built_in">imag</span>(msg_qam_tarns);</span><br><span class="line"><span class="comment">% Construct signed fixed-point numeric object</span></span><br><span class="line"><span class="comment">% 将 x y 归一化到 [0, 1]</span></span><br><span class="line">x_fixed = sfi(x_qam/xmax, wl, fl_1);</span><br><span class="line">y_fixed = sfi(y_qam/ymax, wl, fl_1);</span><br><span class="line"><span class="comment">% Theta (0, pi/2), r (0, sqrt(2))</span></span><br><span class="line">[Theta,r] = cordiccart2pol(x_fixed, y_fixed);</span><br><span class="line"><span class="comment">% % 将 r 归一化到 (0, 1)</span></span><br><span class="line">r_fixed = sfi(r/<span class="built_in">sqrt</span>(<span class="number">2</span>), wl, fl_1);</span><br><span class="line">Theta_fixed = sfi(Theta, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% DOUBLE CORDIC</span></span><br><span class="line"><span class="comment">% r_fixed (0, 1), Varphi [0, pi/2]</span></span><br><span class="line">Varphi = cordicacos(r_fixed);</span><br><span class="line">Varphi_fixed = sfi(Varphi, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-R Phase to Cartesian</span></span><br><span class="line">Phase_S1 = Theta_fixed + Varphi_fixed - <span class="built_in">pi</span>/<span class="number">2</span>; <span class="comment">% 将 Phase_S1 限制在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S2 = Theta_fixed - Varphi_fixed; <span class="comment">% Phase_S2 在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S1_fixed = sfi(Phase_S1, wl, fl_pi);</span><br><span class="line">Phase_S2_fixed = sfi(Phase_S2, wl, fl_pi);</span><br><span class="line"></span><br><span class="line">S1_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S1_fixed);</span><br><span class="line">S1_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S1_fixed);</span><br><span class="line">S2_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S2_fixed);</span><br><span class="line">S2_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S2_fixed);</span><br><span class="line"></span><br><span class="line"># Signal Adjusment</span><br><span class="line">[S1_I, S1_Q, S2_I ,S2_Q] = Signal_Adjusment_quad(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, msg_qam_symbol);</span><br><span class="line"></span><br><span class="line">tt = <span class="number">1</span>:<span class="number">1</span>:<span class="number">64</span>;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, tt,S1_I, tt,S1_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S_&#123;1I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;1Q&#125;&#x27;</span>)</span><br><span class="line">title(ax1, <span class="string">&quot;QAM基带信号信号SCS S1&quot;</span>)</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, tt,S2_I, tt,S2_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S_&#123;2I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;2Q&#125;&#x27;</span>)</span><br><span class="line">title(ax2, <span class="string">&quot;QAM基带信号信号SCS S2&quot;</span>)</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM基带信号信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 调制</span></span><br><span class="line">S1 = <span class="built_in">real</span>(((S1_I+<span class="number">1</span><span class="built_in">j</span>*S1_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S2 = <span class="built_in">real</span>(((S2_I+<span class="number">1</span><span class="built_in">j</span>*S2_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S1= <span class="built_in">reshape</span>(S1.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S1_I)*<span class="built_in">length</span>(t));</span><br><span class="line">S2= <span class="built_in">reshape</span>(S2.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S2_I)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, x,S1(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S1&#x27;</span>)</span><br><span class="line">title(ax1, [num2str(M) <span class="string">&#x27;QAM信号SCS S1&#x27;</span>]);</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, x,S2(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S2&#x27;</span>)</span><br><span class="line">title(ax2, [num2str(M) <span class="string">&#x27;QAM信号SCS S2&#x27;</span>]);</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line">S = S1 + S2;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,S(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号SCS合成&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS合成&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 星座图</span></span><br><span class="line"><span class="comment">% figure(6)</span></span><br><span class="line">scatterplot(msg_qam);</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号星座图&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;同相分量&quot;</span>);ylabel(<span class="string">&quot;正交分量&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号星座图&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% random_msg.m</span></span><br><span class="line"><span class="comment">% 生成随机序列</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">msg</span> = <span class="title">random_msg</span><span class="params">(range, lenght)</span></span></span><br><span class="line">    <span class="comment">% 首先，初始化随机数生成器，以使本示例中的结果具备可重复性。</span></span><br><span class="line">    rng(<span class="number">0</span>,<span class="string">&#x27;twister&#x27;</span>);</span><br><span class="line">    <span class="comment">% 创建一个 M 个随机值的向量。使用 rand 函数从开区间 (0,M-1) 抽取均匀分布的值。</span></span><br><span class="line">    a = range(<span class="number">1</span>);</span><br><span class="line">    b = range(<span class="number">2</span>);</span><br><span class="line">    r = (b-a).*<span class="built_in">rand</span>(<span class="number">1</span>,lenght) + a;</span><br><span class="line">    msg = <span class="built_in">round</span>(r);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% Signal_Adjusment_quad.m</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[S1_I, S1_Q, S2_I ,S2_Q]</span> = <span class="title">Signal_Adjusment_quad</span><span class="params">(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, symbol)</span></span></span><br><span class="line">    len = <span class="built_in">length</span>(S1_I_tmp);</span><br><span class="line">    S1_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S1_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">1</span>:len</span><br><span class="line">        <span class="keyword">if</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第一象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第二象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">            <span class="comment">% 第三象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">% 第四象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<h1 id="reference">Reference</h1>
-<p>[1] CORDIC-Based Multi-Gb:s Digital Outphasing Modulator for Highly Efficient Millimeter-Wave Transmitters</p>
-<p>[2] A Sub-mW All-Digital Signal Component Separator With Branch Mismatch Compensation for OFDM LINC Transmitters</p>
-<p>[3] A Low Power All-Digital Signal Component Separator for Uneven Multi-Level LINC Systems</p>
-]]></content>
-      <categories>
-        <category>PA</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>单级放大器</title>
     <url>/2020/11/07/single-stage-amplify/</url>
     <content><![CDATA[<p>单级放大器可以分为四种基本类型：</p>
@@ -5587,6 +5506,109 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
       </categories>
       <tags>
         <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SCS in LINC PA</title>
+    <url>/2021/04/03/scs/</url>
+    <content><![CDATA[<p>LINC (Linear amplification with nonlinear components) 是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194755.png" alt="LINC"><figcaption aria-hidden="true">LINC</figcaption>
+</figure>
+<p>LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放大器放大，最后通过组合两路信号获得原始信号的放大后的信号。</p>
+<p>在 LINC 系统中，需要使用到 SCS，其实现可以使用模拟的方案，也可以使用全数字的方案。</p>
+<p>本文记录了全数字 SCS 的实现方法。</p>
+<a id="more"></a>
+<h1 id="基于-cordic-算法的-scs-原理">基于 CORDIC 算法的 SCS 原理</h1>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194756.png" alt="image-20210411155141497"><figcaption aria-hidden="true">image-20210411155141497</figcaption>
+</figure>
+<p>基于 CORDIC 算法的 SCS 原理图如上图所示，基带信号 I Q 经过 <em>CORDIC-V</em> 模块，从笛卡尔转换到极坐标，得到振幅 <span class="math inline">\(A\)</span> 和相位 <span class="math inline">\(\theta\)</span>，振幅 <span class="math inline">\(A\)</span> 经过 <em>DOUBLE CORDIC</em> 模块，进行 <span class="math inline">\(\rm{cos}^{-1}(A/A_{MAX})\)</span> 的运算，得到 <span class="math inline">\(\varphi\)</span>，相当于把振幅信号转为相位信号。然后通过两个 <em>CORDIC-R</em> 模块，分别对 <span class="math inline">\(\theta + \varphi\)</span> 和 <span class="math inline">\(\theta - \varphi\)</span> 做相位到笛卡尔坐标的转换，得到四路调相信号：<span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span>。</p>
+<p>具体计算过程如下：</p>
+<p>假设基带信号 (baseband signal) 为： <span class="math display">\[
+S_b(t)=S_i(t)+jS_q(t)
+\]</span> 则频带信号 (transmitted signal) 可以表示为： <span class="math display">\[
+S(t)=Re\left\{ (S_i(t)+jS_q(t))e^{j\omega _ct} \right\}=A(t)\cos\left(w_{c}t+\theta(t)\right)
+\]</span> <em>DOUBLE CORDIC</em>： <span class="math display">\[
+\phi(t)=\cos^{-1}\left(A(t)/A_{\max}\right)
+\]</span> <em>CORDIC-R</em>： <span class="math display">\[
+S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{2I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)-\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{2Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)-\phi(t)]
+\]</span></p>
+<p>混频： <span class="math display">\[
+S_1(t)=S_{1I}(t)\rm{cos}(\omega _c t)-S_{1Q}(t)\rm{sin}(\omega _c t)
+\]</span></p>
+<p><span class="math display">\[
+S_2(t)=S_{2I}(t)\rm{cos}(\omega _c t)-S_{2Q}(t)\rm{sin}(\omega _c t)
+\]</span></p>
+<p><span class="math display">\[
+S(t) = S_1(t)+S_2(t)=A(t)\rm{cos}[\omega _c t+\phi(t)]
+\]</span></p>
+<h1 id="scs-的原理图">SCS 的原理图</h1>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194757.png" alt="image-20210411161107543"><figcaption aria-hidden="true">image-20210411161107543</figcaption>
+</figure>
+<p>SCS 原理图如上图所示。其中基带 I Q 信号为 64QAM 信号。为了简化算法实现的复杂度，首先将 I Q 信号变换到第一象限，并记录下 I Q 信号原本的象限，最后在输出的时候做符号调整就可以了。上图红框中将 <span class="math inline">\(\varphi - \pi/2\)</span>，原因是因为在实际的设计过程中发现 <span class="math inline">\(\theta + \varphi\)</span> 会大于 <span class="math inline">\(\pi /2\)</span>，为了避免溢出而将其减了 <span class="math inline">\(\pi /2\)</span>，因此在进行符号调整之前： <span class="math display">\[
+S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t) - \pi/2]
+\]</span></p>
+<p><span class="math display">\[
+S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
+\]</span></p>
+<h1 id="matlab-行为级仿真">Matlab 行为级仿真</h1>
+<p>在进行 MATLAB 仿真时，为了让仿真结果和真实结果更加接近，进行了每一步计算过程都进行了浮点转定点数的操作。</p>
+<h2 id="仿真结果">仿真结果</h2>
+<ol type="1">
+<li><p>64QAM 基带信号：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194758.svg" alt="64QAM基带信号"><figcaption aria-hidden="true">64QAM基带信号</figcaption>
+</figure></li>
+<li><p>64QAM 频带信号：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194759.svg" alt="QAM信号波形"><figcaption aria-hidden="true">QAM信号波形</figcaption>
+</figure></li>
+<li><p>64QAM 星座图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194800.svg" alt="QAM信号星座图"><figcaption aria-hidden="true">QAM信号星座图</figcaption>
+</figure></li>
+<li><p>对基带信号进行 SCS 运算得到的 <span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span> 信号：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194801.svg" alt="QAM基带信号信号SCS"><figcaption aria-hidden="true">QAM基带信号信号SCS</figcaption>
+</figure></li>
+<li><p>将 SCS 后的基带信号与载波相乘：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194802.svg" alt="QAM信号SCS"><figcaption aria-hidden="true">QAM信号SCS</figcaption>
+</figure>
+<p>可以看到两路信号 S1 和 S2 是两路恒包络的调相信号，说明 SCS 模块实现了将原来的调幅调相信号转为两路恒包络的调相信号。</p></li>
+<li><p>两路信号 S1 和 S2 合成：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194803.svg" alt="QAM信号SCS合成"><figcaption aria-hidden="true">QAM信号SCS合成</figcaption>
+</figure>
+<p>可以看到合成后的信号与原始信号一致，说明在 SCS 的过程中信号的信息没有丢失。</p></li>
+</ol>
+<h2 id="matlab-代码">Matlab 代码</h2>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% main.m</span></span><br><span class="line">clc</span><br><span class="line">clear all</span><br><span class="line">mkdir image</span><br><span class="line"></span><br><span class="line"><span class="comment">% fixed word length and fraction length bits</span></span><br><span class="line">wl = <span class="number">16</span>;</span><br><span class="line">fl_1 = <span class="number">15</span>;</span><br><span class="line">fl_pi = <span class="number">14</span>;</span><br><span class="line"></span><br><span class="line">M=<span class="number">64</span>;</span><br><span class="line">xmax = <span class="number">8</span>;</span><br><span class="line">ymax = <span class="number">8</span>;</span><br><span class="line">Amax = <span class="built_in">sqrt</span>(xmax^<span class="number">2</span> + ymax^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">msg = <span class="number">0</span>:<span class="number">1</span>:<span class="number">63</span>; <span class="comment">%消息信号</span></span><br><span class="line"><span class="comment">% msg = random_msg([0 M-1], M);</span></span><br><span class="line"></span><br><span class="line">ts = <span class="number">0.01</span>; <span class="comment">%抽样时间间隔</span></span><br><span class="line">T = <span class="number">1</span>; <span class="comment">%符号周期</span></span><br><span class="line">t = <span class="number">0</span>:ts:T; <span class="comment">%符号持续时间向量</span></span><br><span class="line">x = <span class="number">0</span>:ts:<span class="built_in">length</span>(msg); <span class="comment">%所有符号的传输时间</span></span><br><span class="line">fc = <span class="number">1</span>; <span class="comment">%载波频率</span></span><br><span class="line">c = <span class="built_in">sqrt</span>(<span class="number">2</span>/T)*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">j</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t); <span class="comment">%载波信号</span></span><br><span class="line">msg_qam = qammod(msg,M).&#x27;; <span class="comment">%基带8-QAM调制</span></span><br><span class="line">tx_i_qam = <span class="built_in">real</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_q_qam = <span class="built_in">imag</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_i_qam= <span class="built_in">reshape</span>(tx_i_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line">tx_q_qam= <span class="built_in">reshape</span>(tx_q_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="comment">% plot(x,tx_i_qam(1:length(x)),x,tx_q_qam(1:length(x)));</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,tx_i_qam(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号波形&#x27;</span>]) </span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;载波振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号波形.svg&#x27;</span>);</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">real</span>(msg_qam),<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">imag</span>(msg_qam))</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;基带振幅&quot;</span>);</span><br><span class="line">tit = [num2str(M) <span class="string">&#x27;QAM基带信号&#x27;</span>];</span><br><span class="line">title(tit); </span><br><span class="line">saveas(gcf, [<span class="string">&#x27;image/&#x27;</span> tit], <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"><span class="comment">% figure(2);</span></span><br><span class="line"><span class="comment">% scatterplot(msg_qam)</span></span><br><span class="line"><span class="comment">% title([num2str(M) &#x27;QAM信号星座图&#x27;])</span></span><br><span class="line"><span class="comment">% xlabel(&quot;同相分量&quot;);ylabel(&quot;正交分量&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-V Cartesian to Polar</span></span><br><span class="line"><span class="comment">% 将 QAM 信号变换到第一象限，并记录下符号</span></span><br><span class="line">[msg_qam_tarns, msg_qam_symbol] = transform(msg_qam);</span><br><span class="line">x_qam = <span class="built_in">real</span>(msg_qam_tarns);</span><br><span class="line">y_qam = <span class="built_in">imag</span>(msg_qam_tarns);</span><br><span class="line"><span class="comment">% Construct signed fixed-point numeric object</span></span><br><span class="line"><span class="comment">% 将 x y 归一化到 [0, 1]</span></span><br><span class="line">x_fixed = sfi(x_qam/xmax, wl, fl_1);</span><br><span class="line">y_fixed = sfi(y_qam/ymax, wl, fl_1);</span><br><span class="line"><span class="comment">% Theta (0, pi/2), r (0, sqrt(2))</span></span><br><span class="line">[Theta,r] = cordiccart2pol(x_fixed, y_fixed);</span><br><span class="line"><span class="comment">% % 将 r 归一化到 (0, 1)</span></span><br><span class="line">r_fixed = sfi(r/<span class="built_in">sqrt</span>(<span class="number">2</span>), wl, fl_1);</span><br><span class="line">Theta_fixed = sfi(Theta, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% DOUBLE CORDIC</span></span><br><span class="line"><span class="comment">% r_fixed (0, 1), Varphi [0, pi/2]</span></span><br><span class="line">Varphi = cordicacos(r_fixed);</span><br><span class="line">Varphi_fixed = sfi(Varphi, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-R Phase to Cartesian</span></span><br><span class="line">Phase_S1 = Theta_fixed + Varphi_fixed - <span class="built_in">pi</span>/<span class="number">2</span>; <span class="comment">% 将 Phase_S1 限制在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S2 = Theta_fixed - Varphi_fixed; <span class="comment">% Phase_S2 在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S1_fixed = sfi(Phase_S1, wl, fl_pi);</span><br><span class="line">Phase_S2_fixed = sfi(Phase_S2, wl, fl_pi);</span><br><span class="line"></span><br><span class="line">S1_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S1_fixed);</span><br><span class="line">S1_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S1_fixed);</span><br><span class="line">S2_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S2_fixed);</span><br><span class="line">S2_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S2_fixed);</span><br><span class="line"></span><br><span class="line"># Signal Adjusment</span><br><span class="line">[S1_I, S1_Q, S2_I ,S2_Q] = Signal_Adjusment_quad(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, msg_qam_symbol);</span><br><span class="line"></span><br><span class="line">tt = <span class="number">1</span>:<span class="number">1</span>:<span class="number">64</span>;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, tt,S1_I, tt,S1_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S_&#123;1I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;1Q&#125;&#x27;</span>)</span><br><span class="line">title(ax1, <span class="string">&quot;QAM基带信号信号SCS S1&quot;</span>)</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, tt,S2_I, tt,S2_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S_&#123;2I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;2Q&#125;&#x27;</span>)</span><br><span class="line">title(ax2, <span class="string">&quot;QAM基带信号信号SCS S2&quot;</span>)</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM基带信号信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 调制</span></span><br><span class="line">S1 = <span class="built_in">real</span>(((S1_I+<span class="number">1</span><span class="built_in">j</span>*S1_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S2 = <span class="built_in">real</span>(((S2_I+<span class="number">1</span><span class="built_in">j</span>*S2_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S1= <span class="built_in">reshape</span>(S1.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S1_I)*<span class="built_in">length</span>(t));</span><br><span class="line">S2= <span class="built_in">reshape</span>(S2.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S2_I)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, x,S1(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S1&#x27;</span>)</span><br><span class="line">title(ax1, [num2str(M) <span class="string">&#x27;QAM信号SCS S1&#x27;</span>]);</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, x,S2(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S2&#x27;</span>)</span><br><span class="line">title(ax2, [num2str(M) <span class="string">&#x27;QAM信号SCS S2&#x27;</span>]);</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line">S = S1 + S2;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,S(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号SCS合成&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS合成&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 星座图</span></span><br><span class="line"><span class="comment">% figure(6)</span></span><br><span class="line">scatterplot(msg_qam);</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号星座图&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;同相分量&quot;</span>);ylabel(<span class="string">&quot;正交分量&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号星座图&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% random_msg.m</span></span><br><span class="line"><span class="comment">% 生成随机序列</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">msg</span> = <span class="title">random_msg</span><span class="params">(range, lenght)</span></span></span><br><span class="line">    <span class="comment">% 首先，初始化随机数生成器，以使本示例中的结果具备可重复性。</span></span><br><span class="line">    rng(<span class="number">0</span>,<span class="string">&#x27;twister&#x27;</span>);</span><br><span class="line">    <span class="comment">% 创建一个 M 个随机值的向量。使用 rand 函数从开区间 (0,M-1) 抽取均匀分布的值。</span></span><br><span class="line">    a = range(<span class="number">1</span>);</span><br><span class="line">    b = range(<span class="number">2</span>);</span><br><span class="line">    r = (b-a).*<span class="built_in">rand</span>(<span class="number">1</span>,lenght) + a;</span><br><span class="line">    msg = <span class="built_in">round</span>(r);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% Signal_Adjusment_quad.m</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[S1_I, S1_Q, S2_I ,S2_Q]</span> = <span class="title">Signal_Adjusment_quad</span><span class="params">(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, symbol)</span></span></span><br><span class="line">    len = <span class="built_in">length</span>(S1_I_tmp);</span><br><span class="line">    S1_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S1_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">1</span>:len</span><br><span class="line">        <span class="keyword">if</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第一象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第二象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">            <span class="comment">% 第三象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">% 第四象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h1 id="reference">Reference</h1>
+<p>[1] CORDIC-Based Multi-Gb:s Digital Outphasing Modulator for Highly Efficient Millimeter-Wave Transmitters</p>
+<p>[2] A Sub-mW All-Digital Signal Component Separator With Branch Mismatch Compensation for OFDM LINC Transmitters</p>
+<p>[3] A Low Power All-Digital Signal Component Separator for Uneven Multi-Level LINC Systems</p>
+]]></content>
+      <categories>
+        <category>PA</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PA</tag>
       </tags>
   </entry>
   <entry>
@@ -6044,6 +6066,72 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>xrdp</title>
+    <url>/2021/04/02/xrdp/</url>
+    <content><![CDATA[<blockquote>
+<p>reference：</p>
+<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
+<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
+</blockquote>
+<h1 id="安装-xrdp">安装 Xrdp</h1>
+<p>安装 xfce 桌面环境：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
+<p>或者安装 xubuntu 环境：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xubuntu-desktop</span><br></pre></td></tr></table></figure>
+<p>再安装 xrdp：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
+<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
+<p>重启 Xrdp 服务，使得修改生效：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置xrdp"><del>配置Xrdp</del></h1>
+<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
+<p><code>/etc/xrdp/xrdp.ini</code></p>
+<p>在文件末尾添加以下行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
+<p>保存文件并重新启动Xrdp服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置-xrdpnew">配置 Xrdp（new）</h1>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo xfce4-session &gt; ~/.xsession</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
+<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
+<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
+<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
+<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
+<p>在 client 上运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
+<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
+<p>在 client 上连接的时候服务器地址填写：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
+<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
+<p>解决方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
+<p>如果还是黑屏，重启一下试试。</p>
+<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
+<blockquote>
+<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
+</blockquote>
+<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+<h1 id="问题3色彩管理设备-color-managed-device-弹窗">问题3：“色彩管理设备” / “color managed device” 弹窗</h1>
+<blockquote>
+<p>https://blog.csdn.net/wu_weijie/article/details/108481456</p>
+</blockquote>
+<p>创建文件 <em>/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla</em> 并写入内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Allow Colord all Users]</span><br><span class="line">Identity=unix-user:*</span><br><span class="line">Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile</span><br><span class="line">ResultAny=no</span><br><span class="line">ResultInactive=no</span><br><span class="line">ResultActive=yes</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ZFS on Ubuntu</title>
     <url>/2021/04/02/zfs/</url>
     <content><![CDATA[<h1 id="安装">安装</h1>
@@ -6120,11 +6208,59 @@ f=\frac{1}{2\pi\sqrt{LC}}
 <p>https://www.howtoing.com/how-to-use-snapshots-clones-and-replication-in-zfs-on-linux</p>
 <p>https://docs.oracle.com/cd/E26926_01/html/E25826/gbchp.html</p>
 </blockquote>
+<ul>
+<li><p>创建快照</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs snapshot tank/home/matt@friday</span><br></pre></td></tr></table></figure>
+<p>创建一个 <code>tank/home/matt</code> 的快照，其名称为 <code>friday</code>。</p>
+<p><code>-r</code> 选项可为所有后代文件系统创建快照。</p></li>
+<li><p>列出快照</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs list -t snapshot</span><br></pre></td></tr></table></figure></li>
+<li><p>回滚快照</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs rollback tank/home/matt@tuesday</span><br></pre></td></tr></table></figure>
+<p>将 <code>tank/home/matt</code> 文件系统回滚到 <code>tuesday</code> 快照</p>
+<p><strong>要回滚到早期快照，必须销毁所有的中间快照。可以通过指定 <code>-r</code> 选项销毁早期的快照。</strong></p></li>
+<li><p>确定 ZFS 快照的差异 (<code>zfs diff</code>)</p>
+<p>可以使用 <code>zfs diff</code> 命令确定 ZFS 快照的差异。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs diff tank/home/tim@snap1 tank/home/tim@snap2</span><br></pre></td></tr></table></figure></li>
+<li><p>删除快照</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs destory &lt;-r&gt; &lt;snapshot name&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>删除多个快照 <a href="https://qastack.cn/server/340837/how-to-delete-all-but-last-n-zfs-snapshots">ref</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs list -t snapshot -o name | grep ^tank@Auto | tac | tail -n +16 | xargs -n 1 zfs destroy -r </span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>zfs list -t snaphot -o name</code>输出快照列表（仅限<code>zfs list -t snaphot -o name</code></li>
+<li>通过<code>grep ^tank@Auto</code>只保留那些与<code>tank@Auto</code>匹配的文件</li>
+<li>用<code>tac</code>反转列表（先前从最旧到最新）</li>
+<li>将输出限制为第16个最早的结果，并跟随<code>tail -n +16</code></li>
+<li>然后用<code>xargs -n 1 zfs destroy -vr</code></li>
+</ul>
+<p>按照相反的顺序删除快照据说更有效率。</p>
+<p>或按照与创build相反的顺序进行sorting</p>
+<figure class="highlight coq"><table><tr><td class="code"><pre><span class="line">zfs list -t snapshot -o name -S creation | <span class="type">grep</span> ^tank@Auto | <span class="type">tail</span> -n +<span class="number">16</span> | <span class="type">xargs</span> -n <span class="number">1</span> zfs destroy -vr </span><br></pre></td></tr></table></figure>
+<p>使用<code>...|xargs -n 1 echo</code>testing它</p></li>
+</ul>
 <h1 id="自动快照">自动快照</h1>
 <p>https://blog.vgot.net/archives/zfsnap.html</p>
 <p>https://serverfault.com/questions/855895/how-to-set-the-number-of-snapshots-zfs-auto-snapshot-should-retain</p>
 <p>http://knowledgebase.45drives.com/kb/setting-up-zfs-auto-snapshots-in-linux/</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zfs-auto-snapshot</span><br></pre></td></tr></table></figure>
+<p>https://www.yafa.moe/post/use-zfs-backup-system/#%E5%AE%9A%E6%9C%9F%E5%A4%87%E4%BB%BD</p>
+<ol type="1">
+<li><p>安装 <a href="https://github.com/zfsonlinux/zfs-auto-snapshot">zfs-auto-snapshot</a></p>
+<p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zfs-auto-snapshot</span><br></pre></td></tr></table></figure></p></li>
+<li><p>默认情况下，它每15分钟为每个数据集创建一个快照，并保存长达1年的快照。但是，您可以通过将 <code>com.sun:auto-snapshot</code> 数据集属性设置为 <code>false</code> 来禁用特定数据集的快照：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot=<span class="literal">false</span> tank/tmp</span><br></pre></td></tr></table></figure></li>
+<li><p>您还可以使用 <code>com.sun:auto-snapshot:...</code> 属性来调整自动快照行为。例如，每天为 <code>tank/backup</code> 数据集保存快照31天：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot=<span class="literal">true</span> tank/backup</span><br><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot:monthly=<span class="literal">false</span> tank/backup</span><br><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot:weekly=<span class="literal">false</span> tank/backup</span><br><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot:daily=<span class="literal">true</span> tank/backup</span><br><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot:hourly=<span class="literal">false</span> tank/backup</span><br><span class="line">sudo zfs <span class="built_in">set</span> com.sun:auto-snapshot:frequent=<span class="literal">false</span> tank/backup</span><br></pre></td></tr></table></figure>
+<p>获取 <code>com.sun:auto-snapshot:...</code> 属性：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zfs get com.sun:auto-snapshot &lt;name&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>默认情况下，脚本保存：</p>
+<ul>
+<li>每15分钟快照一次，保留4个快照</li>
+<li>每小时每小时快照，保留24个快照</li>
+<li>每天的快照，保留31个快照</li>
+<li>每周每周快照，保留7个快照</li>
+<li>每月每月快照，保留12个快照</li>
+</ul></li>
+</ol>
 <h1 id="备份整个系统恢复"><del>备份整个系统&amp;恢复</del></h1>
 <blockquote>
 <p>https://www.thegeekdiary.com/how-to-backup-and-restore-zfs-root-pool-in-solaris-10/</p>
@@ -6134,72 +6270,17 @@ f=\frac{1}{2\pi\sqrt{LC}}
 <p>https://wiki2.xbits.net:4430/storage:zfs:zfs%E6%89%8B%E5%86%8C#zfs_send_receive</p>
 <p>https://aws.amazon.com/cn/blogs/china/architecture-and-practice-of-shared-storage-system-based-on-zfs-for-eda-scenario/</p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>xrdp</title>
-    <url>/2021/04/02/xrdp/</url>
-    <content><![CDATA[<blockquote>
-<p>reference：</p>
-<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
-<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
-</blockquote>
-<h1 id="安装-xrdp">安装 Xrdp</h1>
-<p>安装 xfce 桌面环境：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
-<p>或者安装 xubuntu 环境：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xubuntu-desktop</span><br></pre></td></tr></table></figure>
-<p>再安装 xrdp：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
-<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
-<p>重启 Xrdp 服务，使得修改生效：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
-<h1 id="配置xrdp"><del>配置Xrdp</del></h1>
-<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
-<p><code>/etc/xrdp/xrdp.ini</code></p>
-<p>在文件末尾添加以下行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
-<p>保存文件并重新启动Xrdp服务：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
-<h1 id="配置-xrdpnew">配置 Xrdp（new）</h1>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo xfce4-session &gt; ~/.xsession</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
-<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
-<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
-<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
-<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
-<p>在 client 上运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
-<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
-<p>在 client 上连接的时候服务器地址填写：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
-<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
-<p>解决方法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
-<p>如果还是黑屏，重启一下试试。</p>
-<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
+<h1 id="迁移">迁移</h1>
 <blockquote>
-<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
+<p>Ref: https://docs.oracle.com/cd/E24847_01/html/819-7065/gbchy.html</p>
 </blockquote>
-<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
-<h1 id="问题3色彩管理设备-color-managed-device-弹窗">问题3：“色彩管理设备” / “color managed device” 弹窗</h1>
-<blockquote>
-<p>https://blog.csdn.net/wu_weijie/article/details/108481456</p>
-</blockquote>
-<p>创建文件 <em>/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla</em> 并写入内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Allow Colord all Users]</span><br><span class="line">Identity=unix-user:*</span><br><span class="line">Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile</span><br><span class="line">ResultAny=no</span><br><span class="line">ResultInactive=no</span><br><span class="line">ResultActive=yes</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>弹出</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zpool <span class="built_in">export</span> tank</span><br></pre></td></tr></table></figure></li>
+<li><p>导入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zpool import <span class="comment"># 查看可导入的 pool，实际上不会执行任何操作</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">zpool import &lt;pool_name&gt; <span class="comment"># 导入 pool</span></span><br></pre></td></tr></table></figure></li>
+</ul>
 ]]></content>
       <categories>
         <category>GEEK</category>
@@ -6741,6 +6822,35 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>解决 Altium Designer 卡死问题</title>
+    <url>/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
+<!--more--->
+<p>目前网上主要有两种解决方案如下：</p>
+<h1 id="禁止-ad-自动联网">1. 禁止 AD 自动联网</h1>
+<h2 id="第一步关闭-ad-自动更新">第一步：关闭 AD 自动更新</h2>
+<p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 "No,…”，如下图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173721.jpg" alt="ad1"><figcaption aria-hidden="true">ad1</figcaption>
+</figure>
+<p>在 System -&gt; Installation 的 "Check frequency” 改为 “Never”，如下图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173722.jpg" alt="ad2"><figcaption aria-hidden="true">ad2</figcaption>
+</figure>
+<h2 id="第二步设置防火墙禁止-ad-联网">第二步：设置防火墙，禁止 AD 联网</h2>
+<p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
+<h1 id="删除多余的库">2. 删除多余的库</h1>
+<p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
+]]></content>
+      <categories>
+        <category>Altium-Designer</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>Altium-Designer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设置ssh通过秘钥登录</title>
     <url>/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/</url>
     <content><![CDATA[<p>无论是个人的 VPS 还是企业允许公网访问的服务器，如果开放 22 端口的 SSH 密码登录验证方式，被众多黑客暴力猜解捅破菊花也可能是经常发生的惨剧。企业可以通过防火墙来做限制，普通用户也可能借助修改 22 端口和强化弱口令等方式防护，但目前相对安全和简单的方案则是让 SSH 使用密钥登录并禁止口令登录。</p>
@@ -6798,35 +6908,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决 Altium Designer 卡死问题</title>
-    <url>/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
-<!--more--->
-<p>目前网上主要有两种解决方案如下：</p>
-<h1 id="禁止-ad-自动联网">1. 禁止 AD 自动联网</h1>
-<h2 id="第一步关闭-ad-自动更新">第一步：关闭 AD 自动更新</h2>
-<p>点击右上角的设置小齿轮，然后在 System-&gt; Account Management 中改为 "No,…”，如下图：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727173721.jpg" alt="ad1"><figcaption aria-hidden="true">ad1</figcaption>
-</figure>
-<p>在 System -&gt; Installation 的 "Check frequency” 改为 “Never”，如下图：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727173722.jpg" alt="ad2"><figcaption aria-hidden="true">ad2</figcaption>
-</figure>
-<h2 id="第二步设置防火墙禁止-ad-联网">第二步：设置防火墙，禁止 AD 联网</h2>
-<p>这步就是设置防火墙禁止 AD 软件联网，方法比较简单，参考：<a href="https://blog.csdn.net/qq_23957035/article/details/82492093">禁止Altium designer（其他软件同样适用）联网的配置操作</a></p>
-<h1 id="删除多余的库">2. 删除多余的库</h1>
-<p>这个方法的思路在于 AD 有时候库过多导致打开的时间过长，个人觉得用处不大。参考：<a href="https://www.bilibili.com/read/cv3488833/">Altium教程：AD中pcb文件和库文件libraries卡死解决办法</a></p>
-]]></content>
-      <categories>
-        <category>Altium-Designer</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>Altium-Designer</tag>
       </tags>
   </entry>
   <entry>
