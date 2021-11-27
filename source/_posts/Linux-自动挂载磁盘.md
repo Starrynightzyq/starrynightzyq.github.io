@@ -103,6 +103,48 @@ description:
      sudo blkid
      ~~~
 
-     
-
    
+# 自动挂载 smb
+
+> ref：https://gythialy.github.io/How-to-Mount-a-SMB-Share-in-Ubuntu/
+
+## 临时挂载
+
+1. 安装 cifs-utils
+
+   ~~~bash
+   sudo apt-get install cifs-utils
+   ~~~
+
+2. 挂载
+
+   ~~~bash
+   sudo mount -t cifs //xx.xx.xx.x/share /mnt -o username=xx,password=xx,vers=1.0
+   ~~~
+
+## 开机自动挂载
+
+1. 创建一个挂载点
+
+   ```
+   sudo mkdir /mnt/local_share
+   ```
+
+2. 创建文件保存 *~/.smbcredentials* 来保存 SMB 用户名和密码
+
+   ```
+   username=smb_share
+   password=share_password
+   ```
+
+3. 在 */etc/fstab* 最后添加配置实现自动挂载
+
+   ```
+   # /etc/fstab
+   /$smb_server/share /mnt/local_share cifs credentials=/home/$user/.smbcredentials,uid=1000,gid=1000,iocharset=utf8 0 0
+   ```
+
+   > PS：`$smb_server` 为 SMB 服务器地址，`$user` 为当前用户名，`uid/gid` 为当前用户的 `uid` 和 `gid`，可以通过 `id $(whoami)` 查看
+
+4. 通过 `mount -a` 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。
+
