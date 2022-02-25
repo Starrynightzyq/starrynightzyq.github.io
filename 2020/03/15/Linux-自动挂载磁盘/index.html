@@ -279,14 +279,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -351,15 +351,24 @@
 <h2 id="开机自动挂载">开机自动挂载</h2></li>
 <li><p>创建一个挂载点</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir <span class="regexp">/mnt/</span>local_share</span><br></pre></td></tr></table></figure></li>
-<li><p>创建文件保存 <em>~/.smbcredentials</em> 来保存 SMB 用户名和密码</p>
+<li><p>创建文件保存 <em>~/.smbcredentials</em> 来保存 SMB 用户名和密码</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">username</span>=smb_share</span><br><span class="line"><span class="attr">password</span>=share_password</span><br></pre></td></tr></table></figure></li>
-<li><p>在 <em>/etc/fstab</em> 最后添加配置实现自动挂载</p>
+<li><p>在 <em>/etc/fstab</em> 最后添加配置实现自动挂载</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /etc/fstab</span></span><br><span class="line"><span class="regexp">/$smb_server/</span>share <span class="regexp">/mnt/</span>local_share cifs credentials=<span class="regexp">/home/</span><span class="variable">$user</span>/.smbcredentials,uid=<span class="number">1000</span>,gid=<span class="number">1000</span>,iocharset=utf8 <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>PS：<code>$smb_server</code> 为 SMB 服务器地址，<code>$user</code> 为当前用户名，<code>uid/gid</code> 为当前用户的 <code>uid</code> 和 <code>gid</code>，可以通过 <code>id $(whoami)</code> 查看</p>
 </blockquote></li>
-<li><p>通过 <code>mount -a</code> 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。</p></li>
+<li><p>通过 <code>mount -a</code> 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。</p></li>
 </ol>
+<h1 id="挂载-nfs">挂载 NFS</h1>
+<p>首先需要安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nfs-common</span><br></pre></td></tr></table></figure>
+<h2 id="临时挂载-1">临时挂载</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /nfs/general</span><br><span class="line">sudo mount nfs_ip:/var/nfs/general /nfs/general</span><br></pre></td></tr></table></figure>
+<h2 id="开机自动挂载-1">开机自动挂载</h2>
+<p>编辑 <em>/etc/fstab</em>，在最后添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nfs_ip:/var/nfs/general /nfs/general nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</span><br></pre></td></tr></table></figure>
+<p>然后通过 <code>mount -a</code> 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。</p>
 
     </div>
 
@@ -473,7 +482,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E7%82%B9%E7%9B%AE%E5%BD%95%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">挂载点目录简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="nav-number">2.</span> <span class="nav-text">挂载分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD-smb"><span class="nav-number">3.</span> <span class="nav-text">自动挂载 smb</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E6%8C%82%E8%BD%BD"><span class="nav-number">3.1.</span> <span class="nav-text">临时挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD"><span class="nav-number">3.2.</span> <span class="nav-text">开机自动挂载</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E7%82%B9%E7%9B%AE%E5%BD%95%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">挂载点目录简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="nav-number">2.</span> <span class="nav-text">挂载分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD-smb"><span class="nav-number">3.</span> <span class="nav-text">自动挂载 smb</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E6%8C%82%E8%BD%BD"><span class="nav-number">3.1.</span> <span class="nav-text">临时挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD"><span class="nav-number">3.2.</span> <span class="nav-text">开机自动挂载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD-nfs"><span class="nav-number">4.</span> <span class="nav-text">挂载 NFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E6%8C%82%E8%BD%BD-1"><span class="nav-number">4.1.</span> <span class="nav-text">临时挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD-1"><span class="nav-number">4.2.</span> <span class="nav-text">开机自动挂载</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -554,7 +563,7 @@
 <div class="copyright">
   
   &copy; 2018 – 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -563,12 +572,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">233k</span>
+    <span title="站点总字数">238k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:32</span>
+    <span title="站点阅读时长">3:36</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.3.0
   </div>
