@@ -1,6 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Cadence ASM Tutorial</title>
+    <url>/2020/12/16/CadenceASMTutorial/</url>
+    <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
+<a id="more"></a>
+<blockquote>
+<p>INCISIVE152 的安装可以参考 https://blog.csdn.net/yy345730585/article/details/90407408</p>
+</blockquote>
+<h1 id="初始化设置">初始化设置</h1>
+<p>在打开 cadence 的文件夹下面需要新建一个‘<em>hdl.var</em>’文件，内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">softinclude <span class="variable">$INCISIVDIR</span>/tools/inca/files/hdl.var</span><br><span class="line">define ams</span><br><span class="line">define NCVLOGOPTS -linedebug</span><br><span class="line">define VIEW_MAP (<span class="variable">$VIEW_MAP</span>, .vs =&gt; shell)</span><br></pre></td></tr></table></figure>
+<p>其中 <em>$INCISIVDIR</em> 是 <strong>Cadence INCISIV</strong> 的安装路径。</p>
+<p>需要在文件‘<em>cds.lib</em>’中加入一行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SOFTINCLUDE <span class="variable">$INCISIVDIR</span>/tools/inca/files/cds.lib</span><br></pre></td></tr></table></figure>
+<h1 id="verilog-a-设计-以理想-dac-为例">Verilog-A 设计 — 以理想 DAC 为例</h1>
+<h2 id="ieadl_dac-veriloga-cellview"><em>ieadl_dac (verilogA cellview)</em></h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174104.png" alt="ieadl_dac" style="zoom:50%;"></p>
+<p>首先创建一个新的 Library 叫做 ‘<em>AMS_Tutorial</em>’。然后创建一个 <strong>verilogA</strong> cellview 叫做 ‘<em>ieadl_dac</em>’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">// VerilogA for AMS_Tutorial, ideal_dac, veriloga</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> ideal_dac(in, agnd, out);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line"><span class="keyword">input</span> agnd;</span><br><span class="line"><span class="keyword">output</span> out;</span><br><span class="line">electrical [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line">electrical agnd;</span><br><span class="line">electrical out;</span><br><span class="line"></span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> logic_thresh = <span class="number">2</span><span class="variable">.5</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> full_scale = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> trise = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> tfall = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"></span><br><span class="line"><span class="keyword">real</span> code, delta;</span><br><span class="line"><span class="keyword">real</span> pow2[<span class="number">11</span>:<span class="number">0</span>];</span><br><span class="line"><span class="keyword">integer</span> i;</span><br><span class="line"></span><br><span class="line">analog <span class="keyword">begin</span></span><br><span class="line">    @(initial_step) <span class="keyword">begin</span></span><br><span class="line">        pow2[<span class="number">0</span>] = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= <span class="number">11</span>; i = i+<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">            pow2[i] = <span class="number">2</span><span class="variable">.0</span> * pow2[i-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">end</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">    <span class="keyword">generate</span> j (<span class="number">10</span>,<span class="number">0</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (V(in[j]) &lt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">            delta = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span> </span><br><span class="line">            delta = pow2[j];</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        code = code + delta;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (V(in[<span class="number">10</span>]) &gt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">        code = code - pow2[<span class="number">11</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = full_scale * code / pow2[<span class="number">10</span>];</span><br><span class="line">    V(out) &lt;+ V(agnd) + transition(code, <span class="number">0</span> , trise, tfall);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h2 id="dac_driver-verilog-cellview"><em>dac_driver (verilog cellview)</em></h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174132.png" alt="dac_driver" style="zoom:50%;"></p>
+<p>然后创建一个 <strong>verilog</strong> cellview 叫做 ‘<em>dac_driver</em>’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog HDL for &quot;AMS_Tutorial&quot;, &quot;dac_driver&quot; &quot;functional&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> dac_driver (word_out);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">output</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line">    <span class="keyword">reg</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        word_out = <span class="number">12&#x27;h000</span>;</span><br><span class="line">        #<span class="number">20480</span> <span class="built_in">$finish</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> #<span class="number">5</span> word_out = word_out + <span class="number">1&#x27;b1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h2 id="interconnect-elements">interconnect elements</h2>
+<p>由于 <em>dac_driver</em> 是一个 Verilog 的 cellview，其输出是数字量，而 <em>ieadl_dac</em> 是一个 verilogA 的 cellview，其输入是模拟量，因此需要 interconnect elements 来进行数字量和模拟量之间的转换。AMS-Designer 可以自动创建 interconnect elements，不过自己来实现这个连接器，连接器应该有两种形式，分别是数字量到模拟量的转换和模拟量到数字量的转换。</p>
+<h3 id="a_d-verilogams-cellview"><em>a_d (VerilogAMS cellview)</em></h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174149.png" alt="a_d" style="zoom:50%;"></p>
+<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘a_d’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;a_d&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule a_d (A, D);</span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vh = <span class="number">4</span>; <span class="comment">// minimum voltage of a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vl = <span class="number">1</span>; <span class="comment">// maximum voltage of a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> c = <span class="number">20</span>f; <span class="comment">// input capacitance (F) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dt = <span class="number">1</span>m; <span class="comment">// time in x region before x is produced (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dv = <span class="number">0</span><span class="variable">.5</span>; <span class="comment">// voltage between threshold and x region (V)</span></span><br><span class="line">    <span class="keyword">input</span> A; </span><br><span class="line">    <span class="keyword">output</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">reg</span> D; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vlx = vl + dv; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vhx = vh - dv; </span><br><span class="line">    <span class="keyword">reg</span> inXregion;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vh)) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vl - V(A))) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vhx - V(A))) inXregion = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vlx)) inXregion = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> inXregion) <span class="keyword">begin</span> : XRegionDelay </span><br><span class="line">        <span class="variable">#(dt/1.0n)</span> <span class="comment">// calculate how many time units are equal to the dt time</span></span><br><span class="line">        D = <span class="number">1&#x27;bx</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> inXregion) <span class="keyword">disable</span> XRegionDelay;</span><br><span class="line"></span><br><span class="line">    analog I(A) &lt;+ c*ddt(V(A));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h3 id="d_a-verilogams-cellview"><em>d_a (VerilogAMS cellview)</em></h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174202.png" alt="d_a" style="zoom:50%;"></p>
+<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘d_a’。文件内容如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;d_a&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule d_a (D, A);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v0 = <span class="number">0</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v1 = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vx = <span class="number">2</span><span class="variable">.5</span>;               <span class="comment">// output voltage for a logic x (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vz = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic z (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r0 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 0 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r1 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 1 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rx = <span class="number">100</span> from (<span class="number">0</span>:inf);   <span class="comment">// output resistance for a logic x (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rz = <span class="number">1</span>M from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic z (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tr=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// rise time (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tf=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// fall time (s)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span> D; </span><br><span class="line">    <span class="keyword">output</span> A; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">real</span> v, r;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> D = D;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(D) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    analog <span class="keyword">begin</span></span><br><span class="line">       V(A) &lt;+ transition(v, <span class="number">0</span>, tr, tf) + transition(r, <span class="number">0</span>, tr, tf)*I(A); </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
+<h2 id="ideal_dac_test-schematic-cellview"><em>ideal_DAC_test （schematic cellview）</em></h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174229.png" alt="ideal_DAC_test" style="zoom:50%;"></p>
+<p>创建一个 <strong>schematic</strong> cellview 叫做 ‘ideal_DAC_test’。将器件按照下图进行连接。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727170838.png" alt="schematic"><figcaption aria-hidden="true">schematic</figcaption>
+</figure>
+<h1 id="仿真">仿真</h1>
+<h2 id="config-config-cellview"><em>config (config cellview)</em></h2>
+<h3 id="创建">创建</h3>
+<p>为 <em>ideal_DAC_test</em> 创建一个 <strong>config cellview</strong>，如下图所示。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174248.png" alt="config" style="zoom: 50%;"></p>
+<p>创建完成后，配置窗口会自动弹出，如下图所示，首先选择 ‘Use Template…’，在弹出来的窗口中选择 ‘AMS’。剩下的信息按照下图配置。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174302.png" alt="AMSconfig" style="zoom:50%;"></p>
+<p>创建完成后，把 config(Hierarchy Editor) 和 Schematic 窗口<strong>都关闭</strong>。</p>
+<h3 id="配置-view-to-use">配置 <em>View To Use</em></h3>
+<p>然后<strong>再次打开 config 窗口</strong>，这时会弹出一个窗口，两项都选 ‘yes’，如下图所示。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174315.png" alt="reopen" style="zoom:50%;"></p>
+<p>点击 ‘OK’ 之后会看到 config 和 schematic 窗口都一起打开了。在 Hierarchy Editor 窗口中，右击 <em>View To Use</em> 上右击，选择 <em>Select View</em>，配置成如下图所示。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727170839.png" alt="view"><figcaption aria-hidden="true">view</figcaption>
+</figure>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174329.png" alt="AMS_view" style="zoom:50%;"></p>
+<h3 id="配置-ams">配置 AMS</h3>
+<p>点击 Plugins -&gt; AMS，然后 AMS 选项就会出现在 Hierarchy Editor 窗口中了。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174347.png" alt="AMS_Plugin" style="zoom: 50%;"></p>
+<p>然后点击 AMS -&gt; Initialize，配置 <em>Run Directory</em>，并且在 <em>Always use this run directory …</em> 后面打钩。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174357.png" alt="AMS_Initialize" style="zoom:50%;"></p>
+<p>在 AMS -&gt; Quick Setup 中，配置 <em>hdl.var</em> 为之前<a href="#初始化设置">初始化设置</a>中创建的 <em>hdl.var</em> 文件。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174410.png" alt="AMS_quicksetup" style="zoom:50%;"></p>
+<p>在 AMS -&gt; Detalied Setup -&gt; Analyses 中设置仿真结束时间，这里设置的是 <em>20e-6</em>。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174424.png" alt="stoptime" style="zoom:50%;"></p>
+<p>上面几步做完了记得保存一下。</p>
+<h2 id="运行仿真">运行仿真</h2>
+<p>点击 AMS -&gt; NetList and Run，打开一个 config 窗口，这里也可以设置仿真时间。需要注意的是 <em>Save/Plot…</em> 这个选项，该选项可以将需要观察的信号添加进来，不过不建议在这里添加，而是 Netlist 之后再添加，更加方便。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727174435.png" alt="AMS_run_config" style="zoom:50%;"></p>
+<p>在上面的窗口中点击 <em>Run</em>，如果没有错误会弹出 SimVision 窗口。</p>
+<p>在 <em>Design Browser</em> 窗口中想要观察的信号上右击 -&gt; <strong>Send to Waveform Window</strong>，然后再点击 SimVision Console 窗口中的 <strong>Run</strong> 按钮，仿真就开始运行了。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727170840.png" alt="SimVision"><figcaption aria-hidden="true">SimVision</figcaption>
+</figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727170841.png" alt="wave"><figcaption aria-hidden="true">wave</figcaption>
+</figure>
+<blockquote>
+<p>PS：如果模拟量信号观察不到，但可以看到数值，可能需要设置一下 View -&gt; Zoom -&gt; Full Y.</p>
+</blockquote>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><p><a href="https://wenku.baidu.com/view/cbd263c8192e45361166f5e5.html">Tufts University Cadence AMS-Designer Tutorial</a></p></li>
+<li><p>https://blog.csdn.net/YYP_8020/article/details/107332430</p></li>
+<li><p>Cadence Verilog-AMS Language Reference</p>
+<p>$INSTALL_DIR/doc/verilogamsref/verilogamsref.pdf</p></li>
+<li><p>Virtuoso AMS Simulator User Guide</p>
+<p>$INSTALL_DIR/doc/amssimug/amssimug.pdf</p></li>
+<li><p>Cadence NC-Verilog Simulator Tutorial with SimVision</p>
+<p>$INSTALL_DIR/doc/ncvlogtut/ncvlogtut.pdf</p></li>
+<li><p>https://designers-guide.org/index.html</p></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>Cadence</tag>
+        <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Config static IP address on Ubuntu 18.04</title>
     <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
     <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
@@ -252,112 +358,6 @@ y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
         <category>Delta-Sigma</category>
       </categories>
       <tags>
-        <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Cadence ASM Tutorial</title>
-    <url>/2020/12/16/CadenceASMTutorial/</url>
-    <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
-<a id="more"></a>
-<blockquote>
-<p>INCISIVE152 的安装可以参考 https://blog.csdn.net/yy345730585/article/details/90407408</p>
-</blockquote>
-<h1 id="初始化设置">初始化设置</h1>
-<p>在打开 cadence 的文件夹下面需要新建一个‘<em>hdl.var</em>’文件，内容如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">softinclude <span class="variable">$INCISIVDIR</span>/tools/inca/files/hdl.var</span><br><span class="line">define ams</span><br><span class="line">define NCVLOGOPTS -linedebug</span><br><span class="line">define VIEW_MAP (<span class="variable">$VIEW_MAP</span>, .vs =&gt; shell)</span><br></pre></td></tr></table></figure>
-<p>其中 <em>$INCISIVDIR</em> 是 <strong>Cadence INCISIV</strong> 的安装路径。</p>
-<p>需要在文件‘<em>cds.lib</em>’中加入一行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">SOFTINCLUDE <span class="variable">$INCISIVDIR</span>/tools/inca/files/cds.lib</span><br></pre></td></tr></table></figure>
-<h1 id="verilog-a-设计-以理想-dac-为例">Verilog-A 设计 — 以理想 DAC 为例</h1>
-<h2 id="ieadl_dac-veriloga-cellview"><em>ieadl_dac (verilogA cellview)</em></h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174104.png" alt="ieadl_dac" style="zoom:50%;"></p>
-<p>首先创建一个新的 Library 叫做 ‘<em>AMS_Tutorial</em>’。然后创建一个 <strong>verilogA</strong> cellview 叫做 ‘<em>ieadl_dac</em>’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">// VerilogA for AMS_Tutorial, ideal_dac, veriloga</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> ideal_dac(in, agnd, out);</span><br><span class="line"></span><br><span class="line"><span class="keyword">input</span> [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line"><span class="keyword">input</span> agnd;</span><br><span class="line"><span class="keyword">output</span> out;</span><br><span class="line">electrical [<span class="number">10</span>:<span class="number">0</span>] in;</span><br><span class="line">electrical agnd;</span><br><span class="line">electrical out;</span><br><span class="line"></span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> logic_thresh = <span class="number">2</span><span class="variable">.5</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> full_scale = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> trise = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"><span class="keyword">parameter</span> <span class="keyword">real</span> tfall = <span class="number">1</span>n from [<span class="number">0</span>:inf);</span><br><span class="line"></span><br><span class="line"><span class="keyword">real</span> code, delta;</span><br><span class="line"><span class="keyword">real</span> pow2[<span class="number">11</span>:<span class="number">0</span>];</span><br><span class="line"><span class="keyword">integer</span> i;</span><br><span class="line"></span><br><span class="line">analog <span class="keyword">begin</span></span><br><span class="line">    @(initial_step) <span class="keyword">begin</span></span><br><span class="line">        pow2[<span class="number">0</span>] = <span class="number">1</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= <span class="number">11</span>; i = i+<span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">            pow2[i] = <span class="number">2</span><span class="variable">.0</span> * pow2[i-<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">end</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">    <span class="keyword">generate</span> j (<span class="number">10</span>,<span class="number">0</span>) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (V(in[j]) &lt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">            delta = <span class="number">0</span><span class="variable">.0</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span> </span><br><span class="line">            delta = pow2[j];</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        code = code + delta;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (V(in[<span class="number">10</span>]) &gt; logic_thresh) <span class="keyword">begin</span></span><br><span class="line">        code = code - pow2[<span class="number">11</span>];</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    code = full_scale * code / pow2[<span class="number">10</span>];</span><br><span class="line">    V(out) &lt;+ V(agnd) + transition(code, <span class="number">0</span> , trise, tfall);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h2 id="dac_driver-verilog-cellview"><em>dac_driver (verilog cellview)</em></h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174132.png" alt="dac_driver" style="zoom:50%;"></p>
-<p>然后创建一个 <strong>verilog</strong> cellview 叫做 ‘<em>dac_driver</em>’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog HDL for &quot;AMS_Tutorial&quot;, &quot;dac_driver&quot; &quot;functional&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> dac_driver (word_out);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">output</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line">    <span class="keyword">reg</span> [<span class="number">10</span>:<span class="number">0</span>] word_out;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        word_out = <span class="number">12&#x27;h000</span>;</span><br><span class="line">        #<span class="number">20480</span> <span class="built_in">$finish</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> #<span class="number">5</span> word_out = word_out + <span class="number">1&#x27;b1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h2 id="interconnect-elements">interconnect elements</h2>
-<p>由于 <em>dac_driver</em> 是一个 Verilog 的 cellview，其输出是数字量，而 <em>ieadl_dac</em> 是一个 verilogA 的 cellview，其输入是模拟量，因此需要 interconnect elements 来进行数字量和模拟量之间的转换。AMS-Designer 可以自动创建 interconnect elements，不过自己来实现这个连接器，连接器应该有两种形式，分别是数字量到模拟量的转换和模拟量到数字量的转换。</p>
-<h3 id="a_d-verilogams-cellview"><em>a_d (VerilogAMS cellview)</em></h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174149.png" alt="a_d" style="zoom:50%;"></p>
-<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘a_d’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;a_d&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule a_d (A, D);</span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vh = <span class="number">4</span>; <span class="comment">// minimum voltage of a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vl = <span class="number">1</span>; <span class="comment">// maximum voltage of a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> c = <span class="number">20</span>f; <span class="comment">// input capacitance (F) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dt = <span class="number">1</span>m; <span class="comment">// time in x region before x is produced (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> dv = <span class="number">0</span><span class="variable">.5</span>; <span class="comment">// voltage between threshold and x region (V)</span></span><br><span class="line">    <span class="keyword">input</span> A; </span><br><span class="line">    <span class="keyword">output</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">reg</span> D; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vlx = vl + dv; </span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vhx = vh - dv; </span><br><span class="line">    <span class="keyword">reg</span> inXregion;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vh)) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vl - V(A))) <span class="keyword">begin</span></span><br><span class="line">        D = <span class="number">1&#x27;b0</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(above(vhx - V(A))) inXregion = <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">always</span> @(above(V(A) - vlx)) inXregion = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> inXregion) <span class="keyword">begin</span> : XRegionDelay </span><br><span class="line">        <span class="variable">#(dt/1.0n)</span> <span class="comment">// calculate how many time units are equal to the dt time</span></span><br><span class="line">        D = <span class="number">1&#x27;bx</span>;</span><br><span class="line">        inXregion = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">negedge</span> inXregion) <span class="keyword">disable</span> XRegionDelay;</span><br><span class="line"></span><br><span class="line">    analog I(A) &lt;+ c*ddt(V(A));</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h3 id="d_a-verilogams-cellview"><em>d_a (VerilogAMS cellview)</em></h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174202.png" alt="d_a" style="zoom:50%;"></p>
-<p>创建一个 <strong>VerilogAMS</strong> cellview 叫做 ‘d_a’。文件内容如下：</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Verilog-AMS HDL for &quot;AMS_Tutorial&quot;, &quot;d_a&quot; &quot;verilogams&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;constants.vams&quot;</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">include</span> &quot;disciplines.vams&quot;</span></span><br><span class="line"></span><br><span class="line">connectmodule d_a (D, A);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v0 = <span class="number">0</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 0 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> v1 = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic 1 (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vx = <span class="number">2</span><span class="variable">.5</span>;               <span class="comment">// output voltage for a logic x (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> vz = <span class="number">5</span><span class="variable">.0</span>;                <span class="comment">// output voltage for a logic z (V) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r0 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 0 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> r1 = <span class="number">1</span>k from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic 1 (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rx = <span class="number">100</span> from (<span class="number">0</span>:inf);   <span class="comment">// output resistance for a logic x (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> rz = <span class="number">1</span>M from (<span class="number">0</span>:inf);    <span class="comment">// output resistance for a logic z (Ohms) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tr=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// rise time (s) </span></span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">real</span> tf=<span class="number">1</span>n from [<span class="number">0</span>:inf);      <span class="comment">// fall time (s)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">input</span> D; </span><br><span class="line">    <span class="keyword">output</span> A; </span><br><span class="line">    <span class="keyword">logic</span> D; </span><br><span class="line">    electrical A; </span><br><span class="line">    <span class="keyword">real</span> v, r;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> D = D;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">initial</span> <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(D) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">case</span> (D)</span><br><span class="line">            <span class="number">1&#x27;b0</span>: <span class="keyword">begin</span> v = v0; r = r0; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;b1</span>: <span class="keyword">begin</span> v = v1; r = r1; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bx</span>: <span class="keyword">begin</span> v = vx; r = rx; <span class="keyword">end</span></span><br><span class="line">            <span class="number">1&#x27;bz</span>: <span class="keyword">begin</span> v = vz; r = rz; <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">endcase</span> </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    analog <span class="keyword">begin</span></span><br><span class="line">       V(A) &lt;+ transition(v, <span class="number">0</span>, tr, tf) + transition(r, <span class="number">0</span>, tr, tf)*I(A); </span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>保存后如果没有错误会自动弹出一个创建 symbol 的窗口，确保 symbol 正确创建了。</p>
-<h2 id="ideal_dac_test-schematic-cellview"><em>ideal_DAC_test （schematic cellview）</em></h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174229.png" alt="ideal_DAC_test" style="zoom:50%;"></p>
-<p>创建一个 <strong>schematic</strong> cellview 叫做 ‘ideal_DAC_test’。将器件按照下图进行连接。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727170838.png" alt="schematic"><figcaption aria-hidden="true">schematic</figcaption>
-</figure>
-<h1 id="仿真">仿真</h1>
-<h2 id="config-config-cellview"><em>config (config cellview)</em></h2>
-<h3 id="创建">创建</h3>
-<p>为 <em>ideal_DAC_test</em> 创建一个 <strong>config cellview</strong>，如下图所示。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174248.png" alt="config" style="zoom: 50%;"></p>
-<p>创建完成后，配置窗口会自动弹出，如下图所示，首先选择 ‘Use Template…’，在弹出来的窗口中选择 ‘AMS’。剩下的信息按照下图配置。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174302.png" alt="AMSconfig" style="zoom:50%;"></p>
-<p>创建完成后，把 config(Hierarchy Editor) 和 Schematic 窗口<strong>都关闭</strong>。</p>
-<h3 id="配置-view-to-use">配置 <em>View To Use</em></h3>
-<p>然后<strong>再次打开 config 窗口</strong>，这时会弹出一个窗口，两项都选 ‘yes’，如下图所示。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174315.png" alt="reopen" style="zoom:50%;"></p>
-<p>点击 ‘OK’ 之后会看到 config 和 schematic 窗口都一起打开了。在 Hierarchy Editor 窗口中，右击 <em>View To Use</em> 上右击，选择 <em>Select View</em>，配置成如下图所示。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727170839.png" alt="view"><figcaption aria-hidden="true">view</figcaption>
-</figure>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174329.png" alt="AMS_view" style="zoom:50%;"></p>
-<h3 id="配置-ams">配置 AMS</h3>
-<p>点击 Plugins -&gt; AMS，然后 AMS 选项就会出现在 Hierarchy Editor 窗口中了。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174347.png" alt="AMS_Plugin" style="zoom: 50%;"></p>
-<p>然后点击 AMS -&gt; Initialize，配置 <em>Run Directory</em>，并且在 <em>Always use this run directory …</em> 后面打钩。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174357.png" alt="AMS_Initialize" style="zoom:50%;"></p>
-<p>在 AMS -&gt; Quick Setup 中，配置 <em>hdl.var</em> 为之前<a href="#初始化设置">初始化设置</a>中创建的 <em>hdl.var</em> 文件。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174410.png" alt="AMS_quicksetup" style="zoom:50%;"></p>
-<p>在 AMS -&gt; Detalied Setup -&gt; Analyses 中设置仿真结束时间，这里设置的是 <em>20e-6</em>。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174424.png" alt="stoptime" style="zoom:50%;"></p>
-<p>上面几步做完了记得保存一下。</p>
-<h2 id="运行仿真">运行仿真</h2>
-<p>点击 AMS -&gt; NetList and Run，打开一个 config 窗口，这里也可以设置仿真时间。需要注意的是 <em>Save/Plot…</em> 这个选项，该选项可以将需要观察的信号添加进来，不过不建议在这里添加，而是 Netlist 之后再添加，更加方便。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727174435.png" alt="AMS_run_config" style="zoom:50%;"></p>
-<p>在上面的窗口中点击 <em>Run</em>，如果没有错误会弹出 SimVision 窗口。</p>
-<p>在 <em>Design Browser</em> 窗口中想要观察的信号上右击 -&gt; <strong>Send to Waveform Window</strong>，然后再点击 SimVision Console 窗口中的 <strong>Run</strong> 按钮，仿真就开始运行了。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727170840.png" alt="SimVision"><figcaption aria-hidden="true">SimVision</figcaption>
-</figure>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727170841.png" alt="wave"><figcaption aria-hidden="true">wave</figcaption>
-</figure>
-<blockquote>
-<p>PS：如果模拟量信号观察不到，但可以看到数值，可能需要设置一下 View -&gt; Zoom -&gt; Full Y.</p>
-</blockquote>
-<hr>
-<h1 id="reference">Reference</h1>
-<ul>
-<li><p><a href="https://wenku.baidu.com/view/cbd263c8192e45361166f5e5.html">Tufts University Cadence AMS-Designer Tutorial</a></p></li>
-<li><p>https://blog.csdn.net/YYP_8020/article/details/107332430</p></li>
-<li><p>Cadence Verilog-AMS Language Reference</p>
-<p>$INSTALL_DIR/doc/verilogamsref/verilogamsref.pdf</p></li>
-<li><p>Virtuoso AMS Simulator User Guide</p>
-<p>$INSTALL_DIR/doc/amssimug/amssimug.pdf</p></li>
-<li><p>Cadence NC-Verilog Simulator Tutorial with SimVision</p>
-<p>$INSTALL_DIR/doc/ncvlogtut/ncvlogtut.pdf</p></li>
-<li><p>https://designers-guide.org/index.html</p></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>Software</tag>
-        <tag>Cadence</tag>
         <tag>IC_design</tag>
       </tags>
   </entry>
@@ -850,6 +850,152 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
 ]]></content>
   </entry>
   <entry>
+    <title>Linux Samba Server</title>
+    <url>/2020/03/15/Linux-Samba-Server/</url>
+    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
+<blockquote>
+<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
+</blockquote>
+<h1 id="安装-samba">安装 Samba</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
+<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
+<p>结果类似这样：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
+<ol type="1">
+<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
+<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 普通用户：</p>
+<p>首先创建一个名为 <code>josh</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
+<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
+<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
+<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
+</ul>
+</blockquote>
+<p>创建该用户的 <code>home</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>chmod</code> 命令说明：</p>
+<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
+</blockquote>
+<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
+<p>在 Samba 中启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
+<li><p>创建 Samba 管理员用户：</p>
+<p>过程与创建普通用户类似。</p>
+<p>首先创建名为 <code>sadmin</code> 的用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
+<p>设置密码并启用该用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
+<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
+<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
+</ol>
+<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
+<li><code>path</code> - The path to the share.</li>
+<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
+<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
+<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
+<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
+<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
+</ul>
+</blockquote>
+<p>最后重启 Samba 服务：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Wake on Lan</title>
+    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
+    <content><![CDATA[<h1 id="wake-on-lan-原理">Wake on Lan 原理</h1>
+<p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
+<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
+<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
+<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
+<h2 id="magic-packet">Magic Packet</h2>
+<p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
+<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
+<h1 id="注意事项">注意事项</h1>
+<ol type="1">
+<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p></li>
+<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
+<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
+<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
+</blockquote></li>
+</ol>
+<a id="more"></a>
+<blockquote>
+<p>启动者(电脑A) -----------&gt; 被远程开启的电脑(电脑B)</p>
+</blockquote>
+<h1 id="被远程开启的电脑电脑b-设置">被远程开启的电脑(电脑B) 设置</h1>
+<ol type="1">
+<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p></li>
+<li><p>在 Linux 系统中安装 ethtool：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
+<li><p>查看 WOL 是否打开：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
+<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p></li>
+<li><p>打开 WOL：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
+<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p></li>
+</ol>
+<h1 id="启动者电脑a-设置">启动者(电脑A) 设置</h1>
+<p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
+<ol type="1">
+<li><p>安装 wakeonlan：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 B 电脑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>Reference:</p>
+<p>https://en.wikipedia.org/wiki/Wake-on-LAN</p>
+<p>https://zhuanlan.zhihu.com/p/29100480</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 权限问题</title>
     <url>/2020/03/10/Linux-%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>记录一下 Linux 下的用户、用户组、文件权限等基本知识，不能动不动就 777。</p>
@@ -946,102 +1092,6 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       </tags>
   </entry>
   <entry>
-    <title>Linux Wake on Lan</title>
-    <url>/2020/04/04/Linux-Wake-on-Lan/</url>
-    <content><![CDATA[<h1 id="wake-on-lan-原理">Wake on Lan 原理</h1>
-<p>局域网唤醒（“ WOL”）使用称为魔术包的特殊设计的帧实现，该帧发送到网络中的所有计算机，其中包括要唤醒的计算机。魔术包包含目标计算机的MAC地址，每个网卡内置的标识号（“ NIC”）或计算机中的其他以太网设备，使其能够在网络上被唯一识别和寻址。局域网唤醒功能需要计算机包含能够在系统关闭电源时以低功耗模式“侦听”传入数据包的网络设备。如果收到指向设备 MAC 地址的魔术包，则 NIC 会以与按电源按钮相同的方式向计算机的电源或主板发出信号，以启动系统唤醒。</p>
-<p>魔术包在<a href="https://en.wikipedia.org/wiki/Data_link_layer">数据链路层</a>（<a href="https://en.wikipedia.org/wiki/OSI_model">OSI 模型</a>中的第 2 层）上发送，并在发送时使用网络<a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>广播到给定网络上的所有连接的设备；IP地址（OSI 模型中的第 3 层）未使用。</p>
-<p>由于局域网唤醒是基于广播技术构建的，因此它通常只能在当前网络子网中使用。但是，也有一些例外情况，只要适当的配置和硬件（包括跨 Internet 的远程唤醒），局域网唤醒实际上就可以在任何网络上运行。</p>
-<p>为了使局域网唤醒工作，部分网络接口需要保持打开状态。这消耗了少量的待机功率，远低于正常工作功率。通常将链路速度降低到可能的最低速度，以免浪费功率（例如，千兆以太网 NIC 仅保持10 Mbit / s的链路）。在不需要时禁用LAN唤醒可以非常轻微地减少已关闭但仍插入电源插座的计算机的功耗。</p>
-<h2 id="magic-packet">Magic Packet</h2>
-<p>Magic Packet 是一个广播帧（frame），透过端口 7 或端口 <strong><em>9</em></strong> 进行发送，且可以用无连接（Connectionless protocol）的通讯协议（如UDP、IPX）来传递，不过一般而言多是用 UDP。</p>
-<p>Magic Packet 首先是连续 6 个字节的 “FF”（十六进制），其次是目标计算机的 48 位 MAC 地址的 16 次重复（有时还会带出 4 字节或 6 字节的密码），总共102个字节。</p>
-<h1 id="注意事项">注意事项</h1>
-<ol type="1">
-<li><p>局域网被唤醒的IP地址是广播地址：192.168.x.255，端口为 9，路由器收到后通过广播，数据包一定可以发送该局域网内待唤醒的这台机器；</p></li>
-<li><p>公网唤醒我们无办法填写具体的内网地址，只能配置路由器的公网 IP，然后通过数据转发到具体的电脑 IP 地址，由于不是广播地址，也由于路由器 ARP 映射表在电脑关机后一定时间会丢失，所以路由器没有办法知道哪个 IP 是MAC所对应那台机器，所以魔术包被丢弃，所以要么增加 ARP 绑定，要么添加端口转发规则到广播地址 (192.168.x.255 和 端口 9)。</p>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Broadcast_address">广播地址</a>计算方法:</p>
-<p><code>&lt;IP&gt;</code> | (~ <code>&lt;net mask&gt;</code>)</p>
-<p>如：<code>192.168.0.11</code> | (~ <code>255.255.255.0</code>) = <code>192.168.0.255</code></p>
-</blockquote></li>
-</ol>
-<a id="more"></a>
-<blockquote>
-<p>启动者(电脑A) -----------&gt; 被远程开启的电脑(电脑B)</p>
-</blockquote>
-<h1 id="被远程开启的电脑电脑b-设置">被远程开启的电脑(电脑B) 设置</h1>
-<ol type="1">
-<li><p>在主板 BIOS 中将 <em>Wake On Land / Wake On PCI(E)</em> 设为 Enable；</p></li>
-<li><p>在 Linux 系统中安装 ethtool：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install ethtool</span><br></pre></td></tr></table></figure></li>
-<li><p>查看 WOL 是否打开：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool &lt;网卡名称&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool eno1</span><br></pre></td></tr></table></figure>
-<p>如果没有发现 <em>Wake-on: g</em>，说明网络唤醒没打开</p></li>
-<li><p>打开 WOL：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s &lt;网卡名称&gt; wol g</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ethtool -s eno1 wol g</span><br></pre></td></tr></table></figure>
-<p>然后再用 <code>sudo ethtool &lt;网卡名称&gt;</code> 查看 WOL 是否打开，看到 <em>Wake-on: g</em>，说明 WOL 已经打开了。</p></li>
-</ol>
-<h1 id="启动者电脑a-设置">启动者(电脑A) 设置</h1>
-<p>这里只说 A 电脑也是 Linux 的情况，因为其他平台上的 WOL 软件很多，Android、Mac、路由器上都有。</p>
-<ol type="1">
-<li><p>安装 wakeonlan：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure></li>
-<li><p>启动 B 电脑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan &lt; B 电脑配好 WOL 的网卡的 MAC 地址&gt;</span><br></pre></td></tr></table></figure>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wakeonlan 4c:cc:6a:f5:ab:84</span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>Reference:</p>
-<p>https://en.wikipedia.org/wiki/Wake-on-LAN</p>
-<p>https://zhuanlan.zhihu.com/p/29100480</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MAC开发问题记录</title>
-    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方法</p>
-<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
-<li><p>原因</p>
-<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
-</ul>
-<h1 id="proxychains-ng">proxychains-ng</h1>
-<ul>
-<li><p>问题描述</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
-<li><p>解决方案</p>
-<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
-<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
-<p>查看一下使用的是哪个版本的 git</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>GEEK</tag>
-        <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 自动挂载磁盘</title>
     <url>/2020/03/15/Linux-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98/</url>
     <content><![CDATA[<blockquote>
@@ -1122,6 +1172,37 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC开发问题记录</title>
+    <url>/2020/03/04/MAC%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="opencv-python">opencv-python</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">QFactoryLoader::QFactoryLoader() checking <span class="built_in">directory</span> path <span class="string">&quot;/usr/local/Cellar/python/3.7.6_1/Frameworks/Python.framework/Versions/3.7/Resources/Python.app/Contents/MacOS/platforms&quot;</span> ...</span><br><span class="line">qt.qpa.plugin: Could <span class="keyword">not</span> find <span class="keyword">the</span> Qt <span class="built_in">platform</span> plugin <span class="string">&quot;cocoa&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span></span><br><span class="line">This application failed <span class="built_in">to</span> <span class="built_in">start</span> because no Qt <span class="built_in">platform</span> plugin could be initialized. Reinstalling <span class="keyword">the</span> application may fix this problem.</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方法</p>
+<figure class="highlight mel"><table><tr><td class="code"><pre><span class="line">pip3 uninstall opencv-<span class="keyword">python</span></span><br><span class="line">pip3 install opencv-<span class="keyword">python</span>-headless</span><br></pre></td></tr></table></figure></li>
+<li><p>原因</p>
+<p><code>opencv-python-headless</code> ：与 <code>opencv-python</code> 相同但没有GUI功能。适用于无界面系统。</p></li>
+</ul>
+<h1 id="proxychains-ng">proxychains-ng</h1>
+<ul>
+<li><p>问题描述</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">[proxychains] config <span class="keyword">file</span> found: <span class="regexp">/Users/</span>zhouyugan<span class="regexp">/.proxychains/</span>proxychains.conf</span><br><span class="line">[proxychains] preloading <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib</span><br><span class="line">[proxychains] DLL init: proxychains-ng <span class="number">4.14</span></span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">Cloning <span class="keyword">into</span> <span class="string">&#x27;themes/next-reloaded&#x27;</span>...</span><br><span class="line">dyld: warning: could not load inserted library <span class="string">&#x27;/usr/local/Cellar/proxychains-ng/4.14/lib/libproxychains4.dylib&#x27;</span> <span class="keyword">into</span> hardened process because no suitable image found.  Did <span class="keyword">find</span>:</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib<span class="regexp">/libproxychains4.dylib: code signature in (/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/proxychains-ng/</span><span class="number">4.14</span><span class="regexp">/lib/</span>libproxychains4.dylib) not valid <span class="keyword">for</span> use in process using Library Validation: mapped <span class="keyword">file</span> has no cdhash, completely unsigned? Code has to be at least ad-hoc signed.</span><br><span class="line">true<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>proxychains-ng<span class="regexp">/4.14/</span>lib/libproxychains4.dylib: stat() failed with errno=<span class="number">1</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure></li>
+<li><p>解决方案</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>git</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">export PATH=<span class="regexp">/usr/</span>local<span class="regexp">/bin:/u</span>sr<span class="regexp">/local/</span>bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p>查看一下使用的是哪个版本的 git</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">which</span> git</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/git</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+        <tag>MAC</tag>
       </tags>
   </entry>
   <entry>
@@ -5657,87 +5738,6 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
       </tags>
   </entry>
   <entry>
-    <title>Linux Samba Server</title>
-    <url>/2020/03/15/Linux-Samba-Server/</url>
-    <content><![CDATA[<p>在 Linux 下搭建 Samba Server，以 Ubuntu 18.04 为例。</p>
-<blockquote>
-<p>Samba is a free and open-source re-implementation of the <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/microsoft-smb-protocol-and-cifs-protocol-overview">SMB/CIFS network file sharing protocol</a> that allows end users to access files, printers, and other shared resources.</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p><strong>reference:</strong> https://linuxize.com/post/how-to-install-and-configure-samba-on-ubuntu-18-04/</p>
-</blockquote>
-<h1 id="安装-samba">安装 Samba</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install samba</span><br></pre></td></tr></table></figure>
-<p>安装完成后，Samba 服务会自动开启，可以用如下命令检查其状态：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br></pre></td></tr></table></figure>
-<p>结果类似这样：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">● smbd.service - Samba SMB Daemon</span><br><span class="line">   Loaded: loaded (/lib/systemd/<span class="built_in">system</span>/smbd.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun <span class="number">2020</span>-<span class="number">03</span>-<span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> CST; 49<span class="built_in">min</span> ago</span><br><span class="line">     Docs: man:smbd(<span class="number">8</span>)</span><br><span class="line">           man:samba(<span class="number">7</span>)</span><br><span class="line">           man:smb.conf(<span class="number">5</span>)</span><br><span class="line"> Main PID: <span class="number">1434</span> (smbd)</span><br><span class="line">   Status: <span class="string">&quot;smbd: ready to serve connections...&quot;</span></span><br><span class="line">    Tasks: <span class="number">4</span> (<span class="built_in">limit</span>: <span class="number">4915</span>)</span><br><span class="line">   CGroup: /<span class="built_in">system</span>.slice/smbd.service</span><br><span class="line">           ├─<span class="number">1434</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1436</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           ├─<span class="number">1437</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line">           └─<span class="number">1439</span> /usr/sbin/smbd --foreground --no-process-group</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Starting Samba SMB Daemon...</span><br><span class="line"><span class="number">3</span>月 <span class="number">15</span> <span class="number">22</span>:<span class="number">16</span>:<span class="number">30</span> fitz-MS-<span class="number">7B00</span> systemd[<span class="number">1</span>]: Started Samba SMB Daemon.</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>If you have a firewall running on your Ubuntu system you’ll need to allow incoming UDP connections on ports <code>137</code> and <code>138</code> and TCP connections on ports <code>139</code> and <code>445</code>.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Samba&#x27;</span></span><br></pre></td></tr></table></figure>
-<h1 id="创建-samba-用户和目录">创建 Samba 用户和目录</h1>
-<ol type="1">
-<li><p>创建 Samba 根目录 (暂且这么说吧)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba</span><br></pre></td></tr></table></figure>
-<p>设置用户组，将 <code>/samba</code> 目录的用户组改为 <code>sambashare</code>：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="code"><pre><span class="line">sudo chgrp sambashare <span class="string">/samba</span></span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 普通用户：</p>
-<p>首先创建一个名为 <code>josh</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/josh -s /usr/sbin/nologin -G sambashare josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>-M</code> -do not create the user’s home directory. We’ll manually create this directory.</li>
-<li><code>-d /samba/josh</code> - set the user’s home directory to <code>/samba/josh</code>.</li>
-<li><code>-s /usr/sbin/nologin</code> - disable shell access for this user.</li>
-<li><code>-G sambashare</code> - add the user to the <code>sambashare</code> group.</li>
-</ul>
-</blockquote>
-<p>创建该用户的 <code>home</code> 目录：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/josh</span><br><span class="line">sudo chown josh:sambashare /samba/josh</span><br><span class="line">sudo chmod 2770 /samba/josh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>chmod</code> 命令说明：</p>
-<p>This command here will add the setgid bit to the <code>/samba/josh</code> directory so the newly created files in this directory will inherit the group of the parent directory. This way, no matter which user creates a new file, the file will have group-owner of <code>sambashare</code>. For example, if you don’t set the directory’s permissions to <code>2770</code> and the <code>sadmin</code> user creates a new file the user <code>josh</code> will not be able to read/write to this file.</p>
-</blockquote>
-<p>将用户添加到 Samba 数据库中，同时设置的 Samba 密码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a josh</span><br></pre></td></tr></table></figure>
-<p>在 Samba 中启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -e josh</span><br></pre></td></tr></table></figure></li>
-<li><p>创建 Samba 管理员用户：</p>
-<p>过程与创建普通用户类似。</p>
-<p>首先创建名为 <code>sadmin</code> 的用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo useradd -M -d /samba/users -s /usr/sbin/nologin -G sambashare sadmin</span><br></pre></td></tr></table></figure>
-<p>设置密码并启用该用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo smbpasswd -a sadmin</span><br><span class="line">sudo smbpasswd -e sadmin</span><br></pre></td></tr></table></figure>
-<p>创建用户的 <code>home</code> 目录 (同时也是 Samba 共享目录)：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /samba/users</span><br><span class="line">sudo chown sadmin:sambashare /samba/users</span><br><span class="line">sudo chmod 2770 /samba/users</span><br></pre></td></tr></table></figure>
-<h1 id="配置-samba-共享">配置 Samba 共享：</h1></li>
-</ol>
-<p>编辑文件 <code>/etc/samba/smb.conf</code> ，加入如下内容：</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">[users]</span><br><span class="line">    <span class="type">path</span> = /samba/users</span><br><span class="line">    browseable = yes</span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = @sambashare @sadmin</span><br><span class="line"></span><br><span class="line">[josh]</span><br><span class="line">    <span class="type">path</span> = /samba/josh</span><br><span class="line">    browseable = <span class="keyword">no</span></span><br><span class="line">    <span class="keyword">read</span> <span class="keyword">only</span> = <span class="keyword">no</span></span><br><span class="line">    force <span class="keyword">create</span> mode = <span class="number">0660</span></span><br><span class="line">    force directory mode = <span class="number">2770</span></span><br><span class="line">    <span class="keyword">valid</span> users = josh @sadmin</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>[users]</code> and <code>[josh]</code> - The names of the shares that you will use when logging in.</li>
-<li><code>path</code> - The path to the share.</li>
-<li><code>browseable</code> - Whether the share should be listed in the available shares list. By setting to <code>no</code> other users will not be able to see the share.</li>
-<li><code>read only</code> - Whether the users specified in the <code>valid users</code> list are able to write to this share.</li>
-<li><code>force create mode</code> - Sets the permissions for the newly created files in this share.</li>
-<li><code>force directory mode</code> - Sets the permissions for the newly created directories in this share.</li>
-<li><code>valid users</code> - A list of users and groups that are allowed to access the share. Groups are prefixed with the <code>@</code> symbol.</li>
-</ul>
-</blockquote>
-<p>最后重启 Samba 服务：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">restart</span> smbd</span><br><span class="line">sudo systemctl <span class="built_in">restart</span> nmbd</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>QNAP NAS 添加 ups 后推送关机通知到其他设备</title>
     <url>/2022/02/25/ups/</url>
     <content><![CDATA[<h1 id="qnap-设置">QNAP 设置</h1>
@@ -5759,7 +5759,7 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <p>找到 <code>MONITOR</code> 在下方增加一行：</p>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">MONITOR qnapups@&lt;NAS IP&gt; 1 admin 123456 slave</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>这里第一个坑出现了，大部分 ups 的服务器以 ups 开头（包括群晖），然而 qnap 不是，他是以 <strong>qnapups</strong>开头。。。。<img src="https://res.smzdm.com/images/emotions/56.png"></p>
+<p>这里坑出现了，大部分 ups 的服务器以 ups 开头（包括群晖），然而 qnap 不是，他是以 <strong>qnapups</strong> 开头。。。。😑</p>
 <p>用户名为 <code>admin</code>，密码默认为 <code>123456</code></p>
 </blockquote></li>
 <li><p>启动nut-client服务，并设置自动启动</p>
@@ -5767,13 +5767,15 @@ A_v = -\frac{\sqrt{(W/L)_1}}{\sqrt{(W/L)_2}} \frac{1}{1+\eta}
 <li><p>测试是否成功连接UPS服务器</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ upsc qnapups@192.168.12.10</span><br><span class="line">Init SSL without certificate database</span><br><span class="line">battery.charge: 79</span><br><span class="line">battery.charge.low: 20</span><br><span class="line">battery.runtime: 1801</span><br><span class="line">battery.type: PbAc</span><br><span class="line">device.mfr: EATON</span><br><span class="line">device.model: SANTAK TG-BOX 850</span><br><span class="line">device.serial: Blank</span><br><span class="line">device.type: ups</span><br><span class="line">driver.name: usbhid-ups</span><br><span class="line">driver.parameter.pollfreq: 30</span><br><span class="line">driver.parameter.pollinterval: 2</span><br><span class="line">driver.parameter.port: /dev/ttyS1</span><br><span class="line">driver.parameter.synchronous: no</span><br><span class="line">driver.version: 2.7.4</span><br><span class="line">driver.version.data: MGE HID 1.39</span><br><span class="line">driver.version.internal: 0.41</span><br><span class="line">input.transfer.high: 264</span><br><span class="line">input.transfer.low: 184</span><br><span class="line">outlet.1.desc: PowerShare Outlet 1</span><br><span class="line">outlet.1.id: 1</span><br><span class="line">outlet.1.status: on</span><br><span class="line">outlet.1.switchable: no</span><br><span class="line">outlet.desc: Main Outlet</span><br><span class="line">outlet.id: 0</span><br><span class="line">outlet.switchable: yes</span><br><span class="line">output.frequency.nominal: 50</span><br><span class="line">output.voltage: 230.0</span><br><span class="line">output.voltage.nominal: 220</span><br><span class="line">ups.beeper.status: enabled</span><br><span class="line">ups.delay.shutdown: 20</span><br><span class="line">ups.delay.start: 30</span><br><span class="line">ups.firmware: 02.08.0010</span><br><span class="line">ups.load: 13</span><br><span class="line">ups.mfr: EATON</span><br><span class="line">ups.model: SANTAK TG-BOX 850</span><br><span class="line">ups.power.nominal: 850</span><br><span class="line">ups.productid: ffff</span><br><span class="line">ups.serial: Blank</span><br><span class="line">ups.status: OL</span><br><span class="line">ups.timer.shutdown: 0</span><br><span class="line">ups.timer.start: 0</span><br><span class="line">ups.type: offline / line interactive</span><br><span class="line">ups.vendorid: 0463</span><br></pre></td></tr></table></figure>
 <p>or</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ systemctl status nut-client</span><br><span class="line">...</span><br><span class="line">... Started Network UPS Tools - power device monitor and shutdown controller.</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<h1 id="reference">Reference</h1></li>
-<li><p>https://www.purefish.cc/pve-synology-ups.html</p></li>
-<li><p>https://blog.cyida.com/posts/ZEK5W9/</p></li>
-<li><p>https://www.lxg2016.com/54516.html</p></li>
-<li><p><strong>https://post.smzdm.com/p/av7o5r9n/</strong></p></li>
-<li><p><strong>https://blog.pengandfan.com/2021/09/10/qnap-nas%E6%B7%BB%E5%8A%A0ups%E5%90%8E%E6%8E%A8%E9%80%81%E5%85%B3%E6%9C%BA%E9%80%9A%E7%9F%A5%E5%88%B0%E5%85%B6%E4%BB%96%E8%AE%BE%E5%A4%87/</strong></p></li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ systemctl status nut-client</span><br><span class="line">...</span><br><span class="line">... Started Network UPS Tools - power device monitor and shutdown controller.</span><br><span class="line">...</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="reference">Reference</h1>
+<ol type="1">
+<li>https://www.purefish.cc/pve-synology-ups.html</li>
+<li>https://blog.cyida.com/posts/ZEK5W9/</li>
+<li>https://www.lxg2016.com/54516.html</li>
+<li><strong>https://post.smzdm.com/p/av7o5r9n/</strong></li>
+<li><strong><a href="https://blog.pengandfan.com/2021/09/10/qnap-nas%E6%B7%BB%E5%8A%A0ups%E5%90%8E%E6%8E%A8%E9%80%81%E5%85%B3%E6%9C%BA%E9%80%9A%E7%9F%A5%E5%88%B0%E5%85%B6%E4%BB%96%E8%AE%BE%E5%A4%87/">https://blog.pengandfan.com/2021/09/10/qnap-nas添加ups后推送关机通知到其他设备</a></strong></li>
 </ol>
 ]]></content>
       <categories>
