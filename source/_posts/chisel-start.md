@@ -3,10 +3,10 @@ title: chisel 学习（1）
 toc: true
 comments: true
 date: 2021-05-24 19:29:18
-updated: 2021-05-24 19:29:18
+updated: 2022-03-29 11:24:45
 categories: chisel
 tags: [chisel, FPGA]
-description:
+description: 
 ---
 
 ![Chisel 3](https://pic.zhouyuqian.com/img/20210726235317.svg)
@@ -19,15 +19,17 @@ https://www.chisel-lang.org/
 
 # 学习资料
 
-[freechipsproject/chisel-bootcamp](https://github.com/freechipsproject/chisel-bootcamp)
-
-[Chisel Bootcamp 中文](https://www.chiselchina.com/archives/)
-
-[schoeberl/chisel-book](https://github.com/schoeberl/chisel-book)
-
-[schoeberl/chisel-examples](https://github.com/schoeberl/chisel-examples)
-
-[chisel3 api](https://www.chisel-lang.org/api/latest/chisel3/index.html)
+1. [Chisel Bootcamp](https://github.com/freechipsproject/chisel-bootcamp)是一个很不错的chisel教程, 还支持在线运行chisel代码, 你可以一边编写chisel代码一边学习. 其中
+   - 第1章是scala入门
+   - 第2章是chisel基础
+   - 第3章是scala高级特性和chisel的混合使用
+   - 第4章是FIRRTL后端相关内容 你需要完成前两章的学习, 同时我们强烈建议你学习第3章. 第4章和本课程没有直接关系, 可以作为课外阅读材料.
+2. [Chisel Bootcamp 中文](https://www.chiselchina.com/archives/) 这个是翻译成中文的 Chisel Bootcamp
+3. [Chisel Users Guideopen in new window](https://www.chisel-lang.org/chisel3/docs/introduction.html)比较系统地整理了chisel的特性, 也是不错的入门教程.
+4. [Chisel API](https://www.chisel-lang.org/api/latest/chisel3/index.html)详细地列出了chisel库的所有API供参考.
+5. [Chisel小抄open in new window](https://github.com/freechipsproject/chisel-cheatsheet/releases/latest/download/chisel_cheatsheet.pdf)简明地列出了chisel语言的大部分用法.
+6. [schoeberl/chisel-book](https://github.com/schoeberl/chisel-book)
+7. [schoeberl/chisel-examples](https://github.com/schoeberl/chisel-examples)
 
 # 安装
 
@@ -43,6 +45,7 @@ Docker:
 https://github.com/muojp/docker-sbt-chisel.git
 ~~~
 
+OR: 使用 [OpenXiangShan/chisel-playground](https://github.com/OpenXiangShan/chisel-playground.git) 项目，已经配置好了环境，使用 [mill](https://com-lihaoyi.github.io/mill) 作为 Scala 编译器.
 
 
 # Before Start
