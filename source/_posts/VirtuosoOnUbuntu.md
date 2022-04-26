@@ -10,7 +10,7 @@ description: >-
 toc: true
 comments: true
 date: 2021-03-07 17:12:33
-updated: 2021-04-11 10:46:00
+updated: 2021-12-03 21:07:00
 ---
 
 # Cadence Reference
@@ -427,5 +427,142 @@ alias wb2='/ansys_inc/v202/Framework/bin/Linux64/runwb2 -oglmesa'
 export LD_LIBRARY_PATH=/opt/ansys_inc/v202/Framework/bin/Linux64/Mesa:$LD_LIBRARY_PATH
 export LANG=en_US.UTF8
 export FLUENT_ARCH='lnamd64'
+~~~
+
+# Synopsys VCS+Verdi
+
+> Ref:
+>
+> 1. [VCS+Verdi 安装及破解过程(Ubuntu)【1】](https://blog.csdn.net/huayangshiboqi/article/details/89525723)
+>
+> 2. [Synopsys license过期](https://blog.csdn.net/qq_35787848/article/details/112506565)
+> 3. [libpng12.so.0: cannot open shared object file: No such file or directory 解决方法](https://blog.csdn.net/qq_39117553/article/details/119759213?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link)
+
+主要参考 [1. VCS+Verdi 安装及破解过程(Ubuntu)【1】](https://blog.csdn.net/huayangshiboqi/article/details/89525723) 安装，破解时，发现 *scl_keygen* 的 EXPIRE 的时间最大只能设为 `12-dec-2020`，这个应该是 license 到期的时间，直接在 *scl_keygen* 里修改 EXPIRE 的时间后生成的 license 还是不能用，参考 [2. Synopsys license过期](https://blog.csdn.net/qq_35787848/article/details/112506565) 的思路，修改 *scl_keygen* 文件夹里 *Synopsys.src* 这个文件里的日期，将所有的 `12-dec-2020` 改成 `12-dec-2030`，然后再在 *scl_keygen* 里修改 EXPIRE 的时间为 `12-dec-2030`，这样生成的 license 就可以用了。
+
+由于 [1. VCS+Verdi 安装及破解过程(Ubuntu)【1】](https://blog.csdn.net/huayangshiboqi/article/details/89525723) 里提供的 vcs 需要 `gcc-4.8` 和 `g++-4.8`，需要单独安装，由于这个版本的 gcc 很老，无法直接使用包管理软件安装，因此需要从源码编译安装，我下载的是 [`gcc-4.8.5`](http://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2)，不过这个版本的 gcc 使用高版本的 gcc 编译时会出很多问题，解决这些问题参考了以下几篇文章：
+
+## [GCC-4.8.5 编译安装](https://zhouyuqian.com/2021/11/30/build-install-gcc-4-8-5/)
+
+> 1. [https://stackoverflow.com/questions/61945439/how-to-install-compiler-g-4-8-5-in-ubuntu-20-04](https://stackoverflow.com/questions/61945439/how-to-install-compiler-g-4-8-5-in-ubuntu-20-04)
+> 2. [https://www.icode9.com/content-3-1202280.html](https://www.icode9.com/content-3-1202280.html)
+> 3. [https://www.frank.fyi/archives/336_gcc-compile-error/](https://www.frank.fyi/archives/336_gcc-compile-error/)
+
+参考第一篇：
+
+~~~bash
+# 下载gcc
+wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2
+# 解压
+tar -zxvf gcc-4.8.5.tar.bz2
+# 修改 gcc-4.8.5 两处 bug
+sed -i -e 's/__attribute__/\/\/__attribute__/g' gcc-4.8.5/gcc/cp/cfns.h
+sed -i 's/struct ucontext/ucontext_t/g' gcc-4.8.5/libgcc/config/i386/linux-unwind.h
+ 
+# 安装依赖三大件，会自动顺序安装gmp、mpfr、mpc
+gcc-4.8.5/contrib/download_prerequisites
+# 或者
+sudo apt install make wget git gcc g++ lhasa libgmp-dev libmpfr-dev libmpc-dev flex bison gettext texinfo ncurses-dev autoconf rsync
+ 
+# 创建编译目录 gcc-4.8.5-build
+mkdir gcc-4.8.5-build
+cd gcc-4.8.5-build
+ 
+# 开始编译安装
+$PWD/../gcc-4.8.5/configure --enable-languages=c,c++ --prefix=/usr/local/gcc-4.8.5 --enable-shared --enable-plugin --program-suffix=-4.8.5 --disable-multilib
+make MAKEINFO="makeinfo --force" -j
+
+# 编译完成后安装
+sudo make install
+~~~
+
+编译的过程中会出现一些问题，主要参考了[第二篇文章](https://www.icode9.com/content-3-1202280.html)和[第三篇文章](https://www.frank.fyi/archives/336_gcc-compile-error/)。
+
+## vcs+verdi 的仿真脚本
+
+最后，附上 vcs+verdi 的仿真脚本，运行 `make sim` 使用 vcs 仿真，运行 `make verdi` 使用 verdi 查看波形。
+
+*Makefile*
+
+~~~makefile
+.PHONY: all vcs file clean
+
+TOP ?= BBPLL_tb
+
+export demo_name=${TOP}
+export LD_LIBRARY_PATH=${VERDI_HOME}/share/PLI/VCS/LINUX64
+
+SRC_PATH := ${PWD}/../src
+FILELIST_FILE := filelist.f
+
+DAIDIR := /tmp/vcs_run/${TOP}.daidir
+MDIR := /tmp/vcs_run/${TOP}.csrc
+
+VCS_FLAGS := -full64 \
+			+v2k \
+			-sverilog \
+			-debug_all \
+			+define+DUMP_FSDB \
+			+incdir+${SRC_PATH} \
+			-f ${FILELIST_FILE} \
+			-l com.log \
+			-top ${TOP} \
+			-o ${TOP} \
+			-lca -kdb \
+			-daidir=${DAIDIR} \
+			-Mdirectory=${MDIR} \
+			-LDFLAGS -Wl,-no-as-needed \
+			-j8 \
+			-diag timescale -timescale=1s/1fs
+
+VERDI_FLAGS := 	+v2k \
+				-sverilog \
+				-f ${FILELIST_FILE} \
+				-top ${TOP} \
+				-ssf ${TOP}.fsdb \
+				-nologo \
+				+incdir+${SRC_PATH} \
+				-l verdi.log
+
+SRC_FILES += $(foreach f, $(SRC_PATH), $(wildcard $(f)/*.v))  
+SRC_FILES += $(foreach f, $(SRC_PATH), $(wildcard $(f)/*.sv))  
+
+# start simulation
+sim: clean com
+	./${TOP} \
+	-ucli -i sim.tcl \
+	+fsdb+autoflush \
+	-l sim.log 
+
+# start compile
+com: file
+	vcs ${VCS_FLAGS}
+
+# run verdi
+verdi: ${TOP}.fsdb
+	verdi ${VERDI_FLAGS} &
+
+file:
+	-rm -f ${FILELIST_FILE}
+	for filename in ${SRC_FILES}; do \
+		realpath $${filename} | xargs -n 1 -I path bash -c "echo path >> ${FILELIST_FILE}"; \
+	done
+
+clean:
+	-rm -rf ${DAIDIR}
+	-rm -rf ${MDIR}
+	-rm -rf `ls | grep -v "Makefile" | grep -v "sim.tcl" | grep -v "filelist.f" | grep -v "res" | grep -v "wave.rc"`
+~~~
+
+*sim.tcl*
+
+~~~tcl
+global env
+# puts '$env(demo_name).fsdb'
+fsdbDumpfile "$env(demo_name).fsdb"
+# fsdbDumpvars 0 "$env(demo_name)"
+fsdbDumpvars
+run 2.0ms
+exit
 ~~~
 

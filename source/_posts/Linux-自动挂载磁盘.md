@@ -130,14 +130,14 @@ description:
    sudo mkdir /mnt/local_share
    ```
 
-2. 创建文件保存 *~/.smbcredentials* 来保存 SMB 用户名和密码
+2. 创建文件保存 *~/.smbcredentials* 来保存 SMB 用户名和密码
 
    ```
    username=smb_share
    password=share_password
    ```
 
-3. 在 */etc/fstab* 最后添加配置实现自动挂载
+3. 在 */etc/fstab* 最后添加配置实现自动挂载
 
    ```
    # /etc/fstab
@@ -146,5 +146,30 @@ description:
 
    > PS：`$smb_server` 为 SMB 服务器地址，`$user` 为当前用户名，`uid/gid` 为当前用户的 `uid` 和 `gid`，可以通过 `id $(whoami)` 查看
 
-4. 通过 `mount -a` 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。
+4. 通过 `mount -a` 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。
+
+# 挂载 NFS
+
+首先需要安装：
+
+~~~bash
+sudo apt install nfs-common
+~~~
+
+## 临时挂载
+
+~~~bash
+sudo mkdir -p /nfs/general
+sudo mount nfs_ip:/var/nfs/general /nfs/general
+~~~
+
+## 开机自动挂载
+
+编辑 */etc/fstab*，在最后添加：
+
+~~~bash
+nfs_ip:/var/nfs/general /nfs/general nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0
+~~~
+
+然后通过 `mount -a` 命令检查 fstab 文件是否有错，如果错误可能会导致无法开机。
 
