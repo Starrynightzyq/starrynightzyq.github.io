@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Config static IP address on Ubuntu 18.04</title>
+    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
+    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
+<a id="more"></a>
+<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
+</blockquote>
+<p>结果如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
+<p>然后是配置生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Cadence ASM Tutorial</title>
     <url>/2020/12/16/CadenceASMTutorial/</url>
     <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
@@ -104,33 +131,6 @@
         <tag>Software</tag>
         <tag>Cadence</tag>
         <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Config static IP address on Ubuntu 18.04</title>
-    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
-    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
-<a id="more"></a>
-<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
-</blockquote>
-<p>结果如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
-<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
-<p>然后是配置生效：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -271,94 +271,6 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>CM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Delta-Sigma Modulator</title>
-    <url>/2020/11/26/DSM/</url>
-    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
-<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
-<a id="more"></a>
-<h1 id="分数型锁相环">分数型锁相环</h1>
-<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
-<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
-<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
-<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
-<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
-<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
-<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
-H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
-\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
-<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
-<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
-NTF(z) = \frac{1}{1+H(z)}
-\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
-<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
-STF(S) = \frac{H(z)}{1+H(z)}
-\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
-<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
-<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
-<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
-<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
-<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
-<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
-<h2 id="mash-结构">MASH 结构</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
-<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
-<p><strong>优点</strong>：稳定性好。</p>
-<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
-<p>第一级的输出： <span class="math display">\[
-y_1 = z^{-1} x + (1-z^{-1})q_1
-\]</span> 第二级的输出： <span class="math display">\[
-y_2 = z^{-1} q_1 + (1-z^{-1})q_2
-\]</span> 最终输出： <span class="math display">\[
-y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
-\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
-<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
-<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
-<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
-<ol type="1">
-<li>DSM 的阶数</li>
-<li>DSM 的结构</li>
-<li>DSM 的数字输出比特数</li>
-<li>DSM 的稳定输入范围</li>
-<li>噪声整形性能与环路稳定性的考量</li>
-</ol>
-<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
-<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
-<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
-<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
-<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
-<h2 id="相位补偿">相位补偿</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
-<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
-<blockquote>
-<p>关于噪声补偿的一点点思考</p>
-<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
-<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
-<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
-<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
-</blockquote>
-<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
-<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
-<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
-<h1 id="最小二乘法">最小二乘法</h1>
-<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
-<h1 id="参考文章">参考文章</h1>
-<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
-<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
-]]></content>
-      <categories>
-        <category>Delta-Sigma</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -544,6 +456,94 @@ N = \frac{M}{GCD(X, M)}
         <tag>Analog</tag>
         <tag>PLL</tag>
         <tag>DSM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delta-Sigma Modulator</title>
+    <url>/2020/11/26/DSM/</url>
+    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
+<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
+<a id="more"></a>
+<h1 id="分数型锁相环">分数型锁相环</h1>
+<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
+<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
+<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
+<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
+<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
+<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
+<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
+H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
+\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
+<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
+<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
+NTF(z) = \frac{1}{1+H(z)}
+\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
+<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
+STF(S) = \frac{H(z)}{1+H(z)}
+\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
+<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
+<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
+<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
+<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
+<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
+<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
+<h2 id="mash-结构">MASH 结构</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
+<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
+<p><strong>优点</strong>：稳定性好。</p>
+<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
+<p>第一级的输出： <span class="math display">\[
+y_1 = z^{-1} x + (1-z^{-1})q_1
+\]</span> 第二级的输出： <span class="math display">\[
+y_2 = z^{-1} q_1 + (1-z^{-1})q_2
+\]</span> 最终输出： <span class="math display">\[
+y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
+\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
+<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
+<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
+<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
+<ol type="1">
+<li>DSM 的阶数</li>
+<li>DSM 的结构</li>
+<li>DSM 的数字输出比特数</li>
+<li>DSM 的稳定输入范围</li>
+<li>噪声整形性能与环路稳定性的考量</li>
+</ol>
+<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
+<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
+<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
+<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
+<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
+<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
+<blockquote>
+<p>关于噪声补偿的一点点思考</p>
+<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
+<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
+<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
+<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
+</blockquote>
+<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
+<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
+<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
+<h1 id="最小二乘法">最小二乘法</h1>
+<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
+<h1 id="参考文章">参考文章</h1>
+<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+]]></content>
+      <categories>
+        <category>Delta-Sigma</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -2492,57 +2492,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>PLL(Phase-locked loop, 锁相环)</title>
-    <url>/2020/09/11/PLL/</url>
-    <content><![CDATA[<p>锁相环（PLL: Phase-locked loop）是一种利用反馈（Feedback）控制原理实现的频率及相位的同步技术，其作用是将电路输出的时钟与其外部的参考时钟保持同步。当参考时钟的频率或相位发生改变时，锁相回路会检测到这种变化，并且通过其内部的反馈系统来调节输出频率，直到两者重新同步，这种同步又称为“锁相”（Phase-locked）。</p>
-<a id="more"></a>
-<h1 id="时钟与振荡电路">时钟与振荡电路</h1>
-<p>芯片工作时，通常需要时钟，时钟的周期变化可以通过振荡来产生。振荡电路的形成通常可以分为两类：</p>
-<ol type="1">
-<li>石英晶体压电效应：电导致晶片的机械变形，而晶片两侧施加机械压力又会产生电，形成振荡。它的谐振频率与晶片的切割方式、几何形状、尺寸有关，可以做得精确，因此其振荡电路可以获得很高的频率稳定度。</li>
-<li>电容Capacity的充电放电：LC振荡电路，能够存储电能，而充放电的电流方向是反的，形成振荡，可通过电压等控制振荡电路的频率。</li>
-</ol>
-<h1 id="pll-与倍频">PLL 与倍频</h1>
-<p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
-<h2 id="pll锁相环电路的概要">PLL(锁相环)电路的概要</h2>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194546.png" alt="Pll"><figcaption aria-hidden="true">Pll</figcaption>
-</figure>
-<p>PLL 通常由以下几个部分组成：</p>
-<ul>
-<li><p>鉴相鉴频器 PFD（Phase Frequency Detector）：对输入的基准信号（来自频率稳定的晶振）和反馈回路的信号进行频率的比较，输出一个代表两者差异的信号</p></li>
-<li><p>低通滤波器 LPF（Low-Pass Filter）：将PFD中生成的差异信号的高频成分滤除，保留直流部分；</p></li>
-<li><p>压控振荡器 VCO（Voltage Controlled Oscillator）：根据输入电压，输出对应频率的周期信号。利用变容二极管（偏置电压的变化会改变耗尽层的厚度，从而影响电容大小）与电感构成的 LC 谐振电路构成，提高变容二极管的逆向偏压，二极管内耗尽层变大，电容变小，LC 电路的谐振频率提高，反之，降低逆向偏压时，二极管内电容变大，频率降低；</p></li>
-<li><p>反馈回路 FL（Feedback Loop）：通常由一个分频器实现。将 VCO 的输出降低到与基准信号相同级别的频率才能在 PFD 中比较；</p></li>
-</ul>
-<p>PLL 工作的基本原理就是将压控振荡器的输出经过分频后与基准信号输入 PFD，PFD 通过比较这两个信号的频率差，输出一个代表两者差异的信号，再经过低通滤波器转变成一个直流脉冲电压去控制 VCO 使它的频率改变。这样经过一个很短的时间，VCO 的输出就会稳定下来。所以 PLL 并不是直接对晶振进行倍频，而是将频率稳定的晶振作为基准信号，与 PLL 内部振荡电路生成的信号分频后进行比较，使 PLL 输出的信号频率稳定。</p>
-<p>假设基准振荡器的频率为 <code>$f_r$</code>，VCO的频率为 <code>$f_o$</code>，在此一电路中，假设 <code>$f_r&gt;f_o$</code> 时，也即是 VCO 的振荡频率 <code>$f_o$</code> 比 <code>$f_r$</code> 低时。此时的相位比较器的输出 PFD 会如下图所示，产生正脉波信号，使 VCO 的振荡器频率提高。相反，如果 <code>$f_r&lt;f_o$</code> 时，会产生负脉波信号。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194547.png" alt="PFD"><figcaption aria-hidden="true">PFD</figcaption>
-</figure>
-<p>(此为利用脉波的边缘做二个信号的比较。如果有相位差存在时，便会产生正或负的脉波输出。)</p>
-<p>此 PD 脉波信号经过回路滤波器(LoopFilter)的积分，便可以得到直流电压 VR，可以控制 VCO 电路。由于控制电压 VR 的变化，VCO 振荡频率会提高。结果使得 <code>$f_r=f_o$</code>。在两者相位成为一致时，PD 端子会成为高阻抗状态，使 PLL 被锁栓(Lock)。</p>
-<h2 id="回路滤波器的选择方法">回路滤波器的选择方法</h2>
-<p>回路滤波器的时间常数与 PLL 控制的良否有很大的关系。在基准频率 <code>$f_r$</code> 为 10kHz 时，输往回路滤波器的脉波周期为 0.1ms。</p>
-<p>为了保持电压值 VR 而增大回路滤波器的时间常数时，便无法追踪 VCO 的振荡频率的变化。如果时间常数太小时，会在 VR 上出现涟波，使 PLL 的稳定度恶化。</p>
-<p>因此，根据经验，回路滤波器的时间常数，选择大约为基准频率的周期 (1/fr) 的数百倍。</p>
-<h1 id="reference">Reference</h1>
-<ol type="1">
-<li><a href="https://blog.csdn.net/u013754317/article/details/52799516">锁相环PLL（Phase Locked Loop)</a></li>
-<li><a href="https://blog.csdn.net/leoufung/article/details/50268031">PLL(锁相环)电路原理</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Phase-locked_loop">Phase-locked loop</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>RISC-V SOC Design (1)</title>
     <url>/2020/03/27/RISC-V-SOC-Design-1/</url>
     <content><![CDATA[<p>使用 vivado blockdesign 搭建，比较直观</p>
@@ -2607,6 +2556,57 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>FPGA</tag>
         <tag>毕业设计</tag>
         <tag>RISC-V</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PLL(Phase-locked loop, 锁相环)</title>
+    <url>/2020/09/11/PLL/</url>
+    <content><![CDATA[<p>锁相环（PLL: Phase-locked loop）是一种利用反馈（Feedback）控制原理实现的频率及相位的同步技术，其作用是将电路输出的时钟与其外部的参考时钟保持同步。当参考时钟的频率或相位发生改变时，锁相回路会检测到这种变化，并且通过其内部的反馈系统来调节输出频率，直到两者重新同步，这种同步又称为“锁相”（Phase-locked）。</p>
+<a id="more"></a>
+<h1 id="时钟与振荡电路">时钟与振荡电路</h1>
+<p>芯片工作时，通常需要时钟，时钟的周期变化可以通过振荡来产生。振荡电路的形成通常可以分为两类：</p>
+<ol type="1">
+<li>石英晶体压电效应：电导致晶片的机械变形，而晶片两侧施加机械压力又会产生电，形成振荡。它的谐振频率与晶片的切割方式、几何形状、尺寸有关，可以做得精确，因此其振荡电路可以获得很高的频率稳定度。</li>
+<li>电容Capacity的充电放电：LC振荡电路，能够存储电能，而充放电的电流方向是反的，形成振荡，可通过电压等控制振荡电路的频率。</li>
+</ol>
+<h1 id="pll-与倍频">PLL 与倍频</h1>
+<p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
+<h2 id="pll锁相环电路的概要">PLL(锁相环)电路的概要</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194546.png" alt="Pll"><figcaption aria-hidden="true">Pll</figcaption>
+</figure>
+<p>PLL 通常由以下几个部分组成：</p>
+<ul>
+<li><p>鉴相鉴频器 PFD（Phase Frequency Detector）：对输入的基准信号（来自频率稳定的晶振）和反馈回路的信号进行频率的比较，输出一个代表两者差异的信号</p></li>
+<li><p>低通滤波器 LPF（Low-Pass Filter）：将PFD中生成的差异信号的高频成分滤除，保留直流部分；</p></li>
+<li><p>压控振荡器 VCO（Voltage Controlled Oscillator）：根据输入电压，输出对应频率的周期信号。利用变容二极管（偏置电压的变化会改变耗尽层的厚度，从而影响电容大小）与电感构成的 LC 谐振电路构成，提高变容二极管的逆向偏压，二极管内耗尽层变大，电容变小，LC 电路的谐振频率提高，反之，降低逆向偏压时，二极管内电容变大，频率降低；</p></li>
+<li><p>反馈回路 FL（Feedback Loop）：通常由一个分频器实现。将 VCO 的输出降低到与基准信号相同级别的频率才能在 PFD 中比较；</p></li>
+</ul>
+<p>PLL 工作的基本原理就是将压控振荡器的输出经过分频后与基准信号输入 PFD，PFD 通过比较这两个信号的频率差，输出一个代表两者差异的信号，再经过低通滤波器转变成一个直流脉冲电压去控制 VCO 使它的频率改变。这样经过一个很短的时间，VCO 的输出就会稳定下来。所以 PLL 并不是直接对晶振进行倍频，而是将频率稳定的晶振作为基准信号，与 PLL 内部振荡电路生成的信号分频后进行比较，使 PLL 输出的信号频率稳定。</p>
+<p>假设基准振荡器的频率为 <code>$f_r$</code>，VCO的频率为 <code>$f_o$</code>，在此一电路中，假设 <code>$f_r&gt;f_o$</code> 时，也即是 VCO 的振荡频率 <code>$f_o$</code> 比 <code>$f_r$</code> 低时。此时的相位比较器的输出 PFD 会如下图所示，产生正脉波信号，使 VCO 的振荡器频率提高。相反，如果 <code>$f_r&lt;f_o$</code> 时，会产生负脉波信号。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194547.png" alt="PFD"><figcaption aria-hidden="true">PFD</figcaption>
+</figure>
+<p>(此为利用脉波的边缘做二个信号的比较。如果有相位差存在时，便会产生正或负的脉波输出。)</p>
+<p>此 PD 脉波信号经过回路滤波器(LoopFilter)的积分，便可以得到直流电压 VR，可以控制 VCO 电路。由于控制电压 VR 的变化，VCO 振荡频率会提高。结果使得 <code>$f_r=f_o$</code>。在两者相位成为一致时，PD 端子会成为高阻抗状态，使 PLL 被锁栓(Lock)。</p>
+<h2 id="回路滤波器的选择方法">回路滤波器的选择方法</h2>
+<p>回路滤波器的时间常数与 PLL 控制的良否有很大的关系。在基准频率 <code>$f_r$</code> 为 10kHz 时，输往回路滤波器的脉波周期为 0.1ms。</p>
+<p>为了保持电压值 VR 而增大回路滤波器的时间常数时，便无法追踪 VCO 的振荡频率的变化。如果时间常数太小时，会在 VR 上出现涟波，使 PLL 的稳定度恶化。</p>
+<p>因此，根据经验，回路滤波器的时间常数，选择大约为基准频率的周期 (1/fr) 的数百倍。</p>
+<h1 id="reference">Reference</h1>
+<ol type="1">
+<li><a href="https://blog.csdn.net/u013754317/article/details/52799516">锁相环PLL（Phase Locked Loop)</a></li>
+<li><a href="https://blog.csdn.net/leoufung/article/details/50268031">PLL(锁相环)电路原理</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Phase-locked_loop">Phase-locked loop</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PLL</tag>
       </tags>
   </entry>
   <entry>
@@ -4250,6 +4250,37 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
+    <title>自动追剧（or电影）</title>
+    <url>/2022/03/18/automovie/</url>
+    <content><![CDATA[<p>全自动观影流程</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/202204261123304.svg" alt="automovie"><figcaption aria-hidden="true">automovie</figcaption>
+</figure>
+<a id="more"></a>
+<h2 id="all">All</h2>
+<p>https://leishi.io/blog/posts/2021-12/home-nas-media-center</p>
+<p><a href="https://post.smzdm.com/p/a5d22v7k/">软路由的用法（自动追剧配置）</a></p>
+<h2 id="jackett">Jackett</h2>
+<p><a href="https://post.smzdm.com/p/a0do2mnz/">UNRAID一篇就够！Jackett种子索引</a></p>
+<h2 id="qbittorrent">qBittorrent</h2>
+<p><a href="https://post.smzdm.com/p/ag827k26/">BT下载教程 篇三：qBittorrent 全平台通用优化教程，适用于群晖 N1小钢炮</a></p>
+<p>https://hub.docker.com/r/johngong/qbittorrent</p>
+<h2 id="jellyfin">Jellyfin</h2>
+<p>https://sspai.com/post/67763</p>
+<p><a href="https://blog.lishun.me/synology-docker-jellyfin-quicksync">群晖 Docker 安装 Jellyfin 媒体服务器并开启 Intel Quick Sync 提升性能</a></p>
+<p><a href="https://blog.lishun.me/docker-jellyfin-chinese-fonts">解决 Docker 安装 Jellyfin 封面图和部分中文字幕变方块</a></p>
+<h2 id="my-docker-compose-file">My docker compose file</h2>
+<p>docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">jackett:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">jackett</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">linuxserver/jackett:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9117</span><span class="string">:9117</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/jackett:/config</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">flaresolverr:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">flaresolverr</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">ghcr.io/flaresolverr/flaresolverr:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">LOG_LEVEL=info</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8191</span><span class="string">:8191</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">radarr:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">radarr</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">lscr.io/linuxserver/radarr:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Europe/London</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">7878</span><span class="string">:7878</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/radarr:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-completed/movies:/movies</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-downloads:/downloads</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/OneDrive_SEU_NAS/media:/onedrive_media</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">sonarr:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">sonarr</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">linuxserver/sonarr:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8987</span><span class="string">:8989</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/sonarr:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-completed/TV:/TV</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-downloads:/downloads</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/OneDrive_SEU_NAS/media:/onedrive_media</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">chinesesubfinder:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">chinesesubfinder</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">allanpk716/chinesesubfinder:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">19035</span><span class="string">:19035</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/chinesesubfinder/cache:/app/cache</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/chinesesubfinder/config:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-downloads:/downloads</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-completed/movies:/movies</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-completed/TV:/TV</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/OneDrive_SEU_NAS/media:/onedrive_media</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">links:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">emby</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">emby</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">qbittorrent:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">qbittorrent</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">johngong/qbittorrent:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">QB_WEBUI_PORT=8989</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">QB_EE_BIN=false</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">QB_TRACKERS_UPDATE_AUTO=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">UMASK=000</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">6882</span><span class="string">:6881</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">6882</span><span class="string">:6881/udp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8989</span><span class="string">:8989</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/qbittorrent:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-downloads:/Downloads</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/DATA/aria2-completed:/Completed</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/OneDrive_SEU_NAS/media:/onedrive_media</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">  </span><br><span class="line">  <span class="attr">ombi:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">lscr.io/linuxserver/ombi:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">ombi</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/ombi:/config</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">3579</span><span class="string">:3579</span></span><br><span class="line">    <span class="attr">dns:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.12</span><span class="number">.2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">223.5</span><span class="number">.5</span><span class="number">.5</span></span><br><span class="line">    <span class="attr">links:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">emby</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">sonarr</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">radarr</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">emby</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">sonarr</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">radarr</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">emby:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">emby/embyserver</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">emby</span></span><br><span class="line">    <span class="comment"># network_mode: host # Enable DLNA and Wake-on-Lan</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">UID=1000</span> <span class="comment"># The UID to run emby as (default: 2)</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">GID=100</span> <span class="comment"># The GID to run emby as (default 2)</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">GIDLIST=100</span> <span class="comment"># A comma-separated list of additional GIDs to run emby as (default: 2)</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/emby:/config</span> <span class="comment"># Configuration directory</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/aria2-complete/TV:/mnt/tvshows</span> <span class="comment"># Media directory</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/aria2-complete/movies:/mnt/movies</span> <span class="comment"># Media directory</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/OneDrive_SEU_NAS/media:/onedrive_media</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8096</span><span class="string">:8096</span> <span class="comment"># HTTP port</span></span><br><span class="line">      <span class="comment"># - 8920:8920 # HTTPS port</span></span><br><span class="line">    <span class="attr">dns:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.12</span><span class="number">.2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">223.5</span><span class="number">.5</span><span class="number">.5</span></span><br><span class="line">    <span class="attr">devices:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/dev/dri:/dev/dri</span> <span class="comment"># VAAPI/NVDEC/NVENC render nodes</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">jellyfin:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">jellyfin</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nyanmisaka/jellyfin:latest</span></span><br><span class="line">    <span class="attr">devices:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/dev/dri:/dev/dri</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PUID=1000</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PGID=100</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">JELLYFIN_PublishedServerUrl=192.168.12.10</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/homes/fitz/docker/jellyfin:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/aria2-complete/TV:/data/tvshows</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/aria2-complete/movies:/data/movies</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/share/OneDrive_SEU_NAS/media:/onedrive_media</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8097</span><span class="string">:8096</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8920</span><span class="string">:8920</span> <span class="comment"># HTTPS port</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">7359</span><span class="string">:7359/udp</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">1901</span><span class="string">:1900/udp</span></span><br><span class="line">    <span class="attr">dns:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.12</span><span class="number">.2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">223.5</span><span class="number">.5</span><span class="number">.5</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="comment"># privileged: true</span></span><br><span class="line">    <span class="comment"># command:</span></span><br><span class="line">    <span class="comment">#   - sh</span></span><br><span class="line">    <span class="comment">#   - -c</span></span><br><span class="line">    <span class="comment">#   - |</span></span><br><span class="line">    <span class="comment">#       chmod -R 777 /dev/dri/renderD128</span></span><br><span class="line">    <span class="comment">#       chmod -R 777 /dev/dri/card0</span></span><br><span class="line">    <span class="comment">#       bash</span></span><br><span class="line">    <span class="comment"># tty: true</span></span><br><span class="line">    <span class="comment"># stdin_open: true</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>懒人推动科技发展</category>
+      </categories>
+      <tags>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>chisel 学习（1）</title>
     <url>/2021/05/24/chisel-start/</url>
     <content><![CDATA[<figure>
@@ -4259,16 +4290,27 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 <h1 id="什么是-chisel">什么是 chisel</h1>
 <p>https://www.chisel-lang.org/</p>
 <h1 id="学习资料">学习资料</h1>
-<p><a href="https://github.com/freechipsproject/chisel-bootcamp">freechipsproject/chisel-bootcamp</a></p>
-<p><a href="https://www.chiselchina.com/archives/">Chisel Bootcamp 中文</a></p>
-<p><a href="https://github.com/schoeberl/chisel-book">schoeberl/chisel-book</a></p>
-<p><a href="https://github.com/schoeberl/chisel-examples">schoeberl/chisel-examples</a></p>
-<p><a href="https://www.chisel-lang.org/api/latest/chisel3/index.html">chisel3 api</a></p>
+<ol type="1">
+<li><a href="https://github.com/freechipsproject/chisel-bootcamp">Chisel Bootcamp</a>是一个很不错的chisel教程, 还支持在线运行chisel代码, 你可以一边编写chisel代码一边学习. 其中
+<ul>
+<li>第1章是scala入门</li>
+<li>第2章是chisel基础</li>
+<li>第3章是scala高级特性和chisel的混合使用</li>
+<li>第4章是FIRRTL后端相关内容 你需要完成前两章的学习, 同时我们强烈建议你学习第3章. 第4章和本课程没有直接关系, 可以作为课外阅读材料.</li>
+</ul></li>
+<li><a href="https://www.chiselchina.com/archives/">Chisel Bootcamp 中文</a> 这个是翻译成中文的 Chisel Bootcamp</li>
+<li><a href="https://www.chisel-lang.org/chisel3/docs/introduction.html">Chisel Users Guideopen in new window</a>比较系统地整理了chisel的特性, 也是不错的入门教程.</li>
+<li><a href="https://www.chisel-lang.org/api/latest/chisel3/index.html">Chisel API</a>详细地列出了chisel库的所有API供参考.</li>
+<li><a href="https://github.com/freechipsproject/chisel-cheatsheet/releases/latest/download/chisel_cheatsheet.pdf">Chisel小抄open in new window</a>简明地列出了chisel语言的大部分用法.</li>
+<li><a href="https://github.com/schoeberl/chisel-book">schoeberl/chisel-book</a></li>
+<li><a href="https://github.com/schoeberl/chisel-examples">schoeberl/chisel-examples</a></li>
+</ol>
 <h1 id="安装">安装</h1>
 <p><a href="https://www.scala-sbt.org/release/docs/Setup.html#Installing+sbt">Installing sbt</a></p>
 <p>Follow the instructions from <a href="https://github.com/freechipsproject/chisel3">Chisel3</a> and <a href="https://github.com/freechipsproject/firrtl">firrtl</a> websites.</p>
 <p>Docker:</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">https:<span class="regexp">//gi</span>thub.com<span class="regexp">/muojp/</span>docker-sbt-chisel.git</span><br></pre></td></tr></table></figure>
+<p>OR: 使用 <a href="https://github.com/OpenXiangShan/chisel-playground.git">OpenXiangShan/chisel-playground</a> 项目，已经配置好了环境，使用 <a href="https://com-lihaoyi.github.io/mill">mill</a> 作为 Scala 编译器.</p>
 <h1 id="before-start">Before Start</h1>
 <p>首先需要理解Scala：</p>
 <h1 id="语法">语法</h1>
@@ -5954,6 +5996,72 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>xrdp</title>
+    <url>/2021/04/02/xrdp/</url>
+    <content><![CDATA[<blockquote>
+<p>reference：</p>
+<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
+<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
+</blockquote>
+<h1 id="安装-xrdp">安装 Xrdp</h1>
+<p>安装 xfce 桌面环境：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
+<p>或者安装 xubuntu 环境：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xubuntu-desktop</span><br></pre></td></tr></table></figure>
+<p>再安装 xrdp：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
+<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
+<p>重启 Xrdp 服务，使得修改生效：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置xrdp"><del>配置Xrdp</del></h1>
+<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
+<p><code>/etc/xrdp/xrdp.ini</code></p>
+<p>在文件末尾添加以下行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
+<p>保存文件并重新启动Xrdp服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置-xrdpnew">配置 Xrdp（new）</h1>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo xfce4-session &gt; ~/.xsession</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
+<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
+<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
+<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
+<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
+<p>在 client 上运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
+<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
+<p>在 client 上连接的时候服务器地址填写：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
+<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
+<p>解决方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
+<p>如果还是黑屏，重启一下试试。</p>
+<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
+<blockquote>
+<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
+</blockquote>
+<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+<h1 id="问题3色彩管理设备-color-managed-device-弹窗">问题3：“色彩管理设备” / “color managed device” 弹窗</h1>
+<blockquote>
+<p>https://blog.csdn.net/wu_weijie/article/details/108481456</p>
+</blockquote>
+<p>创建文件 <em>/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla</em> 并写入内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Allow Colord all Users]</span><br><span class="line">Identity=unix-user:*</span><br><span class="line">Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile</span><br><span class="line">ResultAny=no</span><br><span class="line">ResultInactive=no</span><br><span class="line">ResultActive=yes</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vim 命令记录</title>
     <url>/2021/09/27/vim/</url>
     <content><![CDATA[<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Vimlogo.svg/1024px-Vimlogo.svg.png" alt="Vim" style="zoom:33%;"></p>
@@ -6213,72 +6321,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>Geek</tag>
         <tag>Vim</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>xrdp</title>
-    <url>/2021/04/02/xrdp/</url>
-    <content><![CDATA[<blockquote>
-<p>reference：</p>
-<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
-<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
-</blockquote>
-<h1 id="安装-xrdp">安装 Xrdp</h1>
-<p>安装 xfce 桌面环境：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
-<p>或者安装 xubuntu 环境：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xubuntu-desktop</span><br></pre></td></tr></table></figure>
-<p>再安装 xrdp：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
-<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
-<p>重启 Xrdp 服务，使得修改生效：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
-<h1 id="配置xrdp"><del>配置Xrdp</del></h1>
-<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
-<p><code>/etc/xrdp/xrdp.ini</code></p>
-<p>在文件末尾添加以下行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
-<p>保存文件并重新启动Xrdp服务：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
-<h1 id="配置-xrdpnew">配置 Xrdp（new）</h1>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo xfce4-session &gt; ~/.xsession</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
-<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
-<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
-<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
-<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
-<p>在 client 上运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
-<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
-<p>在 client 上连接的时候服务器地址填写：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
-<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
-<p>解决方法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
-<p>如果还是黑屏，重启一下试试。</p>
-<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
-<blockquote>
-<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
-</blockquote>
-<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
-<h1 id="问题3色彩管理设备-color-managed-device-弹窗">问题3：“色彩管理设备” / “color managed device” 弹窗</h1>
-<blockquote>
-<p>https://blog.csdn.net/wu_weijie/article/details/108481456</p>
-</blockquote>
-<p>创建文件 <em>/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla</em> 并写入内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Allow Colord all Users]</span><br><span class="line">Identity=unix-user:*</span><br><span class="line">Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile</span><br><span class="line">ResultAny=no</span><br><span class="line">ResultInactive=no</span><br><span class="line">ResultActive=yes</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -6907,71 +6949,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
-    <title>毕设--开题报告</title>
-    <url>/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/</url>
-    <content><![CDATA[<blockquote>
-<p>开题报告填写要求</p>
-<p>1．开题报告（含“文献综述”）作为毕业设计（论文）答辩委员会对学生答辩资格审查的依据材料之一。此报告应在指导教师指导下，由学生在毕业设计（论文）工作前期内完成，经指导教师签署意见及所在专业审查后生效；</p>
-<p>2．开题报告内容必须用黑墨水笔工整书写或按教务处统一设计的电子文档标准格式（可从教务处网页上下载）打印，禁止打印在其它纸上后剪贴，完成后应及时交给指导教师签署意见；</p>
-<p>3．“文献综述”应按论文的格式成文，并直接书写（或打印）在本开题报告第一栏目内，学生写文献综述的参考文献应不少于15篇（不包括辞典、手册）；</p>
-<p>4．有关年月日等日期的填写，应当按照国标GB/T 7408—94《数据元和交换格式、信息交换、日期和时间表示法》规定的要求，一律用阿拉伯数字书写。如“2004年4月26日”或“2004-04-26”。</p>
-</blockquote>
-<h1 id="文献综述">文献综述</h1>
-<blockquote>
-<p>结合毕业设计（论文）课题情况，根据所查阅的文献资料，每人撰写2000字左右的文献综述</p>
-</blockquote>
-<h2 id="研究背景及国内外研究现状">研究背景及国内外研究现状</h2>
-<p>卷积神经网络(CNN)现在是许多学科研究的热点之一，被广泛用于多种领域，特别是在模式识别、图像处理、计算机视觉等方面。但是卷积神经网络的主要问题在于计算量太大，特别是其中的卷积层，以Alex-Net为例，占用了90%<span class="citation" data-cites="chenEyerissEnergyefficientReconfigurable2016">[@chenEyerissEnergyefficientReconfigurable2016]</span>以上的计算量，卷积神经网络的硬件加速逐渐成为一个热门的研究问题。由于卷积神经网络自身特点，层与层之间可以看做顺序执行，而层内则有着较高的并行性，因此提高层内计算的并行度成为加速卷积神经网络的一个重要方向。</p>
-<p>在2009，Farabet等人<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>提出来一种基于FPGA的CNN，该结构使用卷积单元来处理数据，并使用一个通用CPU来控制卷积单元。但是由于FPGA资源的限制，该平台只实现了一个卷积核。如果计算需要多个卷积核，那么只能串行执行。2013年，Peemen等人<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>实现了一个以存储为中心的CNN协处理器，它利用CNN大量内存访问的特点，在存储部分使用SRAM，而PE部分使用SIMD指令。2015年，清华大学的方睿等人，提出一种多级流水线的管道加速器方案。CPU通过PCIE通道提供数据并进行控制整个逻辑单元。近年来，中科院的陈天石等人提出来DianNao系列的加速器<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>，目前是卷积神经网络硬件加速领域的较优的一种方案，可以实现多种结构的卷积网络，如MLP、CNN、DNN。存硬件实现的卷积神经网络加速器通用性不好。尽管可以通过配置来实现更多的结构，但是它的灵活性远不如通用CPU。因此可重构加速器与通用CPU相结合的模式是一种高效地解决卷积神经网络加速问题的方案。</p>
-<p>但是在这种定制结构中，CPU的选择具有极大的挑战。通常商业授权的IP会限制对指令集的修改，影响卷积神经网络加速器的实现效果。并且，商业授权的IP通常需要高昂的授权费，不利于高校和个人的研究。因此需要一个开源的指令集架构来进行定制加速器的研究。</p>
-<p>RISC-V是一种新的开源指令集架构（ISA）<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，目前已经有了一个完整的硬件和硬件生态<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>，包括完整的指令集、相应的编译器、模拟器和工具链。利用开源的RISC-V处理器，研究人员可以方便地将可重构加速器整合进SOC，并拓展相应的指令集来实现加速器的软件接口。</p>
-<h2 id="设计目标及平台的选择">设计目标及平台的选择</h2>
-<p>本设计主要包含三个部分，RISC-V Core和卷积神经网络加速器，以及将两部分结合起来实现完整功能的SOC部分。卷积神经网络的硬件加速通常可以采用ASIC或者FPGA来实现，两者均是采用定制的硬件电路来加速算法。通常ASIC的性能跟高，功耗更低，但是由于成本过高，因此在本设计中采用FPGA作为硬件平台。</p>
-<p>由于硬件实现CNN加速器需要较多资源，因此需要一款大容量的FPGA芯片，以实现更好的硬件加速效果。考虑各方面因素，最终选取了Nexys4 DDR作为硬件平台。Nexys4 DDR上使用Xilinx XC7A100T FPGA芯片。芯片包含了15,850个可编程逻辑单元，每个逻辑单元有4个6输入查找表和8个触发器。芯片有4,860 Kbits的块存储器，240个DSP运算单元，逻辑资源相对丰富。开发板引出数十个IO口和一个VGA接口，拥有128MB的DDR2，足够该系统使用。</p>
-<h2 id="研究意义及前景">研究意义及前景</h2>
-<p>卷积神经网络作为目前深度学习的一个重要手段，由于计算量巨大的问题限制了其应用于发展，通常需要在高性能的运算平台上进行模型的推演，因此主要被应用在主机场景，而非便携式应用。而利用卷积神经网络层内并行的特点，对卷积神经网络进行硬件加速，从而极大地提高了卷积网络的运行速度，使得便携设备也可以进行卷积神经网络运算，极大地拓展了深度学习的应用场合。</p>
-<h2 id="参考文献">参考文献</h2>
-<h1 id="研究手段">研究手段</h1>
-<blockquote>
-<p>本课题要研究或解决的问题和拟采用的研究手段（途径）</p>
-</blockquote>
-<h2 id="本课题要研究的问题">本课题要研究的问题</h2>
-<p>本课题设计搭建一个RISC-V处理器的SOC，并设计卷积神经网络加速器作为协处理器与RISC-V处理器配合工作，实现在低成本的嵌入式平台上进行卷积神经网络加速运算。</p>
-<p>本课题设计了一种RISC-V指令集的卷积神经网络处理器，实现了在低成本的嵌入式平台上进行卷积神经网络加速运算。本课题主要实现了以下功能：</p>
-<ol type="1">
-<li><p>使用RISC-V处理器搭建一个完整的SOC，包含RISC-V Core、片上总线、Debug调试模块以及基本的外设。</p></li>
-<li><p>设计可重构的卷积神经网络加速器，并将其作为协处理器，并为其设计设计专用的指令，包括矢量存储指令，矢量加载指令，矢量加法指令和卷积运算指令以加快卷积过程的执行速度。</p></li>
-</ol>
-<h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
-<p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
-</figure>
-<p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
-<p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1" role="doc-endnote"><p>C. Farabet, C. Poulet, J. Y. Han, and Y. Lecun, “Cnp: An fpga-based processor for convolutional networks,” in International Conference on Field Programmable Logic &amp; Applications, 2009.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>M. Peemen, A. A. A. Setio, B. Mesman, and H. Corporaal, “Memory-centric accelerator design for convolutional neural networks,” 2013.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>T. Chen, Z. Du, N. Sun, J. Wang, C. Wu, Y. Chen, and O. Temam, “Diannao: a small-footprint high-throughput accelerator for ubiquitous machine-learning,” Acm Sigplan Notices, vol. 49, no. 4, pp. 269–284, 2014.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>The RISC-V instruction set manual<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>K. Asanovic and D. Patterson. Instruction Sets Should Be Free: The Case for RISC-V. Technical Report UCB/EECS-2014-146, EECS Department, University of California, Berkeley, Aug 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>RISC-V Foundation. http://www.riscv.org, 2017 (accessed Aug 15, 2017).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>陆志坚 ． 基 于 FPGA 的卷积神经网络并行结构研究 ［ Ｄ ] 哈尔滨：哈尔滨工程大学,2013．<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>毕业设计</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>毕业设计</tag>
-        <tag>RISC-V</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决 Altium Designer 卡死问题</title>
     <url>/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
@@ -7181,6 +7158,71 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>毕设--开题报告</title>
+    <url>/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/</url>
+    <content><![CDATA[<blockquote>
+<p>开题报告填写要求</p>
+<p>1．开题报告（含“文献综述”）作为毕业设计（论文）答辩委员会对学生答辩资格审查的依据材料之一。此报告应在指导教师指导下，由学生在毕业设计（论文）工作前期内完成，经指导教师签署意见及所在专业审查后生效；</p>
+<p>2．开题报告内容必须用黑墨水笔工整书写或按教务处统一设计的电子文档标准格式（可从教务处网页上下载）打印，禁止打印在其它纸上后剪贴，完成后应及时交给指导教师签署意见；</p>
+<p>3．“文献综述”应按论文的格式成文，并直接书写（或打印）在本开题报告第一栏目内，学生写文献综述的参考文献应不少于15篇（不包括辞典、手册）；</p>
+<p>4．有关年月日等日期的填写，应当按照国标GB/T 7408—94《数据元和交换格式、信息交换、日期和时间表示法》规定的要求，一律用阿拉伯数字书写。如“2004年4月26日”或“2004-04-26”。</p>
+</blockquote>
+<h1 id="文献综述">文献综述</h1>
+<blockquote>
+<p>结合毕业设计（论文）课题情况，根据所查阅的文献资料，每人撰写2000字左右的文献综述</p>
+</blockquote>
+<h2 id="研究背景及国内外研究现状">研究背景及国内外研究现状</h2>
+<p>卷积神经网络(CNN)现在是许多学科研究的热点之一，被广泛用于多种领域，特别是在模式识别、图像处理、计算机视觉等方面。但是卷积神经网络的主要问题在于计算量太大，特别是其中的卷积层，以Alex-Net为例，占用了90%<span class="citation" data-cites="chenEyerissEnergyefficientReconfigurable2016">[@chenEyerissEnergyefficientReconfigurable2016]</span>以上的计算量，卷积神经网络的硬件加速逐渐成为一个热门的研究问题。由于卷积神经网络自身特点，层与层之间可以看做顺序执行，而层内则有着较高的并行性，因此提高层内计算的并行度成为加速卷积神经网络的一个重要方向。</p>
+<p>在2009，Farabet等人<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>提出来一种基于FPGA的CNN，该结构使用卷积单元来处理数据，并使用一个通用CPU来控制卷积单元。但是由于FPGA资源的限制，该平台只实现了一个卷积核。如果计算需要多个卷积核，那么只能串行执行。2013年，Peemen等人<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>实现了一个以存储为中心的CNN协处理器，它利用CNN大量内存访问的特点，在存储部分使用SRAM，而PE部分使用SIMD指令。2015年，清华大学的方睿等人，提出一种多级流水线的管道加速器方案。CPU通过PCIE通道提供数据并进行控制整个逻辑单元。近年来，中科院的陈天石等人提出来DianNao系列的加速器<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>，目前是卷积神经网络硬件加速领域的较优的一种方案，可以实现多种结构的卷积网络，如MLP、CNN、DNN。存硬件实现的卷积神经网络加速器通用性不好。尽管可以通过配置来实现更多的结构，但是它的灵活性远不如通用CPU。因此可重构加速器与通用CPU相结合的模式是一种高效地解决卷积神经网络加速问题的方案。</p>
+<p>但是在这种定制结构中，CPU的选择具有极大的挑战。通常商业授权的IP会限制对指令集的修改，影响卷积神经网络加速器的实现效果。并且，商业授权的IP通常需要高昂的授权费，不利于高校和个人的研究。因此需要一个开源的指令集架构来进行定制加速器的研究。</p>
+<p>RISC-V是一种新的开源指令集架构（ISA）<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，目前已经有了一个完整的硬件和硬件生态<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>，包括完整的指令集、相应的编译器、模拟器和工具链。利用开源的RISC-V处理器，研究人员可以方便地将可重构加速器整合进SOC，并拓展相应的指令集来实现加速器的软件接口。</p>
+<h2 id="设计目标及平台的选择">设计目标及平台的选择</h2>
+<p>本设计主要包含三个部分，RISC-V Core和卷积神经网络加速器，以及将两部分结合起来实现完整功能的SOC部分。卷积神经网络的硬件加速通常可以采用ASIC或者FPGA来实现，两者均是采用定制的硬件电路来加速算法。通常ASIC的性能跟高，功耗更低，但是由于成本过高，因此在本设计中采用FPGA作为硬件平台。</p>
+<p>由于硬件实现CNN加速器需要较多资源，因此需要一款大容量的FPGA芯片，以实现更好的硬件加速效果。考虑各方面因素，最终选取了Nexys4 DDR作为硬件平台。Nexys4 DDR上使用Xilinx XC7A100T FPGA芯片。芯片包含了15,850个可编程逻辑单元，每个逻辑单元有4个6输入查找表和8个触发器。芯片有4,860 Kbits的块存储器，240个DSP运算单元，逻辑资源相对丰富。开发板引出数十个IO口和一个VGA接口，拥有128MB的DDR2，足够该系统使用。</p>
+<h2 id="研究意义及前景">研究意义及前景</h2>
+<p>卷积神经网络作为目前深度学习的一个重要手段，由于计算量巨大的问题限制了其应用于发展，通常需要在高性能的运算平台上进行模型的推演，因此主要被应用在主机场景，而非便携式应用。而利用卷积神经网络层内并行的特点，对卷积神经网络进行硬件加速，从而极大地提高了卷积网络的运行速度，使得便携设备也可以进行卷积神经网络运算，极大地拓展了深度学习的应用场合。</p>
+<h2 id="参考文献">参考文献</h2>
+<h1 id="研究手段">研究手段</h1>
+<blockquote>
+<p>本课题要研究或解决的问题和拟采用的研究手段（途径）</p>
+</blockquote>
+<h2 id="本课题要研究的问题">本课题要研究的问题</h2>
+<p>本课题设计搭建一个RISC-V处理器的SOC，并设计卷积神经网络加速器作为协处理器与RISC-V处理器配合工作，实现在低成本的嵌入式平台上进行卷积神经网络加速运算。</p>
+<p>本课题设计了一种RISC-V指令集的卷积神经网络处理器，实现了在低成本的嵌入式平台上进行卷积神经网络加速运算。本课题主要实现了以下功能：</p>
+<ol type="1">
+<li><p>使用RISC-V处理器搭建一个完整的SOC，包含RISC-V Core、片上总线、Debug调试模块以及基本的外设。</p></li>
+<li><p>设计可重构的卷积神经网络加速器，并将其作为协处理器，并为其设计设计专用的指令，包括矢量存储指令，矢量加载指令，矢量加法指令和卷积运算指令以加快卷积过程的执行速度。</p></li>
+</ol>
+<h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
+<p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
+</figure>
+<p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
+<p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1" role="doc-endnote"><p>C. Farabet, C. Poulet, J. Y. Han, and Y. Lecun, “Cnp: An fpga-based processor for convolutional networks,” in International Conference on Field Programmable Logic &amp; Applications, 2009.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>M. Peemen, A. A. A. Setio, B. Mesman, and H. Corporaal, “Memory-centric accelerator design for convolutional neural networks,” 2013.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>T. Chen, Z. Du, N. Sun, J. Wang, C. Wu, Y. Chen, and O. Temam, “Diannao: a small-footprint high-throughput accelerator for ubiquitous machine-learning,” Acm Sigplan Notices, vol. 49, no. 4, pp. 269–284, 2014.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>The RISC-V instruction set manual<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>K. Asanovic and D. Patterson. Instruction Sets Should Be Free: The Case for RISC-V. Technical Report UCB/EECS-2014-146, EECS Department, University of California, Berkeley, Aug 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>RISC-V Foundation. http://www.riscv.org, 2017 (accessed Aug 15, 2017).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>陆志坚 ． 基 于 FPGA 的卷积神经网络并行结构研究 ［ Ｄ ] 哈尔滨：哈尔滨工程大学,2013．<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>毕业设计</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>毕业设计</tag>
+        <tag>RISC-V</tag>
       </tags>
   </entry>
 </search>
