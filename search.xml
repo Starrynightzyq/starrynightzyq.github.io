@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Config static IP address on Ubuntu 18.04</title>
-    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
-    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
-<a id="more"></a>
-<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
-</blockquote>
-<p>结果如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
-<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
-<p>然后是配置生效：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
-<p>或者：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Cadence ASM Tutorial</title>
     <url>/2020/12/16/CadenceASMTutorial/</url>
     <content><![CDATA[<p>最近接触了 Verilog-A。记录一下 Cadence AMS-Designer 数模混合的仿真过程。需要用到的软件有 Cadence IC617, INCISIVE152。</p>
@@ -274,6 +247,33 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
       </tags>
   </entry>
   <entry>
+    <title>Config static IP address on Ubuntu 18.04</title>
+    <url>/2020/03/21/Config-static-IP-address-on-Ubuntu-18-04/</url>
+    <content><![CDATA[<p>Netplan network configuration had been first introduced to Ubuntu 18.04 LTS Bionic Beaver. It is available to all new Ubuntu 18.04 installations.</p>
+<a id="more"></a>
+<p>当前的 <code>netplan</code> 配置文件在 <code>/etc/netplan/</code> 目录下，查看当前的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 <code>01-network-manager-all.yaml</code> 桌面版和服务器版的名字不一样</p>
+</blockquote>
+<p>结果如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># For more information, see netplan(5).</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<p>可以看到默认的 IP 配置是 DHCP，将其改为静态 IP：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">renderer:</span> <span class="string">networkd</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">eno1:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">dhcp6:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.0</span><span class="number">.100</span><span class="string">/24</span>, ]       <span class="comment"># IP 地址/子网掩码长度</span></span><br><span class="line">      <span class="attr">gateway4:</span>  <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>                <span class="comment"># 网关</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>] <span class="comment"># DNS 服务器</span></span><br></pre></td></tr></table></figure>
+<p>然后是配置生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo netplan --debug apply</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Delta-Sigma Modulator (2) — Simulink Simulation</title>
     <url>/2020/11/27/DSM2/</url>
     <content><![CDATA[<p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
@@ -345,6 +345,94 @@ Y[n] = X[n] + e_3[n]*(1-z^{-1})^3
 <p>MASH1-1-1 结构的 DSM 理论上输出范围是 [-3,4]，但实际上输入不同的值，输出范围也是不同的，某些输入值对应的输出周期性还是比较明显的，例如输入为 0.375 的时候。看论文上说要在低位加 dither，可以改善这种情况，让输出的随机性更高。</p>
 <h1 id="参考文献">参考文献</h1>
 <p>[1]Y. Wu, M. Shahmohammadi, Y. Chen, P. Lu and R. B. Staszewski, "A 3.5–6.8-GHz Wide-Bandwidth DTC-Assisted Fractional-N All-Digital PLL With a MASH $$ -TDC for Low In-Band Phase Noise," in <em>IEEE Journal of Solid-State Circuits</em>, vol. 52, no. 7, pp. 1885-1903, July 2017, doi: 10.1109/JSSC.2017.2682841.</p>
+<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+]]></content>
+      <categories>
+        <category>Delta-Sigma</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delta-Sigma Modulator</title>
+    <url>/2020/11/26/DSM/</url>
+    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
+<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
+<a id="more"></a>
+<h1 id="分数型锁相环">分数型锁相环</h1>
+<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
+<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
+<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
+<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
+<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
+<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
+<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
+H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
+\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
+<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
+<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
+NTF(z) = \frac{1}{1+H(z)}
+\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
+<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
+STF(S) = \frac{H(z)}{1+H(z)}
+\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
+<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
+<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
+<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
+<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
+<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
+<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
+<h2 id="mash-结构">MASH 结构</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
+<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
+<p><strong>优点</strong>：稳定性好。</p>
+<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
+<p>第一级的输出： <span class="math display">\[
+y_1 = z^{-1} x + (1-z^{-1})q_1
+\]</span> 第二级的输出： <span class="math display">\[
+y_2 = z^{-1} q_1 + (1-z^{-1})q_2
+\]</span> 最终输出： <span class="math display">\[
+y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
+\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
+<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
+<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
+<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
+<ol type="1">
+<li>DSM 的阶数</li>
+<li>DSM 的结构</li>
+<li>DSM 的数字输出比特数</li>
+<li>DSM 的稳定输入范围</li>
+<li>噪声整形性能与环路稳定性的考量</li>
+</ol>
+<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
+<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
+<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
+<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
+<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
+<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
+<blockquote>
+<p>关于噪声补偿的一点点思考</p>
+<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
+<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
+<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
+<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
+</blockquote>
+<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
+<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
+<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
+<h1 id="最小二乘法">最小二乘法</h1>
+<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
+<h1 id="参考文章">参考文章</h1>
+<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
 <p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
 ]]></content>
       <categories>
@@ -459,131 +547,6 @@ N = \frac{M}{GCD(X, M)}
       </tags>
   </entry>
   <entry>
-    <title>Delta-Sigma Modulator</title>
-    <url>/2020/11/26/DSM/</url>
-    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
-<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
-<a id="more"></a>
-<h1 id="分数型锁相环">分数型锁相环</h1>
-<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
-<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
-<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
-<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
-<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
-<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
-<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
-H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
-\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
-<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
-<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
-NTF(z) = \frac{1}{1+H(z)}
-\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
-<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
-STF(S) = \frac{H(z)}{1+H(z)}
-\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
-<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
-<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
-<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
-<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
-<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
-<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
-<h2 id="mash-结构">MASH 结构</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
-<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
-<p><strong>优点</strong>：稳定性好。</p>
-<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
-<p>第一级的输出： <span class="math display">\[
-y_1 = z^{-1} x + (1-z^{-1})q_1
-\]</span> 第二级的输出： <span class="math display">\[
-y_2 = z^{-1} q_1 + (1-z^{-1})q_2
-\]</span> 最终输出： <span class="math display">\[
-y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
-\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
-<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
-<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
-<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
-<ol type="1">
-<li>DSM 的阶数</li>
-<li>DSM 的结构</li>
-<li>DSM 的数字输出比特数</li>
-<li>DSM 的稳定输入范围</li>
-<li>噪声整形性能与环路稳定性的考量</li>
-</ol>
-<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
-<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
-<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
-<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
-<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
-<h2 id="相位补偿">相位补偿</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
-<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
-<blockquote>
-<p>关于噪声补偿的一点点思考</p>
-<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
-<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
-<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
-<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
-</blockquote>
-<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
-<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
-<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
-<h1 id="最小二乘法">最小二乘法</h1>
-<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
-<h1 id="参考文章">参考文章</h1>
-<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
-<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
-]]></content>
-      <categories>
-        <category>Delta-Sigma</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DDS</title>
-    <url>/2020/10/02/DSP-DDS/</url>
-    <content><![CDATA[<h1 id="数控振荡器">数控振荡器</h1>
-<p>数控振荡器（NCO，numerically controlled oscillator）是软件无线电、直接数据频率合成器（DDS，Direct digital synthesizer）、快速傅立叶变换（FFT，Fast Fourier Transform）等的重要组成部分，同时也是决定其性能的主要因素之一，用于产生可控的正弦波或余弦波。</p>
-<p>数控振荡器有多种实现方法，最常用的方式就是基于直接数字频率合成技术（DDS，Direct digital synthesizer）的三角函数发生器。与传统的频率合成器相比，DDS 具有成本低、功耗低、分辨率高和转换时间短等优点。</p>
-<a id="more"></a>
-<h2 id="dds-算法原理">DDS 算法原理</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727181600.png" alt="DDS" style="zoom:25%; margin: auto;"></p>
-<p>DDS结构如上图所示，在参考时钟的驱动下，相位累加器对频率控制字进行线性累加，得到的相位码对波形存储器寻址，使之输出相应的幅度码，经过数模转换器得到相应的阶梯波，最后再使用低通滤波器对其进行平滑，得到所需频率的平滑连续的波形。</p>
-<h3 id="相位累加器">相位累加器</h3>
-<p><img src="https://pic.zhouyuqian.com/img/20210727181601.png" alt="Phase_accumulator" style="zoom:25%; margin: auto;"></p>
-<p>相位累加器的结构如上图所示，由 N 位加法器与 N 为累加寄存器级联构成。每来一个时钟 <span class="math inline">\(f_{CLK}\)</span>，加法器将频率控制字 K 与累加寄存器输出的累加相位数据相加，把相加后的结果送至累加寄存器的数据输入端。这样在相位累加器在时钟的控制下，不断对频率控制字进行线性相位累加。由此可以看出，相位累加器在每一个时钟周期里，将频率控制字累加一次，相位累加器输出的数据就是合成信号的相位，相位累加器的溢出频率就是 DDS 的输出的信号频率。</p>
-<p>DDS 的输出的信号频率计算方式如下： <span class="math display">\[
-f_{OUT} = \frac{f_{CLK}K}{2^N}
-\]</span> 频率分辨率（即频率的变化间隔）为： <span class="math display">\[
-\Delta f=\frac{f_{CLK}}{2^N}
-\]</span></p>
-<h3 id="波形存储器">波形存储器</h3>
-<p>波形存储器所存储的幅度值与余弦信号有关。用相位累加器输出的数据作为波形存储器（ROM）的相位取样地址，这样就可以将存储在波形存储器内的波形抽样值取出，完成相位到幅值的变换。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727181602.png" alt="三角函数相位与幅度对应关系" style="zoom:40%; margin: auto;"></p>
-<p>余弦信号在一个周期内相位和幅度的变化关系如上图所示。一个 <span class="math inline">\(N\)</span> 位的相位累加器对应着圆上的 <span class="math inline">\(2^N\)</span> 个相位点，其分辨率为 <span class="math inline">\(\Delta \phi = 2\pi/2^N\)</span>。上图 <span class="math inline">\(N = 4\)</span>，共存在 16 种相位值与 16 种幅度值相对应，波形存储器的字节数决定了相位量化误差，量化的比特数决定了幅度量化误差。在实际的 DDS 中，可以利用余弦波形的对称性，将 <span class="math inline">\(2\pi\)</span> 范围内的幅值相位点减小到 <span class="math inline">\(\pi/2\)</span> 内以降低所需的存储量。</p>
-<h3 id="da-转化器-低通滤波器">D/A 转化器 &amp; 低通滤波器</h3>
-<p>波形存储器的输出送到 D/A 转换器，D/A 转换器将其转化为合成信号的模拟量幅值，低通信号用于滤除不需要的取样分量，以便输出频谱纯净的余弦信号。</p>
-<h2 id="dds-算法的-verilog-实现">DDS 算法的 Verilog 实现</h2>
-<blockquote>
-<p>待完成</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DSP</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>DSP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>FIR</title>
     <url>/2020/10/03/DSP-FIR/</url>
     <content><![CDATA[<p>数字滤波器是从原始信号中提取用户所需要的信息，滤除不需要的信号成分。根据信号与干扰的不同关系，可以从时域、频域或变换域（同态）进行信号滤波设计。</p>
@@ -594,98 +557,6 @@ f_{OUT} = \frac{f_{CLK}K}{2^N}
       <tags>
         <tag>FPGA</tag>
         <tag>DSP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>以太网视频传输</title>
-    <url>/2020/07/31/EthernetVideo/</url>
-    <content><![CDATA[<p>在用 FPGA 进行图像处理时，通常的作法是接一个显示器，查看输出结果，不过这也太不方便了，手上的这块 <a href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">PYNQ-Z2</a> 带有千兆以太网口，就想着用以太网传输视频，这样就可以抛弃笨重的显示器了。由于 Lei 同学已经完成了裸机的方案（见<a href="http://leiblog.wang/Ethernet-Video/">千兆以太网视频传输</a>）,并且之前已经在 ZYNQ 上移植了 Linux 系统，那就做一个运行在 Linux 系统上的以太网图像传输吧。其实这样做起来更简单，网上可以参考的也一大堆。</p>
-<p><strong><em>GitHub Repository :</em></strong> https://github.com/Starrynightzyq/streaming-udp-video</p>
-<p>这个工程是用 C++ 写的，UDP 传输，依赖 OpenCV2，在 Mac 与 Linux 以及 ZYNQ 上都测试通过了。</p>
-<!---more-->
-<p>由于是为了验证图像算法的正确性，需要对输出的图像进行一些分析，因此我想得到的是原始的图像数据而不是压缩后的数据，稍微计算了一下，$ 640  24bit $ 大小，30fps 的帧率的视频码率是 27.648MBps，用千兆网传输足够了。</p>
-<h2 id="todo">TODO</h2>
-<ul class="task-list">
-<li><input type="checkbox" disabled>
-优化数据包结构，做物理包和逻辑包的区分，便于传输不同大小和格式的图像。目前包结构为 4 字节的 id 加上 1200 字节的图像数据，对图像大小和格式有很强的依赖性；</li>
-<li><input type="checkbox" disabled>
-增加原始图像传输和压缩图像传输的切换功能，在不需要原始图像的时候传输压缩后的图像，减小网络压力；</li>
-<li><input type="checkbox" disabled>
-使用 TCP 传输图像的大小和格式等配置信息，这样接收端就不需要手动设置这些数据了，实现接收端的自动化；</li>
-<li><input type="checkbox" disabled>
-根据网络环境动态调整数据包大小；</li>
-<li><input type="checkbox" disabled>
-加密，接收端目前接收任意数据；</li>
-</ul>
-<p><strong>由于之前没有系统地学习过计算机网络的知识，这次补了一下。</strong></p>
-<h1 id="udp-or-tcp">UDP or TCP</h1>
-<p><a href="https://en.wikipedia.org/wiki/Internet_protocol_suite">TCP/IP 协议族</a>映射到 OSI 模型中分为 4 层，从下往上分别是：网络访问(链接)层(Network Access(link) layer)、网络互连层(internet layer)、传输层(transport layer)、应用层(application layer)。TCP 和 UDP 工作在传输层。</p>
-<h1 id="tcp">TCP</h1>
-<p>TCP(Transmission Control Protocol) 是一种面向连接的、可靠的、基于字节流的传输层通信协议。TCP协议的运行可划分为三个阶段：连接创建(<em>connection establishment</em>)、数据传送（<em>data transfer</em>）和连接终止（<em>connection termination</em>）。</p>
-<h2 id="连接创建">连接创建</h2>
-<p>TCP用三次握手（或称三路握手，three-way handshake）过程创建一个连接:</p>
-<ol type="1">
-<li>客户端通过向服务器端发送一个<a href="https://zh.wikipedia.org/wiki/传输控制协议#建立通路">SYN</a>来创建一个主动打开，作为三次<a href="https://zh.wikipedia.org/wiki/握手_(技术)">握手</a>的一部分。客户端把这段连接的序号设定为随机数<strong>A</strong>。</li>
-<li>服务器端应当为一个合法的SYN回送一个SYN/ACK。ACK的确认码应为<strong>A+1</strong>，SYN/ACK包本身又有一个随机产生的序号<strong>B</strong>。</li>
-<li>最后，客户端再发送一个<a href="https://zh.wikipedia.org/wiki/確認訊息">ACK</a>。此时包的序号被设定为<strong>A+1</strong>，而ACK的确认码则为<strong>B+1</strong>。当服务端收到这个ACK的时候，就完成了三次握手，并进入了连接创建状态。</li>
-</ol>
-<p>如果服务器端接到了客户端发的SYN后回了SYN-ACK后客户端掉线了，服务器端没有收到客户端回来的ACK，那么，这个连接处于一个中间状态，既没成功，也没失败。于是，服务器端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻倍，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s才知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 63s，TCP才会断开这个连接。使用三个TCP参数来调整行为：tcp_synack_retries 减少重试次数；tcp_max_syn_backlog，增大SYN连接数；tcp_abort_on_overflow决定超出能力时的行为。 <img src="https://pic.zhouyuqian.com/img/20210727181731.png" alt="three-way handshake"></p>
-<h2 id="数据传输">数据传输</h2>
-<p>在TCP的数据传送状态，很多重要的机制保证了TCP的可靠性和强壮性。它们包括：使用序号，对收到的TCP报文段进行排序以及检测重复的数据；使用校验和检测报文段的错误，即无错传输；使用确认和计时器来检测和纠正丢包或延时；流控制（Flow control）；拥塞控制（Congestion control）；丢失包的重传。</p>
-<h2 id="连接终止">连接终止</h2>
-<p>连接终止使用了四路握手过程（或称四次握手，four-way handshake），在这个过程中连接的每一侧都独立地被终止。当一个端点要停止它这一侧的连接，就向对侧发送FIN，对侧回复ACK表示确认。因此，拆掉一侧的连接过程需要一对FIN和ACK，分别由两侧端点发出。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727181732.png" alt="four-way handshake"><figcaption aria-hidden="true">four-way handshake</figcaption>
-</figure>
-<h2 id="tcp-包头结构">TCP 包头结构</h2>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727181733.png" alt="tcp-head"><figcaption aria-hidden="true">tcp-head</figcaption>
-</figure>
-<p>源端口 16位；目标端口 16位；序列号 32位；回应序号 32位；TCP头长度 4位；reserved 3位；控制代码 9位；窗口大小 16位；偏移量 16位；校验和 16位；选项 32位(可选)；</p>
-<p>这样我们得出了TCP包头的最小长度，为20字节。</p>
-<h1 id="udp">UDP</h1>
-<p>UDP 是一个简单的面向数据报的通信协议。UDP 只提供数据的不可靠传递，它一旦把应用程序发给网络层的数据发送出去，就不保留数据备份（所以 UDP 有时候也被认为是不可靠的数据报协议）。UDP 在 IP 数据报的头部仅仅加入了复用和数据校验字段。</p>
-<p>UDP 适用于不需要或在程序中执行错误检查和纠正的应用，它避免了协议栈中此类处理的开销。对时间有较高要求的应用程序通常使用 UDP，因为丢弃数据包比等待或重传导致延迟更可取。</p>
-<h2 id="udp-的分组结构">UDP 的分组结构</h2>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727181734.png" alt="udp-head"><figcaption aria-hidden="true">udp-head</figcaption>
-</figure>
-<p>UDP 头部包含了以下几个数据：</p>
-<ul>
-<li>两个十六位的端口号，分别为源端口（可选字段）和目标端口；</li>
-<li>整个数据报文的长度；</li>
-<li>整个数据报文的检验和（IPv4 可选 字段），该字段用于发现头部信息和数据中的错误；</li>
-</ul>
-<p>因此 UDP 的头部开销小，只有 8 字节，相比 TCP 的至少 20 字节要少得多，在传输数据报文时是很高效的。</p>
-<h2 id="udp数据分包大小的原则与一些思考">UDP数据分包大小的原则与一些思考</h2>
-<p>编写程序时不可避免遇到一个疑惑，一次发多大的数据包为宜？理论上IP数据报最大长度是65535字节，这是由IP首部16比特总长度字段所限制，去除20字节的IP首部和8个字节的UDP首部，UDP数据报中用户数据的最长长度为65507字节，但是，大多数实现所提供的长度比这个最大值小。</p>
-<p>以太网 IP 层的最大传输单元 (Maximum Transmission Unit,MTU) 为 1500 字节。如果以分包大小应该使在 IP 层不再进行分包为宜作为原则，那么因为 UDP 数据报的首部 8 字节，IP 首部 20 字节，所以 UDP 数据报的数据区最大长度为 1472 字节。如果说 IP 数据报大于 1500 字节,大于 MTU，这个时候发送方 IP 层就需要分片，把数据报分成若干片,使每一片都小于 MTU，而接收方 IP 层则需要进行数据报的重组，这样就会多做许多事情。而更严重的是，由于 UDP 的特性，当某一片数据传送中丢失时，接收方便无法重组数据报，将导致丢弃整个 UDP 数据报。因此，在普通的局域网环境下，建议将 UDP 的数据控制在 1472 字节以下为好，以降低丢包率。 进行 Internet 编程时则不同，因为 Internet 上的路由器可能会将 MTU 设为不同的值，鉴于 Internet 上的标准 MTU 值为 576 字节，建议在进行 Internet 的 UDP 编程时，最好将 UDP 的数据长度控件在 548 字节 (576-8-20) 以内。</p>
-<h1 id="tcp与udp区别总结">TCP与UDP区别总结：</h1>
-<ol type="1">
-<li>TCP 面向连接（如打电话要先拨号建立连接）；UDP 是无连接的，即发送数据之前不需要建立连接；</li>
-<li>TCP 提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达；UDP尽最大努力交付，即不保证可靠交付；</li>
-<li>TCP 面向字节流，实际上是 TCP 把数据看成一连串无结构的字节流；UDP 是面向报文的；UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 IP 电话，实时视频会议等）；</li>
-<li>每一条 TCP 连接只能是点到点的；UDP 支持一对一，一对多，多对一和多对多的交互通信；</li>
-<li>TCP 首部开销 20 字节；UDP 的首部开销小，只有 8 个字节；</li>
-<li>TCP 的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道；</li>
-</ol>
-<h1 id="reference">Reference</h1>
-<ul>
-<li>https://en.wikipedia.org/wiki/Internet_protocol_suite</li>
-<li>https://en.wikipedia.org/wiki/Transmission_Control_Protocol</li>
-<li>https://en.wikipedia.org/wiki/User_Datagram_Protocol</li>
-<li>https://blog.fundebug.com/2019/03/22/differences-of-tcp-and-udp/</li>
-<li>https://www.cnblogs.com/skyfsm/p/6287787.html</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Ethernet</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>Linux</tag>
-        <tag>UDP</tag>
       </tags>
   </entry>
   <entry>
@@ -848,6 +719,98 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
     <url>/2019/02/12/Linux-Learning/</url>
     <content><![CDATA[<p>磁盘分区工具：gparted</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>以太网视频传输</title>
+    <url>/2020/07/31/EthernetVideo/</url>
+    <content><![CDATA[<p>在用 FPGA 进行图像处理时，通常的作法是接一个显示器，查看输出结果，不过这也太不方便了，手上的这块 <a href="http://www.tul.com.tw/ProductsPYNQ-Z2.html">PYNQ-Z2</a> 带有千兆以太网口，就想着用以太网传输视频，这样就可以抛弃笨重的显示器了。由于 Lei 同学已经完成了裸机的方案（见<a href="http://leiblog.wang/Ethernet-Video/">千兆以太网视频传输</a>）,并且之前已经在 ZYNQ 上移植了 Linux 系统，那就做一个运行在 Linux 系统上的以太网图像传输吧。其实这样做起来更简单，网上可以参考的也一大堆。</p>
+<p><strong><em>GitHub Repository :</em></strong> https://github.com/Starrynightzyq/streaming-udp-video</p>
+<p>这个工程是用 C++ 写的，UDP 传输，依赖 OpenCV2，在 Mac 与 Linux 以及 ZYNQ 上都测试通过了。</p>
+<!---more-->
+<p>由于是为了验证图像算法的正确性，需要对输出的图像进行一些分析，因此我想得到的是原始的图像数据而不是压缩后的数据，稍微计算了一下，$ 640  24bit $ 大小，30fps 的帧率的视频码率是 27.648MBps，用千兆网传输足够了。</p>
+<h2 id="todo">TODO</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled>
+优化数据包结构，做物理包和逻辑包的区分，便于传输不同大小和格式的图像。目前包结构为 4 字节的 id 加上 1200 字节的图像数据，对图像大小和格式有很强的依赖性；</li>
+<li><input type="checkbox" disabled>
+增加原始图像传输和压缩图像传输的切换功能，在不需要原始图像的时候传输压缩后的图像，减小网络压力；</li>
+<li><input type="checkbox" disabled>
+使用 TCP 传输图像的大小和格式等配置信息，这样接收端就不需要手动设置这些数据了，实现接收端的自动化；</li>
+<li><input type="checkbox" disabled>
+根据网络环境动态调整数据包大小；</li>
+<li><input type="checkbox" disabled>
+加密，接收端目前接收任意数据；</li>
+</ul>
+<p><strong>由于之前没有系统地学习过计算机网络的知识，这次补了一下。</strong></p>
+<h1 id="udp-or-tcp">UDP or TCP</h1>
+<p><a href="https://en.wikipedia.org/wiki/Internet_protocol_suite">TCP/IP 协议族</a>映射到 OSI 模型中分为 4 层，从下往上分别是：网络访问(链接)层(Network Access(link) layer)、网络互连层(internet layer)、传输层(transport layer)、应用层(application layer)。TCP 和 UDP 工作在传输层。</p>
+<h1 id="tcp">TCP</h1>
+<p>TCP(Transmission Control Protocol) 是一种面向连接的、可靠的、基于字节流的传输层通信协议。TCP协议的运行可划分为三个阶段：连接创建(<em>connection establishment</em>)、数据传送（<em>data transfer</em>）和连接终止（<em>connection termination</em>）。</p>
+<h2 id="连接创建">连接创建</h2>
+<p>TCP用三次握手（或称三路握手，three-way handshake）过程创建一个连接:</p>
+<ol type="1">
+<li>客户端通过向服务器端发送一个<a href="https://zh.wikipedia.org/wiki/传输控制协议#建立通路">SYN</a>来创建一个主动打开，作为三次<a href="https://zh.wikipedia.org/wiki/握手_(技术)">握手</a>的一部分。客户端把这段连接的序号设定为随机数<strong>A</strong>。</li>
+<li>服务器端应当为一个合法的SYN回送一个SYN/ACK。ACK的确认码应为<strong>A+1</strong>，SYN/ACK包本身又有一个随机产生的序号<strong>B</strong>。</li>
+<li>最后，客户端再发送一个<a href="https://zh.wikipedia.org/wiki/確認訊息">ACK</a>。此时包的序号被设定为<strong>A+1</strong>，而ACK的确认码则为<strong>B+1</strong>。当服务端收到这个ACK的时候，就完成了三次握手，并进入了连接创建状态。</li>
+</ol>
+<p>如果服务器端接到了客户端发的SYN后回了SYN-ACK后客户端掉线了，服务器端没有收到客户端回来的ACK，那么，这个连接处于一个中间状态，既没成功，也没失败。于是，服务器端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻倍，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s才知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 63s，TCP才会断开这个连接。使用三个TCP参数来调整行为：tcp_synack_retries 减少重试次数；tcp_max_syn_backlog，增大SYN连接数；tcp_abort_on_overflow决定超出能力时的行为。 <img src="https://pic.zhouyuqian.com/img/20210727181731.png" alt="three-way handshake"></p>
+<h2 id="数据传输">数据传输</h2>
+<p>在TCP的数据传送状态，很多重要的机制保证了TCP的可靠性和强壮性。它们包括：使用序号，对收到的TCP报文段进行排序以及检测重复的数据；使用校验和检测报文段的错误，即无错传输；使用确认和计时器来检测和纠正丢包或延时；流控制（Flow control）；拥塞控制（Congestion control）；丢失包的重传。</p>
+<h2 id="连接终止">连接终止</h2>
+<p>连接终止使用了四路握手过程（或称四次握手，four-way handshake），在这个过程中连接的每一侧都独立地被终止。当一个端点要停止它这一侧的连接，就向对侧发送FIN，对侧回复ACK表示确认。因此，拆掉一侧的连接过程需要一对FIN和ACK，分别由两侧端点发出。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727181732.png" alt="four-way handshake"><figcaption aria-hidden="true">four-way handshake</figcaption>
+</figure>
+<h2 id="tcp-包头结构">TCP 包头结构</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727181733.png" alt="tcp-head"><figcaption aria-hidden="true">tcp-head</figcaption>
+</figure>
+<p>源端口 16位；目标端口 16位；序列号 32位；回应序号 32位；TCP头长度 4位；reserved 3位；控制代码 9位；窗口大小 16位；偏移量 16位；校验和 16位；选项 32位(可选)；</p>
+<p>这样我们得出了TCP包头的最小长度，为20字节。</p>
+<h1 id="udp">UDP</h1>
+<p>UDP 是一个简单的面向数据报的通信协议。UDP 只提供数据的不可靠传递，它一旦把应用程序发给网络层的数据发送出去，就不保留数据备份（所以 UDP 有时候也被认为是不可靠的数据报协议）。UDP 在 IP 数据报的头部仅仅加入了复用和数据校验字段。</p>
+<p>UDP 适用于不需要或在程序中执行错误检查和纠正的应用，它避免了协议栈中此类处理的开销。对时间有较高要求的应用程序通常使用 UDP，因为丢弃数据包比等待或重传导致延迟更可取。</p>
+<h2 id="udp-的分组结构">UDP 的分组结构</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727181734.png" alt="udp-head"><figcaption aria-hidden="true">udp-head</figcaption>
+</figure>
+<p>UDP 头部包含了以下几个数据：</p>
+<ul>
+<li>两个十六位的端口号，分别为源端口（可选字段）和目标端口；</li>
+<li>整个数据报文的长度；</li>
+<li>整个数据报文的检验和（IPv4 可选 字段），该字段用于发现头部信息和数据中的错误；</li>
+</ul>
+<p>因此 UDP 的头部开销小，只有 8 字节，相比 TCP 的至少 20 字节要少得多，在传输数据报文时是很高效的。</p>
+<h2 id="udp数据分包大小的原则与一些思考">UDP数据分包大小的原则与一些思考</h2>
+<p>编写程序时不可避免遇到一个疑惑，一次发多大的数据包为宜？理论上IP数据报最大长度是65535字节，这是由IP首部16比特总长度字段所限制，去除20字节的IP首部和8个字节的UDP首部，UDP数据报中用户数据的最长长度为65507字节，但是，大多数实现所提供的长度比这个最大值小。</p>
+<p>以太网 IP 层的最大传输单元 (Maximum Transmission Unit,MTU) 为 1500 字节。如果以分包大小应该使在 IP 层不再进行分包为宜作为原则，那么因为 UDP 数据报的首部 8 字节，IP 首部 20 字节，所以 UDP 数据报的数据区最大长度为 1472 字节。如果说 IP 数据报大于 1500 字节,大于 MTU，这个时候发送方 IP 层就需要分片，把数据报分成若干片,使每一片都小于 MTU，而接收方 IP 层则需要进行数据报的重组，这样就会多做许多事情。而更严重的是，由于 UDP 的特性，当某一片数据传送中丢失时，接收方便无法重组数据报，将导致丢弃整个 UDP 数据报。因此，在普通的局域网环境下，建议将 UDP 的数据控制在 1472 字节以下为好，以降低丢包率。 进行 Internet 编程时则不同，因为 Internet 上的路由器可能会将 MTU 设为不同的值，鉴于 Internet 上的标准 MTU 值为 576 字节，建议在进行 Internet 的 UDP 编程时，最好将 UDP 的数据长度控件在 548 字节 (576-8-20) 以内。</p>
+<h1 id="tcp与udp区别总结">TCP与UDP区别总结：</h1>
+<ol type="1">
+<li>TCP 面向连接（如打电话要先拨号建立连接）；UDP 是无连接的，即发送数据之前不需要建立连接；</li>
+<li>TCP 提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达；UDP尽最大努力交付，即不保证可靠交付；</li>
+<li>TCP 面向字节流，实际上是 TCP 把数据看成一连串无结构的字节流；UDP 是面向报文的；UDP没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 IP 电话，实时视频会议等）；</li>
+<li>每一条 TCP 连接只能是点到点的；UDP 支持一对一，一对多，多对一和多对多的交互通信；</li>
+<li>TCP 首部开销 20 字节；UDP 的首部开销小，只有 8 个字节；</li>
+<li>TCP 的逻辑通信信道是全双工的可靠信道，UDP则是不可靠信道；</li>
+</ol>
+<h1 id="reference">Reference</h1>
+<ul>
+<li>https://en.wikipedia.org/wiki/Internet_protocol_suite</li>
+<li>https://en.wikipedia.org/wiki/Transmission_Control_Protocol</li>
+<li>https://en.wikipedia.org/wiki/User_Datagram_Protocol</li>
+<li>https://blog.fundebug.com/2019/03/22/differences-of-tcp-and-udp/</li>
+<li>https://www.cnblogs.com/skyfsm/p/6287787.html</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Ethernet</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+        <tag>Linux</tag>
+        <tag>UDP</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux Samba Server</title>
@@ -1172,6 +1135,43 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
       <tags>
         <tag>Linux</tag>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DDS</title>
+    <url>/2020/10/02/DSP-DDS/</url>
+    <content><![CDATA[<h1 id="数控振荡器">数控振荡器</h1>
+<p>数控振荡器（NCO，numerically controlled oscillator）是软件无线电、直接数据频率合成器（DDS，Direct digital synthesizer）、快速傅立叶变换（FFT，Fast Fourier Transform）等的重要组成部分，同时也是决定其性能的主要因素之一，用于产生可控的正弦波或余弦波。</p>
+<p>数控振荡器有多种实现方法，最常用的方式就是基于直接数字频率合成技术（DDS，Direct digital synthesizer）的三角函数发生器。与传统的频率合成器相比，DDS 具有成本低、功耗低、分辨率高和转换时间短等优点。</p>
+<a id="more"></a>
+<h2 id="dds-算法原理">DDS 算法原理</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727181600.png" alt="DDS" style="zoom:25%; margin: auto;"></p>
+<p>DDS结构如上图所示，在参考时钟的驱动下，相位累加器对频率控制字进行线性累加，得到的相位码对波形存储器寻址，使之输出相应的幅度码，经过数模转换器得到相应的阶梯波，最后再使用低通滤波器对其进行平滑，得到所需频率的平滑连续的波形。</p>
+<h3 id="相位累加器">相位累加器</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727181601.png" alt="Phase_accumulator" style="zoom:25%; margin: auto;"></p>
+<p>相位累加器的结构如上图所示，由 N 位加法器与 N 为累加寄存器级联构成。每来一个时钟 <span class="math inline">\(f_{CLK}\)</span>，加法器将频率控制字 K 与累加寄存器输出的累加相位数据相加，把相加后的结果送至累加寄存器的数据输入端。这样在相位累加器在时钟的控制下，不断对频率控制字进行线性相位累加。由此可以看出，相位累加器在每一个时钟周期里，将频率控制字累加一次，相位累加器输出的数据就是合成信号的相位，相位累加器的溢出频率就是 DDS 的输出的信号频率。</p>
+<p>DDS 的输出的信号频率计算方式如下： <span class="math display">\[
+f_{OUT} = \frac{f_{CLK}K}{2^N}
+\]</span> 频率分辨率（即频率的变化间隔）为： <span class="math display">\[
+\Delta f=\frac{f_{CLK}}{2^N}
+\]</span></p>
+<h3 id="波形存储器">波形存储器</h3>
+<p>波形存储器所存储的幅度值与余弦信号有关。用相位累加器输出的数据作为波形存储器（ROM）的相位取样地址，这样就可以将存储在波形存储器内的波形抽样值取出，完成相位到幅值的变换。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727181602.png" alt="三角函数相位与幅度对应关系" style="zoom:40%; margin: auto;"></p>
+<p>余弦信号在一个周期内相位和幅度的变化关系如上图所示。一个 <span class="math inline">\(N\)</span> 位的相位累加器对应着圆上的 <span class="math inline">\(2^N\)</span> 个相位点，其分辨率为 <span class="math inline">\(\Delta \phi = 2\pi/2^N\)</span>。上图 <span class="math inline">\(N = 4\)</span>，共存在 16 种相位值与 16 种幅度值相对应，波形存储器的字节数决定了相位量化误差，量化的比特数决定了幅度量化误差。在实际的 DDS 中，可以利用余弦波形的对称性，将 <span class="math inline">\(2\pi\)</span> 范围内的幅值相位点减小到 <span class="math inline">\(\pi/2\)</span> 内以降低所需的存储量。</p>
+<h3 id="da-转化器-低通滤波器">D/A 转化器 &amp; 低通滤波器</h3>
+<p>波形存储器的输出送到 D/A 转换器，D/A 转换器将其转化为合成信号的模拟量幅值，低通信号用于滤除不需要的取样分量，以便输出频谱纯净的余弦信号。</p>
+<h2 id="dds-算法的-verilog-实现">DDS 算法的 Verilog 实现</h2>
+<blockquote>
+<p>待完成</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DSP</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>DSP</tag>
       </tags>
   </entry>
   <entry>
@@ -2385,6 +2385,194 @@ K_{cp} = \frac{I_{cp}}{2\pi}
       </tags>
   </entry>
   <entry>
+    <title>PLL(Phase-locked loop, 锁相环)</title>
+    <url>/2020/09/11/PLL/</url>
+    <content><![CDATA[<p>锁相环（PLL: Phase-locked loop）是一种利用反馈（Feedback）控制原理实现的频率及相位的同步技术，其作用是将电路输出的时钟与其外部的参考时钟保持同步。当参考时钟的频率或相位发生改变时，锁相回路会检测到这种变化，并且通过其内部的反馈系统来调节输出频率，直到两者重新同步，这种同步又称为“锁相”（Phase-locked）。</p>
+<a id="more"></a>
+<h1 id="时钟与振荡电路">时钟与振荡电路</h1>
+<p>芯片工作时，通常需要时钟，时钟的周期变化可以通过振荡来产生。振荡电路的形成通常可以分为两类：</p>
+<ol type="1">
+<li>石英晶体压电效应：电导致晶片的机械变形，而晶片两侧施加机械压力又会产生电，形成振荡。它的谐振频率与晶片的切割方式、几何形状、尺寸有关，可以做得精确，因此其振荡电路可以获得很高的频率稳定度。</li>
+<li>电容Capacity的充电放电：LC振荡电路，能够存储电能，而充放电的电流方向是反的，形成振荡，可通过电压等控制振荡电路的频率。</li>
+</ol>
+<h1 id="pll-与倍频">PLL 与倍频</h1>
+<p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
+<h2 id="pll锁相环电路的概要">PLL(锁相环)电路的概要</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194546.png" alt="Pll"><figcaption aria-hidden="true">Pll</figcaption>
+</figure>
+<p>PLL 通常由以下几个部分组成：</p>
+<ul>
+<li><p>鉴相鉴频器 PFD（Phase Frequency Detector）：对输入的基准信号（来自频率稳定的晶振）和反馈回路的信号进行频率的比较，输出一个代表两者差异的信号</p></li>
+<li><p>低通滤波器 LPF（Low-Pass Filter）：将PFD中生成的差异信号的高频成分滤除，保留直流部分；</p></li>
+<li><p>压控振荡器 VCO（Voltage Controlled Oscillator）：根据输入电压，输出对应频率的周期信号。利用变容二极管（偏置电压的变化会改变耗尽层的厚度，从而影响电容大小）与电感构成的 LC 谐振电路构成，提高变容二极管的逆向偏压，二极管内耗尽层变大，电容变小，LC 电路的谐振频率提高，反之，降低逆向偏压时，二极管内电容变大，频率降低；</p></li>
+<li><p>反馈回路 FL（Feedback Loop）：通常由一个分频器实现。将 VCO 的输出降低到与基准信号相同级别的频率才能在 PFD 中比较；</p></li>
+</ul>
+<p>PLL 工作的基本原理就是将压控振荡器的输出经过分频后与基准信号输入 PFD，PFD 通过比较这两个信号的频率差，输出一个代表两者差异的信号，再经过低通滤波器转变成一个直流脉冲电压去控制 VCO 使它的频率改变。这样经过一个很短的时间，VCO 的输出就会稳定下来。所以 PLL 并不是直接对晶振进行倍频，而是将频率稳定的晶振作为基准信号，与 PLL 内部振荡电路生成的信号分频后进行比较，使 PLL 输出的信号频率稳定。</p>
+<p>假设基准振荡器的频率为 <code>$f_r$</code>，VCO的频率为 <code>$f_o$</code>，在此一电路中，假设 <code>$f_r&gt;f_o$</code> 时，也即是 VCO 的振荡频率 <code>$f_o$</code> 比 <code>$f_r$</code> 低时。此时的相位比较器的输出 PFD 会如下图所示，产生正脉波信号，使 VCO 的振荡器频率提高。相反，如果 <code>$f_r&lt;f_o$</code> 时，会产生负脉波信号。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194547.png" alt="PFD"><figcaption aria-hidden="true">PFD</figcaption>
+</figure>
+<p>(此为利用脉波的边缘做二个信号的比较。如果有相位差存在时，便会产生正或负的脉波输出。)</p>
+<p>此 PD 脉波信号经过回路滤波器(LoopFilter)的积分，便可以得到直流电压 VR，可以控制 VCO 电路。由于控制电压 VR 的变化，VCO 振荡频率会提高。结果使得 <code>$f_r=f_o$</code>。在两者相位成为一致时，PD 端子会成为高阻抗状态，使 PLL 被锁栓(Lock)。</p>
+<h2 id="回路滤波器的选择方法">回路滤波器的选择方法</h2>
+<p>回路滤波器的时间常数与 PLL 控制的良否有很大的关系。在基准频率 <code>$f_r$</code> 为 10kHz 时，输往回路滤波器的脉波周期为 0.1ms。</p>
+<p>为了保持电压值 VR 而增大回路滤波器的时间常数时，便无法追踪 VCO 的振荡频率的变化。如果时间常数太小时，会在 VR 上出现涟波，使 PLL 的稳定度恶化。</p>
+<p>因此，根据经验，回路滤波器的时间常数，选择大约为基准频率的周期 (1/fr) 的数百倍。</p>
+<h1 id="reference">Reference</h1>
+<ol type="1">
+<li><a href="https://blog.csdn.net/u013754317/article/details/52799516">锁相环PLL（Phase Locked Loop)</a></li>
+<li><a href="https://blog.csdn.net/leoufung/article/details/50268031">PLL(锁相环)电路原理</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Phase-locked_loop">Phase-locked loop</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RISC-V SOC Design (1)</title>
+    <url>/2020/03/27/RISC-V-SOC-Design-1/</url>
+    <content><![CDATA[<p>使用 vivado blockdesign 搭建，比较直观</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194616.png" alt="ibex_bd"><figcaption aria-hidden="true">ibex_bd</figcaption>
+</figure>
+<a id="more"></a>
+<h1 id="memory-map">Memory Map</h1>
+<p>SOC 搭建参考了 SiFive SOC，因此在 Memory Map 上尽量一致，方便软件移植。</p>
+<table>
+<thead>
+<tr class="header">
+<th>Base</th>
+<th>Top</th>
+<th>Attr.</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0x1001_2000</td>
+<td>0x1001_2FFF</td>
+<td>RW A</td>
+<td>GPIO</td>
+<td>On-Chip Peripherals</td>
+</tr>
+<tr class="even">
+<td>0x1001_3000</td>
+<td>0x1001_3FFF</td>
+<td>RW A</td>
+<td>UART 0</td>
+<td>On-Chip Peripherals</td>
+</tr>
+<tr class="odd">
+<td>0x8000_0000</td>
+<td>0x8000_FFFF</td>
+<td>RWXCA</td>
+<td>ITCM</td>
+<td>On-Chip Volatile Memory</td>
+</tr>
+<tr class="even">
+<td>0x9000_0000</td>
+<td>0x9000_FFFF</td>
+<td>RWXCA</td>
+<td>DTCM</td>
+<td>On-Chip Volatile Memory</td>
+</tr>
+</tbody>
+</table>
+<h1 id="设计思路">设计思路</h1>
+<h2 id="itcm">ITCM</h2>
+<p>一般盘片机在启动时，会将 instruction 从 FLASH 读入片上 RAM，然后程序在片上 RAM 中运行，因此启动时会有一个程序加载的过程，即从片外存储 load 到片上存储，因此这里暂时先用 ITCM 模拟这个过程，启动时，将程序从 ITCM load 到 DTCM 中，这个过程需要程序配合。</p>
+<p>在 load 的过程中，ITCM 在一些时刻会同时被数据总线和指令总线读取，因此 ITCM 使用双端口 RAM。</p>
+<h2 id="core">CORE</h2>
+<p>这里使用的是 <a href="https://github.com/lowRISC/ibex">ibex</a>，该 core 有单独的数据总线和指令总线，但是为一种私有总线，为了通用，将其转为 AXI4 总线。</p>
+]]></content>
+      <categories>
+        <category>RISC-V</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>毕业设计</tag>
+        <tag>RISC-V</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TSPC</title>
+    <url>/2020/11/17/TSPC/</url>
+    <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232823.png" alt="image-20201118103158126" style="zoom:50%;"></p>
+<a id="more"></a>
+<h1 id="tspc-基本结构">TSPC 基本结构</h1>
+<p>TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反相器，M4-M6 构成了第二级时钟控制反相器，M7-M9 构成了第二级时钟控制反相器。</p>
+<p>当时钟 CLK 由高变低后，第一级时钟控制反相器的输出 A 反相跟随数据输入 D，第二级时钟控制反相器的输出 B 被拉升至电源电平，由于 M9 和 M8 分别被 B 和 CLK 关闭，因此第三级时钟控制反相器的输出 C 维持前一时刻的电平，数据输出 Q 也维持前一时刻电平不变。</p>
+<p>当 CLK 由低变高后，D 维持不变，M3 关断，A 点电平不变。若 A 点为高，则 M5 导通，同时 M6、M4 由于 CLK 分别是关断和导通，因此 B 点被拉至地电平；若 A 点为低，M5 关断，M6、M4 由于 CLK 分别为导通和关断，因此 B 被拉至高电平，实现了对 A 的反相跟随。此时 M8 由于 CLK 导通，M7、M9 构成一个反相器，输出 Qn。经过三级反相后，Qn 与 D 反相。</p>
+<p>将 M1-M3 看作第一级，M4-M9 看作第二级，在 CLK 为低时，对第一级进行预充电时，第二级的输出保持不变。因此，当 CLK 为高电平时，第一级进行评估，而第二级检测，而当 CLK 为低电平时，第一级进行复位，而第二级进行存储[1]。</p>
+<p>由于 TSPC 完全以节点寄生电容来存储电平，因此<strong>不能工作在太低的频率下</strong>，在文献[1]中提到，如果时钟周期过长，则由于亚阈值导通以及源极和漏极结引起的晶体管泄漏会破坏存储状态。在高温下，此问题通常会变得更加严重，需要仔细模拟。根据经验，对于低于100 MHz的时钟速率，需要考虑这些影响。</p>
+<h1 id="四分频电路">四分频电路</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232839.png" alt="image-20201118111946326" style="zoom:50%;"></p>
+<p>文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。</p>
+<p>尽管工作在很高的频率，但该电路任然使用的是常规的基带晶体管而非 RF 晶体管，从而减小了电路面积以及寄生电容，从而实现了更快，更高效的电路。NMOS 和 PMOS 晶体管的长宽比分别为 16.7 和 23.9。</p>
+<h2 id="仿真">仿真</h2>
+<p>TSPC 的电路图如下所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232857.png" alt="tspc1" style="zoom:75%;"></p>
+<p>TestBench 如下所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232909.png" alt="tspc3_tb" style="zoom:75%;"></p>
+<p>输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727232752.svg" alt="tspc3_wave"><figcaption aria-hidden="true">tspc3_wave</figcaption>
+</figure>
+<p>输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727232753.svg" alt="tspc3_wave_50M"><figcaption aria-hidden="true">tspc3_wave_50M</figcaption>
+</figure>
+<p>将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727232754.svg" alt="tspc3_wave_50M_600m"><figcaption aria-hidden="true">tspc3_wave_50M_600m</figcaption>
+</figure>
+<h1 id="双模分频电路">2/3 双模分频电路</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232921.png" alt="image-20201118113039866" style="zoom:35%;"></p>
+<p>文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。</p>
+<h2 id="分频电路原理">2/3 分频电路原理</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232935.png" alt="divider23" style="zoom:40%;"></p>
+<p>上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。</p>
+<h2 id="tspc-中嵌入逻辑功能">TSPC 中嵌入逻辑功能</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727232946.svg" alt="TSPC_logic" style="zoom:60%;"></p>
+<p>可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。</p>
+<h1 id="测试">测试</h1>
+<ul>
+<li><p>Measured sensitivity curves as a function of the input frequency and the backgate voltages. VBN: NMOS, VBP: PMOS backgate voltage, respectively.</p>
+<p>测量各输入频率下所需要的最小输入电压</p></li>
+<li><p>Measured current consumption as a function of the input frequency and the backgate voltages.</p>
+<p>测量电流消耗与输入频率时间的关系</p></li>
+<li><p>Measured sensitivity of the self-resonance frequency on the operation points and the simulated transfer characteristic of the transistors for multiple backgate bias voltages. The trendlines were obtained for the whole dataset and their slope may vary once the dataset is narrowed for a variable.</p>
+<p>自谐振频率灵敏度</p></li>
+<li><p>Measured phase noise for multiple backgate bias voltages.</p>
+<p>相位噪声</p></li>
+<li><p>Measured output swing on a 50 Ω load as a function of input frequency and the backgate voltages.</p>
+<p>在50负载下测得的输出摆幅和输入频率的关系</p></li>
+</ul>
+<h1 id="参考文献">参考文献</h1>
+<p>[1] B. Razavi, "TSPC Logic [A Circuit for All Seasons]," in <em>IEEE Solid-State Circuits Magazine</em>, vol. 8, no. 4, pp. 10-13, Fall 2016, doi: 10.1109/MSSC.2016.2603228.</p>
+<p>[2] Z. Tibenszky, C. Carta and F. Ellinger, "A 0.35 mW 70 GHz Divide-by-4 TSPC Frequency Divider on 22 nm FD-SOI CMOS Technology," <em>2020 IEEE Radio Frequency Integrated Circuits Symposium (RFIC)</em>, Los Angeles, CA, USA, 2020, pp. 243-246, doi: 10.1109/RFIC49505.2020.9218362.</p>
+<p>[3] I. Lawang, A. Tudsorn and S. Tooprakai, "1V High Speed E-TSPC 2/3 Prescalers," <em>2019 5th International Conference on Engineering, Applied Sciences and Technology (ICEAST)</em>, Luang Prabang, Laos, 2019, pp. 1-4, doi: 10.1109/ICEAST.2019.8802598.</p>
+<p>[4] 尹江伟. 应用于OFDM UWB系统的高速分频器研究与设计[D].复旦大学,2009.</p>
+]]></content>
+      <categories>
+        <category>PLL</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
+        <tag>Analog</tag>
+        <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VCO 噪声优化</title>
     <url>/2021/05/20/PLL-noise/</url>
     <content><![CDATA[<h1 id="电感值的选取">电感值的选取</h1>
@@ -2492,191 +2680,40 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>RISC-V SOC Design (1)</title>
-    <url>/2020/03/27/RISC-V-SOC-Design-1/</url>
-    <content><![CDATA[<p>使用 vivado blockdesign 搭建，比较直观</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194616.png" alt="ibex_bd"><figcaption aria-hidden="true">ibex_bd</figcaption>
-</figure>
+    <title>Ubuntu 18.04 开机自启问题</title>
+    <url>/2020/03/11/Ubuntu-18-04-%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>Ubuntu 18.04 使用 systemctl 命令来替换了 service 和 chkconfig 的功能。主要是开机启动比以前复杂多了。systemd 默认读取 <code>/etc/systemd/system/</code> 下的配置文件，该目录下的文件会链接 <code>/lib/systemd/system/</code> 下的文件。</p>
 <a id="more"></a>
-<h1 id="memory-map">Memory Map</h1>
-<p>SOC 搭建参考了 SiFive SOC，因此在 Memory Map 上尽量一致，方便软件移植。</p>
-<table>
-<thead>
-<tr class="header">
-<th>Base</th>
-<th>Top</th>
-<th>Attr.</th>
-<th>Description</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0x1001_2000</td>
-<td>0x1001_2FFF</td>
-<td>RW A</td>
-<td>GPIO</td>
-<td>On-Chip Peripherals</td>
-</tr>
-<tr class="even">
-<td>0x1001_3000</td>
-<td>0x1001_3FFF</td>
-<td>RW A</td>
-<td>UART 0</td>
-<td>On-Chip Peripherals</td>
-</tr>
-<tr class="odd">
-<td>0x8000_0000</td>
-<td>0x8000_FFFF</td>
-<td>RWXCA</td>
-<td>ITCM</td>
-<td>On-Chip Volatile Memory</td>
-</tr>
-<tr class="even">
-<td>0x9000_0000</td>
-<td>0x9000_FFFF</td>
-<td>RWXCA</td>
-<td>DTCM</td>
-<td>On-Chip Volatile Memory</td>
-</tr>
-</tbody>
-</table>
-<h1 id="设计思路">设计思路</h1>
-<h2 id="itcm">ITCM</h2>
-<p>一般盘片机在启动时，会将 instruction 从 FLASH 读入片上 RAM，然后程序在片上 RAM 中运行，因此启动时会有一个程序加载的过程，即从片外存储 load 到片上存储，因此这里暂时先用 ITCM 模拟这个过程，启动时，将程序从 ITCM load 到 DTCM 中，这个过程需要程序配合。</p>
-<p>在 load 的过程中，ITCM 在一些时刻会同时被数据总线和指令总线读取，因此 ITCM 使用双端口 RAM。</p>
-<h2 id="core">CORE</h2>
-<p>这里使用的是 <a href="https://github.com/lowRISC/ibex">ibex</a>，该 core 有单独的数据总线和指令总线，但是为一种私有总线，为了通用，将其转为 AXI4 总线。</p>
+<p>执行 <code>ls /lib/systemd/system</code> 可以看到有很多启动脚本，其中就有我们需要的 <code>rc.local.service</code></p>
+<p>打开脚本内容（如果没有就创建）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#  This file is part of systemd.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#  systemd is free software; you can redistribute it and/or modify it</span></span><br><span class="line"><span class="comment">#  under the terms of the GNU Lesser General Public License as published by</span></span><br><span class="line"><span class="comment">#  the Free Software Foundation; either version 2.1 of the License, or</span></span><br><span class="line"><span class="comment">#  (at your option) any later version.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This unit gets pulled automatically into multi-user.target by</span></span><br><span class="line"><span class="comment"># systemd-rc-local-generator if /etc/rc.local is executable.</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=/etc/rc.local Compatibility</span><br><span class="line">Documentation=man:systemd-rc-local-generator(8)</span><br><span class="line">ConditionFileIsExecutable=/etc/rc.local</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">GuessMainPID=no</span><br></pre></td></tr></table></figure>
+<p><strong>一般正常的启动文件主要分成三部分</strong></p>
+<blockquote>
+<p>[Unit] 段: 启动顺序与依赖关系 [Service] 段: 启动行为,如何启动，启动类型 [Install] 段: 定义如何安装这个配置文件，即怎样做到开机启动</p>
+</blockquote>
+<p>可以看出，/etc/rc.local 的启动顺序是在网络后面，但是显然它少了 Install 段，也就没有定义如何做到开机启动，所以显然这样配置是无效的。 因此我们就需要在后面帮他加上 [Install] 段:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Install]  </span><br><span class="line">WantedBy=multi-user.target  </span><br><span class="line">Alias=rc-local.service</span><br></pre></td></tr></table></figure>
+<p>所以完整的 <code>rc.local.service</code> 文件是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=/etc/rc.local Compatibility</span><br><span class="line">Documentation=man:systemd-rc-local-generator(8)</span><br><span class="line">ConditionFileIsExecutable=/etc/rc.local</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">GuessMainPID=no</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">Alias=rc-local.service</span><br></pre></td></tr></table></figure>
+<p>这里需要注意一下，ubuntu-18.04 server 版默认是没有 /etc/rc.local 这个文件的，需要自己创建：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo touch /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>然后把你需要启动脚本写入 /etc/rc.local ，我们不妨写一些测试的脚本放在里面，以便验证脚本是否生效.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh -e</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># rc.local</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># This script is executed at the end of each multiuser runlevel.</span></span><br><span class="line"><span class="comment"># Make sure that the script will &quot;exit 0&quot; on success or any other</span></span><br><span class="line"><span class="comment"># value on error.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In order to enable or disable this script just change the execution</span></span><br><span class="line"><span class="comment"># bits.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># By default this script does nothing.</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;看到这行字，说明添加自启动脚本成功。&quot;</span> &gt; /usr/<span class="built_in">local</span>/test.log</span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+<p>记得给加上执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod +x /etc/rc.local</span><br></pre></td></tr></table></figure>
+<p>前面我们说 systemd 默认读取 /etc/systemd/system 下的配置文件, 所以还需要在 /etc/systemd/system 目录下创建软链接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ln -s /lib/systemd/system/rc.local.service /etc/systemd/system/</span><br></pre></td></tr></table></figure>
+<p>还有最后一步，启用服务、启动服务并检查状态</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">enable</span> rc-<span class="keyword">local</span>.service</span><br><span class="line">sudo systemctl <span class="keyword">start</span> rc-<span class="keyword">local</span>.service</span><br><span class="line">sudo systemctl status rc-<span class="keyword">local</span>.service</span><br></pre></td></tr></table></figure>
+<p>重启并检查test.log文件</p>
+<p><code>cat /usr/local/test.log</code></p>
 ]]></content>
       <categories>
-        <category>RISC-V</category>
+        <category>GEEK</category>
       </categories>
       <tags>
-        <tag>FPGA</tag>
-        <tag>毕业设计</tag>
-        <tag>RISC-V</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PLL(Phase-locked loop, 锁相环)</title>
-    <url>/2020/09/11/PLL/</url>
-    <content><![CDATA[<p>锁相环（PLL: Phase-locked loop）是一种利用反馈（Feedback）控制原理实现的频率及相位的同步技术，其作用是将电路输出的时钟与其外部的参考时钟保持同步。当参考时钟的频率或相位发生改变时，锁相回路会检测到这种变化，并且通过其内部的反馈系统来调节输出频率，直到两者重新同步，这种同步又称为“锁相”（Phase-locked）。</p>
-<a id="more"></a>
-<h1 id="时钟与振荡电路">时钟与振荡电路</h1>
-<p>芯片工作时，通常需要时钟，时钟的周期变化可以通过振荡来产生。振荡电路的形成通常可以分为两类：</p>
-<ol type="1">
-<li>石英晶体压电效应：电导致晶片的机械变形，而晶片两侧施加机械压力又会产生电，形成振荡。它的谐振频率与晶片的切割方式、几何形状、尺寸有关，可以做得精确，因此其振荡电路可以获得很高的频率稳定度。</li>
-<li>电容Capacity的充电放电：LC振荡电路，能够存储电能，而充放电的电流方向是反的，形成振荡，可通过电压等控制振荡电路的频率。</li>
-</ol>
-<h1 id="pll-与倍频">PLL 与倍频</h1>
-<p>由上面两种振荡方式可知，晶体振荡电路频率的稳定度优于 LC 振荡电路，但是晶体振荡电路除了可以使用数字电路分频以外，其频率几乎无法改变，由于成本与工艺限制，其频率无法做到很高。因此芯片中高频时钟就需要一种叫做压控振荡器（Voltage Controlled Oscillator）的东西生成了。可压控振荡器也有问题，其频率不够稳定，而且变化时很难快速稳定频率。这就是标准开环系统所出现的问题，解决办法就是接入反馈，使开环系统变成闭环系统，并且加入稳定的基准信号，与反馈比较，以便生成正确的控制。因此，为了将频率锁定在一个固定的期望值，锁相环 PLL 出现了。</p>
-<h2 id="pll锁相环电路的概要">PLL(锁相环)电路的概要</h2>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194546.png" alt="Pll"><figcaption aria-hidden="true">Pll</figcaption>
-</figure>
-<p>PLL 通常由以下几个部分组成：</p>
-<ul>
-<li><p>鉴相鉴频器 PFD（Phase Frequency Detector）：对输入的基准信号（来自频率稳定的晶振）和反馈回路的信号进行频率的比较，输出一个代表两者差异的信号</p></li>
-<li><p>低通滤波器 LPF（Low-Pass Filter）：将PFD中生成的差异信号的高频成分滤除，保留直流部分；</p></li>
-<li><p>压控振荡器 VCO（Voltage Controlled Oscillator）：根据输入电压，输出对应频率的周期信号。利用变容二极管（偏置电压的变化会改变耗尽层的厚度，从而影响电容大小）与电感构成的 LC 谐振电路构成，提高变容二极管的逆向偏压，二极管内耗尽层变大，电容变小，LC 电路的谐振频率提高，反之，降低逆向偏压时，二极管内电容变大，频率降低；</p></li>
-<li><p>反馈回路 FL（Feedback Loop）：通常由一个分频器实现。将 VCO 的输出降低到与基准信号相同级别的频率才能在 PFD 中比较；</p></li>
-</ul>
-<p>PLL 工作的基本原理就是将压控振荡器的输出经过分频后与基准信号输入 PFD，PFD 通过比较这两个信号的频率差，输出一个代表两者差异的信号，再经过低通滤波器转变成一个直流脉冲电压去控制 VCO 使它的频率改变。这样经过一个很短的时间，VCO 的输出就会稳定下来。所以 PLL 并不是直接对晶振进行倍频，而是将频率稳定的晶振作为基准信号，与 PLL 内部振荡电路生成的信号分频后进行比较，使 PLL 输出的信号频率稳定。</p>
-<p>假设基准振荡器的频率为 <code>$f_r$</code>，VCO的频率为 <code>$f_o$</code>，在此一电路中，假设 <code>$f_r&gt;f_o$</code> 时，也即是 VCO 的振荡频率 <code>$f_o$</code> 比 <code>$f_r$</code> 低时。此时的相位比较器的输出 PFD 会如下图所示，产生正脉波信号，使 VCO 的振荡器频率提高。相反，如果 <code>$f_r&lt;f_o$</code> 时，会产生负脉波信号。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727194547.png" alt="PFD"><figcaption aria-hidden="true">PFD</figcaption>
-</figure>
-<p>(此为利用脉波的边缘做二个信号的比较。如果有相位差存在时，便会产生正或负的脉波输出。)</p>
-<p>此 PD 脉波信号经过回路滤波器(LoopFilter)的积分，便可以得到直流电压 VR，可以控制 VCO 电路。由于控制电压 VR 的变化，VCO 振荡频率会提高。结果使得 <code>$f_r=f_o$</code>。在两者相位成为一致时，PD 端子会成为高阻抗状态，使 PLL 被锁栓(Lock)。</p>
-<h2 id="回路滤波器的选择方法">回路滤波器的选择方法</h2>
-<p>回路滤波器的时间常数与 PLL 控制的良否有很大的关系。在基准频率 <code>$f_r$</code> 为 10kHz 时，输往回路滤波器的脉波周期为 0.1ms。</p>
-<p>为了保持电压值 VR 而增大回路滤波器的时间常数时，便无法追踪 VCO 的振荡频率的变化。如果时间常数太小时，会在 VR 上出现涟波，使 PLL 的稳定度恶化。</p>
-<p>因此，根据经验，回路滤波器的时间常数，选择大约为基准频率的周期 (1/fr) 的数百倍。</p>
-<h1 id="reference">Reference</h1>
-<ol type="1">
-<li><a href="https://blog.csdn.net/u013754317/article/details/52799516">锁相环PLL（Phase Locked Loop)</a></li>
-<li><a href="https://blog.csdn.net/leoufung/article/details/50268031">PLL(锁相环)电路原理</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Phase-locked_loop">Phase-locked loop</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TSPC</title>
-    <url>/2020/11/17/TSPC/</url>
-    <content><![CDATA[<p>在 PLL 中，分频器负责将较高频率的 VCO 输出信号转换为与基准频率相近的信号，以进行相位比较。分频器通常消耗 PLL 中 VCO 之后的大部分功率，因此设计出低功耗的分频器有助于降低 PLL 的功耗。在高频中，注入锁定分频器 (injection-locked frequency divider, ILFD) 和再生分频器 (regenerative dividers) 比较常见。而基于 D 触发器 (D flip-flop, DFF) 的分频器由于其工作速度的限制通常用于预分频之后的低频率的分频。与高频分频器相比，DFF 分频器具有更低的功耗和更高的锁定范围。在 DFF 中，真<strong>单相时钟控寄存器</strong> (true single phase clock, TSPC) 仅使用单相时钟，避免了时钟重叠的影响。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232823.png" alt="image-20201118103158126" style="zoom:50%;"></p>
-<a id="more"></a>
-<h1 id="tspc-基本结构">TSPC 基本结构</h1>
-<p>TSPC 的基本结构如上图(a)所示，M1-M3 构成了第一级时钟控制反相器，M4-M6 构成了第二级时钟控制反相器，M7-M9 构成了第二级时钟控制反相器。</p>
-<p>当时钟 CLK 由高变低后，第一级时钟控制反相器的输出 A 反相跟随数据输入 D，第二级时钟控制反相器的输出 B 被拉升至电源电平，由于 M9 和 M8 分别被 B 和 CLK 关闭，因此第三级时钟控制反相器的输出 C 维持前一时刻的电平，数据输出 Q 也维持前一时刻电平不变。</p>
-<p>当 CLK 由低变高后，D 维持不变，M3 关断，A 点电平不变。若 A 点为高，则 M5 导通，同时 M6、M4 由于 CLK 分别是关断和导通，因此 B 点被拉至地电平；若 A 点为低，M5 关断，M6、M4 由于 CLK 分别为导通和关断，因此 B 被拉至高电平，实现了对 A 的反相跟随。此时 M8 由于 CLK 导通，M7、M9 构成一个反相器，输出 Qn。经过三级反相后，Qn 与 D 反相。</p>
-<p>将 M1-M3 看作第一级，M4-M9 看作第二级，在 CLK 为低时，对第一级进行预充电时，第二级的输出保持不变。因此，当 CLK 为高电平时，第一级进行评估，而第二级检测，而当 CLK 为低电平时，第一级进行复位，而第二级进行存储[1]。</p>
-<p>由于 TSPC 完全以节点寄生电容来存储电平，因此<strong>不能工作在太低的频率下</strong>，在文献[1]中提到，如果时钟周期过长，则由于亚阈值导通以及源极和漏极结引起的晶体管泄漏会破坏存储状态。在高温下，此问题通常会变得更加严重，需要仔细模拟。根据经验，对于低于100 MHz的时钟速率，需要考虑这些影响。</p>
-<h1 id="四分频电路">四分频电路</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232839.png" alt="image-20201118111946326" style="zoom:50%;"></p>
-<p>文献[2]提出了一个 TSPC 构成的异步四分频电路，如上图所示。其使用 22 nm FD-SOI CMOS 工艺，其工作电压范围为 0.4V-0.9V，并实现了 100MHz 至 70GHz 的输入频率范围。当以 70GHz 运行时，分频器在 0.9V 电源下仅消耗 393mA 电流，该电路实现了迄今为止[2020]的 TSPC 分频器的最高工作频率，以及最小的面积和最低的电流消耗。</p>
-<p>尽管工作在很高的频率，但该电路任然使用的是常规的基带晶体管而非 RF 晶体管，从而减小了电路面积以及寄生电容，从而实现了更快，更高效的电路。NMOS 和 PMOS 晶体管的长宽比分别为 16.7 和 23.9。</p>
-<h2 id="仿真">仿真</h2>
-<p>TSPC 的电路图如下所示：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232857.png" alt="tspc1" style="zoom:75%;"></p>
-<p>TestBench 如下所示：</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232909.png" alt="tspc3_tb" style="zoom:75%;"></p>
-<p>输入的时钟摆幅为 600mV，频率为 1GHz，Vdd 为 1.2V，仿真结果如下：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727232752.svg" alt="tspc3_wave"><figcaption aria-hidden="true">tspc3_wave</figcaption>
-</figure>
-<p>输入的时钟摆幅为 600mV，频率为 50MHz，Vdd 为 1.2V，TSPC 已经不能正常工作了：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727232753.svg" alt="tspc3_wave_50M"><figcaption aria-hidden="true">tspc3_wave_50M</figcaption>
-</figure>
-<p>将输入的时钟摆幅提高到 1.2V，频率为 50MHz，Vdd 为 1.2V时：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727232754.svg" alt="tspc3_wave_50M_600m"><figcaption aria-hidden="true">tspc3_wave_50M_600m</figcaption>
-</figure>
-<h1 id="双模分频电路">2/3 双模分频电路</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232921.png" alt="image-20201118113039866" style="zoom:35%;"></p>
-<p>文献[3]使用 E-TSPC 结构实现了 2/3 双模预分频电路，在 1V 供电下，工作频率达 24 GHz。</p>
-<h2 id="分频电路原理">2/3 分频电路原理</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232935.png" alt="divider23" style="zoom:40%;"></p>
-<p>上图(a)是一种三分频电路[4]，这种电路只有三个状态：Q1Q2=00,10,11。如图(b)所示，在 F1 后插入一个或门，当 MC 输入高电平时，相当于 Q1 的输出被屏蔽了，因此 CLK 通过 F2 实现 2 分频；而 MC 输入低电平时，电路效果与图(a)相同，实现 3 分频。</p>
-<h2 id="tspc-中嵌入逻辑功能">TSPC 中嵌入逻辑功能</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727232946.svg" alt="TSPC_logic" style="zoom:60%;"></p>
-<p>可以在 TSPC 中嵌入逻辑功能，以减小与锁存器相关的延时。其基本的使用如上图所示。</p>
-<h1 id="测试">测试</h1>
-<ul>
-<li><p>Measured sensitivity curves as a function of the input frequency and the backgate voltages. VBN: NMOS, VBP: PMOS backgate voltage, respectively.</p>
-<p>测量各输入频率下所需要的最小输入电压</p></li>
-<li><p>Measured current consumption as a function of the input frequency and the backgate voltages.</p>
-<p>测量电流消耗与输入频率时间的关系</p></li>
-<li><p>Measured sensitivity of the self-resonance frequency on the operation points and the simulated transfer characteristic of the transistors for multiple backgate bias voltages. The trendlines were obtained for the whole dataset and their slope may vary once the dataset is narrowed for a variable.</p>
-<p>自谐振频率灵敏度</p></li>
-<li><p>Measured phase noise for multiple backgate bias voltages.</p>
-<p>相位噪声</p></li>
-<li><p>Measured output swing on a 50 Ω load as a function of input frequency and the backgate voltages.</p>
-<p>在50负载下测得的输出摆幅和输入频率的关系</p></li>
-</ul>
-<h1 id="参考文献">参考文献</h1>
-<p>[1] B. Razavi, "TSPC Logic [A Circuit for All Seasons]," in <em>IEEE Solid-State Circuits Magazine</em>, vol. 8, no. 4, pp. 10-13, Fall 2016, doi: 10.1109/MSSC.2016.2603228.</p>
-<p>[2] Z. Tibenszky, C. Carta and F. Ellinger, "A 0.35 mW 70 GHz Divide-by-4 TSPC Frequency Divider on 22 nm FD-SOI CMOS Technology," <em>2020 IEEE Radio Frequency Integrated Circuits Symposium (RFIC)</em>, Los Angeles, CA, USA, 2020, pp. 243-246, doi: 10.1109/RFIC49505.2020.9218362.</p>
-<p>[3] I. Lawang, A. Tudsorn and S. Tooprakai, "1V High Speed E-TSPC 2/3 Prescalers," <em>2019 5th International Conference on Engineering, Applied Sciences and Technology (ICEAST)</em>, Luang Prabang, Laos, 2019, pp. 1-4, doi: 10.1109/ICEAST.2019.8802598.</p>
-<p>[4] 尹江伟. 应用于OFDM UWB系统的高速分频器研究与设计[D].复旦大学,2009.</p>
-]]></content>
-      <categories>
-        <category>PLL</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-        <tag>Analog</tag>
-        <tag>PLL</tag>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -2744,43 +2781,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>GEEK</tag>
         <tag>LaTex</tag>
         <tag>MAC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 18.04 开机自启问题</title>
-    <url>/2020/03/11/Ubuntu-18-04-%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>Ubuntu 18.04 使用 systemctl 命令来替换了 service 和 chkconfig 的功能。主要是开机启动比以前复杂多了。systemd 默认读取 <code>/etc/systemd/system/</code> 下的配置文件，该目录下的文件会链接 <code>/lib/systemd/system/</code> 下的文件。</p>
-<a id="more"></a>
-<p>执行 <code>ls /lib/systemd/system</code> 可以看到有很多启动脚本，其中就有我们需要的 <code>rc.local.service</code></p>
-<p>打开脚本内容（如果没有就创建）：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#  This file is part of systemd.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#  systemd is free software; you can redistribute it and/or modify it</span></span><br><span class="line"><span class="comment">#  under the terms of the GNU Lesser General Public License as published by</span></span><br><span class="line"><span class="comment">#  the Free Software Foundation; either version 2.1 of the License, or</span></span><br><span class="line"><span class="comment">#  (at your option) any later version.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This unit gets pulled automatically into multi-user.target by</span></span><br><span class="line"><span class="comment"># systemd-rc-local-generator if /etc/rc.local is executable.</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=/etc/rc.local Compatibility</span><br><span class="line">Documentation=man:systemd-rc-local-generator(8)</span><br><span class="line">ConditionFileIsExecutable=/etc/rc.local</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">GuessMainPID=no</span><br></pre></td></tr></table></figure>
-<p><strong>一般正常的启动文件主要分成三部分</strong></p>
-<blockquote>
-<p>[Unit] 段: 启动顺序与依赖关系 [Service] 段: 启动行为,如何启动，启动类型 [Install] 段: 定义如何安装这个配置文件，即怎样做到开机启动</p>
-</blockquote>
-<p>可以看出，/etc/rc.local 的启动顺序是在网络后面，但是显然它少了 Install 段，也就没有定义如何做到开机启动，所以显然这样配置是无效的。 因此我们就需要在后面帮他加上 [Install] 段:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Install]  </span><br><span class="line">WantedBy=multi-user.target  </span><br><span class="line">Alias=rc-local.service</span><br></pre></td></tr></table></figure>
-<p>所以完整的 <code>rc.local.service</code> 文件是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=/etc/rc.local Compatibility</span><br><span class="line">Documentation=man:systemd-rc-local-generator(8)</span><br><span class="line">ConditionFileIsExecutable=/etc/rc.local</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">GuessMainPID=no</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">Alias=rc-local.service</span><br></pre></td></tr></table></figure>
-<p>这里需要注意一下，ubuntu-18.04 server 版默认是没有 /etc/rc.local 这个文件的，需要自己创建：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo touch /etc/rc.local</span><br></pre></td></tr></table></figure>
-<p>然后把你需要启动脚本写入 /etc/rc.local ，我们不妨写一些测试的脚本放在里面，以便验证脚本是否生效.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh -e</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># rc.local</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># This script is executed at the end of each multiuser runlevel.</span></span><br><span class="line"><span class="comment"># Make sure that the script will &quot;exit 0&quot; on success or any other</span></span><br><span class="line"><span class="comment"># value on error.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># In order to enable or disable this script just change the execution</span></span><br><span class="line"><span class="comment"># bits.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># By default this script does nothing.</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;看到这行字，说明添加自启动脚本成功。&quot;</span> &gt; /usr/<span class="built_in">local</span>/test.log</span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
-<p>记得给加上执行权限：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chmod +x /etc/rc.local</span><br></pre></td></tr></table></figure>
-<p>前面我们说 systemd 默认读取 /etc/systemd/system 下的配置文件, 所以还需要在 /etc/systemd/system 目录下创建软链接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ln -s /lib/systemd/system/rc.local.service /etc/systemd/system/</span><br></pre></td></tr></table></figure>
-<p>还有最后一步，启用服务、启动服务并检查状态</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">enable</span> rc-<span class="keyword">local</span>.service</span><br><span class="line">sudo systemctl <span class="keyword">start</span> rc-<span class="keyword">local</span>.service</span><br><span class="line">sudo systemctl status rc-<span class="keyword">local</span>.service</span><br></pre></td></tr></table></figure>
-<p>重启并检查test.log文件</p>
-<p><code>cat /usr/local/test.log</code></p>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -2956,6 +2956,159 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>Linux</tag>
         <tag>GEEK</tag>
         <tag>tensorflow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于FPGA的VGA控制器</title>
+    <url>/2018/01/21/VGA-controller/</url>
+    <content><![CDATA[<h2 id="目标">目标</h2>
+<p>​ 设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。</p>
+<blockquote>
+<p>硬件平台：Basys 3 开发板</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="原理">原理</h2>
+<p>​ 标准15针VGA接口共有五个信号接口，如下表所示，其中hsync、vsync为行同步和场同步信号，RGB为模拟信号。</p>
+<table>
+<thead>
+<tr class="header">
+<th>信号名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>hsync</td>
+<td>行同步信号</td>
+</tr>
+<tr class="even">
+<td>vsync</td>
+<td>场同步信号</td>
+</tr>
+<tr class="odd">
+<td>R</td>
+<td>红色信号</td>
+</tr>
+<tr class="even">
+<td>G</td>
+<td>绿色信号</td>
+</tr>
+<tr class="odd">
+<td>B</td>
+<td>蓝色信号</td>
+</tr>
+</tbody>
+</table>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233440.jpg" title="行扫描时序" alt="行扫描"><figcaption aria-hidden="true">行扫描</figcaption>
+</figure>
+<blockquote>
+<p>行扫描时序</p>
+</blockquote>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233441.jpg" title="场扫描" alt="场扫描"><figcaption aria-hidden="true">场扫描</figcaption>
+</figure>
+<blockquote>
+<p>场扫描时序</p>
+</blockquote>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233442.jpg" title="VGA时序图" alt="VGA时序图"><figcaption aria-hidden="true">VGA时序图</figcaption>
+</figure>
+<blockquote>
+<p>VGA时序图</p>
+</blockquote>
+<h2 id="设计">设计</h2>
+<p>整个电路分为这几个部分：</p>
+<ul>
+<li>VGA控制器</li>
+<li>图像控制器</li>
+<li>ROM存储</li>
+</ul>
+<ol type="1">
+<li><p>首先是VGA控制器部分，这部分产生行同步信号和场同步信号；</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> vga_sync(</span><br><span class="line">true<span class="keyword">input</span> <span class="keyword">wire</span> clk,reset,</span><br><span class="line">true<span class="keyword">output</span> <span class="keyword">wire</span> hsync,vsync,video_on,p_tick,</span><br><span class="line">true<span class="keyword">output</span> <span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y,</span><br><span class="line">true<span class="keyword">output</span> <span class="keyword">wire</span> [<span class="number">18</span>:<span class="number">0</span>] addr</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="comment">//定义常数</span></span><br><span class="line">true<span class="comment">//VGA 640 * 480 同步参数</span></span><br><span class="line">true<span class="keyword">localparam</span> HD = <span class="number">640</span>;	<span class="comment">//水平显示区域</span></span><br><span class="line">true<span class="keyword">localparam</span> HF = <span class="number">48</span>;		<span class="comment">//水平扫描左边界</span></span><br><span class="line">true<span class="keyword">localparam</span> HB = <span class="number">16</span>;		<span class="comment">//水平扫描右边界</span></span><br><span class="line">true<span class="keyword">localparam</span> HR = <span class="number">96</span>;		<span class="comment">//水平折回区</span></span><br><span class="line">true<span class="keyword">localparam</span> VD = <span class="number">480</span>;	<span class="comment">//垂直显示区域</span></span><br><span class="line">true<span class="keyword">localparam</span> VF = <span class="number">10</span>;		<span class="comment">//垂直扫描顶部边界</span></span><br><span class="line">true<span class="keyword">localparam</span> VB = <span class="number">33</span>;		<span class="comment">//垂直扫描底部边界</span></span><br><span class="line">true<span class="keyword">localparam</span> VR = <span class="number">2</span>;		<span class="comment">//垂直折回区</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//模4计数器</span></span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] mod4_reg;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] mod4_next;</span><br><span class="line">true<span class="comment">//同步计数器</span></span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">9</span>:<span class="number">0</span>] h_count_reg,h_count_next;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">9</span>:<span class="number">0</span>] v_count_reg,v_count_next;</span><br><span class="line">true<span class="comment">//输出缓冲器</span></span><br><span class="line">true<span class="keyword">reg</span> v_sync_reg,h_sync_reg;</span><br><span class="line">true<span class="keyword">wire</span> v_sync_next,h_sync_next;</span><br><span class="line">true<span class="comment">//状态信号</span></span><br><span class="line">true<span class="keyword">wire</span> h_end,v_end,pixel_tick,addr_end;</span><br><span class="line">true<span class="comment">//地址输出缓冲器</span></span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">18</span>:<span class="number">0</span>] addr_reg;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">18</span>:<span class="number">0</span>] addr_next;</span><br><span class="line"></span><br><span class="line">true<span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="comment">// reset</span></span><br><span class="line">truetruetruemod4_reg &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">truetruetruev_count_reg &lt;= <span class="number">0</span>;</span><br><span class="line">truetruetrueh_count_reg &lt;= <span class="number">0</span>;</span><br><span class="line">truetruetruev_sync_reg &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">truetruetrueh_sync_reg &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">truetruetrueaddr_reg &lt;= <span class="number">0</span>;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruemod4_reg &lt;= mod4_next;</span><br><span class="line">truetruetruev_count_reg &lt;= v_count_next;</span><br><span class="line">truetruetrueh_count_reg &lt;= h_count_next;</span><br><span class="line">truetruetruev_sync_reg &lt;= v_sync_next;</span><br><span class="line">truetruetrueh_sync_reg &lt;= h_sync_next;</span><br><span class="line">truetruetrueaddr_reg &lt;= addr_next;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//模4计数器产生25MHz时钟使能信号</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="comment">// reset</span></span><br><span class="line">truetruetruemod4_next &lt;= <span class="number">2&#x27;b0</span>;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruemod4_next &lt;= mod4_reg + <span class="number">1</span>;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line">true<span class="comment">// assign mod4_next = mod4_reg + 1;</span></span><br><span class="line">true<span class="keyword">assign</span> pixel_tick = (mod4_reg == <span class="number">2&#x27;b11</span>)&amp;&amp;(!clk);</span><br><span class="line"></span><br><span class="line">true<span class="comment">//状态信号</span></span><br><span class="line">true<span class="comment">//水平扫描结束信号（799）</span></span><br><span class="line">true<span class="keyword">assign</span> h_end = (h_count_reg==(HD+HF+HB+HR-<span class="number">1</span>));</span><br><span class="line">true<span class="comment">//垂直扫描计数器结束信号</span></span><br><span class="line">true<span class="keyword">assign</span> v_end = (v_count_reg==(VD+VF+VB+VR-<span class="number">1</span>));</span><br><span class="line">true<span class="comment">//地址结束信号</span></span><br><span class="line">true<span class="keyword">assign</span> addr_end = (addr_reg==(HD*VD-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">true<span class="comment">//水平同步扫描模800计数器下一状态</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (pixel_tick) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="keyword">if</span> (h_end) <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueh_count_next = <span class="number">0</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueh_count_next = h_count_reg + <span class="number">1</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetrueh_count_next = h_count_reg;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//垂直同步扫描模525计数器新下一状态</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (pixel_tick &amp;&amp; h_end) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="keyword">if</span> (v_end) <span class="keyword">begin</span></span><br><span class="line">truetruetruetruev_count_next = <span class="number">0</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruetruev_count_next = v_count_reg + <span class="number">1</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruev_count_next = v_count_reg;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//地址下一个状态</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (pixel_tick) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="keyword">if</span> (addr_end) <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueaddr_next = <span class="number">0</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span>(video_on) <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueaddr_next = addr_reg + <span class="number">1</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueaddr_next = addr_reg;</span><br><span class="line">truetruetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetrueaddr_next = addr_reg;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//同步缓冲器</span></span><br><span class="line">true<span class="comment">//h_sync_next 信号在计数器数值为656和751时赋值</span></span><br><span class="line">true<span class="keyword">assign</span> h_sync_next = (h_count_reg &gt;= (HD+HB)&amp;&amp;h_count_reg &lt;= (HD+HB+HR-<span class="number">1</span>));</span><br><span class="line">true<span class="comment">//v_sync_next 信号在计数器数值为490和491时赋值</span></span><br><span class="line">true<span class="keyword">assign</span> v_sync_next = (v_count_reg &gt;= (VD+VB)&amp;&amp;v_count_reg &lt;= (VD+VB+VR-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">true<span class="comment">//产生video_on 信号</span></span><br><span class="line">true<span class="keyword">assign</span> video_on = (h_count_reg &lt; HD) &amp;&amp; (v_count_reg &lt; VD);</span><br><span class="line"></span><br><span class="line">true<span class="comment">//输出</span></span><br><span class="line">true<span class="keyword">assign</span> hsync = h_sync_reg;</span><br><span class="line">true<span class="keyword">assign</span> vsync = v_sync_reg;</span><br><span class="line">true<span class="keyword">assign</span> pixel_x = h_count_reg;</span><br><span class="line">true<span class="keyword">assign</span> pixel_y = v_count_reg;</span><br><span class="line">true<span class="keyword">assign</span> p_tick = pixel_tick;</span><br><span class="line">true<span class="keyword">assign</span> addr = addr_reg;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>​</p></li>
+<li><p>然后是图像控制部分；</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> vga_display</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="keyword">input</span> clk,reset,</span><br><span class="line">        <span class="keyword">input</span> p_tick,</span><br><span class="line">truetrue<span class="keyword">input</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y,</span><br><span class="line">        <span class="keyword">input</span> video_on,</span><br><span class="line">truetrue<span class="keyword">input</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_in,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">14</span>:<span class="number">0</span>] addr_out,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_out</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="keyword">parameter</span> DH = <span class="number">150</span>, DV = <span class="number">150</span>;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">14</span>:<span class="number">0</span>] addr_reg,addr_next;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_reg,rgb_next;</span><br><span class="line"></span><br><span class="line">true<span class="keyword">assign</span> pic_en = ((pixel_x &gt;= <span class="number">0</span> &amp;&amp; pixel_x &lt; DH) &amp;&amp; (pixel_y &gt;= <span class="number">0</span> &amp;&amp; pixel_y &lt; DV));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset) <span class="keyword">begin</span></span><br><span class="line">    	<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">    		<span class="comment">// reset</span></span><br><span class="line">    		addr_reg &lt;= <span class="number">15&#x27;b0</span>;</span><br><span class="line">    		rgb_reg &lt;= <span class="number">12&#x27;b0</span>;</span><br><span class="line">    	<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    		addr_reg &lt;= addr_next;</span><br><span class="line">    		rgb_reg &lt;= rgb_next;</span><br><span class="line">    	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (p_tick) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (addr_reg == DH * DV - <span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                addr_next = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (pic_en) <span class="keyword">begin</span></span><br><span class="line">                addr_next = addr_reg + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                addr_next = addr_reg;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            addr_next = addr_reg;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    	<span class="keyword">if</span> (pic_en) <span class="keyword">begin</span></span><br><span class="line">    		rgb_next = rgb_in;</span><br><span class="line">    	<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    		rgb_next = <span class="number">12&#x27;b0000_1111_1111</span>;</span><br><span class="line">    	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> addr_out = addr_reg;</span><br><span class="line">    <span class="keyword">assign</span> rgb_out = (video_on)?rgb_reg:<span class="number">12&#x27;b0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>​</p></li>
+<li><p>最后ROM储存。</p>
+<p>这部分调用了Xilinx官方的IP，在IP Catalog 中选择Block Memory Generator，</p>
+<ol type="1">
+<li><p>首先在Basis里选择Memory Type为Single Port ROM；</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233443.png" alt="ROM1"><figcaption aria-hidden="true">ROM1</figcaption>
+</figure></li>
+<li><p>然后在Port A Options 里设置数据宽度和深度，因为Basys3上的VGA是RGB444格式的，所以数据宽度设为12位，深度可以理解为像素数，本来是想显示640*480的图片的，但Basys3上的RAM容量不够，所以就显示的150*150的图片,则深度为22500（150*150），不需要使能，所以Enable Port Type设为Always Enable；</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233444.png" alt="ROM2"><figcaption aria-hidden="true">ROM2</figcaption>
+</figure></li>
+<li><p>Other Options里，装载 .coe文件。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233445.png" alt="ROM3"><figcaption aria-hidden="true">ROM3</figcaption>
+</figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233446.png" alt="ROM4"><figcaption aria-hidden="true">ROM4</figcaption>
+</figure></li>
+<li><p>顶层文件</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> VGA_display_pictures_top</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="keyword">input</span> clk,reset,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_data,</span><br><span class="line">truetrue<span class="keyword">output</span> hsync,vsync</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="comment">//信号声明</span></span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">14</span>:<span class="number">0</span>] addr;</span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">11</span>:<span class="number">0</span>] rom_data;		<span class="comment">//rom输出rgb信号</span></span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y;</span><br><span class="line">true<span class="keyword">wire</span> video_on;</span><br><span class="line"></span><br><span class="line">    vga_sync U_vga_sync</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.hsync</span>(hsync),</span><br><span class="line">    	<span class="variable">.vsync</span>(vsync),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line">    vga_display U_vga_display</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.rgb_in</span>(rom_data),</span><br><span class="line">    	<span class="variable">.rgb_out</span>(rgb_data),</span><br><span class="line">    	<span class="variable">.addr_out</span>(addr),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line">truevga_picture vga_picture</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="variable">.clka</span>(clk),</span><br><span class="line">truetrue<span class="variable">.addra</span>(addr),</span><br><span class="line">truetrue<span class="variable">.douta</span>(rom_data)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
+</ol></li>
+<li><p>整体连线图</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233447.png" alt="整体连线图"><figcaption aria-hidden="true">整体连线图</figcaption>
+</figure>
+<h2 id="总结">总结</h2>
+<ul>
+<li>为了防止自己忘记，所以写下来；</li>
+<li>暂时先写这么多，以后再补充。</li>
+</ul></li>
+</ol>
+]]></content>
+      <categories>
+        <category>FPGA</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>verilog</tag>
+        <tag>项目</tag>
+        <tag>VGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware Fusion 上为虚拟机设置静态 IP</title>
+    <url>/2020/12/17/VMwareFusionStaticIP/</url>
+    <content><![CDATA[<p>Mac 上的 VMware Fusion 设置静态 IP 没有 Windows 上那么方便，记录一下设置过程。</p>
+<p>建议设置静态 IP 后配合<a href="https://zhouyuqian.com/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/">秘钥登录</a>使用。</p>
+<a id="more"></a>
+<h1 id="设置-vm-虚拟机对应的静态-ip">设置 VM 虚拟机对应的静态 IP</h1>
+<p>编辑文件 <em>/Library/Preferences/VMware Fusion/vmnet8/dhcpd.conf</em>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /Library/Preferences/VMware\ Fusion/vmnet8/dhcpd.conf</span><br></pre></td></tr></table></figure>
+<p>在 <code>####### VMNET DHCP Configuration. End of "DO NOT MODIFY SECTION" #######</code> 这一行后面添加下面内容：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">host RHEL6_IC617_1.2 &#123;</span><br><span class="line">truehardware ethernet 00:0C:29:CB:F1:D3;</span><br><span class="line">truefixed-address 192.168.2.130;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233536.png" alt="constantip"><figcaption aria-hidden="true">constantip</figcaption>
+</figure>
+<p>其中 <code>hardware ethernet</code> 表示 Mac 地址，<code>fixed-address</code> 表示 IP 地址，注意 IP 地址设置的范围要在 <strong>subnet range</strong> 的范围内（上图红框中）；</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233537.png" alt="resource"><figcaption aria-hidden="true">resource</figcaption>
+</figure>
+<p><code>RHEL6_IC617_1.2</code> 是虚拟机的名字，要和虚拟机资源库中的名字相同（上图红框中）。</p>
+<h1 id="刷新-vm-网络配置">刷新 VM 网络配置</h1>
+<p>执行如下三行命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --configure</span><br><span class="line">$ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --stop</span><br><span class="line">$ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start</span><br></pre></td></tr></table></figure>
+<h1 id="虚拟机重新获取配置">虚拟机重新获取配置</h1>
+<p>可以直接重启 VMware Fusion 和虚拟机系统，也可以直接在虚拟机命令行中执行 <code>sudo dhclient -v -r eth0</code>, <strong>eth0</strong> 为对应网卡。</p>
+<hr>
+<p><strong>Reference：</strong></p>
+<ul>
+<li>https://www.jianshu.com/p/af179e61ac7f</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -3178,159 +3331,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
         <tag>软件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于FPGA的VGA控制器</title>
-    <url>/2018/01/21/VGA-controller/</url>
-    <content><![CDATA[<h2 id="目标">目标</h2>
-<p>​ 设计一个基于FPGA的VGA控制器，可以显示640*480的图片，为下一步学习摄像头做准备。</p>
-<blockquote>
-<p>硬件平台：Basys 3 开发板</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="原理">原理</h2>
-<p>​ 标准15针VGA接口共有五个信号接口，如下表所示，其中hsync、vsync为行同步和场同步信号，RGB为模拟信号。</p>
-<table>
-<thead>
-<tr class="header">
-<th>信号名称</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>hsync</td>
-<td>行同步信号</td>
-</tr>
-<tr class="even">
-<td>vsync</td>
-<td>场同步信号</td>
-</tr>
-<tr class="odd">
-<td>R</td>
-<td>红色信号</td>
-</tr>
-<tr class="even">
-<td>G</td>
-<td>绿色信号</td>
-</tr>
-<tr class="odd">
-<td>B</td>
-<td>蓝色信号</td>
-</tr>
-</tbody>
-</table>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233440.jpg" title="行扫描时序" alt="行扫描"><figcaption aria-hidden="true">行扫描</figcaption>
-</figure>
-<blockquote>
-<p>行扫描时序</p>
-</blockquote>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233441.jpg" title="场扫描" alt="场扫描"><figcaption aria-hidden="true">场扫描</figcaption>
-</figure>
-<blockquote>
-<p>场扫描时序</p>
-</blockquote>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233442.jpg" title="VGA时序图" alt="VGA时序图"><figcaption aria-hidden="true">VGA时序图</figcaption>
-</figure>
-<blockquote>
-<p>VGA时序图</p>
-</blockquote>
-<h2 id="设计">设计</h2>
-<p>整个电路分为这几个部分：</p>
-<ul>
-<li>VGA控制器</li>
-<li>图像控制器</li>
-<li>ROM存储</li>
-</ul>
-<ol type="1">
-<li><p>首先是VGA控制器部分，这部分产生行同步信号和场同步信号；</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> vga_sync(</span><br><span class="line">true<span class="keyword">input</span> <span class="keyword">wire</span> clk,reset,</span><br><span class="line">true<span class="keyword">output</span> <span class="keyword">wire</span> hsync,vsync,video_on,p_tick,</span><br><span class="line">true<span class="keyword">output</span> <span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y,</span><br><span class="line">true<span class="keyword">output</span> <span class="keyword">wire</span> [<span class="number">18</span>:<span class="number">0</span>] addr</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="comment">//定义常数</span></span><br><span class="line">true<span class="comment">//VGA 640 * 480 同步参数</span></span><br><span class="line">true<span class="keyword">localparam</span> HD = <span class="number">640</span>;	<span class="comment">//水平显示区域</span></span><br><span class="line">true<span class="keyword">localparam</span> HF = <span class="number">48</span>;		<span class="comment">//水平扫描左边界</span></span><br><span class="line">true<span class="keyword">localparam</span> HB = <span class="number">16</span>;		<span class="comment">//水平扫描右边界</span></span><br><span class="line">true<span class="keyword">localparam</span> HR = <span class="number">96</span>;		<span class="comment">//水平折回区</span></span><br><span class="line">true<span class="keyword">localparam</span> VD = <span class="number">480</span>;	<span class="comment">//垂直显示区域</span></span><br><span class="line">true<span class="keyword">localparam</span> VF = <span class="number">10</span>;		<span class="comment">//垂直扫描顶部边界</span></span><br><span class="line">true<span class="keyword">localparam</span> VB = <span class="number">33</span>;		<span class="comment">//垂直扫描底部边界</span></span><br><span class="line">true<span class="keyword">localparam</span> VR = <span class="number">2</span>;		<span class="comment">//垂直折回区</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//模4计数器</span></span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] mod4_reg;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">1</span>:<span class="number">0</span>] mod4_next;</span><br><span class="line">true<span class="comment">//同步计数器</span></span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">9</span>:<span class="number">0</span>] h_count_reg,h_count_next;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">9</span>:<span class="number">0</span>] v_count_reg,v_count_next;</span><br><span class="line">true<span class="comment">//输出缓冲器</span></span><br><span class="line">true<span class="keyword">reg</span> v_sync_reg,h_sync_reg;</span><br><span class="line">true<span class="keyword">wire</span> v_sync_next,h_sync_next;</span><br><span class="line">true<span class="comment">//状态信号</span></span><br><span class="line">true<span class="keyword">wire</span> h_end,v_end,pixel_tick,addr_end;</span><br><span class="line">true<span class="comment">//地址输出缓冲器</span></span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">18</span>:<span class="number">0</span>] addr_reg;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">18</span>:<span class="number">0</span>] addr_next;</span><br><span class="line"></span><br><span class="line">true<span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="comment">// reset</span></span><br><span class="line">truetruetruemod4_reg &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">truetruetruev_count_reg &lt;= <span class="number">0</span>;</span><br><span class="line">truetruetrueh_count_reg &lt;= <span class="number">0</span>;</span><br><span class="line">truetruetruev_sync_reg &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">truetruetrueh_sync_reg &lt;= <span class="number">1&#x27;b0</span>;</span><br><span class="line">truetruetrueaddr_reg &lt;= <span class="number">0</span>;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruemod4_reg &lt;= mod4_next;</span><br><span class="line">truetruetruev_count_reg &lt;= v_count_next;</span><br><span class="line">truetruetrueh_count_reg &lt;= h_count_next;</span><br><span class="line">truetruetruev_sync_reg &lt;= v_sync_next;</span><br><span class="line">truetruetrueh_sync_reg &lt;= h_sync_next;</span><br><span class="line">truetruetrueaddr_reg &lt;= addr_next;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//模4计数器产生25MHz时钟使能信号</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="comment">// reset</span></span><br><span class="line">truetruetruemod4_next &lt;= <span class="number">2&#x27;b0</span>;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruemod4_next &lt;= mod4_reg + <span class="number">1</span>;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line">true<span class="comment">// assign mod4_next = mod4_reg + 1;</span></span><br><span class="line">true<span class="keyword">assign</span> pixel_tick = (mod4_reg == <span class="number">2&#x27;b11</span>)&amp;&amp;(!clk);</span><br><span class="line"></span><br><span class="line">true<span class="comment">//状态信号</span></span><br><span class="line">true<span class="comment">//水平扫描结束信号（799）</span></span><br><span class="line">true<span class="keyword">assign</span> h_end = (h_count_reg==(HD+HF+HB+HR-<span class="number">1</span>));</span><br><span class="line">true<span class="comment">//垂直扫描计数器结束信号</span></span><br><span class="line">true<span class="keyword">assign</span> v_end = (v_count_reg==(VD+VF+VB+VR-<span class="number">1</span>));</span><br><span class="line">true<span class="comment">//地址结束信号</span></span><br><span class="line">true<span class="keyword">assign</span> addr_end = (addr_reg==(HD*VD-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">true<span class="comment">//水平同步扫描模800计数器下一状态</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (pixel_tick) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="keyword">if</span> (h_end) <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueh_count_next = <span class="number">0</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueh_count_next = h_count_reg + <span class="number">1</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetrueh_count_next = h_count_reg;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//垂直同步扫描模525计数器新下一状态</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (pixel_tick &amp;&amp; h_end) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="keyword">if</span> (v_end) <span class="keyword">begin</span></span><br><span class="line">truetruetruetruev_count_next = <span class="number">0</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruetruev_count_next = v_count_reg + <span class="number">1</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruev_count_next = v_count_reg;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//地址下一个状态</span></span><br><span class="line">true<span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">truetrue<span class="keyword">if</span> (pixel_tick) <span class="keyword">begin</span></span><br><span class="line">truetruetrue<span class="keyword">if</span> (addr_end) <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueaddr_next = <span class="number">0</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span>(video_on) <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueaddr_next = addr_reg + <span class="number">1</span>;</span><br><span class="line">truetruetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetruetrueaddr_next = addr_reg;</span><br><span class="line">truetruetrue<span class="keyword">end</span></span><br><span class="line">truetrue<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">truetruetrueaddr_next = addr_reg;</span><br><span class="line">truetrue<span class="keyword">end</span></span><br><span class="line">true<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">true<span class="comment">//同步缓冲器</span></span><br><span class="line">true<span class="comment">//h_sync_next 信号在计数器数值为656和751时赋值</span></span><br><span class="line">true<span class="keyword">assign</span> h_sync_next = (h_count_reg &gt;= (HD+HB)&amp;&amp;h_count_reg &lt;= (HD+HB+HR-<span class="number">1</span>));</span><br><span class="line">true<span class="comment">//v_sync_next 信号在计数器数值为490和491时赋值</span></span><br><span class="line">true<span class="keyword">assign</span> v_sync_next = (v_count_reg &gt;= (VD+VB)&amp;&amp;v_count_reg &lt;= (VD+VB+VR-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">true<span class="comment">//产生video_on 信号</span></span><br><span class="line">true<span class="keyword">assign</span> video_on = (h_count_reg &lt; HD) &amp;&amp; (v_count_reg &lt; VD);</span><br><span class="line"></span><br><span class="line">true<span class="comment">//输出</span></span><br><span class="line">true<span class="keyword">assign</span> hsync = h_sync_reg;</span><br><span class="line">true<span class="keyword">assign</span> vsync = v_sync_reg;</span><br><span class="line">true<span class="keyword">assign</span> pixel_x = h_count_reg;</span><br><span class="line">true<span class="keyword">assign</span> pixel_y = v_count_reg;</span><br><span class="line">true<span class="keyword">assign</span> p_tick = pixel_tick;</span><br><span class="line">true<span class="keyword">assign</span> addr = addr_reg;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>​</p></li>
-<li><p>然后是图像控制部分；</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> vga_display</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="keyword">input</span> clk,reset,</span><br><span class="line">        <span class="keyword">input</span> p_tick,</span><br><span class="line">truetrue<span class="keyword">input</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y,</span><br><span class="line">        <span class="keyword">input</span> video_on,</span><br><span class="line">truetrue<span class="keyword">input</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_in,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">14</span>:<span class="number">0</span>] addr_out,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_out</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="keyword">parameter</span> DH = <span class="number">150</span>, DV = <span class="number">150</span>;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">14</span>:<span class="number">0</span>] addr_reg,addr_next;</span><br><span class="line">true<span class="keyword">reg</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_reg,rgb_next;</span><br><span class="line"></span><br><span class="line">true<span class="keyword">assign</span> pic_en = ((pixel_x &gt;= <span class="number">0</span> &amp;&amp; pixel_x &lt; DH) &amp;&amp; (pixel_y &gt;= <span class="number">0</span> &amp;&amp; pixel_y &lt; DV));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">posedge</span> reset) <span class="keyword">begin</span></span><br><span class="line">    	<span class="keyword">if</span> (reset) <span class="keyword">begin</span></span><br><span class="line">    		<span class="comment">// reset</span></span><br><span class="line">    		addr_reg &lt;= <span class="number">15&#x27;b0</span>;</span><br><span class="line">    		rgb_reg &lt;= <span class="number">12&#x27;b0</span>;</span><br><span class="line">    	<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    		addr_reg &lt;= addr_next;</span><br><span class="line">    		rgb_reg &lt;= rgb_next;</span><br><span class="line">    	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">if</span> (p_tick) <span class="keyword">begin</span></span><br><span class="line">            <span class="keyword">if</span> (addr_reg == DH * DV - <span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">                addr_next = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">if</span> (pic_en) <span class="keyword">begin</span></span><br><span class="line">                addr_next = addr_reg + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">                addr_next = addr_reg;</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">            addr_next = addr_reg;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(*) <span class="keyword">begin</span></span><br><span class="line">    	<span class="keyword">if</span> (pic_en) <span class="keyword">begin</span></span><br><span class="line">    		rgb_next = rgb_in;</span><br><span class="line">    	<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">begin</span></span><br><span class="line">    		rgb_next = <span class="number">12&#x27;b0000_1111_1111</span>;</span><br><span class="line">    	<span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assign</span> addr_out = addr_reg;</span><br><span class="line">    <span class="keyword">assign</span> rgb_out = (video_on)?rgb_reg:<span class="number">12&#x27;b0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
-<p>​</p></li>
-<li><p>最后ROM储存。</p>
-<p>这部分调用了Xilinx官方的IP，在IP Catalog 中选择Block Memory Generator，</p>
-<ol type="1">
-<li><p>首先在Basis里选择Memory Type为Single Port ROM；</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233443.png" alt="ROM1"><figcaption aria-hidden="true">ROM1</figcaption>
-</figure></li>
-<li><p>然后在Port A Options 里设置数据宽度和深度，因为Basys3上的VGA是RGB444格式的，所以数据宽度设为12位，深度可以理解为像素数，本来是想显示640*480的图片的，但Basys3上的RAM容量不够，所以就显示的150*150的图片,则深度为22500（150*150），不需要使能，所以Enable Port Type设为Always Enable；</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233444.png" alt="ROM2"><figcaption aria-hidden="true">ROM2</figcaption>
-</figure></li>
-<li><p>Other Options里，装载 .coe文件。</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233445.png" alt="ROM3"><figcaption aria-hidden="true">ROM3</figcaption>
-</figure>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233446.png" alt="ROM4"><figcaption aria-hidden="true">ROM4</figcaption>
-</figure></li>
-<li><p>顶层文件</p>
-<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> VGA_display_pictures_top</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="keyword">input</span> clk,reset,</span><br><span class="line">truetrue<span class="keyword">output</span> [<span class="number">11</span>:<span class="number">0</span>] rgb_data,</span><br><span class="line">truetrue<span class="keyword">output</span> hsync,vsync</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">true<span class="comment">//信号声明</span></span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">14</span>:<span class="number">0</span>] addr;</span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">11</span>:<span class="number">0</span>] rom_data;		<span class="comment">//rom输出rgb信号</span></span><br><span class="line">true<span class="keyword">wire</span> [<span class="number">9</span>:<span class="number">0</span>] pixel_x,pixel_y;</span><br><span class="line">true<span class="keyword">wire</span> video_on;</span><br><span class="line"></span><br><span class="line">    vga_sync U_vga_sync</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.hsync</span>(hsync),</span><br><span class="line">    	<span class="variable">.vsync</span>(vsync),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line">    vga_display U_vga_display</span><br><span class="line">    (</span><br><span class="line">    	<span class="variable">.clk</span>(clk),</span><br><span class="line">    	<span class="variable">.reset</span>(reset),</span><br><span class="line">    	<span class="variable">.pixel_x</span>(pixel_x),</span><br><span class="line">    	<span class="variable">.pixel_y</span>(pixel_y),</span><br><span class="line">    	<span class="variable">.rgb_in</span>(rom_data),</span><br><span class="line">    	<span class="variable">.rgb_out</span>(rgb_data),</span><br><span class="line">    	<span class="variable">.addr_out</span>(addr),</span><br><span class="line">    	<span class="variable">.video_on</span>(video_on),</span><br><span class="line">    	<span class="variable">.p_tick</span>(p_tick)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line">truevga_picture vga_picture</span><br><span class="line">true(</span><br><span class="line">truetrue<span class="variable">.clka</span>(clk),</span><br><span class="line">truetrue<span class="variable">.addra</span>(addr),</span><br><span class="line">truetrue<span class="variable">.douta</span>(rom_data)</span><br><span class="line">true);</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></li>
-</ol></li>
-<li><p>整体连线图</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233447.png" alt="整体连线图"><figcaption aria-hidden="true">整体连线图</figcaption>
-</figure>
-<h2 id="总结">总结</h2>
-<ul>
-<li>为了防止自己忘记，所以写下来；</li>
-<li>暂时先写这么多，以后再补充。</li>
-</ul></li>
-</ol>
-]]></content>
-      <categories>
-        <category>FPGA</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>verilog</tag>
-        <tag>项目</tag>
-        <tag>VGA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VMware Fusion 上为虚拟机设置静态 IP</title>
-    <url>/2020/12/17/VMwareFusionStaticIP/</url>
-    <content><![CDATA[<p>Mac 上的 VMware Fusion 设置静态 IP 没有 Windows 上那么方便，记录一下设置过程。</p>
-<p>建议设置静态 IP 后配合<a href="https://zhouyuqian.com/2020/04/25/%E8%AE%BE%E7%BD%AEssh%E9%80%9A%E8%BF%87%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95/">秘钥登录</a>使用。</p>
-<a id="more"></a>
-<h1 id="设置-vm-虚拟机对应的静态-ip">设置 VM 虚拟机对应的静态 IP</h1>
-<p>编辑文件 <em>/Library/Preferences/VMware Fusion/vmnet8/dhcpd.conf</em>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /Library/Preferences/VMware\ Fusion/vmnet8/dhcpd.conf</span><br></pre></td></tr></table></figure>
-<p>在 <code>####### VMNET DHCP Configuration. End of "DO NOT MODIFY SECTION" #######</code> 这一行后面添加下面内容：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">host RHEL6_IC617_1.2 &#123;</span><br><span class="line">truehardware ethernet 00:0C:29:CB:F1:D3;</span><br><span class="line">truefixed-address 192.168.2.130;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233536.png" alt="constantip"><figcaption aria-hidden="true">constantip</figcaption>
-</figure>
-<p>其中 <code>hardware ethernet</code> 表示 Mac 地址，<code>fixed-address</code> 表示 IP 地址，注意 IP 地址设置的范围要在 <strong>subnet range</strong> 的范围内（上图红框中）；</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233537.png" alt="resource"><figcaption aria-hidden="true">resource</figcaption>
-</figure>
-<p><code>RHEL6_IC617_1.2</code> 是虚拟机的名字，要和虚拟机资源库中的名字相同（上图红框中）。</p>
-<h1 id="刷新-vm-网络配置">刷新 VM 网络配置</h1>
-<p>执行如下三行命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --configure</span><br><span class="line">$ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --stop</span><br><span class="line">$ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start</span><br></pre></td></tr></table></figure>
-<h1 id="虚拟机重新获取配置">虚拟机重新获取配置</h1>
-<p>可以直接重启 VMware Fusion 和虚拟机系统，也可以直接在虚拟机命令行中执行 <code>sudo dhclient -v -r eth0</code>, <strong>eth0</strong> 为对应网卡。</p>
-<hr>
-<p><strong>Reference：</strong></p>
-<ul>
-<li>https://www.jianshu.com/p/af179e61ac7f</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -3622,6 +3622,20 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
+    <title>ZYNQ 移植 Linux -- AXI-GPIO</title>
+    <url>/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</url>
+    <content><![CDATA[
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Xilinx-Petalinux-Learning</title>
     <url>/2019/02/12/Xilinx-Petalinux-Learning/</url>
     <content><![CDATA[<h1 id="一开发环境搭建与petalinux安装">一、开发环境搭建与Petalinux安装</h1>
@@ -3753,20 +3767,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ZYNQ 移植 Linux -- AXI-GPIO</title>
-    <url>/2020/05/06/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-AXI-GPIO/</url>
-    <content><![CDATA[
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -4227,29 +4227,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>GCC-4.8.5 编译安装</title>
-    <url>/2021/11/30/build-install-gcc-4-8-5/</url>
-    <content><![CDATA[<h2 id="gcc-4.8.5-编译安装">GCC-4.8.5 编译安装</h2>
-<blockquote>
-<ol type="1">
-<li><a href="https://stackoverflow.com/questions/61945439/how-to-install-compiler-g-4-8-5-in-ubuntu-20-04">https://stackoverflow.com/questions/61945439/how-to-install-compiler-g-4-8-5-in-ubuntu-20-04</a></li>
-<li><a href="https://www.icode9.com/content-3-1202280.html">https://www.icode9.com/content-3-1202280.html</a></li>
-<li><a href="https://www.frank.fyi/archives/336_gcc-compile-error/">https://www.frank.fyi/archives/336_gcc-compile-error/</a></li>
-</ol>
-</blockquote>
-<p>参考第一篇：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载gcc</span></span><br><span class="line">wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2</span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">tar -zxvf gcc-4.8.5.tar.bz2</span><br><span class="line"><span class="comment"># 修改 gcc-4.8.5 两处 bug</span></span><br><span class="line">sed -i -e <span class="string">&#x27;s/__attribute__/\/\/__attribute__/g&#x27;</span> gcc-4.8.5/gcc/cp/cfns.h</span><br><span class="line">sed -i <span class="string">&#x27;s/struct ucontext/ucontext_t/g&#x27;</span> gcc-4.8.5/libgcc/config/i386/linux-unwind.h</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 安装依赖三大件，会自动顺序安装gmp、mpfr、mpc</span></span><br><span class="line">gcc-4.8.5/contrib/download_prerequisites</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">sudo apt install make wget git gcc g++ lhasa libgmp-dev libmpfr-dev libmpc-dev flex bison gettext texinfo ncurses-dev autoconf rsync</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建编译目录 gcc-4.8.5-build</span></span><br><span class="line">mkdir gcc-4.8.5-build</span><br><span class="line"><span class="built_in">cd</span> gcc-4.8.5-build</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 开始编译安装</span></span><br><span class="line"><span class="variable">$PWD</span>/../gcc-4.8.5/configure --enable-languages=c,c++ --prefix=/usr/<span class="built_in">local</span>/gcc-4.8.5 --enable-shared --enable-plugin --program-suffix=-4.8.5 --disable-multilib</span><br><span class="line">make MAKEINFO=<span class="string">&quot;makeinfo --force&quot;</span> -j</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译完成后安装</span></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-<p>编译的过程中会出现一些问题，主要参考了<a href="https://www.icode9.com/content-3-1202280.html">第二篇文章</a>和<a href="https://www.frank.fyi/archives/336_gcc-compile-error/">第三篇文章</a>。</p>
-]]></content>
-      <categories>
-        <category>Software</category>
-      </categories>
-      <tags>
-        <tag>Software</tag>
-        <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>自动追剧（or电影）</title>
     <url>/2022/03/18/automovie/</url>
     <content><![CDATA[<p>全自动观影流程</p>
@@ -4278,6 +4255,29 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </categories>
       <tags>
         <tag>GEEK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GCC-4.8.5 编译安装</title>
+    <url>/2021/11/30/build-install-gcc-4-8-5/</url>
+    <content><![CDATA[<h2 id="gcc-4.8.5-编译安装">GCC-4.8.5 编译安装</h2>
+<blockquote>
+<ol type="1">
+<li><a href="https://stackoverflow.com/questions/61945439/how-to-install-compiler-g-4-8-5-in-ubuntu-20-04">https://stackoverflow.com/questions/61945439/how-to-install-compiler-g-4-8-5-in-ubuntu-20-04</a></li>
+<li><a href="https://www.icode9.com/content-3-1202280.html">https://www.icode9.com/content-3-1202280.html</a></li>
+<li><a href="https://www.frank.fyi/archives/336_gcc-compile-error/">https://www.frank.fyi/archives/336_gcc-compile-error/</a></li>
+</ol>
+</blockquote>
+<p>参考第一篇：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载gcc</span></span><br><span class="line">wget http://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2</span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">tar -zxvf gcc-4.8.5.tar.bz2</span><br><span class="line"><span class="comment"># 修改 gcc-4.8.5 两处 bug</span></span><br><span class="line">sed -i -e <span class="string">&#x27;s/__attribute__/\/\/__attribute__/g&#x27;</span> gcc-4.8.5/gcc/cp/cfns.h</span><br><span class="line">sed -i <span class="string">&#x27;s/struct ucontext/ucontext_t/g&#x27;</span> gcc-4.8.5/libgcc/config/i386/linux-unwind.h</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 安装依赖三大件，会自动顺序安装gmp、mpfr、mpc</span></span><br><span class="line">gcc-4.8.5/contrib/download_prerequisites</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">sudo apt install make wget git gcc g++ lhasa libgmp-dev libmpfr-dev libmpc-dev flex bison gettext texinfo ncurses-dev autoconf rsync</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建编译目录 gcc-4.8.5-build</span></span><br><span class="line">mkdir gcc-4.8.5-build</span><br><span class="line"><span class="built_in">cd</span> gcc-4.8.5-build</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 开始编译安装</span></span><br><span class="line"><span class="variable">$PWD</span>/../gcc-4.8.5/configure --enable-languages=c,c++ --prefix=/usr/<span class="built_in">local</span>/gcc-4.8.5 --enable-shared --enable-plugin --program-suffix=-4.8.5 --disable-multilib</span><br><span class="line">make MAKEINFO=<span class="string">&quot;makeinfo --force&quot;</span> -j</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译完成后安装</span></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>编译的过程中会出现一些问题，主要参考了<a href="https://www.icode9.com/content-3-1202280.html">第二篇文章</a>和<a href="https://www.frank.fyi/archives/336_gcc-compile-error/">第三篇文章</a>。</p>
+]]></content>
+      <categories>
+        <category>Software</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -5996,72 +5996,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
-    <title>xrdp</title>
-    <url>/2021/04/02/xrdp/</url>
-    <content><![CDATA[<blockquote>
-<p>reference：</p>
-<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
-<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
-</blockquote>
-<h1 id="安装-xrdp">安装 Xrdp</h1>
-<p>安装 xfce 桌面环境：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
-<p>或者安装 xubuntu 环境：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xubuntu-desktop</span><br></pre></td></tr></table></figure>
-<p>再安装 xrdp：</p>
-<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
-<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
-<p>重启 Xrdp 服务，使得修改生效：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
-<h1 id="配置xrdp"><del>配置Xrdp</del></h1>
-<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
-<p><code>/etc/xrdp/xrdp.ini</code></p>
-<p>在文件末尾添加以下行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
-<p>保存文件并重新启动Xrdp服务：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
-<h1 id="配置-xrdpnew">配置 Xrdp（new）</h1>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo xfce4-session &gt; ~/.xsession</span><br></pre></td></tr></table></figure>
-<h1 id="配置防火墙">配置防火墙</h1>
-<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
-<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
-<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
-<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
-<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
-<p>在 client 上运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
-<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
-<p>在 client 上连接的时候服务器地址填写：</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
-<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
-<p>解决方法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
-<p>如果还是黑屏，重启一下试试。</p>
-<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
-<blockquote>
-<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
-</blockquote>
-<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
-<h1 id="问题3色彩管理设备-color-managed-device-弹窗">问题3：“色彩管理设备” / “color managed device” 弹窗</h1>
-<blockquote>
-<p>https://blog.csdn.net/wu_weijie/article/details/108481456</p>
-</blockquote>
-<p>创建文件 <em>/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla</em> 并写入内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Allow Colord all Users]</span><br><span class="line">Identity=unix-user:*</span><br><span class="line">Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile</span><br><span class="line">ResultAny=no</span><br><span class="line">ResultInactive=no</span><br><span class="line">ResultActive=yes</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>GEEK</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GEEK</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Vim 命令记录</title>
     <url>/2021/09/27/vim/</url>
     <content><![CDATA[<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Vimlogo.svg/1024px-Vimlogo.svg.png" alt="Vim" style="zoom:33%;"></p>
@@ -6321,6 +6255,72 @@ f=\frac{1}{2\pi\sqrt{LC}}
       <tags>
         <tag>Geek</tag>
         <tag>Vim</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xrdp</title>
+    <url>/2021/04/02/xrdp/</url>
+    <content><![CDATA[<blockquote>
+<p>reference：</p>
+<p>https://www.myfreax.com/how-to-install-xrdp-on-ubuntu-18-04/</p>
+<p>https://blog.csdn.net/weixin_45579994/article/details/112381567</p>
+</blockquote>
+<h1 id="安装-xrdp">安装 Xrdp</h1>
+<p>安装 xfce 桌面环境：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">sudo</span> apt-get install xfce<span class="number">4</span> xfce<span class="number">4</span>-goodies xorg dbus-x<span class="number">11</span> x<span class="number">11</span>-xserver-utils</span><br></pre></td></tr></table></figure>
+<p>或者安装 xubuntu 环境：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xubuntu-desktop</span><br></pre></td></tr></table></figure>
+<p>再安装 xrdp：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install xrdp</span><br><span class="line">sudo systemctl <span class="built_in">status</span> xrdp</span><br></pre></td></tr></table></figure>
+<p>默认情况下，Xrdp 使用<code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,它仅仅对“ssl-cert” 用户组成语可读。运行下面的命令，将<code>xrdp</code>用户添加到这个用户组：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo adduser xrdp ssl-cert</span><br></pre></td></tr></table></figure>
+<p>重启 Xrdp 服务，使得修改生效：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置xrdp"><del>配置Xrdp</del></h1>
+<p>Xrdp配置文件位于 <code>/etc/xrdp</code> 目录中。对于基本的 Xrdp 连接，我们只需要配置 Xrdp 即可使用 Xfce。为此，打开以下文件：</p>
+<p><code>/etc/xrdp/xrdp.ini</code></p>
+<p>在文件末尾添加以下行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> startxfce4</span><br></pre></td></tr></table></figure>
+<p>保存文件并重新启动Xrdp服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+<h1 id="配置-xrdpnew">配置 Xrdp（new）</h1>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo xfce4-session &gt; ~/.xsession</span><br></pre></td></tr></table></figure>
+<h1 id="配置防火墙">配置防火墙</h1>
+<p>默认情况下，Xrdp侦听所有接口上的端口<code>3389</code>。如果您在Ubuntu服务器上运行<a href="https://www.myfreax.com/how-to-setup-a-firewall-with-ufw-on-ubuntu-18-04/">防火墙</a>（应始终这样做），则需要添加一条规则，以启用Xrdp端口上的流量。</p>
+<p>要允许从特定的IP地址或IP范围访问Xrdp服务器，在此示例<code>192.168.1.0/24</code>中，请运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow from 192.168.1.0/24 to any port 3389</span><br></pre></td></tr></table></figure>
+<p>如果您想允许从任何地方访问（出于安全原因强烈建议），请运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ufw allow 3389</span><br></pre></td></tr></table></figure>
+<p>为了提高安全性，您可以考虑将Xrdp设置为仅在本地主机上侦听，并创建一个<a href="https://www.myfreax.com/how-to-setup-ssh-tunneling/">SSH隧道</a>，该隧道将安全地将流量从端口<code>3389</code>上的本地计算机转发到同一端口上的服务器。另一个安全选项是<a href="https://www.myfreax.com/how-to-set-up-an-openvpn-server-on-ubuntu-18-04/">安装OpenVPN</a>并通过专用网络连接到Xrdp服务器。</p>
+<h1 id="提高安全性ssh-tunnel">提高安全性：SSH Tunnel</h1>
+<p>在 client 上运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -L 3380:localhost:3389 xrdp-server</span><br></pre></td></tr></table></figure>
+<p>表示通过 ssh tunnel 将本地的 3380 端口转发到远程服务器的 3389 端口。此时服务器上可以配置防火墙，关闭 3389 端口，只留下 ssh 端口。</p>
+<p>在 client 上连接的时候服务器地址填写：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">localhost</span>:<span class="number">3380</span></span><br></pre></td></tr></table></figure>
+<h1 id="问题-远程桌面黑屏">问题： 远程桌面黑屏</h1>
+<p>解决方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .xsession</span><br><span class="line">echo xfce4-session &gt; ~/.xsession</span><br><span class="line">sudo chown username:username .xsession</span><br></pre></td></tr></table></figure>
+<p>如果还是黑屏，重启一下试试。</p>
+<h1 id="问题2键盘鼠标没反应">问题2：键盘鼠标没反应</h1>
+<blockquote>
+<p>https://github.com/neutrinolabs/xorgxrdp/issues/164</p>
+</blockquote>
+<p>The fix for me was to add Option "CoreKeyboard" and Option "CorePointer" to the inputdevices in /etc/X11/xrdp/xorg.conf since the inputdevices in the serverlayout section are apparently ignored so no core pointer and keyboard exists, which leads to forced default devices. No idea why this is suddenly the case, it worked fine on ubuntu 18.04, but broke for me in 20.04.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpKeyboard&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpkeyb&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CoreKeyboard&quot;</span></span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section <span class="string">&quot;InputDevice&quot;</span></span><br><span class="line">    Identifier <span class="string">&quot;xrdpMouse&quot;</span></span><br><span class="line">    Driver <span class="string">&quot;xrdpmouse&quot;</span></span><br><span class="line">    Option <span class="string">&quot;CorePointer&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+<h1 id="问题3色彩管理设备-color-managed-device-弹窗">问题3：“色彩管理设备” / “color managed device” 弹窗</h1>
+<blockquote>
+<p>https://blog.csdn.net/wu_weijie/article/details/108481456</p>
+</blockquote>
+<p>创建文件 <em>/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla</em> 并写入内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Allow Colord all Users]</span><br><span class="line">Identity=unix-user:*</span><br><span class="line">Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile</span><br><span class="line">ResultAny=no</span><br><span class="line">ResultInactive=no</span><br><span class="line">ResultActive=yes</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>GEEK</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GEEK</tag>
       </tags>
   </entry>
   <entry>
@@ -6949,6 +6949,71 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>毕设--开题报告</title>
+    <url>/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/</url>
+    <content><![CDATA[<blockquote>
+<p>开题报告填写要求</p>
+<p>1．开题报告（含“文献综述”）作为毕业设计（论文）答辩委员会对学生答辩资格审查的依据材料之一。此报告应在指导教师指导下，由学生在毕业设计（论文）工作前期内完成，经指导教师签署意见及所在专业审查后生效；</p>
+<p>2．开题报告内容必须用黑墨水笔工整书写或按教务处统一设计的电子文档标准格式（可从教务处网页上下载）打印，禁止打印在其它纸上后剪贴，完成后应及时交给指导教师签署意见；</p>
+<p>3．“文献综述”应按论文的格式成文，并直接书写（或打印）在本开题报告第一栏目内，学生写文献综述的参考文献应不少于15篇（不包括辞典、手册）；</p>
+<p>4．有关年月日等日期的填写，应当按照国标GB/T 7408—94《数据元和交换格式、信息交换、日期和时间表示法》规定的要求，一律用阿拉伯数字书写。如“2004年4月26日”或“2004-04-26”。</p>
+</blockquote>
+<h1 id="文献综述">文献综述</h1>
+<blockquote>
+<p>结合毕业设计（论文）课题情况，根据所查阅的文献资料，每人撰写2000字左右的文献综述</p>
+</blockquote>
+<h2 id="研究背景及国内外研究现状">研究背景及国内外研究现状</h2>
+<p>卷积神经网络(CNN)现在是许多学科研究的热点之一，被广泛用于多种领域，特别是在模式识别、图像处理、计算机视觉等方面。但是卷积神经网络的主要问题在于计算量太大，特别是其中的卷积层，以Alex-Net为例，占用了90%<span class="citation" data-cites="chenEyerissEnergyefficientReconfigurable2016">[@chenEyerissEnergyefficientReconfigurable2016]</span>以上的计算量，卷积神经网络的硬件加速逐渐成为一个热门的研究问题。由于卷积神经网络自身特点，层与层之间可以看做顺序执行，而层内则有着较高的并行性，因此提高层内计算的并行度成为加速卷积神经网络的一个重要方向。</p>
+<p>在2009，Farabet等人<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>提出来一种基于FPGA的CNN，该结构使用卷积单元来处理数据，并使用一个通用CPU来控制卷积单元。但是由于FPGA资源的限制，该平台只实现了一个卷积核。如果计算需要多个卷积核，那么只能串行执行。2013年，Peemen等人<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>实现了一个以存储为中心的CNN协处理器，它利用CNN大量内存访问的特点，在存储部分使用SRAM，而PE部分使用SIMD指令。2015年，清华大学的方睿等人，提出一种多级流水线的管道加速器方案。CPU通过PCIE通道提供数据并进行控制整个逻辑单元。近年来，中科院的陈天石等人提出来DianNao系列的加速器<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>，目前是卷积神经网络硬件加速领域的较优的一种方案，可以实现多种结构的卷积网络，如MLP、CNN、DNN。存硬件实现的卷积神经网络加速器通用性不好。尽管可以通过配置来实现更多的结构，但是它的灵活性远不如通用CPU。因此可重构加速器与通用CPU相结合的模式是一种高效地解决卷积神经网络加速问题的方案。</p>
+<p>但是在这种定制结构中，CPU的选择具有极大的挑战。通常商业授权的IP会限制对指令集的修改，影响卷积神经网络加速器的实现效果。并且，商业授权的IP通常需要高昂的授权费，不利于高校和个人的研究。因此需要一个开源的指令集架构来进行定制加速器的研究。</p>
+<p>RISC-V是一种新的开源指令集架构（ISA）<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，目前已经有了一个完整的硬件和硬件生态<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>，包括完整的指令集、相应的编译器、模拟器和工具链。利用开源的RISC-V处理器，研究人员可以方便地将可重构加速器整合进SOC，并拓展相应的指令集来实现加速器的软件接口。</p>
+<h2 id="设计目标及平台的选择">设计目标及平台的选择</h2>
+<p>本设计主要包含三个部分，RISC-V Core和卷积神经网络加速器，以及将两部分结合起来实现完整功能的SOC部分。卷积神经网络的硬件加速通常可以采用ASIC或者FPGA来实现，两者均是采用定制的硬件电路来加速算法。通常ASIC的性能跟高，功耗更低，但是由于成本过高，因此在本设计中采用FPGA作为硬件平台。</p>
+<p>由于硬件实现CNN加速器需要较多资源，因此需要一款大容量的FPGA芯片，以实现更好的硬件加速效果。考虑各方面因素，最终选取了Nexys4 DDR作为硬件平台。Nexys4 DDR上使用Xilinx XC7A100T FPGA芯片。芯片包含了15,850个可编程逻辑单元，每个逻辑单元有4个6输入查找表和8个触发器。芯片有4,860 Kbits的块存储器，240个DSP运算单元，逻辑资源相对丰富。开发板引出数十个IO口和一个VGA接口，拥有128MB的DDR2，足够该系统使用。</p>
+<h2 id="研究意义及前景">研究意义及前景</h2>
+<p>卷积神经网络作为目前深度学习的一个重要手段，由于计算量巨大的问题限制了其应用于发展，通常需要在高性能的运算平台上进行模型的推演，因此主要被应用在主机场景，而非便携式应用。而利用卷积神经网络层内并行的特点，对卷积神经网络进行硬件加速，从而极大地提高了卷积网络的运行速度，使得便携设备也可以进行卷积神经网络运算，极大地拓展了深度学习的应用场合。</p>
+<h2 id="参考文献">参考文献</h2>
+<h1 id="研究手段">研究手段</h1>
+<blockquote>
+<p>本课题要研究或解决的问题和拟采用的研究手段（途径）</p>
+</blockquote>
+<h2 id="本课题要研究的问题">本课题要研究的问题</h2>
+<p>本课题设计搭建一个RISC-V处理器的SOC，并设计卷积神经网络加速器作为协处理器与RISC-V处理器配合工作，实现在低成本的嵌入式平台上进行卷积神经网络加速运算。</p>
+<p>本课题设计了一种RISC-V指令集的卷积神经网络处理器，实现了在低成本的嵌入式平台上进行卷积神经网络加速运算。本课题主要实现了以下功能：</p>
+<ol type="1">
+<li><p>使用RISC-V处理器搭建一个完整的SOC，包含RISC-V Core、片上总线、Debug调试模块以及基本的外设。</p></li>
+<li><p>设计可重构的卷积神经网络加速器，并将其作为协处理器，并为其设计设计专用的指令，包括矢量存储指令，矢量加载指令，矢量加法指令和卷积运算指令以加快卷积过程的执行速度。</p></li>
+</ol>
+<h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
+<p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
+</figure>
+<p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
+<p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1" role="doc-endnote"><p>C. Farabet, C. Poulet, J. Y. Han, and Y. Lecun, “Cnp: An fpga-based processor for convolutional networks,” in International Conference on Field Programmable Logic &amp; Applications, 2009.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>M. Peemen, A. A. A. Setio, B. Mesman, and H. Corporaal, “Memory-centric accelerator design for convolutional neural networks,” 2013.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>T. Chen, Z. Du, N. Sun, J. Wang, C. Wu, Y. Chen, and O. Temam, “Diannao: a small-footprint high-throughput accelerator for ubiquitous machine-learning,” Acm Sigplan Notices, vol. 49, no. 4, pp. 269–284, 2014.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>The RISC-V instruction set manual<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>K. Asanovic and D. Patterson. Instruction Sets Should Be Free: The Case for RISC-V. Technical Report UCB/EECS-2014-146, EECS Department, University of California, Berkeley, Aug 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>RISC-V Foundation. http://www.riscv.org, 2017 (accessed Aug 15, 2017).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>陆志坚 ． 基 于 FPGA 的卷积神经网络并行结构研究 ［ Ｄ ] 哈尔滨：哈尔滨工程大学,2013．<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+]]></content>
+      <categories>
+        <category>毕业设计</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>毕业设计</tag>
+        <tag>RISC-V</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决 Altium Designer 卡死问题</title>
     <url>/2020/07/01/%E8%A7%A3%E5%86%B3-Altium-Designer-%E5%8D%A1%E6%AD%BB%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>最近用 Altium Designer 20 画了几个板子，经常卡死，真的让人崩溃，在排除电脑硬件问题及系统问题后，找到了 AD 软件自身的问题。</p>
@@ -7158,71 +7223,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>GEEK</tag>
         <tag>hexo</tag>
         <tag>美化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>毕设--开题报告</title>
-    <url>/2020/02/11/%E6%AF%95%E8%AE%BE-%E5%BC%80%E9%A2%98%E6%8A%A5%E5%91%8A/</url>
-    <content><![CDATA[<blockquote>
-<p>开题报告填写要求</p>
-<p>1．开题报告（含“文献综述”）作为毕业设计（论文）答辩委员会对学生答辩资格审查的依据材料之一。此报告应在指导教师指导下，由学生在毕业设计（论文）工作前期内完成，经指导教师签署意见及所在专业审查后生效；</p>
-<p>2．开题报告内容必须用黑墨水笔工整书写或按教务处统一设计的电子文档标准格式（可从教务处网页上下载）打印，禁止打印在其它纸上后剪贴，完成后应及时交给指导教师签署意见；</p>
-<p>3．“文献综述”应按论文的格式成文，并直接书写（或打印）在本开题报告第一栏目内，学生写文献综述的参考文献应不少于15篇（不包括辞典、手册）；</p>
-<p>4．有关年月日等日期的填写，应当按照国标GB/T 7408—94《数据元和交换格式、信息交换、日期和时间表示法》规定的要求，一律用阿拉伯数字书写。如“2004年4月26日”或“2004-04-26”。</p>
-</blockquote>
-<h1 id="文献综述">文献综述</h1>
-<blockquote>
-<p>结合毕业设计（论文）课题情况，根据所查阅的文献资料，每人撰写2000字左右的文献综述</p>
-</blockquote>
-<h2 id="研究背景及国内外研究现状">研究背景及国内外研究现状</h2>
-<p>卷积神经网络(CNN)现在是许多学科研究的热点之一，被广泛用于多种领域，特别是在模式识别、图像处理、计算机视觉等方面。但是卷积神经网络的主要问题在于计算量太大，特别是其中的卷积层，以Alex-Net为例，占用了90%<span class="citation" data-cites="chenEyerissEnergyefficientReconfigurable2016">[@chenEyerissEnergyefficientReconfigurable2016]</span>以上的计算量，卷积神经网络的硬件加速逐渐成为一个热门的研究问题。由于卷积神经网络自身特点，层与层之间可以看做顺序执行，而层内则有着较高的并行性，因此提高层内计算的并行度成为加速卷积神经网络的一个重要方向。</p>
-<p>在2009，Farabet等人<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>提出来一种基于FPGA的CNN，该结构使用卷积单元来处理数据，并使用一个通用CPU来控制卷积单元。但是由于FPGA资源的限制，该平台只实现了一个卷积核。如果计算需要多个卷积核，那么只能串行执行。2013年，Peemen等人<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>实现了一个以存储为中心的CNN协处理器，它利用CNN大量内存访问的特点，在存储部分使用SRAM，而PE部分使用SIMD指令。2015年，清华大学的方睿等人，提出一种多级流水线的管道加速器方案。CPU通过PCIE通道提供数据并进行控制整个逻辑单元。近年来，中科院的陈天石等人提出来DianNao系列的加速器<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>，目前是卷积神经网络硬件加速领域的较优的一种方案，可以实现多种结构的卷积网络，如MLP、CNN、DNN。存硬件实现的卷积神经网络加速器通用性不好。尽管可以通过配置来实现更多的结构，但是它的灵活性远不如通用CPU。因此可重构加速器与通用CPU相结合的模式是一种高效地解决卷积神经网络加速问题的方案。</p>
-<p>但是在这种定制结构中，CPU的选择具有极大的挑战。通常商业授权的IP会限制对指令集的修改，影响卷积神经网络加速器的实现效果。并且，商业授权的IP通常需要高昂的授权费，不利于高校和个人的研究。因此需要一个开源的指令集架构来进行定制加速器的研究。</p>
-<p>RISC-V是一种新的开源指令集架构（ISA）<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，目前已经有了一个完整的硬件和硬件生态<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>，包括完整的指令集、相应的编译器、模拟器和工具链。利用开源的RISC-V处理器，研究人员可以方便地将可重构加速器整合进SOC，并拓展相应的指令集来实现加速器的软件接口。</p>
-<h2 id="设计目标及平台的选择">设计目标及平台的选择</h2>
-<p>本设计主要包含三个部分，RISC-V Core和卷积神经网络加速器，以及将两部分结合起来实现完整功能的SOC部分。卷积神经网络的硬件加速通常可以采用ASIC或者FPGA来实现，两者均是采用定制的硬件电路来加速算法。通常ASIC的性能跟高，功耗更低，但是由于成本过高，因此在本设计中采用FPGA作为硬件平台。</p>
-<p>由于硬件实现CNN加速器需要较多资源，因此需要一款大容量的FPGA芯片，以实现更好的硬件加速效果。考虑各方面因素，最终选取了Nexys4 DDR作为硬件平台。Nexys4 DDR上使用Xilinx XC7A100T FPGA芯片。芯片包含了15,850个可编程逻辑单元，每个逻辑单元有4个6输入查找表和8个触发器。芯片有4,860 Kbits的块存储器，240个DSP运算单元，逻辑资源相对丰富。开发板引出数十个IO口和一个VGA接口，拥有128MB的DDR2，足够该系统使用。</p>
-<h2 id="研究意义及前景">研究意义及前景</h2>
-<p>卷积神经网络作为目前深度学习的一个重要手段，由于计算量巨大的问题限制了其应用于发展，通常需要在高性能的运算平台上进行模型的推演，因此主要被应用在主机场景，而非便携式应用。而利用卷积神经网络层内并行的特点，对卷积神经网络进行硬件加速，从而极大地提高了卷积网络的运行速度，使得便携设备也可以进行卷积神经网络运算，极大地拓展了深度学习的应用场合。</p>
-<h2 id="参考文献">参考文献</h2>
-<h1 id="研究手段">研究手段</h1>
-<blockquote>
-<p>本课题要研究或解决的问题和拟采用的研究手段（途径）</p>
-</blockquote>
-<h2 id="本课题要研究的问题">本课题要研究的问题</h2>
-<p>本课题设计搭建一个RISC-V处理器的SOC，并设计卷积神经网络加速器作为协处理器与RISC-V处理器配合工作，实现在低成本的嵌入式平台上进行卷积神经网络加速运算。</p>
-<p>本课题设计了一种RISC-V指令集的卷积神经网络处理器，实现了在低成本的嵌入式平台上进行卷积神经网络加速运算。本课题主要实现了以下功能：</p>
-<ol type="1">
-<li><p>使用RISC-V处理器搭建一个完整的SOC，包含RISC-V Core、片上总线、Debug调试模块以及基本的外设。</p></li>
-<li><p>设计可重构的卷积神经网络加速器，并将其作为协处理器，并为其设计设计专用的指令，包括矢量存储指令，矢量加载指令，矢量加法指令和卷积运算指令以加快卷积过程的执行速度。</p></li>
-</ol>
-<h2 id="本课题拟采用的研究手段">本课题拟采用的研究手段</h2>
-<p>本课题设计主要包含两部分，搭建RISC-V处理器核设计卷积神经网络加速器。整体结构如下图所示：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727173444.png" alt="sch"><figcaption aria-hidden="true">sch</figcaption>
-</figure>
-<p>在RISC-V处理器的选取上有两种方案，一是使用已有的开源处理器，如Hummingbird E200、PicoRV32、Ibex等，二是自己设计整个处理器。考虑到第二种方案工作量过大，且性能难以达到较优的水平，一次在本课题采用了现有的开源RISC-V处理器。在对比各种各种处理器的特点之后，最终采取了Ibex RISC-V Core。Ibex是一个小型高效的32位有序RISC-V内核，具有2级流水线，可实现RV32IMC指令集。</p>
-<p>在卷积神经网络加速器的设计部分，CNN算法在通用CPU上运行时，在卷积部分用循环实现，因此在宏观上，加速卷积神经网络有两种思路：1. 改变循环嵌套的先后顺序，提高数据的重用率，减少对外部存储的访问；2. 将一些低层循环进行Unroll操作展开，利用低层循环中数据相互不依赖的特性，有进行并行计算的可能<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。本设计中，采取了第二种方案，将层内的循环进行展开，从而实现对卷积神经网络算法的硬件加速。</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1" role="doc-endnote"><p>C. Farabet, C. Poulet, J. Y. Han, and Y. Lecun, “Cnp: An fpga-based processor for convolutional networks,” in International Conference on Field Programmable Logic &amp; Applications, 2009.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>M. Peemen, A. A. A. Setio, B. Mesman, and H. Corporaal, “Memory-centric accelerator design for convolutional neural networks,” 2013.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>T. Chen, Z. Du, N. Sun, J. Wang, C. Wu, Y. Chen, and O. Temam, “Diannao: a small-footprint high-throughput accelerator for ubiquitous machine-learning,” Acm Sigplan Notices, vol. 49, no. 4, pp. 269–284, 2014.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>The RISC-V instruction set manual<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>K. Asanovic and D. Patterson. Instruction Sets Should Be Free: The Case for RISC-V. Technical Report UCB/EECS-2014-146, EECS Department, University of California, Berkeley, Aug 2014.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>RISC-V Foundation. http://www.riscv.org, 2017 (accessed Aug 15, 2017).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>陆志坚 ． 基 于 FPGA 的卷积神经网络并行结构研究 ［ Ｄ ] 哈尔滨：哈尔滨工程大学,2013．<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
-]]></content>
-      <categories>
-        <category>毕业设计</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>毕业设计</tag>
-        <tag>RISC-V</tag>
       </tags>
   </entry>
 </search>

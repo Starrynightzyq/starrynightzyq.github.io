@@ -732,13 +732,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2022-04-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
@@ -753,7 +746,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Altium-Designer/</loc>
+    <loc>https://zhouyuqian.com/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -761,6 +754,13 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/CM/</loc>
+    <lastmod>2022-04-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Altium-Designer/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -944,14 +944,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/Ethernet/</loc>
+    <loc>https://zhouyuqian.com/categories/PLL/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/PLL/</loc>
+    <loc>https://zhouyuqian.com/categories/Ethernet/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -986,14 +986,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/Linux/</loc>
+    <loc>https://zhouyuqian.com/categories/FPGA/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/FPGA/</loc>
+    <loc>https://zhouyuqian.com/categories/Linux/</loc>
     <lastmod>2022-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
