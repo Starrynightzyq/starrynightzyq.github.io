@@ -3,7 +3,7 @@ title: Nginx 反向代理
 toc: true
 comments: true
 date: 2021-07-24 09:50:30
-updated: 2021-07-25 00:50:30
+updated: 2022-05-01 12:50:30
 categories: GEEK
 tags: [hexo, GEEK, 美化]
 description: Nginx 反向代理, 实现不同二级域名访问指定端口
@@ -11,7 +11,7 @@ description: Nginx 反向代理, 实现不同二级域名访问指定端口
 
 # Nginx 配置文件位置
 
-Nginx 的配置文件默认在 `/etc/nginx/nginx.conf`，打开这个文件，可以看到：
+Nginx 的配置文件默认在 `/usr/local/nginx/conf/nginx.conf`，打开这个文件，可以看到：
 
 ~~~nginx
 http {
@@ -20,23 +20,23 @@ http {
     # Virtual Host Configs
     ##
 
-    include /etc/nginx/conf.d/*.conf;
-    include /etc/nginx/sites-enabled/*;
+    include /usr/local/nginx/conf/conf.d/*.conf;
+    include /usr/local/nginx/conf/sites-enabled/*;
 }
 ~~~
 
-这表明默认情况下 nginx 会自动包含 `/etc/nginx/conf.d/*.conf` 和 `/etc/nginx/sites-enabled/*`。
+这表明默认情况下 nginx 会自动包含 `/usr/local/nginx/conf/conf.d/*.conf` 和 `/usr/local/nginx/conf/sites-enabled/*`。
 
-默认情况下，在 `/etc/nginx/sites-enabled` 下有一个默认站点，这个站点也就是 nginx 安装之后的默认站点：
+默认情况下，在 `/usr/local/nginx/conf/sites-enabled/` 下有一个默认站点，这个站点也就是 nginx 安装之后的默认站点：
 
 ```bash
-$ cd /etc/nginx/sites-enabled
+$ cd /usr/local/nginx/conf/sites-enabled/sites-enabled
 $ ls -l
 total 0
-lrwxrwxrwx 1 root root 34 Oct  6 02:19 default -> /etc/nginx/sites-available/default
+lrwxrwxrwx 1 root root 34 Oct  6 02:19 default -> /usr/local/nginx/conf/sites-enabled/sites-available/default
 ```
 
-打开 `/etc/nginx/sites-available/default` 可以看到如下内容：
+打开 `/usr/local/nginx/conf/sites-enabled/default` 可以看到如下内容：
 
 ```bash
 server {
@@ -58,7 +58,7 @@ server {
 In most cases, administrators will remove this file from sites-enabled/ and leave it as reference inside of sites-available where it will continue to be updated by the nginx packaging team.
 ~~~
 
-最好是在 `/etc/nginx/sites-available/` 下建立站点的配置文件，这些站点就是所谓的"可用站点"。然后在 link 到 `/etc/nginx/sites-enabled` 下开启站点，这些开启的站点就是所谓"启用站点"。
+最好是在 `/usr/local/nginx/conf/sites-enabled/sites-available/` 下建立站点的配置文件，这些站点就是所谓的"可用站点"。然后在 link 到 `/usr/local/nginx/conf/sites-enabled/sites-enabled` 下开启站点，这些开启的站点就是所谓"启用站点"。
 
 通过建立链接来控制可用站点的启用。
 
@@ -74,7 +74,7 @@ In most cases, administrators will remove this file from sites-enabled/ and leav
 
 目标：[http://frp.zhouyuqian.com](http://frp.zhouyuqian.com/) 应该指向当前机器上运行于 7500 端口的 frps 服务。
 
-在 `/etc/nginx/sites-available/` 下新建 `frp.zhouyuqian.com` 文件，内容如下：
+在 `/usr/local/nginx/conf/sites-enabled/sites-available/` 下新建 `frp.zhouyuqian.com` 文件，内容如下：
 
 > http
 
@@ -105,8 +105,8 @@ server {
 
     server_name frp.zhouyuqian.com;
 
-    ssl_certificate /etc/nginx/cert/1_frp.zhouyuqian.com_bundle.crt;
-    ssl_certificate_key /etc/nginx/cert/2_frp.zhouyuqian.com.key;
+    ssl_certificate /usr/local/nginx/conf/cert/1_frp.zhouyuqian.com_bundle.crt;
+    ssl_certificate_key /usr/local/nginx/conf/cert/2_frp.zhouyuqian.com.key;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_prefer_server_ciphers on;
@@ -138,10 +138,10 @@ server {
 }
 ~~~
 
-将 `frp.zhouyuqian.com` 站点文件链接到 `/etc/nginx/sites-enabled/` 目录：
+将 `frp.zhouyuqian.com` 站点文件链接到 `/usr/local/nginx/conf/sites-enabled/sites-enabled/` 目录：
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/frp.zhouyuqian.com /etc/nginx/sites-enabled/frp.zhouyuqian.com
+sudo ln -s /usr/local/nginx/conf/sites-enabled/sites-available/frp.zhouyuqian.com /usr/local/nginx/conf/sites-enabled/sites-enabled/frp.zhouyuqian.com
 ```
 
 修改完成之后，使用命令检测配置修改结果并重新装载配置：
@@ -179,8 +179,26 @@ sudo nginx -s reload
  >
  > 访问 [http://shaochenfeng.com/data/index.html](https://link.zhihu.com/?target=http%3A//shaochenfeng.com/data/index.html) 会转发到 [http://127.0.0.1/data/index.html](https://link.zhihu.com/?target=http%3A//127.0.0.1/data/index.html)
 
+## WSS
+
+在 nodered 的服务中用到了 wss 服务，如果 nginx 代理没有启用 wss，就会一直出现 “**丢失与服务器的连接，重新连接...**”。
+
+WSS表示WebSocket + Https，通俗点说，就是安全的WebSocket。
+
+支持WSS请求核心 (加在 `server` - `location` 中)
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_set_header Remote_addr $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
 # Reference
 
 [1] https://skyao.gitbooks.io/learning-nginx/content/configure/reverse/action_no_port.html
 
 [2] https://www.bioinfo-scrounger.com/archives/Nginx_configure/
+
+[3] https://www.cnblogs.com/binghe001/p/14752404.html
+
+[4] https://blog.csdn.net/qq_40650378/article/details/119676781
