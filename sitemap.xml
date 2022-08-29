@@ -436,7 +436,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</loc>
+    <loc>https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
@@ -450,14 +450,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/04/13/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-USB/</loc>
+    <loc>https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/</loc>
+    <loc>https://zhouyuqian.com/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</loc>
     
     <lastmod>2020-05-11</lastmod>
     
@@ -606,6 +606,13 @@
 
   
   <url>
+    <loc>https://zhouyuqian.com/tags/FPGA/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/tags/Software/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
@@ -627,42 +634,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Linux/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/GEEK/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/Analog/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/CM/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/FPGA/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/DSP/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -690,63 +662,14 @@
   </url>
   
   <url>
+    <loc>https://zhouyuqian.com/tags/Linux/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/tags/UDP/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/HDB3/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/BPSK/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/MAC/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/Matlab/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/MPIS32/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -760,14 +683,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/RISC-V/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/</loc>
+    <loc>https://zhouyuqian.com/tags/GEEK/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -781,6 +697,13 @@
   </url>
   
   <url>
+    <loc>https://zhouyuqian.com/tags/MAC/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/tags/tensorflow/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
@@ -788,14 +711,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Ubuntu/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E8%BD%AF%E4%BB%B6/</loc>
+    <loc>https://zhouyuqian.com/tags/Vscode/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -823,7 +739,112 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/Vscode/</loc>
+    <loc>https://zhouyuqian.com/tags/gmid/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/DSP/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/RISC-V/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Altium-Designer/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/CM/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/HDB3/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/BPSK/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/MPIS32/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Matlab/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/Ubuntu/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/tags/%E8%BD%AF%E4%BB%B6/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -858,7 +879,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/gmid/</loc>
+    <loc>https://zhouyuqian.com/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -873,13 +894,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/tags/%E7%BE%8E%E5%8C%96/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -907,14 +921,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/tinc/</loc>
+    <loc>https://zhouyuqian.com/tags/NAS/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/NAS/</loc>
+    <loc>https://zhouyuqian.com/tags/tinc/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -949,20 +963,6 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/tags/Altium-Designer/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
@@ -979,28 +979,7 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/Linux/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/categories/Delta-Sigma/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/Analog/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/DSP/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1021,7 +1000,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/%E8%AF%BE%E8%AE%BE/</loc>
+    <loc>https://zhouyuqian.com/categories/PA/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/Analog/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1035,28 +1021,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/MIPS32%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/PA/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/RISC-V/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhouyuqian.com/categories/tensorflow/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/Linux/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1077,6 +1049,48 @@
   </url>
   
   <url>
+    <loc>https://zhouyuqian.com/categories/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/Altium-Designer/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/DSP/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/%E8%AF%BE%E8%AE%BE/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/MIPS32%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhouyuqian.com/categories/RISC-V/</loc>
+    <lastmod>2022-08-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhouyuqian.com/categories/%E6%87%92%E4%BA%BA%E6%8E%A8%E5%8A%A8%E7%A7%91%E6%8A%80%E5%8F%91%E5%B1%95/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
@@ -1091,14 +1105,14 @@
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/hexo/</loc>
+    <loc>https://zhouyuqian.com/categories/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhouyuqian.com/categories/%E9%9A%8F%E7%AC%94/</loc>
+    <loc>https://zhouyuqian.com/categories/hexo/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1120,20 +1134,6 @@
   
   <url>
     <loc>https://zhouyuqian.com/categories/UVM/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2022-08-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhouyuqian.com/categories/Altium-Designer/</loc>
     <lastmod>2022-08-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
