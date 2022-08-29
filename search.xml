@@ -274,94 +274,6 @@ I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
       </tags>
   </entry>
   <entry>
-    <title>Delta-Sigma Modulator</title>
-    <url>/2020/11/26/DSM/</url>
-    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
-<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
-<a id="more"></a>
-<h1 id="分数型锁相环">分数型锁相环</h1>
-<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
-<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
-<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
-<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
-<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
-<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
-<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
-H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
-\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
-<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
-<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
-NTF(z) = \frac{1}{1+H(z)}
-\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
-<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
-STF(S) = \frac{H(z)}{1+H(z)}
-\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
-<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
-<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
-<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
-<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
-<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
-<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
-<h2 id="mash-结构">MASH 结构</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
-<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
-<p><strong>优点</strong>：稳定性好。</p>
-<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
-<p>第一级的输出： <span class="math display">\[
-y_1 = z^{-1} x + (1-z^{-1})q_1
-\]</span> 第二级的输出： <span class="math display">\[
-y_2 = z^{-1} q_1 + (1-z^{-1})q_2
-\]</span> 最终输出： <span class="math display">\[
-y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
-\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
-<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
-<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
-<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
-<ol type="1">
-<li>DSM 的阶数</li>
-<li>DSM 的结构</li>
-<li>DSM 的数字输出比特数</li>
-<li>DSM 的稳定输入范围</li>
-<li>噪声整形性能与环路稳定性的考量</li>
-</ol>
-<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
-<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
-<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
-<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
-<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
-<h2 id="相位补偿">相位补偿</h2>
-<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
-<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
-<blockquote>
-<p>关于噪声补偿的一点点思考</p>
-<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
-<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
-<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
-<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
-</blockquote>
-<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
-<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
-<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
-<h1 id="最小二乘法">最小二乘法</h1>
-<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
-<h1 id="参考文章">参考文章</h1>
-<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
-<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
-]]></content>
-      <categories>
-        <category>Delta-Sigma</category>
-      </categories>
-      <tags>
-        <tag>IC_design</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Delta-Sigma Modulator (2) — Simulink Simulation</title>
     <url>/2020/11/27/DSM2/</url>
     <content><![CDATA[<p>PLL 中的 DSM 可以用全数字的方法实现，因此可以用 Simulink 工具建模，进行功能仿真和功率谱仿真，再用 Verilog 实现。</p>
@@ -841,6 +753,94 @@ V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left( \frac{1}{g_{
         <tag>IC_design</tag>
         <tag>Analog</tag>
         <tag>PLL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Delta-Sigma Modulator</title>
+    <url>/2020/11/26/DSM/</url>
+    <content><![CDATA[<p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 <span class="math inline">\(1/10\)</span>, 因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
+<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
+<a id="more"></a>
+<h1 id="分数型锁相环">分数型锁相环</h1>
+<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器 (delta-sigma modulator, DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
+<p>分数型锁相环的结构如上图所示，其中 DSM 的作用是产生具有指定平均值的一系列整数值。</p>
+<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
+<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM 的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的 0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
+<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
+<p>由于 DSM 的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是 DSM 引入噪声的表现，称为 DSM 噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的 DSM 设计指标。</p>
+<p>DSM 的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从 DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
+H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2 + \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
+\]</span> 可以看到该传递函数为低通函数，即 DSM 噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM 噪声转移到高频。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
+<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM 为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
+<p>DSM 的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果 DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为： <span class="math display">\[
+NTF(z) = \frac{1}{1+H(z)}
+\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span> 为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
+<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
+STF(S) = \frac{H(z)}{1+H(z)}
+\]</span> 因此如果 <span class="math inline">\(H(z)\)</span> 采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
+<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
+<p>DSM 本质上是一个数字滤波器，对于同一个 DSM 传递函数可以用多种方法实现。</p>
+<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈 DSM (single stage multi-feedback-feedforward DSM)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
+<p>上图是一个三阶单级 DSM 的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
+<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选 DSM 结构。</p>
+<p><strong>缺点</strong>：对于二阶以上的 DSM 只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
+<h2 id="mash-结构">MASH 结构</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
+<p>多级噪声整形结构 (multi-stage noise shaping, MASH) 如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM 噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM 是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
+<p><strong>优点</strong>：稳定性好。</p>
+<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1 结构。MASH 将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
+<p>第一级的输出： <span class="math display">\[
+y_1 = z^{-1} x + (1-z^{-1})q_1
+\]</span> 第二级的输出： <span class="math display">\[
+y_2 = z^{-1} q_1 + (1-z^{-1})q_2
+\]</span> 最终输出： <span class="math display">\[
+y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
+\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM 使用全数字实现，可以做到各级系数的完全匹配。</p>
+<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶 DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
+<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶 DSM 随机性较差，因此整体上 MASH 结构的 DSM 随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在 PFD 的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
+<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
+<ol type="1">
+<li>DSM 的阶数</li>
+<li>DSM 的结构</li>
+<li>DSM 的数字输出比特数</li>
+<li>DSM 的稳定输入范围</li>
+<li>噪声整形性能与环路稳定性的考量</li>
+</ol>
+<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
+<p>当锁相环的带宽较宽时，DSM 的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM 噪声的方案。</p>
+<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM 的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的 DAC。</p>
+<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC 实现噪声补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
+<p>如上图所示，通过一个电流 DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流 DAC 的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
+<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
+<blockquote>
+<p>关于噪声补偿的一点点思考</p>
+<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流 DAC 的输入，对电荷泵的输出电流进行补偿？</p>
+<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC 进行相位补偿？</p>
+<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度 (<strong>?</strong>)，设计难度较大。</p>
+<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
+</blockquote>
+<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
+<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5 倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降 6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM 的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
+<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
+<h1 id="最小二乘法">最小二乘法</h1>
+<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive filter) 设计中有着重要的应用。</p>
+<h1 id="参考文章">参考文章</h1>
+<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+<p>[2]周晖. 小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+]]></content>
+      <categories>
+        <category>Delta-Sigma</category>
+      </categories>
+      <tags>
+        <tag>IC_design</tag>
       </tags>
   </entry>
   <entry>
@@ -3770,65 +3770,6 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
       </tags>
   </entry>
   <entry>
-    <title>ZYNQ 移植 Linux -- SPI</title>
-    <url>/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</url>
-    <content><![CDATA[<h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233811.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
-</figure>
-<a id="more"></a>
-<h1 id="重新生成-boot.bin">重新生成 BOOT.bin</h1>
-<p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
-<h1 id="修改-device-tree">修改 device-tree</h1>
-<ol type="1">
-<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p></li>
-<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
-<p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
-<p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
-<p>修改 <em>top.dts</em> 中的 <code>aliases</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">trueethernet0 = &amp;gem0;</span><br><span class="line">truei2c0 = &amp;i2c0;</span><br><span class="line">trueserial0 = &amp;uart0;</span><br><span class="line">truespi0 = &amp;qspi;</span><br><span class="line">truespi1 = &amp;spi0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>添加了 <code>spi1 = &amp;spi0;</code></p></li>
-<li><p>重新编译设备树：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
-<h1 id="配置内核">配置内核</h1></li>
-</ol>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233812.png" alt="SPI_CADENCE"><figcaption aria-hidden="true">SPI_CADENCE</figcaption>
-</figure>
-<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233813.png" alt="CONFIG_SPI_XILINX"><figcaption aria-hidden="true">CONFIG_SPI_XILINX</figcaption>
-</figure>
-<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233814.png" alt="USER_MODE_SPI"><figcaption aria-hidden="true">USER_MODE_SPI</figcaption>
-</figure>
-<p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em></p>
-<p>最后重新编译内核：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
-<p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
-<h1 id="用户程序测试">用户程序测试</h1>
-<p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
-<p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
-<figure>
-<img src="https://pic.zhouyuqian.com/img/20210727233815.png" alt="SPI-WAVE"><figcaption aria-hidden="true">SPI-WAVE</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>ZYNQ 移植 Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ZYNQ 移植 Linux -- Frame Buffer</title>
     <url>/2020/05/11/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-Frame-Buffer/</url>
     <content><![CDATA[<p>Framebuffer 是用一个视频输出设备从包含完整的帧数据的一个内存缓冲区中来驱动一个视频显示设备。简单的来说，就是使用一个内存区来存储显示内容，改变内存的数据就可以改变显示的内容。 在 github 上有一个开源工程：<a href="https://github.com/notro/fbtft">framebuffer</a> 完整的实现了 framebuffer驱动</p>
@@ -3948,6 +3889,65 @@ R_{p0}=Q^2R_0 = \frac{4}{\omega^2 C_0^2 R_0}
 <p><iframe src="//player.bilibili.com/player.html?aid=243218293&bvid=BV1ae411W731&cid=189943254&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"></iframe></p>
 </div></li>
 </ol>
+]]></content>
+      <categories>
+        <category>ZYNQ 移植 Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZYNQ 移植 Linux -- SPI</title>
+    <url>/2020/05/05/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux-SPI/</url>
+    <content><![CDATA[<h1 id="修改-vivado-工程启用-ps-spi">修改 vivado 工程，启用 PS-SPI</h1>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233811.png" alt="vivado SPI"><figcaption aria-hidden="true">vivado SPI</figcaption>
+</figure>
+<a id="more"></a>
+<h1 id="重新生成-boot.bin">重新生成 BOOT.bin</h1>
+<p>因为修改了 vivado 工程，所以需要使用新的 <em>bitstream</em> 文件重新生成 BOOT.bin</p>
+<h1 id="修改-device-tree">修改 device-tree</h1>
+<ol type="1">
+<li><p>首先参考<a href="https://blog.leo-fitz.com/2020/03/30/ZYNQ-%E7%A7%BB%E6%A4%8D-Linux/#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E6%A0%91%E6%96%87%E4%BB%B6">创建设备树文件</a>使用 SDK 重新生成设备树文件，可以看到在 <em>pcw.dtsi</em> 文件中多了 <code>&amp;spi0 &#123;</code>，这个是 SDK 自动生成的设备树；</p></li>
+<li><p>修改 <em>pcw.dtsi</em> 文件中的 <code>&amp;spi0 &#123;</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">&amp;spi0 &#123;</span><br><span class="line">trueis-decoded-cs = &lt;<span class="number">0</span>&gt;;</span><br><span class="line">truenum-cs = &lt;<span class="number">3</span>&gt;;</span><br><span class="line">truestatus = <span class="string">&quot;okay&quot;</span>;</span><br><span class="line">truespidev@<span class="number">0</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">0</span>&gt;; <span class="comment">/*chipselect 0*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">1</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">1</span>&gt;; <span class="comment">/*chipselect 1*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">truespidev@<span class="number">2</span> &#123;</span><br><span class="line">truetruecompatible = <span class="string">&quot;spidev&quot;</span>;</span><br><span class="line">truetruereg = &lt;<span class="number">2</span>&gt;; <span class="comment">/*chipselect 2*/</span></span><br><span class="line">truetruespi-max-frequency = &lt;<span class="number">50000000</span>&gt;;</span><br><span class="line">truetruespi-cpol;</span><br><span class="line">        spi-cpha;</span><br><span class="line">true&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>reg = &lt;*&gt;;</code> 为片选信号，可以控制 <code>SPIO_SS*</code> 引脚；</p>
+<p><code>is-decoded-cs = &lt;0&gt;;</code> 为不使用编码器，所以现在 zynq 的 SPI-Mater 最多只能接 3 个 slaver，需要更多的 slaver 可以使用 3-8编码器；</p>
+<p><strong>!!!</strong> <code>spi-cpol; spi-cpha;</code> 这两行一定要加！</p>
+<p>修改 <em>top.dts</em> 中的 <code>aliases</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">aliases &#123;</span><br><span class="line">trueethernet0 = &amp;gem0;</span><br><span class="line">truei2c0 = &amp;i2c0;</span><br><span class="line">trueserial0 = &amp;uart0;</span><br><span class="line">truespi0 = &amp;qspi;</span><br><span class="line">truespi1 = &amp;spi0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>添加了 <code>spi1 = &amp;spi0;</code></p></li>
+<li><p>重新编译设备树：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dtc -I dts -O dtb -o devicetree.dtb zynq-pynqz2.dts</span><br></pre></td></tr></table></figure>
+<h1 id="配置内核">配置内核</h1></li>
+</ol>
+<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842437/SPI+Zynq+driver">Xlinx wiki: SPI Zynq driver</a> 需要启用 <code>CONFIG_SPI_CADENCE</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中是默认启用的：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233812.png" alt="SPI_CADENCE"><figcaption aria-hidden="true">SPI_CADENCE</figcaption>
+</figure>
+<p>参考 <a href="https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842255/Linux+SPI+Driver">Xlinx wiki: Linux SPI Driver</a> 需要启用 <code>CONFIG_SPI_XILINX</code>，这个选项在 <em>xilinx_zynq_defconfig</em> 文件中也是默认启用的：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233813.png" alt="CONFIG_SPI_XILINX"><figcaption aria-hidden="true">CONFIG_SPI_XILINX</figcaption>
+</figure>
+<p>但是这样配置怎么也找不到 <em>spidev</em> 设备，后来在 <a href="https://forums.xilinx.com/t5/Embedded-Linux/linux-SPI-for-zynq/td-p/417133">forums.xilinx</a> 上看到的一个回答：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233814.png" alt="USER_MODE_SPI"><figcaption aria-hidden="true">USER_MODE_SPI</figcaption>
+</figure>
+<p>需要启用 <code>CONFIG_SPI_SPIDEV</code> ，在 <em>Device Drivers -&gt; SPI Support -&gt; User mode SPI device driver support</em></p>
+<p>最后重新编译内核：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make xilinx_zynq_defconfig</span><br><span class="line">make -j8</span><br><span class="line">make UIMAGE_LOADADDR=0x8000 uImage -j8</span><br></pre></td></tr></table></figure>
+<p>使用新的 <em>dtb, uImage, BOOT.bin</em> 启动后，就可以在 <em>/dev/</em> 下面看到 SPI 设备了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xilinx@pynq:~$ ls /dev/spi*</span><br><span class="line">/dev/spidev1.0  /dev/spidev1.1  /dev/spidev1.2</span><br></pre></td></tr></table></figure>
+<h1 id="用户程序测试">用户程序测试</h1>
+<p>linux-xlnx 中提供了 spi test 程序，自己写可以参考，路径在 <em>linux-xlnx/tools/spi/spidev_test.c</em>，编译命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arm-linux-gnueabihf-gcc -O2 spidev_test.c -o spidev_test</span><br></pre></td></tr></table></figure>
+<p>将生成的 <em>spidev_test</em> 拷贝到 ZYNQ 中，运行 <code>./spidev_test</code>，可以看到 SPI 接口上产生了正确的波形：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233815.png" alt="SPI-WAVE"><figcaption aria-hidden="true">SPI-WAVE</figcaption>
+</figure>
 ]]></content>
       <categories>
         <category>ZYNQ 移植 Linux</category>
@@ -6644,6 +6644,25 @@ f=\frac{1}{2\pi\sqrt{LC}}
       </tags>
   </entry>
   <entry>
+    <title>基于FPGA的机器博弈五子棋游戏</title>
+    <url>/2018/12/19/%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E6%9C%BA%E5%99%A8%E5%8D%9A%E5%BC%88%E4%BA%94%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F/</url>
+    <content><![CDATA[<a id="more"></a>
+<p><a href="https://github.com/Starrynightzyq/ZYNQ-PYNQ-Z2-Gobang">GitHub项目地址</a></p>
+<p>项目介绍：<a href="http://www.openhw.org/newsinfo/276533.html?templateId=80809">openhw</a></p>
+<p><del>挖坑，待写。</del></p>
+]]></content>
+      <categories>
+        <category>FPGA</category>
+      </categories>
+      <tags>
+        <tag>FPGA</tag>
+        <tag>ZYNQ</tag>
+        <tag>项目</tag>
+        <tag>游戏</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>服务器上的折腾</title>
     <url>/2020/01/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84%E6%8A%98%E8%85%BE/</url>
     <content><![CDATA[<h1 id="购买域名">购买域名</h1>
@@ -6753,25 +6772,6 @@ f=\frac{1}{2\pi\sqrt{LC}}
         <tag>Linux</tag>
         <tag>GEEK</tag>
         <tag>服务器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于FPGA的机器博弈五子棋游戏</title>
-    <url>/2018/12/19/%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E6%9C%BA%E5%99%A8%E5%8D%9A%E5%BC%88%E4%BA%94%E5%AD%90%E6%A3%8B%E6%B8%B8%E6%88%8F/</url>
-    <content><![CDATA[<a id="more"></a>
-<p><a href="https://github.com/Starrynightzyq/ZYNQ-PYNQ-Z2-Gobang">GitHub项目地址</a></p>
-<p>项目介绍：<a href="http://www.openhw.org/newsinfo/276533.html?templateId=80809">openhw</a></p>
-<p><del>挖坑，待写。</del></p>
-]]></content>
-      <categories>
-        <category>FPGA</category>
-      </categories>
-      <tags>
-        <tag>FPGA</tag>
-        <tag>ZYNQ</tag>
-        <tag>项目</tag>
-        <tag>游戏</tag>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
