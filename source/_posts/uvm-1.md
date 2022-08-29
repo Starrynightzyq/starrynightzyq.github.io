@@ -17,7 +17,7 @@ description:
 
 ## 准备 UVM 库
 
-我是从这里下载的：[uvm-1.1d.tar.gz](https://bbs.eetop.cn/forum.php?mod=attachment&aid=NjE3MDIzfDVhN2IzNTZmfDE2NTE3NDQzOTh8MTc3MDcyNHw0ODEyNDM%3D) [uvm-1.1a.tar.gz](https://bbs.eetop.cn/forum.php?mod=attachment&aid=NjE3MDIyfGI4MmNhNWQyfDE2NTE3NDQzOTh8MTc3MDcyNHw0ODEyNDM%3D).
+我是从这里下载的：[uvm-1.1d.tar.gz uvm-1.1a.tar.gz](https://bbs.eetop.cn/thread-481243-1-1.html?_dsign=325ad204).
 
 把 *uvm-1.1a.tar.gz* 放在linux系统中，放入后在进行解压。得到 *uvm-1.1a* 文件夹，该路径是库所在路径，放在什么地方无所谓。
 
