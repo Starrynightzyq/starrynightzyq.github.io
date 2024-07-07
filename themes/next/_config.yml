@@ -128,7 +128,7 @@ menu:
   tags: /tags/ || tags
   categories: /categories/ || th
   archives: /archives/ || archive
-  guestbook: /guestbook/ || fa fa-book
+  #guestbook: /guestbook/ || fa fa-book
   AriaNg: /AriaNg/ || cloud-download
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
@@ -633,7 +633,7 @@ changyan:
 # Valine
 # For more information: https://valine.js.org, https://github.com/xCss/Valine
 valine:
-  enable: true
+  enable: false
   js: https://cdn.jsdelivr.net/gh/HCLonely/Valine@latest/dist/Valine.min.js
   appid: 06xpdnUk8FAtRgIQKBcdj5A4-MdYXbMMI # Your leancloud application appid
   appkey: WvMytjHhcjUC8rjt9lFopOI3 # Your leancloud application appkey
