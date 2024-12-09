@@ -37,11 +37,11 @@ jobs:
       - name: Configuration environment
         run: |
           sudo timedatectl set-timezone "Asia/Shanghai"
-          git config --local user.name $GIT_USER
-          git config --local user.email $GIT_EMAIL
+          git config --global user.name $GIT_USER
+          git config --global user.email $GIT_EMAIL
       - name: Install dependencies
         run: |
-          npm ci
+          npm install
       - name: Deploy hexo
         run: |
           npm run publish
