@@ -35,7 +35,7 @@ jobs:
           known_hosts: 'github.com'
           if_key_exists: replace
       - name: Configuration environment
-        run:
+        run: |
           sudo timedatectl set-timezone "Asia/Shanghai"
           git config --local user.name $GIT_USER
           git config --local user.email $GIT_EMAIL
