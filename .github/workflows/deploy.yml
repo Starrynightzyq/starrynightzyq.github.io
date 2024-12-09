@@ -39,10 +39,8 @@ jobs:
           sudo timedatectl set-timezone "Asia/Shanghai"
           git config --global user.name $GIT_USER
           git config --global user.email $GIT_EMAIL
-      - name: pandoc check
-        uses: docker://pandoc/core:3.5
-        with:
-          args: "--help" # gets appended to pandoc command
+      - name: Setup pandoc
+        uses: nikeee/setup-pandoc@v1
       - name: Install dependencies
         run: |
           npm install
