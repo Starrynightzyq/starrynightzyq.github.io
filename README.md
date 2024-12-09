@@ -1,6 +1,2 @@
 # starrynightzyq.github.io
-我的个人博客
-
-## ToDo
-
-- [ ] 提高背景图片下载链接；
+我的个人博客![hexo branch](https://github.com/Starrynightzyq/starrynightzyq.github.io/actions/workflows/deploy.yml/badge.svg?branch=hexo)
