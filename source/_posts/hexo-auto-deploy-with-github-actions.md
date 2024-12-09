@@ -134,7 +134,7 @@ pandoc 是一个将 Markdown 转换为各种格式的命令行工具，它使用
 
 ```yaml
 - name: Setup pandoc
-  uses: njzk2/pandoc-action@v1
+  uses: nikeee/setup-pandoc@v1
 ```
 
 # 遇到的问题
