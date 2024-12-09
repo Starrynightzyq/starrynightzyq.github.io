@@ -1,12 +1,12 @@
 ---
 title: 使用 GitHub Actions 自动发布 Hexo 博客
 toc: true
-comments: false
+comments: true
 date: 2024-12-09 19:30:00
 updated: 2024-12-09 20:13:00
 categories: hexo
 tags: [hexo, github-actions]
-description:
+description: 本地撰写 Mardown 格式的文章，提交到 Github 仓库，由 Github Actions 自动构建，部署到 Github Pages
 ---
 
 # 前言
@@ -95,7 +95,7 @@ jobs:
           npm run publish
 ```
 
-配置好之后，我们提交代码到 `src` 仓库，Github Actions 就会自动构建博客，并将博客部署到 `prd` 仓库。
+配置好之后，我们在 `src` 仓库的 `source/_posts/` 目录下创建一个 Markdown 文件，编写博客内容，然后提交代码，Github Actions 就会自动构建博客，并将博客部署到 `prd` 仓库。
 
 # Github Actions 的注意点
 
