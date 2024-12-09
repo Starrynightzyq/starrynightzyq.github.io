@@ -32,13 +32,13 @@ jobs:
         with:
           key: ${{ secrets.HEXO_DEPLOY_PRI }}
           name: id_rsa # optional
-          known_hosts: github.com
+          known_hosts: 'github.com'
           if_key_exists: replace
       - name: Configuration environment
         run:
           sudo timedatectl set-timezone "Asia/Shanghai"
-          git config --global user.name $GIT_USER
-          git config --global user.email $GIT_EMAIL
+          git config --local user.name $GIT_USER
+          git config --local user.email $GIT_EMAIL
       - name: Install dependencies
         run: |
           npm ci
