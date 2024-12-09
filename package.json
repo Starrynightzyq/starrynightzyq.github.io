@@ -23,8 +23,7 @@
     "hexo-renderer-pandoc": "^0.3.0",
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-server": "^2.0.0",
-    "hexo-symbols-count-time": "^0.7.1",
-    "hexo-theme-next-anchor": "^1.0.3"
+    "hexo-symbols-count-time": "^0.7.1"
   },
   "scripts": {
     "build": "npm build",
