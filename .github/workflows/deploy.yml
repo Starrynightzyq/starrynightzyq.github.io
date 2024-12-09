@@ -41,8 +41,7 @@ jobs:
           git config --global user.email $GIT_EMAIL
       - name: Install dependencies
         run: |
-          npm config set registry https://registry.npmjs.org/
-          npm ci
+          npm install
       - name: Deploy hexo
         run: |
           npm run publish
