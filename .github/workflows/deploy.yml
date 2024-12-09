@@ -6,15 +6,15 @@ on:
     - hexo
 
 env:
-  GIT_USER: starrynightzyq
-  GIT_EMAIL: starrynightzyq@gmail.com
+  GIT_USER: starrynightzyq[bot]
+  GIT_EMAIL: starrynightzyq[bot]@gmail.com
 
 jobs:
   build:
     name: Build with node ${{ matrix.node-version }} on ${{ matrix.os }}
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
-    
+
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -27,15 +27,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.HEXO_DEPLOY_PRI }}
+          name: id_rsa # optional
+          known_hosts: github.com
+          if_key_exists: replace
       - name: Configuration environment
-        env:
-          HEXO_DEPLOY_PRI: ${{ secrets.HEXO_DEPLOY_PRI }}
         run:
           sudo timedatectl set-timezone "Asia/Shanghai"
-          mkdir -p ~/.ssh/
-          echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.name $GIT_USER
           git config --global user.email $GIT_EMAIL
       - name: Install dependencies
