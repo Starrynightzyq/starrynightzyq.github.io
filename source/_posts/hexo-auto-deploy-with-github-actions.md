@@ -2,8 +2,8 @@
 title: 使用 GitHub Actions 自动发布 Hexo 博客
 toc: true
 comments: true
-date: 2024-12-09 19:30:00
-updated: 2024-12-09 20:13:00
+date: 2024-12-09 19:15:17
+updated: 2024-12-10 11:37:58
 categories: hexo
 tags: [hexo, github-actions]
 description: 本地撰写 Mardown 格式的文章，提交到 Github 仓库，由 Github Actions 自动构建，部署到 Github Pages
