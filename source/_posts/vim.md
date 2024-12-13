@@ -3,7 +3,7 @@ title: Vim 命令记录
 toc: true
 comments: true
 date: 2021-09-27 20:05:45
-updated: 2021-09-27 20:05:45
+updated: 2024-12-13 17:43:03
 categories: Geek
 tags: [Geek, Vim]
 description:
@@ -347,6 +347,20 @@ Vim 中的光标键是 `h`, `j`, `k`, `l` (左，上，下，右)，要在各个
     :bufdo !e # 放弃当前修改，强制重新载入
     ~~~
 
+# 配置
+
+## 关闭 gVim 的声音、闪烁
+
+在 `~/.vimrc` 中添加如下配置：
+
+~~~vim
+set vb t_vb=
+au GuiEnter * set t_vb=
+~~~
+
+就要在 vim 中使用命令 `:help vb` 查看 visual bell 的帮助。
+
+> ref: [windows下关闭gvim叮叮叮和闪屏](https://blog.csdn.net/zcube/article/details/44131925)
 
 # [vim-plug](https://github.com/junegunn/vim-plug)
 
