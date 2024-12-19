@@ -3,7 +3,7 @@ title: Vim 命令记录
 toc: true
 comments: true
 date: 2021-09-27 20:05:45
-updated: 2024-12-13 17:43:03
+updated: 2024-12-19 10:16:10
 categories: Geek
 tags: [Geek, Vim]
 description:
@@ -362,20 +362,22 @@ au GuiEnter * set t_vb=
 
 > ref: [windows下关闭gvim叮叮叮和闪屏](https://blog.csdn.net/zcube/article/details/44131925)
 
-# [vim-plug](https://github.com/junegunn/vim-plug)
+# 插件
+
+## 插件管理 [vim-plug](https://github.com/junegunn/vim-plug)
 
 > Reference:
 >
 > https://vimjc.com/vim-plug.html
 
-## Install
+### Install
 
 ~~~bash
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ~~~
 
-## 安装插件
+### 安装插件
 
 安装插件，只需要将插件写在 *.vimrc* 内，然后在 vim 中使用 `:PlugInstall` 命令即可：
 
@@ -386,7 +388,12 @@ Plug 'HonkW93/automatic-verilog'
 call plug#end()
 ~~~
 
-## 删除插件
+### 离线安装插件
+
+1. 先将插件下载后放在 `~/.vim/bundles` 目录下，注意要用 `git clone` 命令下载，而不是直接下载，否则下一步安装会失败；
+2. 在vim里运行 `:PlugInstall` 命令，即可完成插件的安装。
+
+### 删除插件
 
 删除插件，只需要将写在 *.vimrc* 配置文件内的插件删除，重启 vim 并执行命令 `:PlugClean` 即可：
 
@@ -397,7 +404,15 @@ call plug#end()
 
 保存在 vim 中使用 `:PlugClean`:
 
-# [vim-init](https://github.com/Starrynightzyq/vim-init)
+## 一个好用的vim配置模板 [vim-init](https://github.com/Starrynightzyq/vim-init)
 
 轻量级 Vim 配置框架，来自 [skywind3000](https://github.com/skywind3000/vim-init)，添加了 [automatic-verilog](https://github.com/Starrynightzyq/automatic-verilog)。
 
+
+## 快速注释 [preservim/nerdcommenter](https://github.com/preservim/nerdcommenter)
+
+常用快捷键：
+
+- 注释/取消注释：`<leader>c<space>`
+- 左对齐注释：`<leader>cl`
+- 取消注释：`<leader>cu`
