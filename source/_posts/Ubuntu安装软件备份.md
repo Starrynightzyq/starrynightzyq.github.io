@@ -3,7 +3,7 @@ title: Ubuntu安装软件备份
 toc: true
 date: 2020-02-05 15:18:27
 categories: GEEK
-updated: 2021-10-19 13:21:15
+updated: 2024-12-19 10:33:56
 tags: [Ubuntu, Linux, 软件]
 description: 安装Ubuntu后要安装的一些软件
 ---
@@ -382,29 +382,43 @@ sudo service lightdm start
 >
 > [How To Add Swap Space on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04)
 
-1. 禁用 swap 功能
+1. 查看 swap 状态
+
+   ~~~
+   $ swapon
+   NAME      TYPE SIZE USED PRIO
+   /swapfile file  16G 177M   -2
+   
+   $ free -h
+                 total        used        free      shared  buff/cache   available
+   Mem:           31Gi       278Mi        30Gi       0.0Ki       399Mi        30Gi
+   Swap:          15Gi       176Mi        15Gi
+   ~~~
+
+
+2. 禁用 swap 功能
 
    ~~~
    sudo swapoff /swapfile
    ~~~
 
-   这个命令执行之后，如果你用free命令查看的话会发现swap分区的大小变为了0。
+   这个命令执行之后，如果你用 `free -h` 命令查看的话会发现swap分区的大小变为了0。
 
-2. 增加 /swapfile的大小：
+3. 增加 /swapfile 的大小：
 
    ```bash
-   sudo dd if=/dev/zero of=/swapfile bs=1M count=30720 oflag=append conv=notrunc
+   sudo dd if=/dev/zero of=/swapfile bs=1M count=16384 oflag=append conv=notrunc
    ```
 
-   这个命令会在现有的/swapfile后面追加30GB，加上之前的2GB的swap分区，现在共有32个GB的swap分区了。
+   这个命令会在现有的/swapfile后面追加16GB，加上之前的16GB的swap分区，现在共有32个GB的swap分区了。
 
-3. 设置这个文件为swap分区的挂载点：
+4. 设置这个文件为swap分区的挂载点：
 
    ```bash
    sudo mkswap /swapfile
    ```
 
-4. 再次启用swap
+5. 再次启用swap
 
    ~~~bash
    sudo swapon /swapfile
