@@ -3,7 +3,7 @@ title: 使用 GitHub Actions 自动发布 Hexo 博客
 toc: true
 comments: true
 date: 2024-12-09 19:15:17
-updated: 2024-12-10 11:37:58
+updated: 2025-02-06 16:46:02
 categories: hexo
 tags: [hexo, github-actions]
 description: 本地撰写 Mardown 格式的文章，提交到 Github 仓库，由 Github Actions 自动构建，部署到 Github Pages
@@ -199,6 +199,64 @@ Error: R][hexo-renderer-pandoc] pandoc exited with code null.
       uses: nikeee/setup-pandoc@v1
 ```
 
+# 其他
+
+在 Github Actions 设置完成后，本地可以不安装 hexo 环境，我通常使用 VSCode 编写博客，为了自动生成文章头（Front-matter），可以借助 VSCode 的插件：[koroFileHeader](https://marketplace.visualstudio.com/items?itemName=OBKoro1.korofileheader)。安装该插件后，在 VSCode 的 `settings.json` 文件中添加如下配置：
+
+```json
+{
+    ...
+
+    "fileheader.customMade": {
+        "title": "",
+        "toc": "true",
+        "comments": "true",
+        "Date": "Do not edit",
+        "LastEditTime": "Do not edit",
+        "categories": "",
+        "tags": "[]",
+        "Description": ""
+    },
+    "fileheader.configObj": {
+        "throttleTime": 60000, // 对同一个文件 需要过1分钟再次修改文件并保存才会更新注释
+        "supportAutoLanguage": [ "md" ], // 设置过后只有该数组里面的文件 才会自动添加头部注释
+        // 自定义语言
+        "language": {
+            "md": { // md后缀的文件
+                "head": "---",
+                "middle": "",
+                "end": "---"
+            }
+        },
+        "specialOptions":{
+            // 文件后缀、或者语言后缀，可针对单个文件后缀进行配置：language的自定义语言配置
+            "md": {
+                //  特殊字段自定义
+                "Date": "date",
+                "LastEditTime": "updated",
+                "Description": "description", // 头部注释大写的描述Description
+            }
+        }
+    }
+}
+```
+
+使用快捷键 window：`ctrl+win+i`, mac：`ctrl+cmd+i`, linux: `ctrl+meta+i`, Ubuntu: `ctrl+super+i`，即可自动在 Markdown 文件添加 Front-matter，格式如下：
+
+```yaml
+---
+title: 
+toc: true
+comments: true
+date: 2025-02-06 16:40:37
+updated: 2025-02-06 16:43:25
+categories: 
+tags: []
+description: 
+---
+```
+
+保存文件的时候会自动更新 `updated` 时间。
 
 # Refrerence
 
