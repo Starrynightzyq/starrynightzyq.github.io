@@ -3,7 +3,7 @@ title: 获取 VSCode VSIX 扩展
 toc: true
 comments: true
 date: 2025-03-06 17:09:31
-updated: 2025-04-16 19:12:28
+updated: 2025-04-17 10:19:38
 categories: GEEK
 tags: [VSCode]
 description: 在官方的扩展市场中已经不提供直接下载 VSCode .vsix 的 link 了，本文介绍了一种获取 VSCode Extansion 的离线安装包的方法
@@ -74,3 +74,5 @@ description: 在官方的扩展市场中已经不提供直接下载 VSCode .vsix
 # Reference
 
 [1] [获取VS Code扩展指定版本的安装档(.vsix)的方式](https://blog.csdn.net/oscar999/article/details/145193849)
+
+[2] [VSIX Downloader：一个VS Code插件下载工具](https://itlanyan.com/vsix-downloader-tool-to-download-vscode-extensions/)
