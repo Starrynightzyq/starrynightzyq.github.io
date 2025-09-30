@@ -3,7 +3,7 @@ title: svn 切换分支后合并一段时间内的 commit
 toc: true
 comments: true
 date: 2025-09-29 09:45:57
-updated: 2025-09-29 10:58:23
+updated: 2025-09-30 09:16:20
 categories: svn
 tags: [svn]
 description: 当从一个branch切换到trunk时，如何将branch上自己提交的commit全部合并到trunk中
@@ -32,6 +32,8 @@ description: 当从一个branch切换到trunk时，如何将branch上自己提�
    - `grep -A 2 <your name>` 获取所有包含 "\<your name\>" 的行，即所有自己提交的 commit 的 id 所在行， `-A 2` 表示获取该行之后的 2 行，即 commit log；
 
 2. 通过 commit id 将 branch 上自己提交的 commit merge到 trunk 中；
+
+   **情况A: branch 上自己提交的 commit-id 不是连续的**
    
    可以通过 `svn merge -c <commit id> <branch url> <trunk url>` 将 branch 上指定的 commit merge到 trunk 中。
 
@@ -45,3 +47,13 @@ description: 当从一个branch切换到trunk时，如何将branch上自己提�
 
    - `-c <commit id>` 表示指定要 merge 的 commit id；
    - `<branch-url>` 表示 branch 的 url，可以通过在 branch 目录下执行 `svn info` 命令获取；
+
+   **情况B: 如果branch 上自己提交的 commit-id 是连续的**
+   
+   可以直接用 `svn merge -r <start-id>:<end-id> <branch-url>`。
+
+   示例：合并 `r1234` 到 `r1238`，在trunk 目录下执行命令：
+
+   ```bash
+   svn merge -r 1234:1238 <branch-url>
+   ```
