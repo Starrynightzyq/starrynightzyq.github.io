@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="docker_vivado  最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇文章，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。从此，vivado 成为了全平台软件，macOS 终于站起来了。🤪">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 docker 中安装 vivado">
+<meta property="og:url" content="https://zhouyuqian.com/2021/06/01/docker-vivado/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="docker_vivado  最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到 vivado，想着装个虚拟机，发现了这篇文章，原来 docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker 中，避免虚拟机的臃肿。从此，vivado 成为了全平台软件，macOS 终于站起来了。🤪">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231059.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231129.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231144.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231202.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210726231221.png">
+<meta property="article:published_time" content="2021-06-01T05:32:28.000Z">
+<meta property="article:modified_time" content="2021-06-01T05:32:28.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="Software">
+<meta property="article:tag" content="vivado">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210726231059.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2021/06/01/docker-vivado/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>在 docker 中安装 vivado | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2021/06/01/docker-vivado/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 docker 中安装 vivado
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-01 13:32:28" itemprop="dateCreated datePublished" datetime="2021-06-01T13:32:28+08:00">2021-06-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231059.png" alt="docker_vivado">
+<figcaption aria-hidden="true">docker_vivado</figcaption>
+</figure>
+<p>最近台式机崩了，只能使用使用笔记本了（macOS 系统）。因为要用到
+vivado，想着装个虚拟机，发现了这篇<a target="_blank" rel="noopener" href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">文章</a>，原来
+docker 也可以使用图形化界面，于是选择了将 vivado 安装到 docker
+中，避免虚拟机的臃肿。<del>从此，vivado 成为了全平台软件，macOS
+终于站起来了。</del>🤪</p>
+<span id="more"></span>
+<p>本次安装使用的 vivado 安装包是
+<em>Xilinx_Unified_2020.2_1118_1232.tar.gz</em>，需要自行去 <a target="_blank" rel="noopener" href="https://www.xilinx.com/support/download.html">Xilinx
+官网</a>下载，其他的文件已经上传到 <a target="_blank" rel="noopener" href="https://github.com/Starrynightzyq/MyDocker.git">github</a>。</p>
+<h1 id="准备">准备</h1>
+<p>在 Docker 中安装软件，用 Dockerfile
+的方式，需要使用命令行的方式来安装软件，vivado
+可以使用命令行的方式安装，安装的设置使用配置文件来实现。</p>
+<p>下载 vivado 的安装包，然后解压，然后运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">(host)$ docker container run --<span class="built_in">rm</span> -it -v &lt;/path/to/Xilinx_Vivado&gt;:/vivado -w /vivado ubuntu:xenial /bin/bash</span><br><span class="line">root@187602ac180d:/vivado# ./xsetup -b ConfigGen</span><br><span class="line">Running <span class="keyword">in</span> batch mode...</span><br><span class="line">Copyright (c) 1986-2021 Xilinx, Inc.  All rights reserved.</span><br><span class="line"></span><br><span class="line">INFO : Log file location - /root/.Xilinx/xinstall/xinstall_1622527035477.<span class="built_in">log</span></span><br><span class="line">Select a Product from the list:</span><br><span class="line">1. Vitis</span><br><span class="line">2. Vivado</span><br><span class="line">3. On-Premises Install <span class="keyword">for</span> Cloud Deployments (Linux only)</span><br><span class="line">4. BootGen</span><br><span class="line">5. Lab Edition</span><br><span class="line">6. Hardware Server</span><br><span class="line">7. PetaLinux (Linux only)</span><br><span class="line">8. Documentation Navigator (Standalone)</span><br><span class="line"></span><br><span class="line">Please choose: 2</span><br><span class="line"></span><br><span class="line">Select an Edition from the list:</span><br><span class="line">1. Vivado HL WebPACK</span><br><span class="line">2. Vivado HL Design Edition</span><br><span class="line">3. Vivado HL System Edition</span><br><span class="line"></span><br><span class="line">Please choose: 3</span><br><span class="line"></span><br><span class="line">INFO : Config file available at /root/.Xilinx/install_config.txt. Please use -c &lt;filename&gt; to point to this install configuration.</span><br></pre></td></tr></table></figure>
+<p>这时生成了 vivado 安装的配置文件，将其从 docker
+中拷贝出来，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@187602ac180d:/vivado# <span class="built_in">cp</span> /root/.Xilinx/install_config.txt ./</span><br></pre></td></tr></table></figure>
+<p>退出容器后，将 <em>install_config.txt</em>
+拷贝到合适的位置，再作修改：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Vivado HL System Edition Install Configuration ####</span></span><br><span class="line"><span class="attribute">Edition</span>=Vivado HL System Edition</span><br><span class="line"></span><br><span class="line"><span class="attribute">Product</span>=Vivado</span><br><span class="line"></span><br><span class="line"><span class="comment"># Path where Xilinx software will be installed.</span></span><br><span class="line"><span class="attribute">Destination</span>=/opt/Xilinx</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the Products/Devices the you would like to install.</span></span><br><span class="line"><span class="attribute">Modules</span>=Zynq UltraScale+ MPSoC:<span class="number">0</span>,Versal AI Core Series ES1:<span class="number">0</span>,Versal Prime Series:<span class="number">0</span>,DocNav:<span class="number">1</span>,System Generator:<span class="number">0</span>,Virtex UltraScale+ HBM:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G:<span class="number">0</span>,Virtex UltraScale+ <span class="number">58</span>G ES:<span class="number">0</span>,Kintex-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+:<span class="number">0</span>,Zynq-<span class="number">7000</span>:<span class="number">1</span>,Versal AI Core Series:<span class="number">0</span>,Kintex UltraScale+:<span class="number">0</span>,Model Composer and System Generator:<span class="number">0</span>,Spartan-<span class="number">7</span>:<span class="number">0</span>,Kintex UltraScale:<span class="number">0</span>,Virtex UltraScale:<span class="number">0</span>,Engineering Sample Devices:<span class="number">0</span>,Zynq UltraScale+ RFSoC:<span class="number">0</span>,Virtex-<span class="number">7</span>:<span class="number">0</span>,Versal Prime Series ES1:<span class="number">0</span>,Artix-<span class="number">7</span>:<span class="number">0</span>,Virtex UltraScale+ HBM ES:<span class="number">0</span>,Zynq UltraScale+ RFSoC ES:<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the post install scripts you&#x27;d like to run as part of the finalization step. Please note that some of these scripts may require user interaction during runtime.</span></span><br><span class="line"><span class="attribute">InstallOptions</span>=Acquire or Manage a License Key:<span class="number">0</span>,Enable WebTalk for Vivado to send usage statistics to Xilinx (Always enabled for WebPACK license):<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Shortcuts and File associations ##</span></span><br><span class="line"><span class="comment"># Choose whether Start menu/Application menu shortcuts will be created or not.</span></span><br><span class="line"><span class="attribute">CreateProgramGroupShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the name of the Start menu/Application menu shortcut. This setting will be ignored if you choose NOT to create shortcuts.</span></span><br><span class="line"><span class="attribute">ProgramGroupFolder</span>=Xilinx Design Tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created for All users or just the Current user. Shortcuts can be created for all users only if you run the installer as administrator.</span></span><br><span class="line"><span class="attribute">CreateShortcutsForAllUsers</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether shortcuts will be created on the desktop or not.</span></span><br><span class="line"><span class="attribute">CreateDesktopShortcuts</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether file associations will be created or not.</span></span><br><span class="line"><span class="attribute">CreateFileAssociation</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose whether disk usage will be optimized (reduced) after installation</span></span><br><span class="line"><span class="attribute">EnableDiskUsageOptimization</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="创建-docker-镜像">创建 Docker 镜像</h1>
+<h2 id="ubuntu-xorg">ubuntu-xorg</h2>
+<p>第一个 <code>ubuntu-xorg</code> 的 <code>Dockerfile</code>
+是这样的：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:xenial</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND noninteractive</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> \</span></span><br><span class="line"><span class="language-bash">  sed -i <span class="string">&#x27;s/archive.ubuntu.com/mirrors.ustc.edu.cn/g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt upgrade -y &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="language-bash">    ca-certificates curl <span class="built_in">sudo</span> xorg dbus dbus-x11 ubuntu-gnome-default-settings gtk2-engines \</span></span><br><span class="line"><span class="language-bash">    ttf-ubuntu-font-family fonts-ubuntu-font-family-console fonts-droid-fallback lxappearance &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">rm</span> -rf /var/lib/apt/lists/* &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">echo</span> <span class="string">&quot;%sudo ALL=(ALL) NOPASSWD: ALL&quot;</span> &gt;&gt; /etc/sudoers</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> gosu_version=<span class="number">1.10</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> \</span></span><br><span class="line"><span class="language-bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    -o /usr/local/bin/gosu &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  curl -SL <span class="string">&quot;https://github.com/tianon/gosu/releases/download/<span class="variable">$&#123;gosu_version&#125;</span>/gosu-<span class="subst">$(dpkg --print-architecture)</span>.asc&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    -o /usr/local/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  gpg --verify /usr/local/bin/gosu.asc &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">rm</span> -rf /usr/local/bin/gosu.asc /root/.gnupg &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">chmod</span> +x /usr/local/bin/gosu</span></span><br></pre></td></tr></table></figure>
+<p>然后创建这个镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker image build --<span class="built_in">rm</span> --no-cache --pull -t ubuntu-xorg .</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>--rm :</strong> 设置镜像成功后删除中间容器；</li>
+<li><strong>--no-cache : </strong>创建镜像的过程不使用缓存；</li>
+<li><strong>--pull :</strong> 尝试去更新镜像的新版本；</li>
+<li><strong>--tag, -t :</strong> 镜像的名字及标签，通常 name:tag 或者
+name 格式；可以在一次构建中为一个镜像设置多个标签。</li>
+</ul>
+</blockquote>
+<h2 id="ubuntu-vivado">ubuntu-vivado</h2>
+<p>第二个镜像 <code>ubuntu-vivado</code> 的 <code>Dockerfile</code>
+是这样的：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu-xorg</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> \</span></span><br><span class="line"><span class="language-bash">  dpkg --add-architecture i386 &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt update &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt -y --no-install-recommends install \</span></span><br><span class="line"><span class="language-bash">    build-essential git gcc-multilib libc6-dev:i386 ocl-icd-opencl-dev libjpeg62-dev &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt-get install -y vim &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt-get autoclean &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  apt-get autoremove &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">rm</span> -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> install_config.txt /vivado-installer/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> Vivado_license_to2037.lic /vivado-installer/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> VIVADO_TAR_URI=http://host.docker.internal/Xilinx_Unified_2020.<span class="number">2</span>_1118_1232.tar.gz</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> \</span></span><br><span class="line"><span class="language-bash">  curl <span class="variable">$&#123;VIVADO_TAR_URI&#125;</span> | tar zx --strip-components=1 -C /vivado-installer &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  /vivado-installer/xsetup \</span></span><br><span class="line"><span class="language-bash">    --agree 3rdPartyEULA,WebTalkTerms,XilinxEULA \</span></span><br><span class="line"><span class="language-bash">    --batch Install \</span></span><br><span class="line"><span class="language-bash">    --config /vivado-installer/install_config.txt &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">echo</span> <span class="string">&quot;source /opt/Xilinx/Vivado/2020.2/.settings64-Vivado.sh&quot;</span> &gt;&gt; /etc/bash.bashrc &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">mkdir</span> -p /work/.Xilinx &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">cp</span> /vivado-installer/Vivado_license_to2037.lic /work/.Xilinx/Vivado_license_to2037.lic &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">  <span class="built_in">rm</span> -rf /vivado-installer</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> pynq-z2.tar.gz /opt/Xilinx/Vivado/2020.2/data/boards/board_files/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> entrypoint.sh /usr/local/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chmod</span> +x /usr/local/bin/entrypoint.sh</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;/usr/local/bin/entrypoint.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-l&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里使用 <code>http://host.docker.internal</code>
+来访问宿主机，这种用法似乎只在 windows 和 macOS 版的 docker
+上可以用，linux 要换种方法。</p>
+</blockquote>
+<p>这里使用 curl 来获取 vivado
+安装包，避免了生成的镜像过大的问题（其实安装的时候还是需要很大空间，安装后的镜像有快
+43G 了，安装过程中还有解压后的安装包，因此最好将 Disk image size
+设置为大于
+100G，否则可能会因为空间不足而安装失败），因此需要在本地搭建一个文件服务器，来提供
+vivado 安装包。</p>
+<p>在含有 vivado 安装包的目录下运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 80</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Dockerfile 中，vivado安装包的路径是
+<code>http://host.docker.internal/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>，在宿主机中应该可以通过
+<code>http://127.0.0.1/Xilinx_Unified_2020.2_1118_1232.tar.gz</code>
+访问到 vivado 的安装包，路径不对的可以改一下。</p>
+</blockquote>
+<p>在运行 docker bulid 之前，先要确保在含有 <code>Dockerfile</code>
+的文件夹下有这些文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">Dockerfile                Vivado_license_to2037.lic entrypoint.sh             install_config.txt        pynq-z2.tar.gz</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>install_config.txt</strong> 是第一步生成的 vivado
+安装配置文件；</p>
+<p><strong>pynq-z2.tar.gz</strong>
+是板卡文件，可以换成别的板卡文件，不过需要修改一下 Dockerfile；</p>
+<p><strong>Vivado_license_to2037.lic</strong> 是
+license，<del>不要也没关系，反正还没找到用命令行安装 license
+的方法</del>，会安装到 <em>/work/.Xilinx/</em> 目录下；</p>
+<p><strong>entrypoint.sh</strong> 是一个把宿主机用户和容器内用户的 UID
+组合在一起的脚本，内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">UART_GROUP_ID=$&#123;UART_GROUP_ID:-20&#125;</span><br><span class="line">if ! grep -q &quot;x:$&#123;UART_GROUP_ID&#125;:&quot; /etc/group; then</span><br><span class="line">  groupadd -g &quot;$UART_GROUP_ID&quot; uart</span><br><span class="line">fi</span><br><span class="line">UART_GROUP=$(grep -Po &quot;^\\w+(?=:x:$&#123;UART_GROUP_ID&#125;:)&quot; /etc/group)</span><br><span class="line"></span><br><span class="line">if [[ -n &quot;$USER_ID&quot; ]]; then</span><br><span class="line">  useradd -s /bin/bash -u &quot;$USER_ID&quot; -o -d &quot;$PWD&quot; user</span><br><span class="line">  usermod -aG sudo user</span><br><span class="line">  usermod -aG &quot;$UART_GROUP&quot; user</span><br><span class="line">  chown user $(tty)</span><br><span class="line">  exec /usr/local/bin/gosu user &quot;$@&quot;</span><br><span class="line">else</span><br><span class="line">  exec &quot;$@&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>然后含有 <code>Dockerfile</code> 的目录下运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image build --<span class="built_in">rm</span> --no-cache -t ubuntu-vivado .</span><br></pre></td></tr></table></figure>
+<h1 id="使用已安装的-vivado">使用已安装的 Vivado</h1>
+<h2 id="在容器中创建一个工作用户"><del>在容器中创建一个工作用户</del></h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docke container run -it --<span class="built_in">rm</span> -e USER_ID=<span class="variable">$UID</span> -v &lt;localhost/vivado/workspace&gt;:/work -w /work ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<p>这一步只是演示如何以非 root 用户启动 docker 容器。</p>
+<h2 id="在-docker-中调用-x11">在 Docker 中调用 X11</h2>
+<blockquote>
+<p>在 MAC 上需要先安装 XQuartz 在转发 X11，可以使用 brew 安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install --cask xquartz</span><br></pre></td></tr></table></figure>
+<p>安装完需要重启电脑，并且在 XQuartz 的设置里勾选上
+<em>安全性--允许从网络连接</em></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231129.png" alt="xquartz">
+<figcaption aria-hidden="true">xquartz</figcaption>
+</figure>
+</blockquote>
+<p>首先，允许工作用户使用以下命令在本地请求 X11：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ xhost +si:localuser:$(<span class="built_in">whoami</span>)</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">$ xhost +</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231144.png" alt="X11">
+<figcaption aria-hidden="true">X11</figcaption>
+</figure>
+<p>接下来，使用以下选项启动 Docker 容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker container run -it --<span class="built_in">rm</span> \</span><br><span class="line">    -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line">    -e DISPLAY \</span><br><span class="line">    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line">    -v &lt;localhost/vivado/workspace&gt;:/work \</span><br><span class="line">    -w /work \</span><br><span class="line">    ubuntu-vivado</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的命令在 MAC 中使用的时候会提示无权限使用 X11，将
+<code>-e DISPLAY</code> 换成了
+<code>-e DISPLAY=host.docker.internal:0</code> 就可以运行了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it --<span class="built_in">rm</span> \</span><br><span class="line"> -e USER_ID=<span class="variable">$UID</span> \</span><br><span class="line"> -e DISPLAY=host.docker.internal:0 \</span><br><span class="line"> -v /tmp/.X11-unix:/tmp/.X11-unix:ro \</span><br><span class="line"> -v <span class="variable">$PWD</span>:/work \</span><br><span class="line"> -w /work \</span><br><span class="line"> ubuntu-vivado</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>-i:</strong> 以交互模式运行容器，通常与 -t 同时使用；</li>
+<li><strong>-t:</strong> 为容器重新分配一个伪输入终端，通常与 -i
+同时使用；</li>
+<li><strong>--volume , -v:</strong> 绑定一个卷；</li>
+<li><strong>-w, --workdir= :</strong> Working directory inside the
+container；</li>
+<li><strong>-e, --env=[] :</strong> Set environment
+variables(设置环境变量) ；</li>
+<li><strong>--rm=false</strong> Automatically remove the container when
+it exits；</li>
+</ul>
+</blockquote>
+<p>这时，在终端里输入 <code>vivado</code>，就可以打开 vivado 了：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231202.png" alt="vivado">
+<figcaption aria-hidden="true">vivado</figcaption>
+</figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210726231221.png" alt="vivado2">
+<figcaption aria-hidden="true">vivado2</figcaption>
+</figure>
+<h1 id="reference">Reference</h1>
+<p>[1] <a target="_blank" rel="noopener" href="https://blog.myon.info/entry/2018/09/15/install-xilinx-tools-into-docker-container/">Xilinx
+の開発ツールを Docker コンテナに閉じ込める</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2021/06/01/docker-vivado/" title="在 docker 中安装 vivado">https://zhouyuqian.com/2021/06/01/docker-vivado/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Software/" <i class="fa fa-tag"></i> Software</a>
+              <a href="/tags/vivado/" <i class="fa fa-tag"></i> vivado</a>
+              <a href="/tags/docker/" <i class="fa fa-tag"></i> docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/chisel-start/" rel="prev" title="chisel 学习（1）">
+      <i class="fa fa-chevron-left"></i> chisel 学习（1）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/24/nginx/" rel="next" title="Nginx 反向代理">
+      Nginx 反向代理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-docker-%E9%95%9C%E5%83%8F"><span class="nav-number">2.</span> <span class="nav-text">创建 Docker 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-xorg"><span class="nav-number">2.1.</span> <span class="nav-text">ubuntu-xorg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-vivado"><span class="nav-number">2.2.</span> <span class="nav-text">ubuntu-vivado</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84-vivado"><span class="nav-number">3.</span> <span class="nav-text">使用已安装的 Vivado</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B7%A5%E4%BD%9C%E7%94%A8%E6%88%B7"><span class="nav-number">3.1.</span> <span class="nav-text">在容器中创建一个工作用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-docker-%E4%B8%AD%E8%B0%83%E7%94%A8-x11"><span class="nav-number">3.2.</span> <span class="nav-text">在 Docker 中调用 X11</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ZFS 文件系统安装过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZFS on Ubuntu">
+<meta property="og:url" content="https://zhouyuqian.com/2021/04/02/zfs/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="ZFS 文件系统安装过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233648.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233649.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233650.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233651.png">
+<meta property="article:published_time" content="2021-04-02T02:16:20.000Z">
+<meta property="article:modified_time" content="2021-04-02T02:16:20.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="GEEK">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727233648.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2021/04/02/zfs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>ZFS on Ubuntu | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2021/04/02/zfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ZFS on Ubuntu
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-02 10:16:20" itemprop="dateCreated datePublished" datetime="2021-04-02T10:16:20+08:00">2021-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GEEK/" itemprop="url" rel="index"><span itemprop="name">GEEK</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description">ZFS 文件系统安装过程</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="安装">安装</h1>
+<blockquote>
+<p>https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/index.html#installation</p>
+<p>https://manpages.debian.org/unstable/zfsutils-linux/zfs-mount-generator.8.en.html</p>
+</blockquote>
+<h1 id="创建-zpool">创建 zpool</h1>
+<p>先查看硬盘的 id</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -al /dev/disk/by-id</span><br></pre></td></tr></table></figure>
+<p>创建了一个名为 tank 的新池，mirror格式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zpool create tank mirror /dev/disk/by-id/xxxxxxx1 /dev/disk/by-id/xxxxxxx2</span><br></pre></td></tr></table></figure>
+<p>查看存储池列表</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">zfs list</span></span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233648.png" alt="截屏2021-04-02 上午10.24.51">
+<figcaption aria-hidden="true">截屏2021-04-02 上午10.24.51</figcaption>
+</figure>
+<p>查看存储池的状态信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zpool status tank</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233649.png" alt="截屏2021-04-02 上午10.26.21">
+<figcaption aria-hidden="true">截屏2021-04-02 上午10.26.21</figcaption>
+</figure>
+<h2 id="其他命令">其他命令：</h2>
+<p>显示 ZFS 存储池命令历史记录 <code>zpool history</code></p>
+<p>查看 ZFS 存储池的 I/O 统计信息 <code>zpool iostat</code></p>
+<p>销毁存储池 <code>zpool destroy zpoolname</code></p>
+<p>向存储池添加设备
+<code>zpool add tank c2t1d0 #向存储池tank中添加设备</code></p>
+<h2 id="数据压缩">数据压缩</h2>
+<p>数据压缩默认是关闭的，使用如下命令打开：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs <span class="built_in">set</span> compression=lz4 tank</span><br></pre></td></tr></table></figure>
+<h1 id="zfs-文件系统">ZFS 文件系统</h1>
+<h2 id="创建文件系统">创建文件系统</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zfs create tank/home</span><br><span class="line"><span class="built_in">sudo</span> zfs create -o mountpoint=/home/EDA tank/EDA</span><br></pre></td></tr></table></figure>
+<p>在 tank 中创建了一个名为 home 的文件系统，如果新文件系统创建成功，则
+ZFS 会自动挂载该文件系统。</p>
+<h2 id="销毁文件系统">销毁文件系统</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs destroy tank/home <span class="comment"># 销毁tank/home 文件系统</span></span><br></pre></td></tr></table></figure>
+<p>如果要销毁的文件系统处于繁忙状态而无法取消挂载，则 zfs destroy
+命令将失败。要销毁活动文件系统，请使用 -f
+选项。由于此选项可取消挂载、取消共享和销毁活动文件系统，从而导致意外的应用程序行为，因此请谨慎使用此选项。</p>
+<h2 id="重命名文件系统">重命名文件系统</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs rename tank/test2 tank/testrename <span class="comment"># 将文件系统 tank/test2 重命名为 /tankrename</span></span><br></pre></td></tr></table></figure>
+<h2 id="将-zfs-文件系统挂载到-home"><sub></sub>~将 ZFS 文件系统挂载到
+/home<sub></sub>~</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> rsync -avh /home/* /tank/home</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /home</span><br><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> mountpoint=/home tank/home</span><br></pre></td></tr></table></figure>
+<p>使用 zfs-mount-generator 工具</p>
+<blockquote>
+<p>https://manpages.ubuntu.com/manpages/focal/man8/zfs-mount-generator.8.html</p>
+</blockquote>
+<h2 id="迁移用户目录">迁移用户目录</h2>
+<p>用 <code>zfs list</code> 命令可以看到用户目录是在
+<code>rpool/USERDATA</code> 下的：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233650.png" alt="截屏2021-04-02 下午3.19.58">
+<figcaption aria-hidden="true">截屏2021-04-02 下午3.19.58</figcaption>
+</figure>
+<p>我想把他们迁移到 HDD 硬盘的存储池 <code>tank</code>
+里，直接修改挂载点的方法是不行的，新建一个用户后挂载点还会在原来的
+<code>rpool/USERDATA</code> 下，在<a target="_blank" rel="noopener" href="https://github.com/ubuntu/zsys/issues/132">此处</a>找到了方法。</p>
+<ul>
+<li>create your pool2/USERDATA/ with the same dataset name than on the
+first pool</li>
+<li>ensure you have the same properties and <strong>user
+properties</strong> set on that dataset</li>
+<li>do a zfs send/recv between the 2 datasets Then, once ready, remove
+the second dataset.</li>
+<li>If you delete rpool/USERDATA, then the new users will be created
+under secondarypool/USERDATA!</li>
+</ul>
+<ol type="1">
+<li><p>创建快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zfs snapshot -r rpool/USERDATA@now</span><br></pre></td></tr></table></figure></li>
+<li><p>send/recv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zfs send -R rpool/USERDATA@now | <span class="built_in">sudo</span> zfs receive -F tank/USERDATA</span><br></pre></td></tr></table></figure>
+<p>这时可以看到 <code>tank/USERDATA</code> 和
+<code>rpool/USERDATA</code> 的结构是相同的：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233651.png" alt="截屏2021-04-02 下午3.32.16">
+<figcaption aria-hidden="true">截屏2021-04-02 下午3.32.16</figcaption>
+</figure></li>
+<li><p>删除原来的 <code>rpool/USERDATA</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zfs destroy -r -f rpool/USERDATA</span><br></pre></td></tr></table></figure>
+<p>这个时候可以会提示
+<code>umount: /home/fitz: target is busy.</code>，因为我想在就是在这个用户下操作的，所以删不掉这个目录，不过
+<code>rpool/USERDATA/root_*</code> 已经删掉了，因此此时退出当前用户，换
+root 登录，再次执行上面的命令，就可以把 <code>rpool/USERDATA</code>
+全删掉了。</p>
+<p>现在再新建一个用户，可以看到新用户的目录是在
+<code>tank/USERDATA</code> 下的。</p></li>
+</ol>
+<h1 id="快照和克隆">快照和克隆</h1>
+<blockquote>
+<p>https://www.howtoing.com/how-to-use-snapshots-clones-and-replication-in-zfs-on-linux</p>
+<p>https://docs.oracle.com/cd/E26926_01/html/E25826/gbchp.html</p>
+</blockquote>
+<ul>
+<li><p>创建快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs snapshot tank/home/matt@friday</span><br></pre></td></tr></table></figure>
+<p>创建一个 <code>tank/home/matt</code> 的快照，其名称为
+<code>friday</code>。</p>
+<p><code>-r</code> 选项可为所有后代文件系统创建快照。</p></li>
+<li><p>列出快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs list -t snapshot</span><br></pre></td></tr></table></figure></li>
+<li><p>回滚快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs rollback tank/home/matt@tuesday</span><br></pre></td></tr></table></figure>
+<p>将 <code>tank/home/matt</code> 文件系统回滚到 <code>tuesday</code>
+快照</p>
+<p><strong>要回滚到早期快照，必须销毁所有的中间快照。可以通过指定
+<code>-r</code> 选项销毁早期的快照。</strong></p></li>
+<li><p>确定 ZFS 快照的差异 (<code>zfs diff</code>)</p>
+<p>可以使用 <code>zfs diff</code> 命令确定 ZFS 快照的差异。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs diff tank/home/tim@snap1 tank/home/tim@snap2</span><br></pre></td></tr></table></figure></li>
+<li><p>删除快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs destory &lt;-r&gt; &lt;snapshot name&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>删除多个快照 <a target="_blank" rel="noopener" href="https://qastack.cn/server/340837/how-to-delete-all-but-last-n-zfs-snapshots">ref</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs list -t snapshot -o name | grep ^tank@Auto | <span class="built_in">tac</span> | <span class="built_in">tail</span> -n +16 | xargs -n 1 zfs destroy -r </span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>zfs list -t snaphot -o name</code>输出快照列表（仅限<code>zfs list -t snaphot -o name</code></li>
+<li>通过<code>grep ^tank@Auto</code>只保留那些与<code>tank@Auto</code>匹配的文件</li>
+<li>用<code>tac</code>反转列表（先前从最旧到最新）</li>
+<li>将输出限制为第16个最早的结果，并跟随<code>tail -n +16</code></li>
+<li>然后用<code>xargs -n 1 zfs destroy -vr</code></li>
+</ul>
+<p>按照相反的顺序删除快照据说更有效率。</p>
+<p>或按照与创build相反的顺序进行sorting</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs list -t snapshot -o name -S creation | <span class="type">grep</span> ^tank@Auto | <span class="type">tail</span> -n +<span class="number">16</span> | <span class="type">xargs</span> -n <span class="number">1</span> zfs destroy -vr </span><br></pre></td></tr></table></figure>
+<p>使用<code>...|xargs -n 1 echo</code>testing它</p></li>
+</ul>
+<h1 id="自动快照">自动快照</h1>
+<p>https://blog.vgot.net/archives/zfsnap.html</p>
+<p>https://serverfault.com/questions/855895/how-to-set-the-number-of-snapshots-zfs-auto-snapshot-should-retain</p>
+<p>http://knowledgebase.45drives.com/kb/setting-up-zfs-auto-snapshots-in-linux/</p>
+<p>https://www.yafa.moe/post/use-zfs-backup-system/#%E5%AE%9A%E6%9C%9F%E5%A4%87%E4%BB%BD</p>
+<ol type="1">
+<li><p>安装 <a target="_blank" rel="noopener" href="https://github.com/zfsonlinux/zfs-auto-snapshot">zfs-auto-snapshot</a></p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install zfs-auto-snapshot</span><br></pre></td></tr></table></figure></p></li>
+<li><p>默认情况下，它每15分钟为每个数据集创建一个快照，并保存长达1年的快照。但是，您可以通过将
+<code>com.sun:auto-snapshot</code> 数据集属性设置为 <code>false</code>
+来禁用特定数据集的快照：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot=<span class="literal">false</span> tank/tmp</span><br></pre></td></tr></table></figure></li>
+<li><p>您还可以使用 <code>com.sun:auto-snapshot:...</code>
+属性来调整自动快照行为。例如，每天为 <code>tank/backup</code>
+数据集保存快照31天：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot=<span class="literal">true</span> tank/backup</span><br><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot:monthly=<span class="literal">false</span> tank/backup</span><br><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot:weekly=<span class="literal">false</span> tank/backup</span><br><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot:daily=<span class="literal">true</span> tank/backup</span><br><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot:hourly=<span class="literal">false</span> tank/backup</span><br><span class="line"><span class="built_in">sudo</span> zfs <span class="built_in">set</span> com.sun:auto-snapshot:frequent=<span class="literal">false</span> tank/backup</span><br></pre></td></tr></table></figure>
+<p>获取 <code>com.sun:auto-snapshot:...</code> 属性：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zfs get com.sun:auto-snapshot &lt;name&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>默认情况下，脚本保存：</p>
+<ul>
+<li>每15分钟快照一次，保留4个快照</li>
+<li>每小时每小时快照，保留24个快照</li>
+<li>每天的快照，保留31个快照</li>
+<li>每周每周快照，保留7个快照</li>
+<li>每月每月快照，保留12个快照</li>
+</ul></li>
+</ol>
+<h1 id="备份整个系统恢复"><del>备份整个系统&amp;恢复</del></h1>
+<blockquote>
+<p>https://www.thegeekdiary.com/how-to-backup-and-restore-zfs-root-pool-in-solaris-10/</p>
+</blockquote>
+<blockquote>
+<p>Reference:</p>
+<p>https://wiki2.xbits.net:4430/storage:zfs:zfs%E6%89%8B%E5%86%8C#zfs_send_receive</p>
+<p>https://aws.amazon.com/cn/blogs/china/architecture-and-practice-of-shared-storage-system-based-on-zfs-for-eda-scenario/</p>
+</blockquote>
+<h1 id="迁移">迁移</h1>
+<blockquote>
+<p>Ref:
+https://docs.oracle.com/cd/E24847_01/html/819-7065/gbchy.html</p>
+</blockquote>
+<ul>
+<li><p>弹出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zpool <span class="built_in">export</span> tank</span><br></pre></td></tr></table></figure></li>
+<li><p>导入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zpool import <span class="comment"># 查看可导入的 pool，实际上不会执行任何操作</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zpool import &lt;pool_name&gt; <span class="comment"># 导入 pool</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2021/04/02/zfs/" title="ZFS on Ubuntu">https://zhouyuqian.com/2021/04/02/zfs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" <i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/GEEK/" <i class="fa fa-tag"></i> GEEK</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/24/LC-VCO/" rel="prev" title="LC-VCO">
+      <i class="fa fa-chevron-left"></i> LC-VCO
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/02/xrdp/" rel="next" title="xrdp">
+      xrdp <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-zpool"><span class="nav-number">2.</span> <span class="nav-text">创建 zpool</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">其他命令：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.2.</span> <span class="nav-text">数据压缩</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zfs-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">ZFS 文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.1.</span> <span class="nav-text">创建文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%80%E6%AF%81%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.2.</span> <span class="nav-text">销毁文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.3.</span> <span class="nav-text">重命名文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86-zfs-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%8C%82%E8%BD%BD%E5%88%B0-home"><span class="nav-number">3.4.</span> <span class="nav-text">~将 ZFS 文件系统挂载到
+&#x2F;home~</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E7%94%A8%E6%88%B7%E7%9B%AE%E5%BD%95"><span class="nav-number">3.5.</span> <span class="nav-text">迁移用户目录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E7%85%A7%E5%92%8C%E5%85%8B%E9%9A%86"><span class="nav-number">4.</span> <span class="nav-text">快照和克隆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%BF%AB%E7%85%A7"><span class="nav-number">5.</span> <span class="nav-text">自动快照</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%95%B4%E4%B8%AA%E7%B3%BB%E7%BB%9F%E6%81%A2%E5%A4%8D"><span class="nav-number">6.</span> <span class="nav-text">备份整个系统&amp;恢复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB"><span class="nav-number">7.</span> <span class="nav-text">迁移</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LINC (Linear amplification with nonlinear components) 是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：   LINC  LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SCS in LINC PA">
+<meta property="og:url" content="https://zhouyuqian.com/2021/04/03/scs/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="LINC (Linear amplification with nonlinear components) 是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：   LINC  LINC 的基本思想是使用 SCS (signal component separator) 将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194755.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194756.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194757.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194758.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194759.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194800.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194801.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194802.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194803.svg">
+<meta property="article:published_time" content="2021-04-03T05:25:38.000Z">
+<meta property="article:modified_time" content="2021-04-03T05:25:38.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta property="article:tag" content="PA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727194755.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2021/04/03/scs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>SCS in LINC PA | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2021/04/03/scs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SCS in LINC PA
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-03 13:25:38" itemprop="dateCreated datePublished" datetime="2021-04-03T13:25:38+08:00">2021-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PA/" itemprop="url" rel="index"><span itemprop="name">PA</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>LINC (Linear amplification with nonlinear components)
+是一种使用非线性元件进行线性放大的功率放大器系统，可以在获得高线性度的同时获得高效率。其结构如下图所示：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194755.png" alt="LINC">
+<figcaption aria-hidden="true">LINC</figcaption>
+</figure>
+<p>LINC 的基本思想是使用 SCS (signal component separator)
+将相位幅度调制的信号转为两路相位调制信号，然后再通过两个高效率的非线性功率放大器放大，最后通过组合两路信号获得原始信号的放大后的信号。</p>
+<p>在 LINC 系统中，需要使用到
+SCS，其实现可以使用模拟的方案，也可以使用全数字的方案。</p>
+<p>本文记录了全数字 SCS 的实现方法。</p>
+<span id="more"></span>
+<h1 id="基于-cordic-算法的-scs-原理">基于 CORDIC 算法的 SCS 原理</h1>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194756.png" alt="image-20210411155141497">
+<figcaption aria-hidden="true">image-20210411155141497</figcaption>
+</figure>
+<p>基于 CORDIC 算法的 SCS 原理图如上图所示，基带信号 I Q 经过
+<em>CORDIC-V</em> 模块，从笛卡尔转换到极坐标，得到振幅 <span class="math inline">\(A\)</span> 和相位 <span class="math inline">\(\theta\)</span>，振幅 <span class="math inline">\(A\)</span> 经过 <em>DOUBLE CORDIC</em> 模块，进行
+<span class="math inline">\(\rm{cos}^{-1}(A/A_{MAX})\)</span>
+的运算，得到 <span class="math inline">\(\varphi\)</span>，相当于把振幅信号转为相位信号。然后通过两个
+<em>CORDIC-R</em> 模块，分别对 <span class="math inline">\(\theta +
+\varphi\)</span> 和 <span class="math inline">\(\theta -
+\varphi\)</span> 做相位到笛卡尔坐标的转换，得到四路调相信号：<span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span>。</p>
+<p>具体计算过程如下：</p>
+<p>假设基带信号 (baseband signal) 为： <span class="math display">\[
+S_b(t)=S_i(t)+jS_q(t)
+\]</span> 则频带信号 (transmitted signal) 可以表示为： <span class="math display">\[
+S(t)=Re\left\{ (S_i(t)+jS_q(t))e^{j\omega _ct}
+\right\}=A(t)\cos\left(w_{c}t+\theta(t)\right)
+\]</span> <em>DOUBLE CORDIC</em>： <span class="math display">\[
+\phi(t)=\cos^{-1}\left(A(t)/A_{\max}\right)
+\]</span> <em>CORDIC-R</em>： <span class="math display">\[
+S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{2I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)-\phi(t)]
+\]</span></p>
+<p><span class="math display">\[
+S_{2Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)-\phi(t)]
+\]</span></p>
+<p>混频： <span class="math display">\[
+S_1(t)=S_{1I}(t)\rm{cos}(\omega _c t)-S_{1Q}(t)\rm{sin}(\omega _c t)
+\]</span></p>
+<p><span class="math display">\[
+S_2(t)=S_{2I}(t)\rm{cos}(\omega _c t)-S_{2Q}(t)\rm{sin}(\omega _c t)
+\]</span></p>
+<p><span class="math display">\[
+S(t) = S_1(t)+S_2(t)=A(t)\rm{cos}[\omega _c t+\phi(t)]
+\]</span></p>
+<h1 id="scs-的原理图">SCS 的原理图</h1>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194757.png" alt="image-20210411161107543">
+<figcaption aria-hidden="true">image-20210411161107543</figcaption>
+</figure>
+<p>SCS 原理图如上图所示。其中基带 I Q 信号为 64QAM
+信号。为了简化算法实现的复杂度，首先将 I Q 信号变换到第一象限，并记录下
+I Q 信号原本的象限，最后在输出的时候做符号调整就可以了。上图红框中将
+<span class="math inline">\(\varphi -
+\pi/2\)</span>，原因是因为在实际的设计过程中发现 <span class="math inline">\(\theta + \varphi\)</span> 会大于 <span class="math inline">\(\pi /2\)</span>，为了避免溢出而将其减了 <span class="math inline">\(\pi /2\)</span>，因此在进行符号调整之前： <span class="math display">\[
+S_{1I}(t) = 0.5 A_{max} \rm{cos}[\theta(t)+\phi(t) - \pi/2]
+\]</span></p>
+<p><span class="math display">\[
+S_{1Q}(t) = 0.5 A_{max} \rm{sin}[\theta(t)+\phi(t)-\pi/2]
+\]</span></p>
+<h1 id="matlab-行为级仿真">Matlab 行为级仿真</h1>
+<p>在进行 MATLAB
+仿真时，为了让仿真结果和真实结果更加接近，进行了每一步计算过程都进行了浮点转定点数的操作。</p>
+<h2 id="仿真结果">仿真结果</h2>
+<ol type="1">
+<li><p>64QAM 基带信号：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194758.svg" alt="64QAM基带信号">
+<figcaption aria-hidden="true">64QAM基带信号</figcaption>
+</figure></li>
+<li><p>64QAM 频带信号：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194759.svg" alt="QAM信号波形">
+<figcaption aria-hidden="true">QAM信号波形</figcaption>
+</figure></li>
+<li><p>64QAM 星座图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194800.svg" alt="QAM信号星座图">
+<figcaption aria-hidden="true">QAM信号星座图</figcaption>
+</figure></li>
+<li><p>对基带信号进行 SCS 运算得到的 <span class="math inline">\(S_{1I},S_{1Q},S_{2I},S_{2Q}\)</span> 信号：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194801.svg" alt="QAM基带信号信号SCS">
+<figcaption aria-hidden="true">QAM基带信号信号SCS</figcaption>
+</figure></li>
+<li><p>将 SCS 后的基带信号与载波相乘：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194802.svg" alt="QAM信号SCS">
+<figcaption aria-hidden="true">QAM信号SCS</figcaption>
+</figure>
+<p>可以看到两路信号 S1 和 S2 是两路恒包络的调相信号，说明 SCS
+模块实现了将原来的调幅调相信号转为两路恒包络的调相信号。</p></li>
+<li><p>两路信号 S1 和 S2 合成：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727194803.svg" alt="QAM信号SCS合成">
+<figcaption aria-hidden="true">QAM信号SCS合成</figcaption>
+</figure>
+<p>可以看到合成后的信号与原始信号一致，说明在 SCS
+的过程中信号的信息没有丢失。</p></li>
+</ol>
+<h2 id="matlab-代码">Matlab 代码</h2>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% main.m</span></span><br><span class="line">clc</span><br><span class="line">clear all</span><br><span class="line">mkdir image</span><br><span class="line"></span><br><span class="line"><span class="comment">% fixed word length and fraction length bits</span></span><br><span class="line">wl = <span class="number">16</span>;</span><br><span class="line">fl_1 = <span class="number">15</span>;</span><br><span class="line">fl_pi = <span class="number">14</span>;</span><br><span class="line"></span><br><span class="line">M=<span class="number">64</span>;</span><br><span class="line">xmax = <span class="number">8</span>;</span><br><span class="line">ymax = <span class="number">8</span>;</span><br><span class="line">Amax = <span class="built_in">sqrt</span>(xmax^<span class="number">2</span> + ymax^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">msg = <span class="number">0</span>:<span class="number">1</span>:<span class="number">63</span>; <span class="comment">%消息信号</span></span><br><span class="line"><span class="comment">% msg = random_msg([0 M-1], M);</span></span><br><span class="line"></span><br><span class="line">ts = <span class="number">0.01</span>; <span class="comment">%抽样时间间隔</span></span><br><span class="line">T = <span class="number">1</span>; <span class="comment">%符号周期</span></span><br><span class="line">t = <span class="number">0</span>:ts:T; <span class="comment">%符号持续时间向量</span></span><br><span class="line">x = <span class="number">0</span>:ts:<span class="built_in">length</span>(msg); <span class="comment">%所有符号的传输时间</span></span><br><span class="line">fc = <span class="number">1</span>; <span class="comment">%载波频率</span></span><br><span class="line">c = <span class="built_in">sqrt</span>(<span class="number">2</span>/T)*<span class="built_in">exp</span>(<span class="number">1</span><span class="built_in">j</span>*<span class="number">2</span>*<span class="built_in">pi</span>*fc*t); <span class="comment">%载波信号</span></span><br><span class="line">msg_qam = qammod(msg,M).&#x27;; <span class="comment">%基带8-QAM调制</span></span><br><span class="line">tx_i_qam = <span class="built_in">real</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_q_qam = <span class="built_in">imag</span>(msg_qam*c); <span class="comment">%载波调制</span></span><br><span class="line">tx_i_qam= <span class="built_in">reshape</span>(tx_i_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line">tx_q_qam= <span class="built_in">reshape</span>(tx_q_qam.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(msg)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="comment">% plot(x,tx_i_qam(1:length(x)),x,tx_q_qam(1:length(x)));</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,tx_i_qam(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号波形&#x27;</span>]) </span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;载波振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号波形.svg&#x27;</span>);</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">real</span>(msg_qam),<span class="number">1</span>:<span class="built_in">length</span>(msg_qam),<span class="built_in">imag</span>(msg_qam))</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;基带振幅&quot;</span>);</span><br><span class="line">tit = [num2str(M) <span class="string">&#x27;QAM基带信号&#x27;</span>];</span><br><span class="line">title(tit); </span><br><span class="line">saveas(gcf, [<span class="string">&#x27;image/&#x27;</span> tit], <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"><span class="comment">% figure(2);</span></span><br><span class="line"><span class="comment">% scatterplot(msg_qam)</span></span><br><span class="line"><span class="comment">% title([num2str(M) &#x27;QAM信号星座图&#x27;])</span></span><br><span class="line"><span class="comment">% xlabel(&quot;同相分量&quot;);ylabel(&quot;正交分量&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-V Cartesian to Polar</span></span><br><span class="line"><span class="comment">% 将 QAM 信号变换到第一象限，并记录下符号</span></span><br><span class="line">[msg_qam_tarns, msg_qam_symbol] = transform(msg_qam);</span><br><span class="line">x_qam = <span class="built_in">real</span>(msg_qam_tarns);</span><br><span class="line">y_qam = <span class="built_in">imag</span>(msg_qam_tarns);</span><br><span class="line"><span class="comment">% Construct signed fixed-point numeric object</span></span><br><span class="line"><span class="comment">% 将 x y 归一化到 [0, 1]</span></span><br><span class="line">x_fixed = sfi(x_qam/xmax, wl, fl_1);</span><br><span class="line">y_fixed = sfi(y_qam/ymax, wl, fl_1);</span><br><span class="line"><span class="comment">% Theta (0, pi/2), r (0, sqrt(2))</span></span><br><span class="line">[Theta,r] = cordiccart2pol(x_fixed, y_fixed);</span><br><span class="line"><span class="comment">% % 将 r 归一化到 (0, 1)</span></span><br><span class="line">r_fixed = sfi(r/<span class="built_in">sqrt</span>(<span class="number">2</span>), wl, fl_1);</span><br><span class="line">Theta_fixed = sfi(Theta, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% DOUBLE CORDIC</span></span><br><span class="line"><span class="comment">% r_fixed (0, 1), Varphi [0, pi/2]</span></span><br><span class="line">Varphi = cordicacos(r_fixed);</span><br><span class="line">Varphi_fixed = sfi(Varphi, wl, fl_pi); <span class="comment">% fixed</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% CORDIC-R Phase to Cartesian</span></span><br><span class="line">Phase_S1 = Theta_fixed + Varphi_fixed - <span class="built_in">pi</span>/<span class="number">2</span>; <span class="comment">% 将 Phase_S1 限制在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S2 = Theta_fixed - Varphi_fixed; <span class="comment">% Phase_S2 在 (-pi/2, pi/2)</span></span><br><span class="line">Phase_S1_fixed = sfi(Phase_S1, wl, fl_pi);</span><br><span class="line">Phase_S2_fixed = sfi(Phase_S2, wl, fl_pi);</span><br><span class="line"></span><br><span class="line">S1_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S1_fixed);</span><br><span class="line">S1_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S1_fixed);</span><br><span class="line">S2_I_tmp = <span class="number">0.5</span>*Amax*cordiccos(Phase_S2_fixed);</span><br><span class="line">S2_Q_tmp = <span class="number">0.5</span>*Amax*cordicsin(Phase_S2_fixed);</span><br><span class="line"></span><br><span class="line"># Signal Adjusment</span><br><span class="line">[S1_I, S1_Q, S2_I ,S2_Q] = Signal_Adjusment_quad(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, msg_qam_symbol);</span><br><span class="line"></span><br><span class="line">tt = <span class="number">1</span>:<span class="number">1</span>:<span class="number">64</span>;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">3</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, tt,S1_I, tt,S1_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S_&#123;1I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;1Q&#125;&#x27;</span>)</span><br><span class="line">title(ax1, <span class="string">&quot;QAM基带信号信号SCS S1&quot;</span>)</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, tt,S2_I, tt,S2_Q);</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S_&#123;2I&#125;&#x27;</span>, <span class="string">&#x27;S_&#123;2Q&#125;&#x27;</span>)</span><br><span class="line">title(ax2, <span class="string">&quot;QAM基带信号信号SCS S2&quot;</span>)</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM基带信号信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 调制</span></span><br><span class="line">S1 = <span class="built_in">real</span>(((S1_I+<span class="number">1</span><span class="built_in">j</span>*S1_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S2 = <span class="built_in">real</span>(((S2_I+<span class="number">1</span><span class="built_in">j</span>*S2_Q)&#x27;)*c); <span class="comment">%载波调制</span></span><br><span class="line">S1= <span class="built_in">reshape</span>(S1.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S1_I)*<span class="built_in">length</span>(t));</span><br><span class="line">S2= <span class="built_in">reshape</span>(S2.&#x27;,<span class="number">1</span>,<span class="built_in">length</span>(S2_I)*<span class="built_in">length</span>(t));</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">4</span>);</span><br><span class="line">tiledlayout(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">ax1 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax1, x,S1(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax1, <span class="string">&#x27;S1&#x27;</span>)</span><br><span class="line">title(ax1, [num2str(M) <span class="string">&#x27;QAM信号SCS S1&#x27;</span>]);</span><br><span class="line">xlabel(ax1, <span class="string">&quot;时间t&quot;</span>);ylabel(ax1, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">ax2 = nexttile;</span><br><span class="line"><span class="built_in">plot</span>(ax2, x,S2(<span class="number">1</span>:<span class="built_in">length</span>(x)))</span><br><span class="line"><span class="built_in">legend</span>(ax2, <span class="string">&#x27;S2&#x27;</span>)</span><br><span class="line">title(ax2, [num2str(M) <span class="string">&#x27;QAM信号SCS S2&#x27;</span>]);</span><br><span class="line">xlabel(ax2, <span class="string">&quot;时间t&quot;</span>);ylabel(ax2, <span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line">S = S1 + S2;</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">5</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,S(<span class="number">1</span>:<span class="built_in">length</span>(x)));</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号SCS合成&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;时间t&quot;</span>);ylabel(<span class="string">&quot;振幅&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号SCS合成&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 星座图</span></span><br><span class="line"><span class="comment">% figure(6)</span></span><br><span class="line">scatterplot(msg_qam);</span><br><span class="line">title([num2str(M) <span class="string">&#x27;QAM信号星座图&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;同相分量&quot;</span>);ylabel(<span class="string">&quot;正交分量&quot;</span>);</span><br><span class="line">saveas(gcf, <span class="string">&#x27;image/QAM信号星座图&#x27;</span>, <span class="string">&#x27;svg&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% random_msg.m</span></span><br><span class="line"><span class="comment">% 生成随机序列</span></span><br><span class="line"><span class="comment">% </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">msg</span> = <span class="title">random_msg</span><span class="params">(range, lenght)</span></span></span><br><span class="line">    <span class="comment">% 首先，初始化随机数生成器，以使本示例中的结果具备可重复性。</span></span><br><span class="line">    rng(<span class="number">0</span>,<span class="string">&#x27;twister&#x27;</span>);</span><br><span class="line">    <span class="comment">% 创建一个 M 个随机值的向量。使用 rand 函数从开区间 (0,M-1) 抽取均匀分布的值。</span></span><br><span class="line">    a = range(<span class="number">1</span>);</span><br><span class="line">    b = range(<span class="number">2</span>);</span><br><span class="line">    r = (b-a).*<span class="built_in">rand</span>(<span class="number">1</span>,lenght) + a;</span><br><span class="line">    msg = <span class="built_in">round</span>(r);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% Signal_Adjusment_quad.m</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[S1_I, S1_Q, S2_I ,S2_Q]</span> = <span class="title">Signal_Adjusment_quad</span><span class="params">(S1_I_tmp, S1_Q_tmp, S2_I_tmp, S2_Q_tmp, symbol)</span></span></span><br><span class="line">    len = <span class="built_in">length</span>(S1_I_tmp);</span><br><span class="line">    S1_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S1_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_I = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    S2_Q = <span class="built_in">zeros</span>(<span class="number">1</span>, len);</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">1</span>:len</span><br><span class="line">        <span class="keyword">if</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第一象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">1</span>]</span><br><span class="line">            <span class="comment">% 第二象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">elseif</span> symbol(<span class="built_in">i</span>,:) == [<span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">            <span class="comment">% 第三象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">% 第四象限</span></span><br><span class="line">            S1_I(<span class="built_in">i</span>) = S2_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S1_Q(<span class="built_in">i</span>) = -S2_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_I(<span class="built_in">i</span>) = -S1_Q_tmp(<span class="built_in">i</span>);</span><br><span class="line">            S2_Q(<span class="built_in">i</span>) = -S1_I_tmp(<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h1 id="reference">Reference</h1>
+<p>[1] CORDIC-Based Multi-Gb:s Digital Outphasing Modulator for Highly
+Efficient Millimeter-Wave Transmitters</p>
+<p>[2] A Sub-mW All-Digital Signal Component Separator With Branch
+Mismatch Compensation for OFDM LINC Transmitters</p>
+<p>[3] A Low Power All-Digital Signal Component Separator for Uneven
+Multi-Level LINC Systems</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2021/04/03/scs/" title="SCS in LINC PA">https://zhouyuqian.com/2021/04/03/scs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+              <a href="/tags/PA/" <i class="fa fa-tag"></i> PA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/02/xrdp/" rel="prev" title="xrdp">
+      <i class="fa fa-chevron-left"></i> xrdp
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/25/varactor/" rel="next" title="VCO 中变容二极管的 C-V 曲线仿真">
+      VCO 中变容二极管的 C-V 曲线仿真 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-cordic-%E7%AE%97%E6%B3%95%E7%9A%84-scs-%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">基于 CORDIC 算法的 SCS 原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scs-%E7%9A%84%E5%8E%9F%E7%90%86%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">SCS 的原理图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#matlab-%E8%A1%8C%E4%B8%BA%E7%BA%A7%E4%BB%BF%E7%9C%9F"><span class="nav-number">3.</span> <span class="nav-text">Matlab 行为级仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C"><span class="nav-number">3.1.</span> <span class="nav-text">仿真结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matlab-%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.</span> <span class="nav-text">Matlab 代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

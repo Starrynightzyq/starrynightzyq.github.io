@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="学习 ZYNQ Linux 移植">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xilinx-Petalinux-Learning">
+<meta property="og:url" content="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="学习 ZYNQ Linux 移植">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233602.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233603.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233604.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233605.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233606.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727233607.png">
+<meta property="article:published_time" content="2019-02-12T09:31:45.000Z">
+<meta property="article:modified_time" content="2020-03-12T07:22:31.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="ZYNQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727233602.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Xilinx-Petalinux-Learning | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Xilinx-Petalinux-Learning
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-12 17:31:45" itemprop="dateCreated datePublished" datetime="2019-02-12T17:31:45+08:00">2019-02-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-12 15:22:31" itemprop="dateModified" datetime="2020-03-12T15:22:31+08:00">2020-03-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FPGA/" itemprop="url" rel="index"><span itemprop="name">FPGA</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">学习 ZYNQ Linux 移植</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一开发环境搭建与petalinux安装">一、开发环境搭建与Petalinux安装</h1>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/vacajk/p/6146146.html">参考</a></p>
+<p>开发环境VMware，<strong><em>Ubuntu16.04</em></strong>（目前Petalinux不支持Ubuntu18.04，坑）。</p>
+<h2 id="step1-安装vmware新建ubuntu虚拟机">step1
+安装VMware，新建Ubuntu虚拟机；</h2>
+<p>这里安装完成后最好配置一下共享文件夹，方便后期使用。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gzdaijie/p/5194033.html">参考</a></p>
+<h3 id="安装samba">1.1 安装samba</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install samba</span><br></pre></td></tr></table></figure>
+<h3 id="创建共享目录">1.2 创建共享目录</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 创建的目录即之后能够在Windows主机上直接访问的目录。</span><br><span class="line">// 例如：在用户zyq的主目录下新建share文件夹为共享目录</span><br><span class="line">mkdir /home/zyq/smbshare</span><br><span class="line">// 由于Windows下的文件夹需可读可写可执行，需更改权限为777</span><br><span class="line">sudo chmod 777 /home/zyq/smbshare</span><br></pre></td></tr></table></figure>
+<h3 id="修改samba配置文件">1.3 修改samba配置文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 修改 /etc/samba/smb.conf</span><br><span class="line">sudo vim /etc/samba/smb.conf</span><br><span class="line">// 在smb.conf文件最后加上以下内容</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[share]</span><br><span class="line">path = /home/zyq/smbshare</span><br><span class="line">public = yes</span><br><span class="line">writable = yes</span><br><span class="line">valid users = zyq</span><br><span class="line">create mask = 0644</span><br><span class="line">force create mode = 0644</span><br><span class="line">directory mask = 0755</span><br><span class="line">force directory mode = 0755</span><br><span class="line">available = yes</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="关于smb.conf的几点解释">关于smb.conf的几点解释：</h4>
+<ol type="1">
+<li><p>[share]表示共享文件夹的别名，之后将直接使用这个别名</p></li>
+<li><p><code>force create mode</code> 与
+<code>force directory mode</code>的设置是因为Windows下与Linux下文件和文件夹的默认权限不同造成的，Windows下新建的文件是可执行的，必须强制设定其文件权限。</p></li>
+<li><p>valid users
+设置为你当前的Linux用户名，例如我的是zyq，因为第一次打开共享文件夹时，需要验证权限。</p></li>
+</ol>
+</blockquote>
+<h3 id="设置登录密码">1.4 设置登录密码</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 新建/etc/samba/smbpasswd文件</span><br><span class="line">sudo touch /etc/samba/smbpasswd</span><br><span class="line">// 根据2.3设置的valid users，设置用户密码</span><br><span class="line">// zyq 替换为你在2.3中设置的用户名</span><br><span class="line">sudo smbpasswd -a zyq</span><br><span class="line">// 输入两次密码后，会提示 Added user zyq. 表示设置成功</span><br><span class="line">// 若用户名非当前登录系统的用户名，可能会提示Failed</span><br></pre></td></tr></table></figure>
+<h3 id="启动samba服务器">1.5 启动samba服务器</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/samba restart</span><br></pre></td></tr></table></figure>
+<h3 id="测试是否共享成功">1.6 测试是否共享成功</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install smbclient </span><br><span class="line">smbclient -L localhost/share</span><br><span class="line">//还记得吗？share为2.3中设置的共享文件夹的别名</span><br><span class="line">//如果共享成功，将要求输入之前设置的密码</span><br></pre></td></tr></table></figure>
+<h3 id="在windows上测试">1.7 在windows上测试</h3>
+<p>打开windows文件管理器，输入\Linux ip地址或主机名</p>
+<h2 id="step2-ubuntu换源">step2 Ubuntu换源</h2>
+<p>这里更换的是清华的源。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">备份原来的sourcelist</span></span><br><span class="line">mv /etc/apt/sources.list /etc/apt/sources.list.bakup</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新建sourcelist并填入源</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/</span></span><br><span class="line">sudo vim /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+<p>保存并退出，运行apt-get update</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
+<h2 id="step3-安装petalinux需要的依赖库">step3
+安装Petalinux需要的依赖库</h2>
+<p>参考ug1144，需要安装一些库。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233602.png" alt="1549966129865">
+<figcaption aria-hidden="true">1549966129865</figcaption>
+</figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233603.png" alt="1549966192025">
+<figcaption aria-hidden="true">1549966192025</figcaption>
+</figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apt-get install tofrodos:i386</span><br><span class="line">apt-get install iproute2:i386</span><br><span class="line">apt-get install gawk:i386</span><br><span class="line">apt-get install gcc:i386</span><br><span class="line">apt-get install git-core:i386</span><br><span class="line">apt-get install make:i386</span><br><span class="line">apt-get install net-tools:i386</span><br><span class="line">apt-get install libncurses5-dev:i386</span><br><span class="line">apt-get install zlib1g-dev:i386</span><br><span class="line">apt-get install libssl-dev:i386</span><br><span class="line">apt-get install flex:i386</span><br><span class="line">apt-get install bison:i386</span><br><span class="line">apt-get install libselinux1:i386</span><br></pre></td></tr></table></figure>
+<p>然后是一些可能会导致不能正常安装petalinux，或是编译时出现问题的依赖库。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在运行petalinux-config -c kernel出现错误，需要提前安装下面两个库</span></span><br><span class="line">apt-get install libncurses5 libncurses5-dev</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">编译时会出现错误arm-xilinx-linux-gnueabi-gcc: Command not found，需要安装下面三个库</span></span><br><span class="line">apt-get install libc6:i386</span><br><span class="line">apt-get install libstdc++6:i386</span><br><span class="line">apt-get install zlib1g:i386</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">安装petalinux时出现错误，提示缺少zlib和openssl，需要安装下面一个库</span></span><br><span class="line">apt-get install libssl-dev</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">安装petalinux时出现警告，提示No tftp server found - please refer to <span class="string">&quot;PetaLinux SDK Installation Guide&quot;</span> <span class="keyword">for</span> its impact and solution，需要安装下面3个库</span></span><br><span class="line">apt-get install tftpd tftp openbsd-inetd</span><br><span class="line">gedit /etc/inetd.conf</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在文件中增加以下内容</span></span><br><span class="line">tftp dgram udp wait nobody /usr/sbin/tcpd /usr/sbin/in.tftpd /tftproot</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">保存并退出</span></span><br><span class="line">mkdir /tftproot</span><br><span class="line">chmod 777 /tftproot</span><br><span class="line">/etc/init.d/openbsd-inetd restart</span><br><span class="line">netstat -an | more | grep udp</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">看到有如下输出，即表示tftp安装成功</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">udp        0      0 0.0.0.0:69              0.0.0.0:*</span></span><br></pre></td></tr></table></figure>
+<h2 id="step4.-安装petalinux">step4. 安装petalinux</h2>
+<p>首先在用个用户目录下创建petalinux文件夹作为petalinux的安装目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/zyq/smbshare/petalinux</span><br></pre></td></tr></table></figure>
+<p>然后安装petalinux</p>
+<blockquote>
+<p>一定要使用普通用户权限安装，不能sudo</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./petalinux-v2018.2-final-installer-dec.run /home/zyq/smbshare/petalinux</span><br></pre></td></tr></table></figure>
+<p>如果权限不够，可用 <code>chmod 777</code> 提权。</p>
+<p>安装过程中有3个许可，需要都同意。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233604.png" alt="1549975464135">
+<figcaption aria-hidden="true">1549975464135</figcaption>
+</figure>
+<p>每次开机使用petalinux时，要在命令行输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">source /home/zyq/smbshare/petalinux/settings.sh</span><br><span class="line">echo $PETALINUX</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">会看到打印信息</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">/home/zyq/smbshare/petalinux/</span></span><br></pre></td></tr></table></figure>
+<p>可以将 <code>source /home/zyq/smbshare/petalinux/settings.sh</code>
+加入 <code>.bashrc</code> 就不用每次开机都输入上述命令了。</p>
+<h1 id="二-建立petalinux工程">二、 建立PetaLinux工程</h1>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/vacajk/p/6148857.html">参考</a></p>
+<h2 id="step1-硬件描述文件">step1 硬件描述文件</h2>
+<p>有两种PetaLinux工程建立的方法，一种是下载官方开发板的BSP包并安装，一种就是针对自己的硬件平台去剪裁Linux功能以适应自己的需求。</p>
+<p>这里我们使用第二种方法。</p>
+<p>使用vivado建立一个zynq工程，需要分配一些外设资源，参考ug1144。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233605.png" alt="1549976437075">
+<figcaption aria-hidden="true">1549976437075</figcaption>
+</figure>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233606.png" alt="1549976463868">
+<figcaption aria-hidden="true">1549976463868</figcaption>
+</figure>
+<p>生成bitstream文件，导入到SDK。</p>
+<p>输出的文件都在"<code>/&lt;vivado project&gt;/&lt;project name&gt;.sdk/&lt;top module name&gt;_hw_platform_0</code>"文件夹下。</p>
+<p>后面使用只需要将"<code>&lt;top module name&gt;_hw_platform_0”文件夹中”system_wapper.hdf</code>"文件复制到Linux就行了。</p>
+<h2 id="step2-创建petalinux工程">step2 创建Petalinux工程</h2>
+<p>首先，创建一个PetaLinux工程目录。执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建工程，针对Zynq芯片，工程名称 h1_petalinux</span></span><br><span class="line">petalinux-create --type project --template zynq --name h1_petalinux</span><br></pre></td></tr></table></figure>
+<p>接着，将 .hdf 文件复制到 h1_petalinux
+文件夹下，然后我们来引用刚才输出的硬件描述文件。执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">petalinux-config --get-hw-description = /home/zyq/smbshare/proj/h1_petalinux</span><br></pre></td></tr></table></figure>
+<p>注意 ”=“ 后面是hdf文件的路径，不是文件本身。</p>
+<p>因为是空工程，我们会进入一个配置界面。在里面我们可以配置一些系统参数，主要的配置包括：启动方式，启动存储器分区表，启动文件名称等等。</p>
+<p>这里我们先使用默认配置，直接按两次esc保存退出。</p>
+<p>config需要的时间较长，耐心等待。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727233607.png" alt="1549979677117">
+<figcaption aria-hidden="true">1549979677117</figcaption>
+</figure>
+<p>如果config报错，可能是工程目录权限不够，执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">提示工程文件夹和petalinux的安装文件夹权限</span></span><br><span class="line">chmod 777 ../h1_petalinux</span><br><span class="line">chmod 777 petalinux</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">否则编译的时候，会发生错误</span></span><br></pre></td></tr></table></figure>
+<h2 id="step3-内核配置">step3 内核配置</h2>
+<p>我把USB配置一下，让系统能够识别出U盘，并进行读写操作。以后可能用到USB摄像头，就顺便把这个功能也打开吧。参考网址：http://www.wiki.xilinx.com/Zynq+Linux+USB+Device+Driver</p>
+<p>配置kernel，执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">petalinux-config -c kernel</span><br></pre></td></tr></table></figure>
+<p>打开了kernel的配置界面，</p>
+<p>USB的配置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Device Drivers</span><br><span class="line">USB support</span><br><span class="line">    &lt;*&gt; Support for Host-side USB</span><br><span class="line">    &lt;*&gt; EHCI HCD (USB 2.0) support</span><br><span class="line">    &lt;*&gt; USB Mass Storage support</span><br><span class="line">    &lt;*&gt; ChipIdea Highspeed Dual Role Controller</span><br><span class="line">    &lt;*&gt; ChipIdea host controller</span><br><span class="line">        USB Physical Layer drivers ---&gt;</span><br><span class="line">        &lt;*&gt; Generic ULPI Transceiver Driver</span><br></pre></td></tr></table></figure>
+<p>上面都是按照主机模式来配置的。</p>
+<p>其实除了“NOP USB Transceiver
+Driver”是默认没有打开，剩下都是默认打开的。</p>
+<p>USB摄像头配置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`#Device Drivers ---&gt;``#    Multimedia Support ---&gt;``#        Media USB Adapter ---&gt;``#            &lt;*&gt;USB Video Class (UVC) (also UVC Input Event Support) #打开``#    USB Support ---&gt;``#        &lt; &gt;USB 2.0 OTG FSM Implementation #关闭`</span><br></pre></td></tr></table></figure>
+<p>配置完成后，ESC并保存。</p>
+<h2 id="step3-u-boot配置">step3 u-boot配置</h2>
+<p>shell中输入<code>petalinux-config -c u-boot</code>，然后等待GUI出来，这里暂时不改动啥，直接save（save为u-boot.config，名字随便取但不要留空），然后继续等（新建工程要等的时间还是比较长的，后来就会好的）。</p>
+<h2 id="step4-编译rootfs">step4 编译rootfs</h2>
+<p>命令<code>petalinux-config -c rootfs</code>，操作同上（save为默认即可）。</p>
+<h2 id="step5-设备树配置">step5 <strong>设备树配置</strong></h2>
+<p>若要修改，直接在工程文件夹下，Ctr+F搜索<code>.dts</code>就可以找到相关文件，做出相应修改暂时默认吧，不修改，按照它自动生成的设备树。</p>
+<h2 id="step6-编译工程">step6 编译工程</h2>
+<p>输入命令<code>petalinux-build</code>，等待即可，最后生成的文件在
+<strong>image/linux</strong>下。</p>
+<h2 id="step7-生成boot.bin">step7 生成BOOT.BIN</h2>
+<p>把shell定位到image/linux目录下，执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">petalinux-package --boot --format BIN --fsbl zynq_fsbl.elf --fpga system.bit --u-boot</span><br></pre></td></tr></table></figure>
+<p>在文件夹下就可以发现，多了一个BOOT.BIN</p>
+<h2 id="step8-将文件拷入sd卡">step8 将文件拷入SD卡</h2>
+<p>首先需要将SD卡分区，<a target="_blank" rel="noopener" href="https://blog.csdn.net/lulugay/article/details/83240981">参考</a>。</p>
+<p>打开文件夹{工程目录/images/linux/}，将 BOOT.BIN,
+image.ub拷贝到BOOT分区：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp BOOT.BIN image.ub /media/zyq/BOOT</span><br></pre></td></tr></table></figure>
+<p>将 rootfs.cpio 拷贝到rootfs分区：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp rootfs.cpio /media/zyq/rootfs</span><br></pre></td></tr></table></figure>
+<h2 id="step9-开机">step9 <strong>开机</strong></h2>
+<p>将SD卡，插回，开机。</p>
+<p>开机时登录的用户名和密码都是<code>root</code>。</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/" title="Xilinx-Petalinux-Learning">https://zhouyuqian.com/2019/02/12/Xilinx-Petalinux-Learning/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ZYNQ/" <i class="fa fa-tag"></i> ZYNQ</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/01/11/Matlab%E5%BA%94%E7%94%A8%E5%AE%9E%E8%B7%B5/" rel="prev" title="Matlab应用实践">
+      <i class="fa fa-chevron-left"></i> Matlab应用实践
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/02/12/Linux-Learning/" rel="next" title="Linux-Learning">
+      Linux-Learning <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8Epetalinux%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">一、开发环境搭建与Petalinux安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step1-%E5%AE%89%E8%A3%85vmware%E6%96%B0%E5%BB%BAubuntu%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">step1
+安装VMware，新建Ubuntu虚拟机；</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85samba"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 安装samba</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%85%B1%E4%BA%AB%E7%9B%AE%E5%BD%95"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 创建共享目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9samba%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 修改samba配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Esmb.conf%E7%9A%84%E5%87%A0%E7%82%B9%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">关于smb.conf的几点解释：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%99%BB%E5%BD%95%E5%AF%86%E7%A0%81"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 设置登录密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8samba%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 启动samba服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%98%AF%E5%90%A6%E5%85%B1%E4%BA%AB%E6%88%90%E5%8A%9F"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 测试是否共享成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8windows%E4%B8%8A%E6%B5%8B%E8%AF%95"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.7 在windows上测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step2-ubuntu%E6%8D%A2%E6%BA%90"><span class="nav-number">1.2.</span> <span class="nav-text">step2 Ubuntu换源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step3-%E5%AE%89%E8%A3%85petalinux%E9%9C%80%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="nav-number">1.3.</span> <span class="nav-text">step3
+安装Petalinux需要的依赖库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step4.-%E5%AE%89%E8%A3%85petalinux"><span class="nav-number">1.4.</span> <span class="nav-text">step4. 安装petalinux</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C-%E5%BB%BA%E7%AB%8Bpetalinux%E5%B7%A5%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">二、 建立PetaLinux工程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step1-%E7%A1%AC%E4%BB%B6%E6%8F%8F%E8%BF%B0%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">step1 硬件描述文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step2-%E5%88%9B%E5%BB%BApetalinux%E5%B7%A5%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">step2 创建Petalinux工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step3-%E5%86%85%E6%A0%B8%E9%85%8D%E7%BD%AE"><span class="nav-number">2.3.</span> <span class="nav-text">step3 内核配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step3-u-boot%E9%85%8D%E7%BD%AE"><span class="nav-number">2.4.</span> <span class="nav-text">step3 u-boot配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step4-%E7%BC%96%E8%AF%91rootfs"><span class="nav-number">2.5.</span> <span class="nav-text">step4 编译rootfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step5-%E8%AE%BE%E5%A4%87%E6%A0%91%E9%85%8D%E7%BD%AE"><span class="nav-number">2.6.</span> <span class="nav-text">step5 设备树配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step6-%E7%BC%96%E8%AF%91%E5%B7%A5%E7%A8%8B"><span class="nav-number">2.7.</span> <span class="nav-text">step6 编译工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step7-%E7%94%9F%E6%88%90boot.bin"><span class="nav-number">2.8.</span> <span class="nav-text">step7 生成BOOT.BIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step8-%E5%B0%86%E6%96%87%E4%BB%B6%E6%8B%B7%E5%85%A5sd%E5%8D%A1"><span class="nav-number">2.9.</span> <span class="nav-text">step8 将文件拷入SD卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step9-%E5%BC%80%E6%9C%BA"><span class="nav-number">2.10.</span> <span class="nav-text">step9 开机</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

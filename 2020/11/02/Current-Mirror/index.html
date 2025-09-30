@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在模拟电路中，电流源的设计是基于对基准电流的“复制”，其前提是存在一个精确的电流源可以利用。这里讨论电流复制的过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电流镜-1">
+<meta property="og:url" content="https://zhouyuqian.com/2020/11/02/Current-Mirror/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="在模拟电路中，电流源的设计是基于对基准电流的“复制”，其前提是存在一个精确的电流源可以利用。这里讨论电流复制的过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727174902.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727174920.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727174937.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727174957.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175012.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175030.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175346.jpg">
+<meta property="article:published_time" content="2020-11-02T13:26:09.000Z">
+<meta property="article:modified_time" content="2020-11-08T11:13:38.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta property="article:tag" content="CM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727174902.svg">
+
+<link rel="canonical" href="https://zhouyuqian.com/2020/11/02/Current-Mirror/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>电流镜-1 | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/11/02/Current-Mirror/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          电流镜-1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-02 21:26:09" itemprop="dateCreated datePublished" datetime="2020-11-02T21:26:09+08:00">2020-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-08 19:13:38" itemprop="dateModified" datetime="2020-11-08T19:13:38+08:00">2020-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Analog/" itemprop="url" rel="index"><span itemprop="name">Analog</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在模拟电路中，电流源的设计是基于对基准电流的“复制”，其前提是存在一个<strong>精确</strong>的电流源可以利用。这里讨论电流复制的过程。</p>
+<span id="more"></span>
+<h1 id="一基本电流镜">一、基本电流镜</h1>
+<p>两个都工作在饱和区且具有相同栅源电压 (<span class="math inline">\(V_{GS}\)</span>) 的相同 MOS 管传输相同的电流
+(忽略沟道长度调制，即 <span class="math inline">\(\lambda =
+0\)</span>)。</p>
+<center>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727174902.svg"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图1.1 基本电流镜
+</div>
+</center>
+<p>基本电流镜结构如图1.1所示，当 M1、M2 都工作在饱和区时，根据公式：
+<span class="math display">\[
+I_{D} = \frac{1}{2} \mu _n C_{ox} \frac{W}{L} (V_{GS} - V_{TH}) ^2 (1 +
+\lambda V_{DS})
+\]</span> 忽略沟道长度调制，流过两个 MOS 管的电流分别是： <span class="math display">\[
+I_{REF} = \frac{1}{2} \mu _n C_{ox} (\frac{W}{L})_1 (V_{GS} - V_{TH}) ^2
+\\
+I_{out} = \frac{1}{2} \mu _n C_{ox} (\frac{W}{L})_2 (V_{GS} - V_{TH}) ^2
+\]</span> 得出： <span class="math display">\[
+I_{out} = \frac{(W/L)_1}{(W/L)_2} I_{REF}
+\]</span>
+<strong>特性</strong>：可以精确地复制电流而不受工艺和温度的影响。</p>
+<p>电流镜中所有的晶体管都采用<strong>相同的栅长</strong>，及减小由于<strong>源漏区边缘扩散</strong>
+(<code>$I_D$</code>) 所产生的误差。因为 <code>$L_&#123;drawn&#125;$</code>
+加倍，但有效沟道长度 <code>$L_&#123;eff&#125; = L_&#123;drawn&#125; - 2L_D$</code>
+并未加倍。<strong>因此电流值之比只能通过调节晶体管的宽度来实现。</strong></p>
+<h1 id="二共源共栅电流镜-cascode-current-mirror">二、共源共栅电流镜
+(Cascode Current Mirror)</h1>
+<p>在基本电流镜的讨论部分，忽略了沟道长度调制，实际当使用最小长度的晶体管以便通过减小宽度来减小电流源的输出电容时，沟道长度调制会使镜像电流产生较大误差。</p>
+<p>当考虑沟道长度调制后，基本电流镜的公式为： <span class="math display">\[
+\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_1}{(W/L)_2} \frac{1 + \lambda
+V_{DS2}}{1 + \lambda V_{DS1}}
+\]</span> 为了抑制沟道长度调制的影响，可以使用共源共栅电流源。</p>
+<h2 id="cascade-效应">Cascade 效应</h2>
+<center>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727174920.svg"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图2.1 cascode 效应
+</div>
+</center>
+<p>如图2.1(a)所示，在 NMOS 管的源级串联一个电阻，计算其输出电阻 <span class="math inline">\(r_o\)</span>：</p>
+<p>其小信号等效电路如图2.1(b)所示，在交流信号中，<span class="math inline">\(V_g = 0\)</span>，则 <span class="math display">\[
+\Delta V_y = \Delta I_x R = - \Delta V_{gs} \\
+\Delta I_x = g_m \Delta V_{gs} + (\Delta V_x - \Delta V_y)/r_{ds} = -g_m
+\Delta V_y + (\Delta V_x - \Delta V_y)/r_{ds} = \frac{\Delta V_y}{R}
+\]</span> —&gt; <span class="math display">\[
+r_o = \frac{\Delta V_x}{\Delta I_x} = \frac{\Delta V_x}{\Delta V_y / R}
+= R \frac{\Delta V_x}{\Delta V_y} = R + r_{ds} + g_m r_{ds} R
+\]</span> 其中 <span class="math inline">\(g_m r_{ds} = \frac{g_m}{g_d}
+&gt;&gt; 1\)</span>，相当于输出阻抗增加了 <span class="math inline">\((1+g_m r_{ds})R\)</span>，由此可以看出 Cascode
+结构可以使输出阻抗增大很多。</p>
+<blockquote>
+<p>ps:</p>
+<p>Cascode 为垂直级联，与之相对应的是 Cascade 水平级联</p>
+</blockquote>
+<h2 id="基本电路">基本电路</h2>
+<center>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727174937.svg"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图2.2 共源共栅电流源
+</div>
+</center>
+<p><strong>共源共栅电流镜</strong>如上图2.2所示，可知： <span class="math display">\[
+V_{GS0} + V_X = V_{GS3} + V_Y
+\]</span> 为了抑制沟道长度调制的影响，需要保持
+<code>$V_&#123;DS1&#125; = V_&#123;DS2&#125;$</code>，即 <code>$V_X = V_Y$</code>，如果：
+<span class="math display">\[
+\frac{(W/L)_3}{(W/L)_0} = \frac{(W/L)_2}{(W/L)_1}
+\]</span> 则
+<code>$V_&#123;GS0&#125; = V_&#123;GS3&#125;$</code>，<code>$V_X = V_Y$</code>。</p>
+<blockquote>
+<ol type="1">
+<li><span class="math inline">\(L_1 = L_2\)</span>，<span class="math inline">\(L_3\)</span> 不需要等于 <span class="math inline">\(L_1\)</span> 和 <span class="math inline">\(L_2\)</span>；</li>
+<li>即使 <span class="math inline">\(M_0\)</span> 和 <span class="math inline">\(M_3\)</span> 存在衬偏效应，该结果任然成立；</li>
+</ol>
+</blockquote>
+<p>该结构的电路虽然有很高的输出阻抗和精确的值，但却消耗了很大的电压余度。</p>
+<p>假设所有的晶体管相同且忽略衬偏效应，为了保证所有晶体管工作在饱和状态，仅看
+M2、M3 时，P 点需要的最小电压 (M2 与 M3 的过驱动电压之和) 为 <span class="math inline">\(2(V_{GS} - V_{TH})\)</span>，而由于 Y 点的电压与 X
+点的电压相同，被钳制在 <span class="math inline">\(V_{GS}\)</span>，由此
+P 点允许的最小电压为： <span class="math display">\[
+\begin{split}
+V_N - V_{TH} = {} &amp; V_{GS0} + V_{GS1} - V_{TH} \\
+= {} &amp; (V_{GS0} - V_{TH}) + (V_{GS1} - V_{TH}) + V_{TH}
+\end{split}
+\]</span> 相当于两个过驱动电压加上一个阈值电压。一般 <span class="math inline">\(V_{TH} \approx 0.6 \sim 0.7 V\)</span>，从而限制了
+P 点电压的摆幅，导致该结构的 Cascode
+电流镜仅适用于高电压工作，不适合低压工作。</p>
+<h2 id="低电压共源共栅结构">低电压共源共栅结构</h2>
+<p>为了降低 X 点的电压，直接将 M1 的漏端接到 X 点，而为了保证 M2 和 M1
+同时工作在饱和区，由此需要对 M2 单独做偏置。</p>
+<center>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727174957.svg"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图2.3 低压共源共栅电流源
+</div>
+</center>
+<p>图2.3电路中，所有晶体管都处在饱和区且选择了合适的尺寸以保证
+<code>$V_&#123;GS2&#125; = V_&#123;GS4&#125;$</code>。如果
+<code>$V_b = V_&#123;GS2&#125; + (V_&#123;GS1&#125; - V_&#123;TH1&#125;) = V_&#123;GS4&#125; + (V_&#123;GS3&#125; - V_&#123;TH3&#125;)$</code>，则当
+M1 与和 M3 保持相等的漏源电压时，共源共栅电流源 M3-M4
+消耗的电压余度最小，且可以精确地镜像
+<code>$I_&#123;REF&#125;$</code>，其称为“低电压共源共栅结构”。</p>
+<center>
+<img style="zoom:67%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727175012.svg"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图2.4 单独偏置的低压共源共栅电流源
+</div>
+</center>
+<p><span class="math inline">\(V_b\)</span>
+点的偏置可以用图2.4的结构来实现。M2 与 M4 通过 M5 提供的电压进行偏置。
+<span class="math display">\[
+V_1 = V_{gs} \\
+V_2 = V_{gs} + \Delta
+\]</span> —&gt; <span class="math display">\[
+\Delta _5 = 2 \Delta
+\]</span> 由于： <span class="math display">\[
+I_5 = \frac{1}{2} k&#39; (\frac{W}{L})_5 \Delta ^2 _5
+\]</span> —&gt; <span class="math display">\[
+(\frac{W}{L})_5 = \frac{1}{4}(\frac{W}{L})_2
+\]</span> 由此该结构的 Cadcode 电流镜 P 点允许的最小电压可以做到 <span class="math inline">\(2\Delta\)</span>。但由于 M5 的加入增加了功耗。</p>
+<h2 id="cadence-仿真">Cadence 仿真</h2>
+<h3 id="cascode-结构">Cascode 结构</h3>
+<center>
+<img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727175030.png"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图2.5 共源共栅电流源结构
+</div>
+</center>
+<center>
+<img style="zoom:100%; border-radius: 0.3125em; margin: auto;" src="https://pic.zhouyuqian.com/img/20210727175346.jpg"> <br>
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+图2.5 共源共栅电流源DC仿真结果
+</div>
+</center>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2020/11/02/Current-Mirror/" title="电流镜-1">https://zhouyuqian.com/2020/11/02/Current-Mirror/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+              <a href="/tags/CM/" <i class="fa fa-tag"></i> CM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/23/PLL-3/" rel="prev" title="高性能射频毫米波频率源三种主要解决方案">
+      <i class="fa fa-chevron-left"></i> 高性能射频毫米波频率源三种主要解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/07/single-stage-amplify/" rel="next" title="单级放大器">
+      单级放大器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E5%9F%BA%E6%9C%AC%E7%94%B5%E6%B5%81%E9%95%9C"><span class="nav-number">1.</span> <span class="nav-text">一、基本电流镜</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%85%B1%E6%BA%90%E5%85%B1%E6%A0%85%E7%94%B5%E6%B5%81%E9%95%9C-cascode-current-mirror"><span class="nav-number">2.</span> <span class="nav-text">二、共源共栅电流镜
+(Cascode Current Mirror)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cascade-%E6%95%88%E5%BA%94"><span class="nav-number">2.1.</span> <span class="nav-text">Cascade 效应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%B5%E8%B7%AF"><span class="nav-number">2.2.</span> <span class="nav-text">基本电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8E%E7%94%B5%E5%8E%8B%E5%85%B1%E6%BA%90%E5%85%B1%E6%A0%85%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">低电压共源共栅结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cadence-%E4%BB%BF%E7%9C%9F"><span class="nav-number">2.4.</span> <span class="nav-text">Cadence 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cascode-%E7%BB%93%E6%9E%84"><span class="nav-number">2.4.1.</span> <span class="nav-text">Cascode 结构</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前一篇文章 PLL(Phase-locked loop, 锁相环) 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器">
+<meta property="og:url" content="https://zhouyuqian.com/2020/10/13/PLL-2/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="前一篇文章 PLL(Phase-locked loop, 锁相环) 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz 电流泵锁相环型小数频率综合器的实现原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193424.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193454.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193527.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193548.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193620.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193632.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193649.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193707.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193723.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193742.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193753.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193817.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193847.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/10/13/PLL-2/小数频率综合器系统结构.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193930.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193943.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727193957.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194013.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194023.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194040.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194101.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194114.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727194127.png">
+<meta property="article:published_time" content="2020-10-13T08:21:57.000Z">
+<meta property="article:modified_time" content="2020-10-24T01:43:18.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta property="article:tag" content="PLL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727193424.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2020/10/13/PLL-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器 | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/10/13/PLL-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-13 16:21:57" itemprop="dateCreated datePublished" datetime="2020-10-13T16:21:57+08:00">2020-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-24 09:43:18" itemprop="dateModified" datetime="2020-10-24T09:43:18+08:00">2020-10-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PLL/" itemprop="url" rel="index"><span itemprop="name">PLL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前一篇文章 <a href="https://zhouyuqian.com/2020/09/11/PLL/">PLL(Phase-locked loop,
+锁相环)</a> 介绍了 PLL(锁相环) 的基本原理，这篇文章介绍一个 0.4~8GHz
+电流泵锁相环型小数频率综合器的实现原理。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193424.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
+<span id="more"></span>
+<blockquote>
+<p>Reference: <a target="_blank" rel="noopener" href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CMFD&amp;dbname=CMFD201801&amp;filename=1017116544.nh&amp;v=grmqatzl4t6TEe1aXvu9C473CDx8comY%25mmd2BdcIonuXqHPUF4bV%25mmd2FqpS36DKm%25mmd2BC1Vdyt">多模CMOS频率综合器关键模块设计及其整体优化-孙天慧-东南大学</a></p>
+</blockquote>
+<h1 id="频率综合器概述">频率综合器概述</h1>
+<h2 id="频率综合器分类">频率综合器分类</h2>
+<ul>
+<li><p>直接模拟频率综合器 (<strong>DAS</strong>, Direct Analog
+Synthesizer)</p>
+<p>原理：DAS
+基于一个或多个高稳定度的参考源，通过倍频、分频及混频等方式直接产生多个目标频率信号。</p>
+<p><strong>优点</strong>：较好的相位噪声和频率稳定度；频率切换速度快；</p>
+<p><strong>缺点</strong>：结构复杂、成本高、调试难度大；输出杂散大且难以抑制；</p>
+<p>应用：小规模地应用于雷达信号产生。</p></li>
+<li><p>直接数字频率综合器 (<strong>DDS</strong>, Direct Digital
+Synthesizer)</p>
+<p>原理：DDS
+从相位的概念出发，采用数字采样存储技术，通过数模转换器将存储在片上存储器中的波形输出。</p>
+<p><strong>缺点</strong>：DDS
+本质上是一个采样系统，其输出信号频率不能超过采样频率的一半。</p>
+<p>应用：DDS 多用于低频系统中，难以满足射频系统的需求。</p></li>
+<li><p>锁相环频率综合器 (<strong>PLL-FS</strong>, Phase-Locked Loop
+Frequency Synthesizer)</p>
+<p>原理：间接频率综合器，利用相位反馈原理产生稳定的输出频率。通过闭环跟踪特性将压控振荡器
+VCO 产生的频率锁定在某一频率上。</p>
+<p>优点：PLL-FS
+作为一个误差控制系统，能够实现很好的输出频率控制，同时具有较好的频率纯净度和频率稳定度。</p>
+<p>应用：在现代通信系统中广泛应用。</p></li>
+<li><p>延迟锁相环频率综合器 (<strong>DLL-FS</strong>, Delay-Locked Loop
+Frequency Synthesizer)</p>
+<p>原理：同 PLL-FS，主要实现时钟同步。</p></li>
+</ul>
+<h2 id="多模-cmos-锁相环频率综合器分类">多模 CMOS
+锁相环频率综合器分类</h2>
+<ul>
+<li><p>多个模拟锁相环组合</p>
+<p>功耗大、面积大；</p></li>
+<li><p>全数字锁相环</p>
+<p>很宽的频率覆盖范围、较小的带外相位噪声、较小的尺寸；</p>
+<p>需要利用复杂的技术来抑制量化噪声；</p></li>
+<li><p>电荷泵锁相环小数频率综合器</p></li>
+</ul>
+<h1 id="小数频率综合器的基本原理">小数频率综合器的基本原理</h1>
+<h2 id="基本模块">基本模块</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193454.png" alt="电荷泵锁相环型小数频率综合器基本结构" style="zoom:30%; margin: auto;"></p>
+<p>如上图所示，一个典型的电荷泵锁相环型小数频率综合器包括鉴频鉴相器
+(Phase Frequency Detector, PFD)、电荷泵 (Charge Pump, CP)、环路滤波器
+(Loop Filter, LF)、压控振荡器 (Voltage Controlled Oscillator,
+VCO)、可编程整数分频器、<span class="math inline">\(\Delta-\Sigma\)</span> 调制器 (Delta-Sigma
+Modulator, DSM) 和自动频率校准单元 (Auto-Frequency Calibration,
+AFC)。</p>
+<h3 id="鉴频鉴相器和电荷泵">鉴频鉴相器和电荷泵</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193527.png" alt="理想 PFD:CP 工作波形" style="zoom:35%; margin: auto;"></p>
+<p>理想 PFD/CP 工作波形如上图所示。鉴频鉴相器 (PFD) 用以检测参考时钟
+<span class="math inline">\(f_{ref}\)</span> 和分频器输出 <span class="math inline">\(f_{div}\)</span>
+的频率差或者相位差，并输出与之形成正比的脉冲信号 UP 和 DN。电荷泵 (CP)
+将 UP 和 DN
+间的脉宽差值转换为电流脉冲，对环路滤波器进行充放电，产生压控振荡器的控制信号。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193548.png" alt="边沿触发的 PFD:CP 结构图" style="zoom:35%; margin: auto;"></p>
+<p>上图为边沿触发的 PFD/CP 结构图，包括两个带复位端的 D
+触发器、一个两输入的与门和连接电荷泵开关的缓冲逻辑单元。由于电荷泵的开关分别采用了
+PMOS 管和 NMOS 管，逻辑相反，所以需要在缓冲逻辑单元中对 UP
+信号反向。为了使 UP 和 DN 信号到达 CP
+开关的延迟保持一致，在缓冲单元中的传输门应尽量与非门保持相同的传输延迟。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193620.png" alt="PFD:CP 传输特性曲线" style="zoom:35%; margin: auto;"></p>
+<p>PFD/CP 传输特性曲线如上图所示，在环路锁定的过程中，PFD/CP
+可分为三个工作状态：鉴频鉴 (相位差<span class="math inline">\(&gt;2\pi\)</span>)、鉴相 (相位差<span class="math inline">\(&lt;2\pi\)</span>)、锁定相位 (相位差<span class="math inline">\(=0\)</span>)。当 PFD
+的两个输入信号相位差绝对值大于 <span class="math inline">\(2\pi\)</span>
+时，PFD 工作在鉴频状态，输出极性不再随相位变化。当相位差绝对值不超过
+<span class="math inline">\(2\pi\)</span> 时，PFD
+工作在鉴相状态，即环路进入锁定过程。此时，PFD/CP 的输出信号 UP 与 DN
+之间脉宽差值 <span class="math inline">\(\Delta t\)</span>
+与两个输入信号的相位差 <span class="math inline">\(\Delta
+\varphi\)</span> 成正比，即： <span class="math display">\[
+\Delta t = \frac{\Delta \varphi}{2\pi} \cdot T_{ref}
+\]</span></p>
+<p>则 PDF/CP 在一个周期内产生是平均静电流为： <span class="math display">\[
+\overline{I_{out}} = \frac{I_{CP}\cdot\Delta t}{T_{ref}} =
+\frac{I_{CP}}{2\pi}\cdot \Delta \varphi
+\]</span> 则在相位域 PFD/CP 的增益为： <span class="math display">\[
+K_{PFDCP} = \frac{\overline{I_{out}}}{\Delta \varphi} =
+\frac{I_{CP}}{2\pi}
+\]</span> 可得到 PFD/CP 的线性相位在 s 域的模型如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193632.png" alt="PFD:CP 的线性相位在 s 域模型" style="zoom:35%; margin: auto;"></p>
+<h3 id="环路滤波器">环路滤波器</h3>
+<p>环路滤波器为低通滤波器，其作用是将 CP 输出的电流转换为 VCO
+的控制电压，并滤除其高频分量，同时环路滤波器也可以抑制 <span class="math inline">\(\Delta-\Sigma\)</span>
+调制器中的带外噪声。在环路滤波器的带宽小于参考时钟频率的 <span class="math inline">\(1/10\)</span> 时，整个环路在 s
+域可近似为线性系统。</p>
+<p>常见的环路滤波器可分为有源滤波器和无源滤波器。有源滤波器功耗大，并会产生有源噪声，因此在锁相环系统中通常会使用无源环路滤波器。一阶无源环路滤波器的电压纹波较大，实际应用中通常使用二阶和三阶无源环路滤波器。其结构如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193649.png" alt="常用无源环路滤波器" style="zoom:45%; margin: auto;"></p>
+<p>上图二阶无源环路滤波器的传递函数为： <span class="math display">\[
+Z_{LF2}(s) = \frac{V_c}{I_{cp}} = \frac{1+sR_1C_1}{s(sR_1C_1C_2 + C_1 +
+C_2)}
+\]</span> 可知该无源二阶环路滤波器有一个零点和两个极点。 <span class="math display">\[
+Z_{LF3} = \frac{1}{s}\frac{1+sR_1C_1}{R_1R_3C_1C_2C_3s^2 +
+[R_1C_1(C_1+C_3)+R_3C_3(C_1+C_2)]s + (C_1+C_2+C_3)}
+\]</span> 可知该三阶无源环路滤波器有一个零点和三个极点。</p>
+<p>环路滤波器的线性相位 s 域模型如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193707.png" alt="环路滤波器的线性相位 s 域模型" style="zoom:25%; margin: auto;"></p>
+<h3 id="压控振荡器">压控振荡器</h3>
+<p>VCO 的输出频率随输入控制电压单调变化，理想 VCO 的输入输出关系为：
+<span class="math display">\[
+\omega _{out}(t) = \omega _0 + K_{VCO} \cdot v_c(t)
+\]</span> 根据相位和频率在时域中的积分关系，可得 VCO 的输出相位为：
+<span class="math display">\[
+\varphi _{out}(t) = \int \omega _{out} (t) \mathrm{dt} = K_{VCO} \int
+v_c(t) \mathrm{dt} + \omega _0 t + \varphi _0
+\]</span> 由于 $_0 t $ 和 $ _0$ 都不受锁相环控制，这里只关心受电压 <span class="math inline">\(v_c\)</span> 控制的剩余相位： <span class="math display">\[
+\varphi _{res}(t) = K_{VCO} \int v_c(t) \mathrm{dt}
+\]</span> 则 VCO 在 s 域的传递函数为： <span class="math display">\[
+\frac{\varphi _{res}}{v_c} (s) = \frac{K_{VCO}}{s}
+\]</span> VCO 的线性相位 s 域模型如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193723.png" alt="VCO 的线性相位 s 域模型" style="zoom:30%; margin: auto;"></p>
+<h3 id="可编程整数分频器">可编程整数分频器</h3>
+<p>可编程整数分频器位于锁相环的反馈回路中，将 VCO
+输出的振荡信号进行分频后，输出给 PFD
+与参考时钟比较，而形成环路。可编程整数分频器工作在整个 PLL
+的<strong>最高频率</strong>处。常用的电路结构有：基于双模预分频的 P/S
+计数器结构和 2/3 分频器链结构。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193742.png" alt="基于双模预分频器的 P:S 计数器结构" style="zoom:40%; margin: auto;"></p>
+<p>基于双模预分频器的 P/S
+计数器结构如上图所示，这种结构的分频器总分频比为： <span class="math display">\[
+M = (N+1)\cdot S + N\cdot (P-S) = N\cdot P + S
+\]</span>
+<img src="https://pic.zhouyuqian.com/img/20210727193753.png" alt="基于 2:3 分频器链的结构" style="zoom:50%; margin: auto;"></p>
+<p>基于 2/3
+分频器链的结构如上图所示，这种分频器只要第一级工作在最高频率，后级工资频率逐渐降低，可以降低电路功耗；整个链路中不存在长延时回路，所有反馈路径只存在于相邻的两个单元之间，可靠性好；链路中的每一级都由相同的模块组成，电路的可复用性好。</p>
+<p>n 级 2/3 分频器链的总分频比为： <span class="math display">\[
+M = 2^n + 2^{n-1} \cdot P_{n-1} + 2^{n-2} \cdot P_{n-2} + \dots + 2
+\cdot P_{0}
+\]</span> n 级 2/2 分频器链的分频比范围为 <span class="math inline">\(2^n \sim
+2^{n+1}-1\)</span>，此外可以通过组合逻辑电路拓展分频比范围。</p>
+<p>可编程整数分频器的线性相位 s 域模型如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193817.png" alt="可编程整数分频器的线性相位 s 域模型" style="zoom:25%; margin: auto;"></p>
+<h3 id="delta---sigma-调制器"><span class="math inline">\(\Delta -
+\Sigma\)</span> 调制器</h3>
+<p>小数频率综合器中的小数分频器是通过“动态分频比”来实现的，在环路锁定时两个输入信号仍存在相位差。<span class="math inline">\(\Delta - \Sigma\)</span>
+调制器可以将瞬时分频比随机化，在实现小数分频的同时，进行量化噪声的整形。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193847.png" alt="Delta-Sigma 调制器的工作原理示意图" style="zoom:45%; margin: auto;"></p>
+<p><span class="math inline">\(\Delta - \Sigma\)</span>
+调制器的工作原理如上图所示，小数分频器的分频比分为整数部分 <span class="math inline">\(N\)</span> 和小数部分 <span class="math inline">\(a\)</span>，小数部分通过 <span class="math inline">\(\Delta - \Sigma\)</span>
+调制器进行量化后，与整数部分相加，得到瞬时分频比。<span class="math inline">\(\Delta - \Sigma\)</span>
+调制器将带内噪声推向带外，实现噪声整形，而带外的量化噪声可以通过环路滤波器进行抑制，从而改善小数频率综合器的输出相位噪声。</p>
+<p><span class="math inline">\(\Delta - \Sigma\)</span>
+调制器对环路的线性相位 s 域模型没有影响，但会引入量化噪声。</p>
+<h3 id="自动频率校准单元">自动频率校准单元</h3>
+<p>在目标频率发生变化后，环路断开 AFC 开始工作，搜索到目标自频率后，AFC
+停止工作且接通环路。因此 AFC 对环路的线性相位 s 域模型没有影响。</p>
+<h2 id="环路线性化模型和传递函数">环路线性化模型和传递函数</h2>
+<p>根据上面对电荷泵锁相环中每个模块的分析，可得其在 s
+域的线性化模型为：</p>
+<p>根据上图可得锁相环系统的开环传递函数为： <span class="math display">\[
+H_{OL}(s) = \frac{I_{CP}\cdot K_{VCO}}{2\pi \cdot N \cdot s} \cdot
+Z_{LF}(s)
+\]</span> 则其闭环传递函数为： <span class="math display">\[
+H_{CL}(s) = \frac{H_{OL}/\frac{1}{N}}{1+H_{OL}} = \frac{N \cdot
+H_{OL}}{1+H_{OL}}
+\]</span> 因此闭环传递函数 <span class="math inline">\(H_{CL}(s)\)</span> 呈低通特性。</p>
+<h2 id="混合型-fir-噪声滤除计数">混合型 FIR 噪声滤除计数</h2>
+<h1 id="电路设计">电路设计</h1>
+<h2 id="系统结构设计">系统结构设计</h2>
+<p><img src="/2020/10/13/PLL-2/小数频率综合器系统结构.png" alt="小数频率综合器系统结构" style="zoom:40%; margin: auto;"></p>
+<p>小数频率综合器系统结构如上图所示，主要包括鉴频鉴相器 (PFD)、电荷泵
+(CP)、环路滤波器 (LF)、压控振荡器 (VCO)、可编程整数分频器、<span class="math inline">\(\Delta - \Sigma\)</span> 调制器 (DSM)
+和自动频率校准单元 (AFC)，同时采用混合型 FIR 滤波器来抑制 <span class="math inline">\(\Delta - \Sigma\)</span> 调制器的量化噪声。</p>
+<h2 id="小数分频器电路">小数分频器电路</h2>
+<p>由于 VCO
+的输出端直接送到小数分频器的输入端，因此小数分频器工作在整个环路的最高频率处。因此小数分频器的高频部分采用全定制电路实现，而低频模块则采用半定制电路实现。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193930.png" alt="小数分频器结构" style="zoom:40%; margin: auto;"></p>
+<p>小数分频器的结构如上图所示，主要由高速二分频器、可编程整数分频器和
+<span class="math inline">\(\Delta - \Sigma\)</span>
+调制器组成，其中可编程整数分频器包括四分频器和 2/3 分频器链。</p>
+<h3 id="高速二分频器">高速二分频器</h3>
+<p>高速二分频器的作用是对 VCO
+输出的频率进行二分频，从而产生<strong>四项正交的本振信号</strong>。</p>
+<blockquote>
+<p>PS: I/Q 正交调制</p>
+<p>假设载波为 cos(a)，信号为 cos(b)，传统调制方式直接用载波和信号相乘：
+<span class="math display">\[
+cos(a)*cos(b) = \frac{1}{2} [cos(a+b) + cos(a-b)]
+\]</span> 这样就在载波 a
+的作用下产生了两个信号，然而实际中只需要一个信号，则需要通过滤波器滤除掉另一个信号，但实际上滤波器是不理想的，很难完全滤掉另外一个。</p>
+<p>在实际应用中只希望得到单一的 a+b 或者 a-b 即可，将三角函数展开：
+<span class="math display">\[
+cos(a-b) = cos(a)cos(b) + sin(a)sin(b)
+\]</span> 在 I/Q 正交调制中，Q 路可以产生于 I 路相位相差 <span class="math inline">\(\pi /2\)</span> 的信号，就相当于 Q 路为
+sin(a)，因此可以通过 I/Q 正交调制得到单一中心频率的信号： <span class="math display">\[
+cos(a)cos(b) + sin(a)sin(b) = cos(a-b)
+\]</span></p>
+</blockquote>
+<p>常用的高速分频器主要有<strong>可再生分频器</strong> (Regenerative
+Frequency Divider, RFD)、<strong>注入锁定分频器</strong> (Injection-Look
+Frequency Divider, ILFD) 和<strong>源级耦合逻辑</strong> (Source Coupled
+Logic, SCL) 触发器构成的分频器。</p>
+<p>可再生分频器和注入锁定分频器都属于模拟分频器，可以达到很高的工作频率。然而可再生分频器在低频下会产生高次谐波分量，注入式分频器的工作频率比较窄。SLC
+触发器构成的分频器属于数字分频器，其工作频率高、工作范围大、灵敏度高、可输出理想的正交信号。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193943.png" alt="触发器构成的二分频器" style="zoom:25%; margin: auto;"></p>
+<p>如上图所示，将触发器的反相输出端 Qn 和数据输入端 D
+相连就可以构成一个二分频器。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727193957.png" alt="SCL 锁存器构成的高速二分频器" style="zoom:50%; margin: auto;"></p>
+<p>如上图所示，SCL 触发器实际上是由两个 SCL 结构的锁存器级联而成的。</p>
+<h3 id="缓冲电路">缓冲电路</h3>
+<p>由于高速二分频器直接输出的信号幅度较小，且驱动力不足，直接与后级相连将无法正常工作，因此需要在高速二分频器和后级电路之间加上缓冲电路。对于缓冲电路的要求有：输入电容小、隔离度高以及驱动能力强，这样的缓冲电路不会影响前级电路的正常工作，还可以为后级电路提供较大摆幅的输出信号。</p>
+<p>射频电路中常用的缓存电路有三种：<strong>反相器</strong>、<strong>源级跟随器</strong>和<strong>共源放大器</strong>。</p>
+<p>反相器结构的缓冲电路输出摆幅较大，但其输入阻抗大，会给前级带来很大的负载（<strong>？</strong>），且反相器结构的缓冲电路工作频率较低。</p>
+<p>源级跟随器结构的缓冲电路有输入阻抗大、输出阻抗小的特点，可以轻易实现阻抗变化。但其输出摆幅相较于输入信号，会有一个阈值电压的下降。</p>
+<p>共源放大器结构的缓冲电路其偏置电流可调、工作频率高、反向隔离度好、并且可以抑制共模电流。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194013.png" alt="共源放大器结构的缓冲电路结构" style="zoom:35%; margin: auto;"></p>
+<p>共源放大器结构的缓冲电路结构如上图所示，单端输出信号峰峰值 <span class="math inline">\(V_{PP}\)</span> 为 <span class="math inline">\(I_{SS} \cdot R_{D}\)</span>。</p>
+<h3 id="四分频器">四分频器</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194023.png" alt="触发器构成的四分频器" style="zoom:40%; margin: auto;"></p>
+<p>与高速二分频器的结构类似，两个完全相同的触发器就可以构成一个四分频器，其结构如上图所示。由于其工作频率范围为
+<span class="math inline">\(0.5 \sim 4.0GHz\)</span>，因此仍使用 SCL
+结构的触发器电路结构来实现。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194040.png" alt="四分频器的缓冲电路结构" style="zoom:35%; margin: auto;"></p>
+<p>四分频器的缓冲电路结构如上图所示，四分频器的缓冲电路不仅要起到隔离和驱动的作用，还要实现模拟信号和数字逻辑信号的转换，因此缓冲电路分三级：</p>
+<ul>
+<li>第一级是双转单输出型的共源差分放大器，将差分输入信号转化为单端输出信号，并做一定的放大；</li>
+<li>第二级是<strong>带电阻反馈的反相器</strong>，将信号放大至全摆幅，其中的电阻反馈可以稳定输出，并将输出信号的直流工作点固定在翻转阈值附件；</li>
+<li>第三级是驱动后级数字电路的反相器，为后级电路提供更大的驱动能力。</li>
+</ul>
+<h3 id="分频器">2/3 分频器</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194101.png" alt="2/3 分频器链路结构" style="zoom:45%; margin: auto;"></p>
+<p>2/3 分频器链路结构如上图所示，n 级 2/3 分频器链路的分频比范围为 <span class="math inline">\(2^n \sim
+2^{n+1}-1\)</span>，采用逻辑组合电路可以进一步将分频比拓展至 <span class="math inline">\(2^k \sim 2^{n+1}-1\)</span>，因此采用 5 级 2/3
+分频器链路，可以实现 <span class="math inline">\(4 \sim 63\)</span>
+分频比范围。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194114.png" alt="2:3 分频器结构" style="zoom:40%; margin: auto;"></p>
+<p>每一级的 2/3
+分频器结构如上图所示，有四个锁存器和三个与门构成。其包含两部分，上半部分是预分频逻辑
+(Prescaler Logic)，下半部分是周期终止逻辑 (End-of-Cycle
+Logic)。周期终止逻辑根据分频比控制输入端 P 和模式输入端 <span class="math inline">\(\mathrm{mod}_\mathrm{in}\)</span>
+来决定预分频逻辑的分频比。其分频比关系如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">输入控制端</th>
+<th style="text-align: center;">分频比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">P &amp; <span class="math inline">\(\mathrm{mod}_\mathrm{in}\)</span> = 0</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td style="text-align: center;">P &amp; <span class="math inline">\(\mathrm{mod}_\mathrm{in}\)</span> = 1</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+<p>2/3 分频器链路的最高工作频率为 1GHz，可以采用真单相时钟 (True Single
+Phase Clocked, TSPC) 逻辑结构来实现，TSPC
+逻辑有着结构简单、功耗小，并且只需要单相输入时钟的优点。TSPC 结构实现的
+2/3 分频器电路结构如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727194127.png" alt="TSPC 结构的 2:3 分频器" style="zoom:40%; margin: auto;"></p>
+<h3 id="delta-sigma-调制器"><span class="math inline">\(\Delta-\Sigma\)</span> 调制器</h3>
+<h2 id="afc">AFC</h2>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2020/10/13/PLL-2/" title="PLL(2)-0.4~8GHz电流泵锁相环型小数频率综合器">https://zhouyuqian.com/2020/10/13/PLL-2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+              <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/06/odd-divider/" rel="prev" title="FPGA 实现任意奇数分频">
+      <i class="fa fa-chevron-left"></i> FPGA 实现任意奇数分频
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/23/PLL-3/" rel="next" title="高性能射频毫米波频率源三种主要解决方案">
+      高性能射频毫米波频率源三种主要解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">频率综合器概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">频率综合器分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1-cmos-%E9%94%81%E7%9B%B8%E7%8E%AF%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E5%88%86%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">多模 CMOS
+锁相环频率综合器分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E6%95%B0%E9%A2%91%E7%8E%87%E7%BB%BC%E5%90%88%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">小数频率综合器的基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%9D%97"><span class="nav-number">2.1.</span> <span class="nav-text">基本模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%89%B4%E9%A2%91%E9%89%B4%E7%9B%B8%E5%99%A8%E5%92%8C%E7%94%B5%E8%8D%B7%E6%B3%B5"><span class="nav-number">2.1.1.</span> <span class="nav-text">鉴频鉴相器和电荷泵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E8%B7%AF%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">环路滤波器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E6%8E%A7%E6%8C%AF%E8%8D%A1%E5%99%A8"><span class="nav-number">2.1.3.</span> <span class="nav-text">压控振荡器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%95%B4%E6%95%B0%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">可编程整数分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delta---sigma-%E8%B0%83%E5%88%B6%E5%99%A8"><span class="nav-number">2.1.5.</span> <span class="nav-text">\(\Delta -
+\Sigma\) 调制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E9%A2%91%E7%8E%87%E6%A0%A1%E5%87%86%E5%8D%95%E5%85%83"><span class="nav-number">2.1.6.</span> <span class="nav-text">自动频率校准单元</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E8%B7%AF%E7%BA%BF%E6%80%A7%E5%8C%96%E6%A8%A1%E5%9E%8B%E5%92%8C%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">环路线性化模型和传递函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%9E%8B-fir-%E5%99%AA%E5%A3%B0%E6%BB%A4%E9%99%A4%E8%AE%A1%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">混合型 FIR 噪声滤除计数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">电路设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.1.</span> <span class="nav-text">系统结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E6%95%B0%E5%88%86%E9%A2%91%E5%99%A8%E7%94%B5%E8%B7%AF"><span class="nav-number">3.2.</span> <span class="nav-text">小数分频器电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%80%9F%E4%BA%8C%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text">高速二分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E7%94%B5%E8%B7%AF"><span class="nav-number">3.2.2.</span> <span class="nav-text">缓冲电路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">3.2.3.</span> <span class="nav-text">四分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">3.2.4.</span> <span class="nav-text">2&#x2F;3 分频器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delta-sigma-%E8%B0%83%E5%88%B6%E5%99%A8"><span class="nav-number">3.2.5.</span> <span class="nav-text">\(\Delta-\Sigma\) 调制器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#afc"><span class="nav-number">3.3.</span> <span class="nav-text">AFC</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

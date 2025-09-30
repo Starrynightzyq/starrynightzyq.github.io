@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 \(1&#x2F;10\), 因此整数分频锁相环的带宽受分辨率的限制只能很窄。 目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：欠采样整数型锁相环和分数型锁相环。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Delta-Sigma Modulator">
+<meta property="og:url" content="https://zhouyuqian.com/2020/11/26/DSM/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的 \(1&#x2F;10\), 因此整数分频锁相环的带宽受分辨率的限制只能很窄。 目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：欠采样整数型锁相环和分数型锁相环。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180002.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180015.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180030.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180041.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180054.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180112.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180127.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180140.png">
+<meta property="og:image" content="https://zhouyuqian.com/2020/11/26/DSM/截屏2020-11-26%20下午9.23.56.png">
+<meta property="article:published_time" content="2020-11-26T06:45:52.000Z">
+<meta property="article:modified_time" content="2020-11-26T06:45:52.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727180002.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2020/11/26/DSM/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Delta-Sigma Modulator | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/11/26/DSM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Delta-Sigma Modulator
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-26 14:45:52" itemprop="dateCreated datePublished" datetime="2020-11-26T14:45:52+08:00">2020-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Delta-Sigma/" itemprop="url" rel="index"><span itemprop="name">Delta-Sigma</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>整数分频锁相环中，生成频率的最小分辨率为参考频率，为了提高分辨率就要降低参考时钟的频率；而锁相环的带宽通常要小于参考频率的
+<span class="math inline">\(1/10\)</span>,
+因此整数分频锁相环的带宽受分辨率的限制只能很窄。</p>
+<p>目前主流的有两种方案解决整数分频锁相环中分辨率和带宽矛盾的问题：<strong>欠采样整数型锁相环</strong>和<strong>分数型锁相环</strong>。</p>
+<span id="more"></span>
+<h1 id="分数型锁相环">分数型锁相环</h1>
+<p>整数分频锁相环中的分频器只能进行整数分频，而分数型锁相环载气基础上加入了<strong>差分积分调制器
+(delta-sigma modulator,
+DSM)</strong>，控制分频比在不同参考时钟周期采用不同的整数值，这样其“<strong>平均</strong>”分频比就是一个非整数值。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180002.png" alt="image-20201126163214994" style="zoom:50%;"></p>
+<p>分数型锁相环的结构如上图所示，其中 DSM
+的作用是产生具有指定平均值的一系列整数值。</p>
+<h1 id="差分积分调制器原理">差分积分调制器原理</h1>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180015.png" alt="image-20201126163436341" style="zoom:50%;"></p>
+<p>差分积分调制器的工作原理如上图所示，其中 <span class="math inline">\(N.f\)</span> 表示需要的分数分频比。DSM
+的输入为分频比中的小数部分 <span class="math inline">\(.f\)</span>，输出为一位数字输出，DSM 输出一系列的
+0 或 1，其平均值为 <span class="math inline">\(.f\)</span>。</p>
+<h1 id="差分积分调制器噪声整形">差分积分调制器噪声整形</h1>
+<p>由于 DSM
+的调制，小数型锁相环分频器输出频率和参考时钟频率瞬时相位差始终不为零。该瞬时相位差就是
+DSM 引入噪声的表现，称为 DSM
+噪声。小数型锁相环的输入相位差始终在一个有限的范围内变化，该<strong>相位差值范围</strong>是一个重要的
+DSM 设计指标。</p>
+<p>DSM
+的噪声首先通过积分器成为瞬时相位噪声，然后注入锁相环鉴频鉴相器的输入，从
+DSM 输出到锁相环输出端的噪声传递函数为： <span class="math display">\[
+H_{DSM}(s) = \frac{\frac{I_{cp}K_v}{2\pi CN} \cdot \frac{RCs+1}{s}}{s^2
++ \frac{I_{cp}RK_v}{2\pi N}s + \frac{I_{cp}K_v}{2\pi CN}}
+\]</span> 可以看到该传递函数为低通函数，即 DSM
+噪声的高频部分会被锁相环的低通特性所抑制。DSM 的一个主要功能就是将 DSM
+噪声转移到高频。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180030.png" alt="image-20201126170555897" style="zoom:33%;"></p>
+<p>DSM 是一个反馈系统，由环路滤波器和量化器构成。由于量化器的存在，DSM
+为非线性系统。其输入是一个长字长的数字信号，输出是短字长的数字信号，反馈是里离散取值的长字长数字信号。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180041.png" alt="image-20201126170450055" style="zoom:33%;"></p>
+<p>DSM
+的小信号模型如上图所示，当输入为固定值，输出将是平均分频比和叠加在上面的输出量化噪声。如果
+DSM 的前向环路滤波器的传递函数为 <span class="math inline">\(H(z)\)</span>，则量化噪声到输出噪声的传递函数为：
+<span class="math display">\[
+NTF(z) = \frac{1}{1+H(z)}
+\]</span> 因此量化噪声的传递函数与 <span class="math inline">\(H(z)\)</span> 相反，因此如果 <span class="math inline">\(H(z)\)</span>
+为低通函数，那么量化噪声的传递函数为高通函数。通常采用<strong>含有积分器的低通函数</strong>作为环路滤波器的传递函数。</p>
+<p>输入信号到输出信号的闭环传递函数为： <span class="math display">\[
+STF(S) = \frac{H(z)}{1+H(z)}
+\]</span> 因此如果 <span class="math inline">\(H(z)\)</span>
+采用低通函数就可以输出量化噪声推到高频同时保留输入信号。</p>
+<h1 id="差分积分调制器的主要结构类型">差分积分调制器的主要结构类型</h1>
+<p>DSM 本质上是一个数字滤波器，对于同一个 DSM
+传递函数可以用多种方法实现。</p>
+<h2 id="单级多路反馈和前馈-dsm-single-stage-multi-feedback-feedforward-dsm">单级多路反馈和前馈
+DSM (single stage multi-feedback-feedforward DSM)</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180054.png" alt="image-20201126181412774" style="zoom:50%;"></p>
+<p>上图是一个三阶单级 DSM
+的例子，多路反馈和多路前馈可以分别实现所需要的环路极点和零点。</p>
+<p><strong>优点</strong>：该结构在一级中实现多阶反馈和前馈，其随机性非常高，有干净的输出频谱和优良的杂散性能。是<strong>高性能射频应用</strong>中的首选
+DSM 结构。</p>
+<p><strong>缺点</strong>：对于二阶以上的 DSM
+只是有条件稳定，当输入信号大于一定值，该结构容易进入不稳定状态。需要选取合适的滤波器系数保证在最大输入范围内保证其稳定性。其设计较为复杂。</p>
+<h2 id="mash-结构">MASH 结构</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180112.png" alt="image-20201126182429474" style="zoom:40%;"></p>
+<p>多级噪声整形结构 (multi-stage noise shaping, MASH)
+如上图所示，其将多个低阶 DSM 串联起来，实现高阶 DSM
+噪声整形。如果每一级使用一阶 DSM，由于一阶 DSM
+是无条件稳定的，所以串联起来的高阶 DSM 也是稳定的。</p>
+<p><strong>优点</strong>：稳定性好。</p>
+<p>如上图所示，由两级一阶 DSM 串联构成二阶 DSM，通常称为 MASH1-1
+结构。MASH
+将前一级的量化噪声作为下一级的输入，然后结合两级的输出，将前一级的量化噪声抵消得到最终输出。</p>
+<p>第一级的输出： <span class="math display">\[
+y_1 = z^{-1} x + (1-z^{-1})q_1
+\]</span> 第二级的输出： <span class="math display">\[
+y_2 = z^{-1} q_1 + (1-z^{-1})q_2
+\]</span> 最终输出： <span class="math display">\[
+y = z^{-1} y_1 + (1-z^{-1})y_2 = z^{-2}x+(1-z^{-1})^2 q_2
+\]</span> MASH 结构要求串联各级系数之间严格匹配，锁相环电路中的 DSM
+使用全数字实现，可以做到各级系数的完全匹配。</p>
+<p>常用的 MASH 结构包括：MASH1-1-1，即三个一阶 DSM 串联实现三阶
+DSM；MASH1-2，即一个一阶 DSM 和一个二阶 DSM 串联实现三阶 DSM。</p>
+<p><strong>缺点</strong>：随机性较低。由于缺少跨级间的反馈通路，而低阶
+DSM 随机性较差，因此整体上 MASH 结构的 DSM
+随机性较低，锁相环输出含有较多的分数杂散。由于其数字输出位数通常较多，在
+PFD
+的输入端产生的相位差较大，对锁相环分频器和电荷泵的线性度要求较高。</p>
+<h1 id="dsm-的性能指标和选择">DSM 的性能指标和选择</h1>
+<ol type="1">
+<li>DSM 的阶数</li>
+<li>DSM 的结构</li>
+<li>DSM 的数字输出比特数</li>
+<li>DSM 的稳定输入范围</li>
+<li>噪声整形性能与环路稳定性的考量</li>
+</ol>
+<h1 id="dsm-噪声补偿">DSM 噪声补偿</h1>
+<p>当锁相环的带宽较宽时，DSM
+的噪声就不能很好的被环路滤波器消除，就需要低通滤波之外的消除 DSM
+噪声的方案。</p>
+<p>DSM 的输入和输出都是数字的，因此在每个参考周期内，在数字信号范畴，DSM
+的误差都是已知的。如果用此数字信号来补偿噪声，需要一个分辨率更高的
+DAC。</p>
+<h2 id="通过电荷输出的-dac-实现噪声补偿">通过电荷输出的 DAC
+实现噪声补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180127.png" alt="image-20201126194055426" style="zoom:50%;"></p>
+<p>如上图所示，通过一个电流
+DAC，将量化误差以电流的形式注入到电荷泵之后的环路滤波器中。在该方案中，电流
+DAC
+的增益必须是已知的并且可以精确控制。通常需要自动校数模转换器的增益，通常用<strong>最小二乘法</strong>校准。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727180140.png" alt="image-20201126194607316" style="zoom:50%;"></p>
+<p>如上图所示，在分频器的输出端加一个<strong>数控延迟线</strong>来补偿相位误差。该方法也需要预先知道数控延迟线的增益，一般通过<strong>最小二乘</strong>的方式进行校准。</p>
+<blockquote>
+<p>关于噪声补偿的一点点思考</p>
+<p>Q1: 在电流补偿结构中，能不能取消 DSM，直接用分频比的小数部分作为电流
+DAC 的输入，对电荷泵的输出电流进行补偿？</p>
+<p>Q2: 在相位补偿结构中，能不能取消 DSM，直接用分频比的小数部分控制 TDC
+进行相位补偿？</p>
+<p>A: 似乎有点类似早期的模拟相位内插补偿法了，这种方法要求很高的精度
+(<strong>?</strong>)，设计难度较大。</p>
+<p><img src="/2020/11/26/DSM/截屏2020-11-26 下午9.23.56.png" alt="截屏2020-11-26 下午9.23.56" style="zoom:45%;"></p>
+</blockquote>
+<h2 id="减小-dsm-量化步长">减小 DSM 量化步长</h2>
+<p>同时使用 VCO 的上升沿和下降沿信息分频器可以实现 0.5
+倍步长分频比，从而将 DSM 的量化步长下降一倍，DSM 的噪声下降
+6dB。在以环形振荡器为 VCO 的 PLL 中，环形振荡器可以提供多个相位，DSM
+的量化步长可以进一步降低，从而大大降低 DSM 噪声。</p>
+<p>该方法主要的缺点是会使分频器的线性度下降，从而带来额外的噪声和杂散。</p>
+<h1 id="最小二乘法">最小二乘法</h1>
+<p>最小二乘法 (least mean square algorithm) 在自适应滤波器 (adaptive
+filter) 设计中有着重要的应用。</p>
+<h1 id="参考文章">参考文章</h1>
+<p>[1]张刚. CMOS集成锁相环电路设计[M]. 清华大学出版社, 2013.</p>
+<p>[2]周晖.
+小数N频率综合器中Sigma-Delta调制器的研究与设计[D].西安电子科技大学,2014.</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2020/11/26/DSM/" title="Delta-Sigma Modulator">https://zhouyuqian.com/2020/11/26/DSM/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/20/PLL-CP/" rel="prev" title="PLL-CP">
+      <i class="fa fa-chevron-left"></i> PLL-CP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/27/DSM2/" rel="next" title="Delta-Sigma Modulator (2) — Simulink Simulation">
+      Delta-Sigma Modulator (2) — Simulink Simulation <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%95%B0%E5%9E%8B%E9%94%81%E7%9B%B8%E7%8E%AF"><span class="nav-number">1.</span> <span class="nav-text">分数型锁相环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E7%A7%AF%E5%88%86%E8%B0%83%E5%88%B6%E5%99%A8%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">差分积分调制器原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E7%A7%AF%E5%88%86%E8%B0%83%E5%88%B6%E5%99%A8%E5%99%AA%E5%A3%B0%E6%95%B4%E5%BD%A2"><span class="nav-number">3.</span> <span class="nav-text">差分积分调制器噪声整形</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E7%A7%AF%E5%88%86%E8%B0%83%E5%88%B6%E5%99%A8%E7%9A%84%E4%B8%BB%E8%A6%81%E7%BB%93%E6%9E%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">差分积分调制器的主要结构类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%BA%A7%E5%A4%9A%E8%B7%AF%E5%8F%8D%E9%A6%88%E5%92%8C%E5%89%8D%E9%A6%88-dsm-single-stage-multi-feedback-feedforward-dsm"><span class="nav-number">4.1.</span> <span class="nav-text">单级多路反馈和前馈
+DSM (single stage multi-feedback-feedforward DSM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mash-%E7%BB%93%E6%9E%84"><span class="nav-number">4.2.</span> <span class="nav-text">MASH 结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dsm-%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%92%8C%E9%80%89%E6%8B%A9"><span class="nav-number">5.</span> <span class="nav-text">DSM 的性能指标和选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dsm-%E5%99%AA%E5%A3%B0%E8%A1%A5%E5%81%BF"><span class="nav-number">6.</span> <span class="nav-text">DSM 噪声补偿</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%94%B5%E8%8D%B7%E8%BE%93%E5%87%BA%E7%9A%84-dac-%E5%AE%9E%E7%8E%B0%E5%99%AA%E5%A3%B0%E8%A1%A5%E5%81%BF"><span class="nav-number">6.1.</span> <span class="nav-text">通过电荷输出的 DAC
+实现噪声补偿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E4%BD%8D%E8%A1%A5%E5%81%BF"><span class="nav-number">6.2.</span> <span class="nav-text">相位补偿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%8F%E5%B0%8F-dsm-%E9%87%8F%E5%8C%96%E6%AD%A5%E9%95%BF"><span class="nav-number">6.3.</span> <span class="nav-text">减小 DSM 量化步长</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">最小二乘法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">8.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="MASH &amp; HK-MASH &amp; SP-MASH 对比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Delta-Sigma Modulator (3) — MASH &amp; HK-MASH &amp; SP-MASH">
+<meta property="og:url" content="https://zhouyuqian.com/2020/12/04/DSM3/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="MASH &amp; HK-MASH &amp; SP-MASH 对比">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180617.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180638.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181208.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181245.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181245.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181318.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181332.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181344.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181357.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181405.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181421.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727181507.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180533.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180534.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180535.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180536.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180537.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180538.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180539.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180540.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180541.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180542.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180543.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180544.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180540.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180541.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727180545.png">
+<meta property="article:published_time" content="2020-12-04T11:22:43.000Z">
+<meta property="article:modified_time" content="2021-04-12T04:00:22.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta property="article:tag" content="PLL">
+<meta property="article:tag" content="DSM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727180617.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2020/12/04/DSM3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Delta-Sigma Modulator (3) — MASH & HK-MASH & SP-MASH | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/12/04/DSM3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Delta-Sigma Modulator (3) — MASH & HK-MASH & SP-MASH
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-04 19:22:43" itemprop="dateCreated datePublished" datetime="2020-12-04T19:22:43+08:00">2020-12-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 12:00:22" itemprop="dateModified" datetime="2021-04-12T12:00:22+08:00">2021-04-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Delta-Sigma/" itemprop="url" rel="index"><span itemprop="name">Delta-Sigma</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description">MASH & HK-MASH & SP-MASH 对比</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="几种-dsm-结构">几种 DSM 结构</h1>
+<h2 id="传统的-mash-结构">传统的 MASH 结构</h2>
+<div data-align="center">
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727180617.png" alt="EFM" width="350px">
+</div>
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727180638.png" alt="MASH" width="350px">
+</div>
+</div>
+<p>传统的 MASH 结构如上图所示，其一阶调制器 (first-order error feedback
+modulator, EFM) 如左边的图所示，其本质上是一个累加器，前一级的 EFM
+误差作为后以及的输入。</p>
+<h2 id="hk-mash-结构">HK-MASH 结构</h2>
+<div data-align="center">
+<p><img src="https://pic.zhouyuqian.com/img/20210727181208.png" width="400"></p>
+</div>
+<p>HK-MASH 结构的 EFM 如上图所示，其相比于原始的 EFM，加入了一个在输出
+<span class="math inline">\(y[n]\)</span> 到输入 <span class="math inline">\(x[n]\)</span> 之间加入了一个增益为 <span class="math inline">\(a\)</span> 的反馈通路，使得模 <span class="math inline">\((M-a)\)</span>
+成为一个<strong>质数</strong>，对于大多数输入其输出周期为 <span class="math inline">\((M-a)\)</span>，因此对于 <span class="math inline">\(l\)</span> 级的 MASH，其输出周期为 <span class="math inline">\((M-a)^l\)</span>。</p>
+<p>由于反馈的加入，HK-MASH
+结构的输出平均值不再等于输入，而是呈线性关系： <span class="math display">\[
+Mean(Y) = Mean(X)/(M-a)
+\]</span>
+<img src="https://pic.zhouyuqian.com/img/20210727181245.png" alt="HK_MASH_RES" style="zoom:50%;"></p>
+<p>如果想让输出平均值为 <span class="math inline">\(\alpha\)</span>，则输入值需要缩放为 <span class="math inline">\(\alpha(M-a)/M\)</span>，因此 HK-MASH 结构的 DSM
+<strong>不支持全范围输入</strong>，并且需要额外的电路来实现这个缩放过程。</p>
+<h2 id="sp-mash">SP-MASH</h2>
+<div data-align="center">
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181245.png" width="350px">
+</div>
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181318.png" width="350px">
+</div>
+</div>
+<p>Spur-Free MASH 的结构如上图所示，相对于原始的 EFM，SP-EFM
+增加了一个前一级的量化输出作为本级的输入。该结构的改动几乎不消耗额外的硬件资源，并且输入和输出是相等的，即输入时全范围的。</p>
+<p>为了扩大输出的周期，可以增加除第一级之外的 EFM
+的位数，例如上面的结构中，第一级设为 5bit，第二级和第三级设为
+9bit，将第一级的量化误差左移 4 位再作为第二级的输入。</p>
+<p>SP-MASH 的输出的周期为 <span class="math inline">\(N_1L^2\)</span>，其中 <span class="math inline">\(L = 2^r\)</span>，<span class="math inline">\(r\)</span> 为后面几级的位宽；<span class="math inline">\(N_1\)</span>
+为第一级的输出周期，例如在上面的结构中 <span class="math inline">\(r=9\)</span>，<span class="math inline">\(N_1\)</span> 最小等于 2。</p>
+<h1 id="使用-simulink-仿真">使用 Simulink 仿真</h1>
+<h2 id="传统的-mash-结构-1">传统的 MASH 结构</h2>
+<div data-align="center">
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181332.jpg" width="260">
+</div>
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181344.jpg" width="600">
+</div>
+</div>
+<h2 id="hk-mash">HK-MASH</h2>
+<div data-align="center">
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181357.jpg" width="260">
+</div>
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181405.jpg" width="600">
+</div>
+</div>
+<h2 id="sp-mash-1">SP-MASH</h2>
+<div data-align="center">
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181421.jpg" width="260">
+</div>
+<div style="display:inline-block;">
+<img src="https://pic.zhouyuqian.com/img/20210727181507.jpg" width="600">
+</div>
+</div>
+<h1 id="仿真结果-mash-hk-mash-sp-mash">仿真结果 MASH &amp; HK-MASH &amp;
+SP-MASH</h1>
+<h2 id="输出序列">输出序列</h2>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180533.svg" alt="MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180534.svg" alt="HK-MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180535.svg" alt="SP-MASH input 16"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180536.svg" alt="MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180537.svg" alt="HK-MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180538.svg" alt="SP-MASH input 17"></div></div></div></div>
+<p>三种 MASH DSM 结构的输出序列如上图所示，由左到右分别是传统的
+MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值
+16（相当于 0.5），第二行输入值为 17（相当于 17/32）。</p>
+<h2 id="功率谱密度">功率谱密度</h2>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180539.svg" alt="MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180540.svg" alt="HK-MASH input 16"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180541.svg" alt="SP-MASH input 16"></div></div></div></div>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180542.svg" alt="MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180543.svg" alt="HK-MASH input 17"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="https://pic.zhouyuqian.com/img/20210727180544.svg" alt="SP-MASH input 17"></div></div></div></div>
+<p>三种 MASH DSM 结构的功率谱如上图所示，由左到右分别是传统的
+MASH、HK-MASH 和 SP-MASH，三种 MASH 均为 5bit，其中第一行为输入值
+16（相当于 0.5），第二行输入值为 17（相当于 17/32）。</p>
+<h1 id="结果分析思考">结果分析&amp;思考🤔</h1>
+<ol type="1">
+<li><p>从上面的时序的输出和功率谱密度都可以看出 HK-MASH 结构和 SP-MASH
+结构对噪声的整形效果都比传统的 MASH 结构好；</p></li>
+<li><p>传统的 EFM 结构的输出序列的周期为： <span class="math display">\[
+N = \frac{M}{GCD(X, M)}
+\]</span> 其中 <span class="math inline">\(GCD\)</span>
+表示最大公约数，<span class="math inline">\(X\)</span> 为输入值，<span class="math inline">\(M\)</span> 为 EFM 中计数器的最大值。</p>
+<p>因此在一些特定的输入时，其输出的周期很短，不能实现对噪声的整形，例如
+5bit 的 EFM，<span class="math inline">\(M=2^5\)</span>，当输入 <span class="math inline">\(X= 16\)</span> 时，输出序列的周期为 2，三级 EFM​
+级联实现的 MASH1-1-1 结构的输出周期也只有 4，因此传统结构的 MASH DSM
+周期偏短，在某些特定的输入下不能实现对噪声的整形。</p></li>
+<li><p>HK-MASH 和 SP-MASH 结构都可以避免传统 MASH 周期短的问题，不过
+HK-MASH
+的输出不等于输入，需要<strong>消耗额外的硬件资源进行缩放</strong>，并且<strong>输入不是全范围</strong>；</p></li>
+<li><p>在低位宽下 HK-MASH 和 SP-MASH 结构相比于传统的 MASH
+结构提升较为明显，例如上面的例子都是在 5bit
+先进行比较的，个人觉得当位宽较大时，HK-MASH 和 SP-MASH 结构相比于传统的
+MASH 结构优势就没有那么明显了，在 24bit 的 EFM
+结构中验证了这个想法。</p></li>
+<li><p>就功率谱密度来看，感觉 SP-MASH 对比 HK-MASH
+并没有明显的提升，我自己的仿真中没有论文中的差距那么大：</p></li>
+</ol>
+<p><div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 50%;"><img src="https://pic.zhouyuqian.com/img/20210727180540.svg" alt="HK-MASH input 16"></div><div class="group-picture-column" style="width: 50%;"><img src="https://pic.zhouyuqian.com/img/20210727180541.svg" alt="SP-MASH input 16"></div></div></div></div></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727180545.png" alt="result in paper">
+<figcaption aria-hidden="true">result in paper</figcaption>
+</figure>
+<p>上面一行是我自己的仿真结果，下面一行是论文中的结果，输入都为 16。</p>
+<h1 id="参考文献">参考文献</h1>
+<p>[1] Y. Liao, X. Fan and Z. Hua, "Influence of LFSR Dither on the
+Periods of a MASH Digital Delta–Sigma Modulator," in <em>IEEE
+Transactions on Circuits and Systems II: Express Briefs</em>, vol. 66,
+no. 1, pp. 66-70, Jan. 2019, doi: 10.1109/TCSII.2018.2828600.</p>
+<p>[2] J. Song and I. Park, "Spur-Free MASH Delta-Sigma Modulation," in
+<em>IEEE Transactions on Circuits and Systems I: Regular Papers</em>,
+vol. 57, no. 9, pp. 2426-2437, Sept. 2010, doi:
+10.1109/TCSI.2010.2043993.</p>
+<h1 id="psd-matlab-代码">PSD MATLAB 代码</h1>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% PSD</span></span><br><span class="line"><span class="comment">% reference: https://zhuanlan.zhihu.com/p/50272016</span></span><br><span class="line">clc</span><br><span class="line">clear</span><br><span class="line">ADD_WIN_FLAG = <span class="number">1</span>;</span><br><span class="line">LOG_PLOT_FLAG = <span class="number">1</span>;</span><br><span class="line"><span class="comment">% name = &quot;SP MASH 5bit input 17&quot;;</span></span><br><span class="line"><span class="comment">% figname = &quot;results/sp_mash_5bit_17_psd.png&quot;;</span></span><br><span class="line"><span class="comment">% load(&quot;SP_MASH_5bit_output_17.mat&quot;);</span></span><br><span class="line"></span><br><span class="line">name = <span class="string">&quot;MASH 9bit input 255&quot;</span>;</span><br><span class="line">figname = <span class="string">&quot;results/mash_9bit_255_psd.svg&quot;</span>;</span><br><span class="line">load(<span class="string">&quot;MASH_9bit_input_255.mat&quot;</span>);</span><br><span class="line"></span><br><span class="line">x = y.Data;</span><br><span class="line">x = double(x);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">% FFT 求功率谱密度</span></span><br><span class="line">L = <span class="built_in">length</span>(x);</span><br><span class="line"><span class="comment">% N = L;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% % 比当前长度大的下一个最小的 2 的次幂值</span></span><br><span class="line"><span class="comment">% N = 2^nextpow2(L);</span></span><br><span class="line"><span class="comment">% x_new = zeros(1, N-L);</span></span><br><span class="line"><span class="comment">% x = [x, x_new];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% 取2的幂次方</span></span><br><span class="line">N = <span class="number">2</span>^(<span class="built_in">nextpow2</span>(L)<span class="number">-1</span>);</span><br><span class="line">x = x(<span class="number">1</span>:N);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 加窗</span></span><br><span class="line"><span class="keyword">if</span> ADD_WIN_FLAG</span><br><span class="line">    wn=hann(N);  <span class="comment">%汉宁窗</span></span><br><span class="line">    x=x.*wn;   <span class="comment">% 原始信号时域加窗</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">xdft = fft(x, N);</span><br><span class="line">psdx = xdft.*<span class="built_in">conj</span>(xdft)/N; <span class="comment">% 双边功率谱密度，conj 共轭复数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 加窗系数修正</span></span><br><span class="line"><span class="keyword">if</span> ADD_WIN_FLAG</span><br><span class="line">    zz = wn.*wn;</span><br><span class="line">    zz1 = sum(zz);</span><br><span class="line">    psdx = psdx*N/zz1;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">spsdx = psdx(<span class="number">1</span>:<span class="built_in">floor</span>(N/<span class="number">2</span>)+<span class="number">1</span>)*<span class="number">2</span>; <span class="comment">% 单边功率谱密度</span></span><br><span class="line">spsdx(<span class="number">1</span>) = psdx(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">spsdx_log = <span class="number">10</span>*<span class="built_in">log10</span>(spsdx); <span class="comment">% 取log</span></span><br><span class="line">spsdx_log(spsdx_log == -<span class="built_in">inf</span>) = <span class="number">-300</span>; <span class="comment">% 处理 log10(0) 的情况</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 单边带</span></span><br><span class="line">freq = <span class="number">0</span>:(<span class="number">2</span>*<span class="built_in">pi</span>)/N:<span class="built_in">pi</span>;</span><br><span class="line"><span class="comment">% 双边带</span></span><br><span class="line"><span class="comment">% freq = 0:(2*pi)/N:(2*pi-(2*pi)/N);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% NTF 3阶</span></span><br><span class="line">NTF = <span class="number">3</span>*<span class="number">20</span>*<span class="built_in">log10</span>(<span class="number">2</span>*<span class="built_in">sin</span>(freq/<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> LOG_PLOT_FLAG</span><br><span class="line">    semilogx(freq/<span class="built_in">pi</span>, spsdx_log, freq/<span class="built_in">pi</span>, NTF, <span class="string">&#x27;--&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">plot</span>(freq/<span class="built_in">pi</span>, spsdx_log, freq/<span class="built_in">pi</span>, NTF, <span class="string">&#x27;--&#x27;</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">grid on</span><br><span class="line"><span class="built_in">legend</span>(name, <span class="string">&#x27;NTF&#x27;</span>,<span class="string">&#x27;Location&#x27;</span>, <span class="string">&#x27;northwest&#x27;</span>)</span><br><span class="line">title(<span class="string">&#x27;Periodogram Using FFT&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized Frequency (\times\pi rad/sample)&#x27;</span>) </span><br><span class="line">ylabel(<span class="string">&#x27;Power/Frequency (dB/rad/sample)&#x27;</span>)</span><br><span class="line">saveas(gcf,figname)</span><br><span class="line"></span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% periodogram 求功率谱密度</span></span><br><span class="line"><span class="comment">% win: hann rectwin</span></span><br><span class="line">[h, w] = periodogram(x,rectwin(<span class="built_in">length</span>(x)),<span class="built_in">length</span>(x));</span><br><span class="line"><span class="built_in">plot</span>(w/<span class="built_in">pi</span>, h)</span><br><span class="line"><span class="comment">% periodogram(x,rectwin(length(x)),length(x));</span></span><br><span class="line">semilogx(w/<span class="built_in">pi</span>, <span class="number">10</span>*<span class="built_in">log10</span>(h))</span><br><span class="line">grid on</span><br><span class="line"><span class="built_in">legend</span>(name, <span class="string">&#x27;NTF&#x27;</span>,<span class="string">&#x27;Location&#x27;</span>, <span class="string">&#x27;northwest&#x27;</span>)</span><br><span class="line">title(<span class="string">&#x27;Periodogram Using FFT&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized Frequency (\times\pi rad/sample)&#x27;</span>) </span><br><span class="line">ylabel(<span class="string">&#x27;Power/Frequency (dB/rad/sample)&#x27;</span>)</span><br><span class="line"><span class="comment">% test</span></span><br><span class="line"><span class="comment">% fs = 1000;</span></span><br><span class="line"><span class="comment">% t = 0:1/fs:5-1/fs;</span></span><br><span class="line"><span class="comment">% x = cos(2*pi*100*t) + randn(size(t));</span></span><br><span class="line"><span class="comment">% x = cos(2*pi*100*t);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">%%</span></span><br><span class="line"><span class="comment">% pwelch</span></span><br><span class="line"><span class="comment">% fs = 100000;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% NTF</span></span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line">b = [<span class="number">1</span>,<span class="number">-3</span>,<span class="number">3</span>,<span class="number">-1</span>];</span><br><span class="line">[h_ntf,w_ntf] = freqz(b,a,<span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line">N = <span class="built_in">length</span>(x);</span><br><span class="line">win = hanning(N);  <span class="comment">%汉宁窗</span></span><br><span class="line"><span class="comment">% win = rectwin(N);</span></span><br><span class="line">nfft = N;</span><br><span class="line">noverlap = <span class="number">50</span>;</span><br><span class="line">[pxx,w] = pwelch(x, win, noverlap, nfft);</span><br><span class="line"></span><br><span class="line"><span class="comment">% plot(w/pi,10*log10(pxx))</span></span><br><span class="line">semilogx(w/<span class="built_in">pi</span>,<span class="number">10</span>*<span class="built_in">log10</span>(pxx),w_ntf/<span class="built_in">pi</span>,<span class="number">20</span>*<span class="built_in">log10</span>(<span class="built_in">abs</span>(h_ntf)), <span class="string">&#x27;--&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;\omega / \pi&#x27;</span>)</span><br><span class="line">grid on</span><br><span class="line"><span class="built_in">legend</span>(name, <span class="string">&#x27;NTF&#x27;</span>,<span class="string">&#x27;Location&#x27;</span>, <span class="string">&#x27;northwest&#x27;</span>)</span><br><span class="line">title(<span class="string">&#x27;Periodogram Using FFT&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;Normalized Frequency (\times\pi rad/sample)&#x27;</span>) </span><br><span class="line">ylabel(<span class="string">&#x27;Power/Frequency (dB/rad/sample)&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2020/12/04/DSM3/" title="Delta-Sigma Modulator (3) — MASH &amp; HK-MASH &amp; SP-MASH">https://zhouyuqian.com/2020/12/04/DSM3/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+              <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
+              <a href="/tags/DSM/" <i class="fa fa-tag"></i> DSM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/27/DSM2/" rel="prev" title="Delta-Sigma Modulator (2) — Simulink Simulation">
+      <i class="fa fa-chevron-left"></i> Delta-Sigma Modulator (2) — Simulink Simulation
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/09/TexOnVsCode/" rel="next" title="使用 VSCode 编写 LaTeX — Mac 篇">
+      使用 VSCode 编写 LaTeX — Mac 篇 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D-dsm-%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">几种 DSM 结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84-mash-%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">传统的 MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hk-mash-%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">HK-MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sp-mash"><span class="nav-number">1.3.</span> <span class="nav-text">SP-MASH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-simulink-%E4%BB%BF%E7%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">使用 Simulink 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84-mash-%E7%BB%93%E6%9E%84-1"><span class="nav-number">2.1.</span> <span class="nav-text">传统的 MASH 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hk-mash"><span class="nav-number">2.2.</span> <span class="nav-text">HK-MASH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sp-mash-1"><span class="nav-number">2.3.</span> <span class="nav-text">SP-MASH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C-mash-hk-mash-sp-mash"><span class="nav-number">3.</span> <span class="nav-text">仿真结果 MASH &amp; HK-MASH &amp;
+SP-MASH</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%BA%8F%E5%88%97"><span class="nav-number">3.1.</span> <span class="nav-text">输出序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%AF%86%E5%BA%A6"><span class="nav-number">3.2.</span> <span class="nav-text">功率谱密度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">结果分析&amp;思考🤔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#psd-matlab-%E4%BB%A3%E7%A0%81"><span class="nav-number">6.</span> <span class="nav-text">PSD MATLAB 代码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

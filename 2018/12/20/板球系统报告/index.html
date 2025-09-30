@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="板球系统，课设二的报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="板球系统报告">
+<meta property="og:url" content="https://zhouyuqian.com/2018/12/20/%E6%9D%BF%E7%90%83%E7%B3%BB%E7%BB%9F%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="板球系统，课设二的报告">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173238.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173239.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173240.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173239.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173241.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173242.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173243.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173244.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173245.jpg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173246.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173247.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173248.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727173249.png">
+<meta property="article:published_time" content="2018-12-20T15:09:17.000Z">
+<meta property="article:modified_time" content="2021-02-08T12:17:38.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="FPGA">
+<meta property="article:tag" content="ZYNQ">
+<meta property="article:tag" content="课程设计">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727173238.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2018/12/20/%E6%9D%BF%E7%90%83%E7%B3%BB%E7%BB%9F%E6%8A%A5%E5%91%8A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>板球系统报告 | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2018/12/20/%E6%9D%BF%E7%90%83%E7%B3%BB%E7%BB%9F%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          板球系统报告
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-20 23:09:17" itemprop="dateCreated datePublished" datetime="2018-12-20T23:09:17+08:00">2018-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-08 20:17:38" itemprop="dateModified" datetime="2021-02-08T20:17:38+08:00">2021-02-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FPGA/" itemprop="url" rel="index"><span itemprop="name">FPGA</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+            <div class="post-description">板球系统，课设二的报告</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>课设二的报告，一边做一边写吧！</p>
+<span id="more"></span>
+<h1 id="设计方案工作原理">1. 设计方案工作原理</h1>
+<h2 id="系统总体介绍">1.1 系统总体介绍</h2>
+<p>实现板球系统，在边长为65cm的正方形平板上均匀分布9个外径为3cm的圆形区域，设计一控制系统，通过控制平板的倾斜，使直
+径不大于2.5cm的小球能够完成指定的动作：</p>
+<ul>
+<li>平板上9个圆形区域中任意区域停留不少于5秒；</li>
+<li>任意选定两个区域，从一个区域运动到另一个区域，并且在第二个区域停留不小于5秒；</li>
+</ul>
+<h2 id="实现目标定位">1.2 实现目标定位</h2>
+<p>本次课设的主要目标如下：</p>
+<ul>
+<li>将前期在Basys3平台上的项目移植到PYNQ-Z2平台上，为系统的进一步拓展提供便利；</li>
+<li>优化系统的硬件结构；</li>
+<li>在PYNQ-Z2平台上学习并使用一款rtOS（μcOS），作为系统的软件控制部分；</li>
+<li>在ucOS上实现串级PID控制；</li>
+</ul>
+<h2 id="系统结构工作原理">1.3 系统结构工作原理</h2>
+<ol type="1">
+<li><p>系统框图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173238.png" alt="系统框图">
+<figcaption aria-hidden="true">系统框图</figcaption>
+</figure>
+<ul>
+<li><p>通过摄像头获取图像并且定位小球的位置；</p></li>
+<li><p>根据小球位置与目标位置之间的差值，控制舵机，使平板倾斜，从而让小球运动到目标位置；</p></li>
+</ul></li>
+<li><p>串级PID原理：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173239.png" alt="image-20181221001133361">
+<figcaption aria-hidden="true">image-20181221001133361</figcaption>
+</figure>
+<ul>
+<li>内环为角度环，对角度进行控制；</li>
+<li>外环为位置环，对位置进行控制。</li>
+</ul></li>
+<li><p>ucOS介绍：</p>
+<p>实时操作系统（RTOS）是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统做出快速响应，调度一切可利用的资源完成实时任务，并控制所有实时任务协调一致运行的操作系统。</p>
+<p>常用的实时操作系统有VxWorks、QNX、ucos-III、Windows
+CE、FreeRTOS等。</p>
+<p>μcos-III是一个可以基于ROM运行的、可裁剪的、抢占式、实时多任务内核，具有高度可移植性，特别适合于微处理器和控制器，适合很多商业操作系统性能相当的实时操作系统(RTOS)。</p>
+<p>其特点是：公开源代码、可移植性、可固化、可裁剪、多任务、占先式。</p>
+<p>为了便于后期将本项目的控制算法移植到不同的平台上（如TI的TM4单片机），我们基于ucOS操作系统编写算法；</p></li>
+</ol>
+<h2 id="团队分工">1.4 团队分工</h2>
+<ul>
+<li>zyq：整体系统的设计，底层IP核的驱动，三轴加速度计传感器算法；</li>
+<li>zyf：串级PID算法的实现和调节；</li>
+<li>ljc：与上位机的通信。</li>
+</ul>
+<h1 id="系统硬件设计">2. 系统硬件设计</h1>
+<p>硬件部分在之前基本搭建完成，本次课设中涉及不多，因此简单叙述一下。</p>
+<ul>
+<li><p>整体描述</p>
+<p>通过OV7725采集小球在平板上运动的图像，在FPGA处理后，控制平板下方成90度角排列的两个舵机的运动，是平板定向倾斜，进而控制小球运动到目标位置。</p></li>
+<li><p>各模块介绍</p>
+<ul>
+<li><p>OV7725摄像头</p>
+<p>OmniVision
+公司生产的一款30W像素的摄像头，我们使用FPGA来驱动摄像头工作。</p></li>
+<li><p>舵机</p>
+<p>这里我们选用了 MG996R 舵机，工作电压 4.8V -
+7.2V，在6V电压的驱动下，动力为11 kgf·cm ，运动速度为0.14
+s/60º。用50Hz，高电平时间为0.5ms-2.5ms的方波作为控制信号。</p></li>
+<li><p>MPU6500</p>
+<p>3轴加速度计、3轴陀螺仪传感器，采用IIC配置读取数据。</p></li>
+</ul></li>
+</ul>
+<h1 id="系统软件设计">3. 系统软件设计</h1>
+<h2 id="串级pid">3.1 串级PID</h2>
+<ol type="1">
+<li><p>原理</p>
+<p>PID控制器（比例-积分-微分控制器），由比例单元(P)、积分单元(I)和微分单元(D)组成。透过Kp，Ki和Kd三个参数的设定。PID控制器主要适用于基本上线性，且动态特性不随时间变化的系统。</p>
+<p>单级PID原理图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173240.png" alt="1545741056965">
+<figcaption aria-hidden="true">1545741056965</figcaption>
+</figure>
+<p>PID控制的特点：</p>
+<ul>
+<li><p>稳定性（P和I降低系统稳定性，D提高系统稳定性）</p>
+<p>在平衡状态下，系统受到某个干扰后，经过一段时间其被控量可以达到某一稳定状态；</p></li>
+<li><p>准确性（P和I提高稳态精度，D无作用）</p>
+<p>系统处于稳态时，其稳态误差；</p></li>
+<li><p>快速性（P和D提高响应速度，I降低响应速度）</p>
+<p>系统对动态响应的要求。一般由过渡时间的长短来衡量。、</p></li>
+<li><p>动态特性（暂态特性，由于系统惯性引起）</p>
+<p>系统突加给定量（或者负载突然变化）时，其系统输出的动态响应曲线。延迟时间、上升时间、峰值时间、调节时间、超调量和振荡次数。</p>
+<p>在通常情况下,上升时间和峰值时间用来评价系统的响应速度；超调量用来评价系统的阻尼程度；调节时间同时反应响应速度和阻尼程度；</p></li>
+<li><p>稳态特性</p>
+<p>在参考信号输出下，经过无穷时间，其系统输出与参考信号的误差。影响因素：系统结构、参数和输入量的形式等；</p></li>
+</ul>
+<p>PID控制有两种形式：</p>
+<ul>
+<li><p>位置式PID：</p>
+<p><span class="math display">\[u(k) = K_pe(k) + K_i \Sigma ^k _{j = 0}
+e(j) + K_d[e(k) - e(k-1)]\]</span></p>
+<ul>
+<li><p>累加历史数据</p></li>
+<li><p>输出最终绝对加载量</p></li>
+</ul></li>
+<li><p>增量式PID:</p>
+<p><span class="math display">\[ \Delta u(k) = u(k) - u(k-1) = K_p
+\Delta e(k) + K_i e(k) + K_d [\Delta e(k) - \Delta e(k-1)] \]</span></p>
+<ul>
+<li><p>不累计历史数据，仅与最近三次采样值有关</p></li>
+<li><p>只输出控制增量</p></li>
+</ul></li>
+</ul>
+<p>为了保证系统的稳定性，在该系统里我们使用增量式PID。</p></li>
+<li><p>具体实现</p>
+<p>串级PID的实现：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173239.png" alt="image-20181221001133361">
+<figcaption aria-hidden="true">image-20181221001133361</figcaption>
+</figure></li>
+</ol>
+<h2 id="板倾斜角度的测量">3.2 板倾斜角度的测量</h2>
+<p>为了保证系统的控制效果，提高系统的稳定性，我们使用了串级PID，串级PID的内环为角度环，因此我们需要测量板子的倾斜角度，这里我们使用了MPU6500六轴（陀螺仪+加速度计）传感器进行测量。</p>
+<ol type="1">
+<li><p>倾角测量原理</p>
+<ul>
+<li><p>陀螺仪计算倾角</p>
+<p>陀螺仪可以测量角速度,具有高动态特性,是一个间接测量器件,它测量的是角度的导数：角速度。我们将角速度对时间积分可以得到角度，如下公式所示：</p>
+<p><span class="math display">\[ Angle(t)  = \Sigma _0 ^t (Gyro(t) * dt)
+\]</span></p>
+<p>由于是使用积分的方法获取角度，会存在积分误差，积分误差的来源主要有两个：</p>
+<ul>
+<li>积分时间，很难得到一个准确的时间，积分时间dt越小，输出角度越准；</li>
+<li>器件本身的误差，积分之后会累计。</li>
+</ul>
+<p>因此，使用陀螺仪测量角度，动态测量性能较好，但是有累计误差。</p></li>
+<li><p>加速度计计算倾角</p>
+<p>加速度计测量的是物体的加速度，重力加速度是一个物体受重力作用的情况下所具有的加速度。当物体处于静止状态时，加速度计测量出来的值就等于重力加速度1g,
+约等于9.8 米每平方秒。重力加速度 g
+的方向总是竖直向下的，通过获得重力加速度在其X轴，Y轴上的分量，我们可以计算出物体相对于水平面的倾斜角度。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173241.png" alt="1545917528064">
+<figcaption aria-hidden="true">1545917528064</figcaption>
+</figure>
+<p>当系统在三维空间做变速运动时，它的输出为轴向的加速度和重力加速度的分量，这就不能准确用于计算物体的姿态和运动状态。</p>
+<p>静态时，加速度计计算的倾角比较准确；而动态时，倾角的误差就很大，跟随性也较差。</p></li>
+<li><p>在姿态计算中我们采用陀螺仪的动态数据为主体，而加速度计起到修正陀螺仪积分误差的作用。</p></li>
+</ul></li>
+<li><p>姿态解算：欧拉角</p>
+<p>对于在三维空间里的一个参考系，任何坐标系的取向，都可以用三个欧拉角来表现。参考系又称为实验室参考系，是静止不动的。而坐标系则固定于刚体，随着刚体的旋转而旋转。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173242.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>参考上图。图中有两组坐标：</p>
+<ul>
+<li><span class="math inline">\(xyz\)</span> 为全局坐标，保持不动；</li>
+<li><span class="math inline">\(XYZ\)</span>
+为局部坐标，随着物体一起运动；</li>
+</ul>
+<p>旋转步骤如下：</p>
+<ul>
+<li>物体绕<strong>全局坐标</strong>的 <span class="math inline">\(z\)</span> 轴旋转 <span class="math inline">\(\alpha\)</span> 角；</li>
+<li>继续绕<strong>自己</strong>的 <span class="math inline">\(X\)</span>
+轴(也就是图中的<span class="math inline">\(N\)</span>轴)旋转 <span class="math inline">\(\beta\)</span> 角；</li>
+<li>最后绕<strong>自己</strong>的 <span class="math inline">\(Z\)</span>
+轴旋转 <span class="math inline">\(\gamma\)</span> 角。</li>
+</ul>
+<p>这个过程中新生成的坐标系 <span class="math inline">\(\left(
+\begin{array}{ccc} X \\ Y \\ Z \end{array} \right)\)</span>
+可以通过运算由原坐标系 <span class="math inline">\(\left(
+\begin{array}{ccc} X \\ Y \\ Z \end{array} \right)\)</span> 得到:</p>
+<p><span class="math display">\[\left( \begin{matrix} X \\Y \\Z
+\end{matrix} \right) = M \left( \begin{matrix} x \\y \\z \end{matrix}
+\right)\]</span></p>
+<p>其中，矩阵M表示了上面三次旋转的总过程。我们可以推导一下：</p>
+<p><span class="math display">\[M = Rot(x,\alpha)\cdot Rot(x,\beta)\cdot
+Rot(z,\gamma) = \left(
+\begin{matrix}cos\gamma&amp;sin\gamma&amp;0\\-sin\gamma&amp;cos\gamma&amp;0
+\\0&amp;0&amp;1\end{matrix}\right)\left(\begin{matrix}1&amp;0&amp;0\\0&amp;cos\beta&amp;sin\beta
+\\0&amp;-sin\beta&amp;cos\beta\end{matrix}\right)\left(
+\begin{matrix}cos\alpha&amp;sin\alpha&amp;0\\-sin\alpha&amp;cos\alpha&amp;0
+\\0&amp;0&amp;1\end{matrix}\right)\]</span></p>
+<p><span class="math display">\[ M = \left( \begin{matrix} cos\alpha
+cos\gamma - sin\alpha cos\beta sin\gamma &amp;sin\alpha cos\gamma +
+cos\alpha cos\beta sin\gamma &amp; sin\beta sin\gamma \\-cos\alpha
+sin\gamma - sin\alpha cos\beta cos\gamma &amp;-sin\alpha sin\gamma +
+cos\alpha cos\beta cos\gamma &amp; sin\beta cos\gamma \\ sin\alpha
+sin\beta &amp; -cos\alpha sin\beta &amp; cos\beta \end{matrix} \right)
+\]</span></p>
+<p>记录这样一个变换，<strong>至少需要三个角的sine和cosine值，也就是一共存储6个单位数据</strong>。</p></li>
+<li><p>姿态融合</p>
+<p>常用的 <span class="math inline">\(mems\)</span>
+传感器的陀螺仪和加速度计的噪声相对来说很大，以常见的陀螺仪为例进行积分1分钟会漂移2度左右。在这种前提下，如果没有磁场和重力来修正三轴陀螺仪的话，那么基本上3分钟以后物体的实际姿态和测量输出姿态就完全变样了。所以我们要使用数据融合的方法，来获取更加准确的倾角数据。</p>
+<p>常用的惯性传感器姿态融合算法有：互补滤波、Mahony互补滤波、扩展卡尔曼滤波等。我们选择Mahony滤波。</p>
+<ul>
+<li><p>互补滤波的思想</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173243.jpg" alt="preview">
+<figcaption aria-hidden="true">preview</figcaption>
+</figure>
+<p>假如我们对一个物理量有两种测量手段，一种呢容易受到高频噪声的干扰，实际的观感就是信号有很多的毛刺；另一种容易受到低频噪声的干扰，就是噪声会慢慢的变化。那么我们就可以设计互补的两个滤波器
+<span class="math inline">\(F_1\)</span> 和 <span class="math inline">\(F_2\)</span> ，所谓互补就是 <span class="math inline">\(F_1 + F_2 = 1\)</span>
+，它们一个是低通滤波器，可以滤除信号中的高频噪声，一个是高通滤波器，能够滤除信号中的低频变化。这样分别把相应测量中的噪声滤除，就可以得到更精确的对这个物理量的测量了。</p>
+<p>那么显然，互补滤波器的好坏，就取决于噪声滤除的干不干净。不幸的是，对实际实现的滤波器来说，噪声是不可能完全被滤除的。所以，互补滤波器并不是某种特定准则上的“最优”滤波器。</p></li>
+<li><p>基本的姿态互补滤波器</p>
+<p>要使用互补滤波器获得对物体姿态的更准确的测量，我们要找到两个对物体姿态的测量手段，在上文中我们知道，陀螺仪可以通过积分获得一组姿态，而加速度计也能够获得一组姿态，而且加速度计容易受到振动等高频噪声的干扰，陀螺仪容易受到漂移等低频噪声的干扰，因此我们可以使用互补滤波来获取更为准确的姿态。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173244.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure></li>
+<li><p>Mahony互补滤波的核心步骤：</p>
+<ol type="1">
+<li>加速度数据归一化。</li>
+<li>将加速度向量(0,0,1)从地理坐标系转换到载体坐标系得到预测向量。</li>
+<li>将预测加速度向量与实际加速度向量做叉积得到误差（偏差角度的余弦）。</li>
+<li>将误差做PI调节，补偿叠加到原始角速度数据向量上。</li>
+<li>通过四元数微分方程，将补偿过的角速度向量转换为四元数向量。</li>
+<li>将四元数转换为欧拉角。</li>
+<li>新的四元数重新代入方向余弦矩阵，生产新的方向余弦矩阵，用于数据从地理坐标系到载体坐标系的转换。</li>
+<li>直到误差为0，方向余弦矩阵正确，姿态数据正确。</li>
+</ol></li>
+<li><p>姿态融合流程图：</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173245.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol type="1">
+<li>互补滤波器的整体框架是利用飞行器的旋转速度来更新飞行器的姿态，即图中的姿态传播，可以采用欧拉角、四元数、DCM等方法；</li>
+<li>陀螺测量的飞行器旋转速度是不准确的，我们利用PI控制器去修正陀螺的测量，用反馈控制的思想可以理解为，加速度计和磁强计产生的是参考信号，是滤波器要去跟踪的，所以参考姿态和滤波器输出姿态之间的差异就构成了新息，我们对新息进行PI控制操作，其中P环节是为了补偿滤波器的估计误差，I环节是为了补偿陀螺仪的漂移。</li>
+<li>可以这样理解这个互补滤波器，基本的框架是利用陀螺测量的旋转速度来计算姿态，但这样肯定将漂移和噪声引入到姿态中，所以我们希望陀螺更新的姿态能够向相对无偏移的加速度计姿态靠近，这样利用一个PI控制器来控制这个过程，这样一来，因为PI控制器不可能非常快速的把陀螺姿态控制到和加速度计姿态一致，所以我们能够避免加速度计姿态里面快速变化的部分，因为控制带宽不够跟踪不上。与此同时，陀螺姿态在不断试图跟踪加速度计姿态的过程中，也避免了漂移量带来的误差，实际上从控制的角度解释了“互补”的思想。</li>
+<li>图中姿态传播框是滤波器的主体框架，在其之前的4个框是滤波器的“互补”的实现，图中姿态的误差框就是Mahony算法做出的贡献。</li>
+</ol></li>
+</ul></li>
+</ol>
+<h2 id="数据通信">3.3 数据通信</h2>
+<ul>
+<li><p>与上位机通信</p>
+<p>以25Hz的频率，通过Uart1（115200波特率）发送IMU解算出来的板的姿态，小球的位置等信息。数据格式如下：</p>
+<table>
+<thead>
+<tr>
+<th>0:包头</th>
+<th>1：包头</th>
+<th>2：数据号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x55</td>
+<td>0xaa</td>
+<td>0x__</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>3:float数据0</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>7:float数据1</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>11:float数据2</th>
+<th>12</th>
+<th>13</th>
+<th>14</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>15：包尾</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$（0x24）</td>
+</tr>
+</tbody>
+</table>
+<p>每个数据包为16Byte，其中前两个为包头，第三个为数据号，后面是3个float类型的数据（1位float转换为4位u8数据），最后是包尾。</p></li>
+<li><p>与摄像头板通信</p>
+<p>由于摄像头与舵机之间的距离较长，用一块板子控制所有设备虽然资源足够，但需要很长的线来传输信号，容易受干扰，效果较差，因此我们用一块板子连接摄像头，来获取小球的位置信息，用另一块板子连接舵机，MPU6500等设备，控制板子的运动，两块板子之间通过uart通信。</p>
+<p>由于两块板子之间的距离较远，直接使用线传输效果不理想，我们使用两个蓝牙模块在透传模式下来传输数据。</p></li>
+</ul>
+<h2 id="程序的整体流程">3.4 程序的整体流程</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173246.png" alt="1546762358281">
+<figcaption aria-hidden="true">1546762358281</figcaption>
+</figure>
+<p>我们将整个程序划分为3部分：</p>
+<ul>
+<li>系统初始化任务；</li>
+<li>定时中断触发任务；</li>
+<li>外部中断触发任务。</li>
+</ul>
+<p>定时中断触发的任务中，姿态解算与内化PID控制任务以500Hz的频率运行，外环PID的任务以40Hz的频率运行，其他一些不重要的任务以较低的频率运行；</p>
+<p>外部中断触发的主要有两个任务，一个是接收小球位置信息，这个由另一块板子获取小球的位置信息，然后以30Hz的频率发送。还有一个任务是接收上位机发来的数据，主要是PID参数，用来在线调参，避免了每改一次参数都要重新下载程序，大大提高了调参效率。</p>
+<h1 id="作品成效总结">4. 作品成效总结</h1>
+<ol type="1">
+<li><p>3-2
+能够针对特定指标需求，设计并实现功能完整的硬件和软件系统，包括整体架构设计、各模块交互和数据通信等（系统设计）。</p>
+<p>在本次课设中，我们将各模块功能合理划分，降低各模块之间的耦合度。由于摄像头与舵机之间的距离较长，用一块板子控制所有设备虽然资源足够，但需要很长的线来传输信号，容易受干扰，效果较差，因此我们用一块板子连接摄像头，来获取小球的位置信息，用另一块板子连接舵机，MPU6500等设备，控制板子的运动，两块板子之间通过uart通信。</p>
+<p>在使用蓝牙传输数据，波特率115200的情况下，数据传输错误较少，测试过程中大概传输100个数据包会出现1-2的接收错误，错误主要是数据包接收中出现少量的丢失，并没有出现数据传输的过程中数据的值发送变化。由于以30Hz的频率发送小球的位置信息，所以这个错误率可以接受，对控制结果影响不大。</p></li>
+<li><p>4-2
+能够根据方案，运用实验工具、仪器，开展实验，对实验结果进行分析与解释，并通过信息综合得到合理有效的结论。</p>
+<p>在PID调参部分，为了提高调参效率，我们采用上位机在线调参，上位机通过uart与板子之间进行数据交互，上位机将PID参数发给主控板，主控板将平板的姿态等数据发给上位机，通过上位机可以观测到PID调参的响应曲线，提高了PID调参的准确性。目前完成了串级PID的内环调参，外环的参数还没调好。实现的效果是板子在收到外界的干扰下，可以保持水平，响应速度较快。</p>
+<p>在IMU姿态解算部分，在500Hz的运算频率下，通过MPU6500可以实时的获取板子的姿态信息，误差较小，相比于机械结构的误差，传感器测量产生的误差可以忽略。</p></li>
+<li><p>10-1
+能够就电子信息工程领域的复杂工程问题撰写报告，设计文稿，并具有较好的语言表达和沟通能力，能够清晰陈述观点和回答问题。</p>
+<p>目前已按照课设要求，完成报告的撰写，合理地描述了本次课设中遇到的问题，并对其进行分析，给出相应的解决方案。</p></li>
+</ol>
+<h1 id="参考资料及文献">5. 参考资料及文献</h1>
+<p>[1] da Silveira Castro R, Flores J V, Salton A T, et al. A
+comparative analysis of repetitive and resonant controllers to a
+servo-vision ball and plate system[J]. IFAC Proceedings Volumes, 2014,
+47(3): 1120-1125.</p>
+<p>[2] Mahony R, Hamel T, Pflimlin J M. Nonlinear complementary filters
+on the special orthogonal group[J]. IEEE Transactions on automatic
+control, 2008, 53(5): 1203-1218.</p>
+<p>[3] Goldstein H. Classical mechanics[M]. Pearson Education India,
+2011.</p>
+<p>[4] 黄真, 李艳文, 高峰. 空间运动构件姿态的欧拉角表示[J].
+燕山大学学报, 2002, 26(3): 189-192.</p>
+<p>[5] 李跃军, 阎超. 飞行器姿态角解算的全角度双欧法[J].
+北京航空航天大学学报, 2007, 33(5): 505-508.</p>
+<p>[6] 李俊, 李运堂. 四旋翼飞行器的动力学建模及 PID 控制[J].
+辽宁工程技术大学学报: 自然科学版, 2012 (1).</p>
+<p>[7] 王赓, 孙政顺. 板球控制系统的 PD 型模糊控制算法研究[J]. 电气传动,
+2004, 34(4): 23-25.</p>
+<h1 id="附件">6. 附件</h1>
+<ol type="1">
+<li><p>获取小球位置信息的 vivado 工程的 Block Design 图</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173247.png" alt="1546774328266">
+<figcaption aria-hidden="true">1546774328266</figcaption>
+</figure></li>
+<li><p>图像处理的RTL图</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173248.png" alt="1546774904592">
+<figcaption aria-hidden="true">1546774904592</figcaption>
+</figure></li>
+<li><p>ZYNQ控制部分的 Block Design 图</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727173249.png" alt="1546774768247">
+<figcaption aria-hidden="true">1546774768247</figcaption>
+</figure></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2018/12/20/%E6%9D%BF%E7%90%83%E7%B3%BB%E7%BB%9F%E6%8A%A5%E5%91%8A/" title="板球系统报告">https://zhouyuqian.com/2018/12/20/板球系统报告/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/FPGA/" <i class="fa fa-tag"></i> FPGA</a>
+              <a href="/tags/ZYNQ/" <i class="fa fa-tag"></i> ZYNQ</a>
+              <a href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" <i class="fa fa-tag"></i> 课程设计</a>
+              <a href="/tags/%E9%A1%B9%E7%9B%AE/" <i class="fa fa-tag"></i> 项目</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/19/MIPS%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%8A%A5%E5%91%8A/" rel="prev" title="MIPS处理器学习报告">
+      <i class="fa fa-chevron-left"></i> MIPS处理器学习报告
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/24/HDB3-BPSK/" rel="next" title="HDB3&BPSK">
+      HDB3&BPSK <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">1. 设计方案工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%80%BB%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 系统总体介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%9B%AE%E6%A0%87%E5%AE%9A%E4%BD%8D"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 实现目标定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 系统结构工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A2%E9%98%9F%E5%88%86%E5%B7%A5"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 团队分工</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">2. 系统硬件设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">3. 系统软件设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B2%E7%BA%A7pid"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 串级PID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%BF%E5%80%BE%E6%96%9C%E8%A7%92%E5%BA%A6%E7%9A%84%E6%B5%8B%E9%87%8F"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 板倾斜角度的测量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 数据通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 程序的整体流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E5%93%81%E6%88%90%E6%95%88%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">4. 作品成效总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E5%8F%8A%E6%96%87%E7%8C%AE"><span class="nav-number">5.</span> <span class="nav-text">5. 参考资料及文献</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">6. 附件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

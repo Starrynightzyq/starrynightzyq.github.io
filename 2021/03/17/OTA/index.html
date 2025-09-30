@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="电路结构  最基本的 CMOS 二级密勒补偿运算跨导放大器结构如图所示，主要包括四个部分：第一级输入级放大电路、第二级放大电路、偏置电路和相位补偿电路。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二级运放设计">
+<meta property="og:url" content="https://zhouyuqian.com/2021/03/17/OTA/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="电路结构  最基本的 CMOS 二级密勒补偿运算跨导放大器结构如图所示，主要包括四个部分：第一级输入级放大电路、第二级放大电路、偏置电路和相位补偿电路。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183531.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183651.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183532.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183533.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183534.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183535.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183604.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183623.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183536.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183635.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183537.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183538.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183539.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183540.svg">
+<meta property="article:published_time" content="2021-03-17T11:11:05.000Z">
+<meta property="article:modified_time" content="2021-03-20T11:11:05.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727183531.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2021/03/17/OTA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>二级运放设计 | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2021/03/17/OTA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          二级运放设计
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-17 19:11:05" itemprop="dateCreated datePublished" datetime="2021-03-17T19:11:05+08:00">2021-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-20 19:11:05" itemprop="dateModified" datetime="2021-03-20T19:11:05+08:00">2021-03-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Analog/" itemprop="url" rel="index"><span itemprop="name">Analog</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183531.png" alt="电路结构">
+<figcaption aria-hidden="true">电路结构</figcaption>
+</figure>
+<p>最基本的 CMOS
+二级密勒补偿运算跨导放大器结构如图所示，主要包括四个部分：第一级输入级放大电路、第二级放大电路、偏置电路和相位补偿电路。</p>
+<span id="more"></span>
+<h1 id="电路分析">电路分析</h1>
+<p>输入级电路由 M1~M5 组成；</p>
+<p>输出级电路由 M6、M7 组成，M6 为共源放大器，M7
+为其提供恒定的偏置电流，同时作为第二级输出负载。相位补偿电路由 M14 和 Cc
+构成，M14 工作在线性区，可等效为一个电阻，与电容 Cc
+一起跨接在第一级和第二级输出之间，构成 RC 密勒补偿。</p>
+<h2 id="静态特性">静态特性</h2>
+<p>不考虑 M14，电路的等效模型如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727183651.png" alt="image-20210319101141088" style="zoom:50%;"></p>
+<p>第一级和第二级都是跨导放大器，M1 和 M2 相同，则第一级的跨导为： <span class="math display">\[
+G_{m1} = g_{m1}=g_{m2}
+\]</span></p>
+<p>第一级的输出电阻为： <span class="math display">\[
+R_1 = r_{o2} || r_{o4}
+\]</span> 则第一级的增益为： <span class="math display">\[
+A_1 = G_{m1}R_1 = g_{m2}(r_{o2} || r_{o4})
+\]</span> 对于第二级，M6、M7 为共源放大器，则： <span class="math display">\[
+G_{m2} = g_{m6}=\frac{2I_{DS6}}{V_{GST6}}
+\]</span></p>
+<p><span class="math display">\[
+R_2 = r_{o6}||r_{o7}
+\]</span></p>
+<p>其中 <span class="math inline">\(V_{GST6} = V_{GS6} -
+V_{TH6}\)</span>。</p>
+<p>则第二级的电压增益为： <span class="math display">\[
+A_2 = -G_{m2}R_2 = -g_{m6}(r_{o6}||r_{o7})
+\]</span> 故总的直流开环电压增益为： <span class="math display">\[
+A_0 = A_1A_2=-g_{m2}g_{m6}(r_{o2} || r_{o4})(r_{o6}||r_{o7})
+\]</span>
+<strong>为了得到较高的增益，应当选取较小的过驱动电压和较大的沟道长度。</strong></p>
+<h2 id="频率特性">频率特性</h2>
+<p>在等效电路图中，第一级的输出节点的电容 <span class="math inline">\(C_1\)</span> 为： <span class="math display">\[
+C_1 = C_{GD2} + C_{DB2} + C_{GD4} + C_{DB4} + C_{GS6}
+\]</span> 第二级的输出节点的电容 <span class="math inline">\(C_2\)</span> 为： <span class="math display">\[
+C_2 = C_{DB6} + C_{DB7} + C_{GD7} + C_{L}
+\]</span> 一般，<span class="math inline">\(C_L\)</span>
+远大于晶体管电容，所以 <span class="math inline">\(C_2\)</span> 远大于
+<span class="math inline">\(C_1\)</span>，对节点 3 和节点 5 运用
+KCL，得： <span class="math display">\[
+G_{m1}V_{id}+\frac{V_{i2}}{R_1}+sC_1V_{i2}+sC_c(V_{i2}-V_o) = 0
+\]</span></p>
+<p><span class="math display">\[
+G_{m2}V_{i2}+\frac{V_{o}}{R_2}+sC_2V_{o}+sC_c(V_{o}-V_{12}) = 0
+\]</span></p>
+<p>联立上面两式，消去中间量 <span class="math inline">\(V_{i2}\)</span>
+得到电路的<strong>传输函数</strong>： <span class="math display">\[
+\frac{V_o}{V_{id}} = \frac{G_{m1}(G_{m2}-sC_c)R_1R_2}{as^2+bs+1}
+\]</span> 其中 <span class="math inline">\(a=[C_1C_2+C_c(C_1+C_2)]R_1R_2
+\\ b=C_1R_1+C_2R_2+C_c(G_{m2}R_1R_2+R_1+R_2)\)</span></p>
+<p>由传输函数的分子可以得到一个位于<strong>右半平面的零点</strong>：
+<span class="math display">\[
+f_z = \frac{G_{m2}}{2\pi C_c}=\frac{g_{m6}}{2\pi C_c}
+\]</span> 分析传输函数的分母，对于 <span class="math inline">\(as^2+bs+c=0\)</span>
+的方程，如果有两个相距很远的实根，则 <span class="math inline">\(s_1\approx -c/b, s_2\approx
+-b/a\)</span>。由此得到： <span class="math display">\[
+s_1 = -\frac{1}{C_1R_1+C_2R_2+C_c(G_{m2}R_1R_2+R_1+R_2)}
+\]</span></p>
+<p><span class="math display">\[
+s_2 =
+-\frac{C_1R_1+C_2R_2+C_c(G_{m2}R_1R_2+R_1+R_2)}{[C_1C_2+C_c(C_1+C_2)]R_1R_2}
+\]</span></p>
+<p>从而得电路<strong>主极点</strong>为： <span class="math display">\[
+f_d = \frac{s_1}{2\pi}=\frac{1}{2\pi R_1 [C_1+C_c(1+G_{m2}R_2)]}
+\]</span> 通常 <span class="math inline">\(C_1\)</span> 远小于 <span class="math inline">\(C_c\)</span>，且 <span class="math inline">\(G_{m2}R_2\)</span> 远大于 1，上式可以近似为：
+<span class="math display">\[
+f_d = \frac{1}{2\pi R_1R_2G_{m2}C_c}
+\]</span> 而次极点为： <span class="math display">\[
+f_{nd} =\frac{s_2}{2\pi}=\frac{G_{m2}C_c}{2\pi (C_1C_2 + C_1C_c+C_2C_c)}
+\]</span> 单位增益带宽： <span class="math display">\[
+GBW = A_0f_d= G_{m1}G_{m2}R_1R_2 \times \frac{1}{2\pi R_1R_2G_{m2}C_c} =
+\frac{g_{m2}}{2\pi C_c}
+\]</span> 由 <span class="math inline">\(g_m = \mu C_{ox} (W/L)
+(V_{GS}-VT)\)</span> 得： <span class="math display">\[
+GBW = \frac{1}{2\pi C_c}\mu_p C_{ox}(\frac{W}{L})_2V_{GST2}
+\]</span> <strong>得到高的 GBW 就需要增大 M1 和 M2
+管的过驱动电压或者减小其沟道长度</strong>，<strong>这与提高增益的要求是相互抵触的，而且管子面积的减小也会使得噪声性能变差</strong>，所以在设计电路的时候，需要根据具体应用和设计指标进行权衡。</p>
+<p>GBW 也可以写成电流有关的形式 ( <span class="math inline">\(g_m = \mu
+C_{ox} (W/L) (V_{GS}-VT) = 2I_D/V_{GST}\)</span> )： <span class="math display">\[
+GBW = \frac{I_{DS2}}{\pi C_c V_{GST1}}
+\]</span>
+上式说明，在选定了补偿电容和过驱动电压时，<strong>电路的单位增益带宽与功耗成正比</strong>。而电路设计时一般会对功耗有限制，由此为了得到高的
+GBW，需要合理分配各支路的电流。</p>
+<p>第二极点可以近似为： <span class="math display">\[
+f_{nd} = \frac{g_{m6}}{2\pi C_L}
+\]</span> 一般而言，出于电路稳定的需要，<strong>为了达到 45°
+的相位裕量，第二极点必须在 1.22GBW 之外，而若要有 60°
+相位裕量的话，第二极点必须高于 2.2GWB</strong>。</p>
+<h2 id="相位补偿">相位补偿</h2>
+<p><span class="math display">\[
+\frac{1}{R_zC_c}\approx1.2\frac{g_{m1}}{C_c}
+\]</span></p>
+<p>即： <span class="math display">\[
+g_{m1}R_z\approx\frac{1}{1.2}
+\]</span> 若令 <span class="math inline">\(V_{GST1}=V_{GST14}\)</span>，则： <span class="math display">\[
+\frac{(W/L)_{14}}{(W/L)_{1}} \approx1.2\frac{\mu _p}{\mu _n}
+\]</span></p>
+<h2 id="偏置电路">偏置电路</h2>
+<p>偏置电路由 M8~M13 构成。</p>
+<p>镜像电流源 M8 和 M9 使得 M13 和 M12 的电流相等，都为 <span class="math inline">\(I_B\)</span>，则： <span class="math display">\[
+I_B = \frac{1}{2}\mu C_{ox}(\frac{W}{L})_{12}(V_{GS12}-V_T)^2 =
+\frac{1}{2}\mu C_{ox}(\frac{W}{L})_{13}(V_{GS13}-V_T)^2
+\]</span> 而： <span class="math display">\[
+V_{GS13} = V_{GS12}+I_BR_B
+\]</span> 由上面两式可以得到： <span class="math display">\[
+I_B = \frac{2}{\mu
+C_{ox}(W/L)_{12}R_B^2}(\sqrt{\frac{(W/L)_{12}}{(W/L)_{13}}}-1)^2
+\]</span> 可以看到 <span class="math inline">\(I_B\)</span> 仅与电阻
+<span class="math inline">\(R_B\)</span> 和 M12、M13
+的尺寸有关，不受电源电压的影响。 <span class="math display">\[
+R_B = \frac{2}{\sqrt{2\mu
+C_{ox}(W/L)_{12}I_B}}(\sqrt{\frac{(W/L)_{12}}{(W/L)_{13}}}-1)
+\]</span> 由 <span class="math inline">\(\sqrt{2\mu C_{ox}(W/L)_{12}I_B}
+= g_{m12}\)</span> 以及上式可以得到： <span class="math display">\[
+g_{m12}=\frac{2}{R_B}(\sqrt{\frac{(W/L)_{12}}{(W/L)_{13}}}-1)^2
+\]</span> 可以看出，<span class="math inline">\(gm_{12}\)</span> 仅由
+<span class="math inline">\(R_B\)</span> 以及 M12 与 M13
+的器件比例而决定。若取 <span class="math inline">\((W/L)_{12}＝4
+(W/L)_{13}\)</span> 则可以得到： <span class="math display">\[
+g_{m12} = \frac{2}{R_B}
+\]</span></p>
+<p><span class="math display">\[
+g_{m13} = \frac{1}{R_B}
+\]</span></p>
+<h1 id="指标分析"><del>指标分析</del></h1>
+<h1 id="电路设计">电路设计</h1>
+<h2 id="设计指标">设计指标</h2>
+<table>
+<thead>
+<tr>
+<th>设计指标</th>
+<th>带宽最大化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管子长度</td>
+<td><span class="math inline">\(\geq 0.8 \mu m\)</span></td>
+</tr>
+<tr>
+<td>管子宽度</td>
+<td><span class="math inline">\(\geq 2\mu m\)</span></td>
+</tr>
+<tr>
+<td>面积</td>
+<td><span class="math inline">\(\leq 20000 \mu m^2\)</span></td>
+</tr>
+<tr>
+<td>负载电容</td>
+<td><span class="math inline">\(=3pF\)</span></td>
+</tr>
+<tr>
+<td>共模输入电压</td>
+<td>固定在 (VDD+VSS)/2</td>
+</tr>
+<tr>
+<td>输出动态范围</td>
+<td>[0.1(VDD-VSS), 0.9(VDD-VSS)]</td>
+</tr>
+<tr>
+<td>静态功耗</td>
+<td><span class="math inline">\(\leq 2mW\)</span></td>
+</tr>
+<tr>
+<td>开环直流增益</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+</tr>
+<tr>
+<td>单位增益带宽</td>
+<td>Maximize</td>
+</tr>
+<tr>
+<td>相位裕度</td>
+<td><span class="math inline">\(\geq 60 degree\)</span></td>
+</tr>
+<tr>
+<td>转换速率</td>
+<td><span class="math inline">\(\geq 30V/\mu s\)</span></td>
+</tr>
+<tr>
+<td>共模抑制比</td>
+<td><span class="math inline">\(\geq 60dB\)</span></td>
+</tr>
+<tr>
+<td>负电源抑制比</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+</tr>
+<tr>
+<td>等效输入噪声</td>
+<td><span class="math inline">\(\leq 300nV/Hz@1KHz\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="约束">约束</h2>
+<p><span class="math display">\[
+W_1 = W_2,L_1=L_2;W_3=W_4,L_3=L_4
+\]</span></p>
+<p><span class="math display">\[
+\frac{(W/L)_{3,4}}{(W/L)_{6}} = \frac{\frac{1}{2}(W/L)_{5}}{(W/L)_{7}}
+\]</span></p>
+<p><span class="math display">\[
+(W/L)_{8}=(W/L)_{9},(W/L)_{10}=(W/L)_{11}
+\]</span></p>
+<p><span class="math display">\[
+(W/L)_{12}=4(W/L)_{13}
+\]</span></p>
+<p><span class="math display">\[
+(k_1+k_2+2)I_{DS8}\leq 400\mu A
+\]</span></p>
+<h2 id="单管匹配">单管匹配</h2>
+<p>当晶体管工作在饱和区时，实际上的设计参数只有 <span class="math inline">\((W/L),I_{DS},V_{DSAT}\)</span>，确定了这三个变量中的两个就可以决定第三个量。在本设计中，确定晶体管的电流和过驱动电压就可以得到需要的宽长比。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183532.png" alt="cm">
+<figcaption aria-hidden="true">cm</figcaption>
+</figure>
+<p>如上图所示，首先单独搭建电流镜部分。</p>
+<p>当 <span class="math inline">\(I_{DS} = 10\mu A\)</span> 时，扫描
+W，得到在不同 <span class="math inline">\(W/L\)</span> 下 <span class="math inline">\(V_{DSAT}\)</span> 的值。</p>
+<p><strong>PMOS</strong></p>
+<table>
+<thead>
+<tr>
+<th><span class="math inline">\(V_{DSAT}\)</span></th>
+<th><span class="math inline">\(W/L\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100m</td>
+<td>35</td>
+</tr>
+<tr>
+<td>125m</td>
+<td>20</td>
+</tr>
+<tr>
+<td>150m</td>
+<td>13</td>
+</tr>
+<tr>
+<td>175m</td>
+<td>9</td>
+</tr>
+<tr>
+<td>200m</td>
+<td>7</td>
+</tr>
+<tr>
+<td>250m</td>
+<td>4</td>
+</tr>
+<tr>
+<td>300m</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NMOS</strong></p>
+<table>
+<thead>
+<tr>
+<th><span class="math inline">\(V_{DSAT}\)</span></th>
+<th><span class="math inline">\(W/L\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100m</td>
+<td>8.9</td>
+</tr>
+<tr>
+<td>125m</td>
+<td>4.8</td>
+</tr>
+<tr>
+<td>150m</td>
+<td>3</td>
+</tr>
+<tr>
+<td>175m</td>
+<td>2.1</td>
+</tr>
+<tr>
+<td>250m</td>
+<td>1</td>
+</tr>
+<tr>
+<td>200m</td>
+<td>1.6</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到在相同的过驱动电压下，<span class="math inline">\((W/L)_p/(W/L)_n \approx
+13/3\)</span>，为了保证良好的匹配性，所有位于饱和区的晶体管取相同的过驱动电压。</p>
+<h2 id="设计步骤">设计步骤</h2>
+<ol type="1">
+<li><p>先取 <span class="math inline">\(C_c\)</span> 为 1pF；</p></li>
+<li><p>取 <span class="math inline">\(V_{DSAT} =
+150mV\)</span>；</p></li>
+<li><p>取 <span class="math inline">\(I_{DS8} = 10 \mu A, I_{DS5}=120\mu
+A, I_{DS7} = 240\mu A\)</span>；</p></li>
+<li><p>确定晶体管参数，过驱动电压定为 150mV：</p>
+<table>
+<thead>
+<tr>
+<th>晶体管</th>
+<th>倍数</th>
+<th>W/L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M13</td>
+<td>1n</td>
+<td>3/1</td>
+</tr>
+<tr>
+<td>M12</td>
+<td>4n</td>
+<td>12/1</td>
+</tr>
+<tr>
+<td>M10, M11</td>
+<td>1n</td>
+<td>3/11</td>
+</tr>
+<tr>
+<td>M8, M9</td>
+<td>1p</td>
+<td>13/1</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>12p</td>
+<td>156/1</td>
+</tr>
+<tr>
+<td>M1, M2</td>
+<td>6p</td>
+<td>78/1</td>
+</tr>
+<tr>
+<td>M3, M4</td>
+<td>6n</td>
+<td>18/1</td>
+</tr>
+<tr>
+<td>M7</td>
+<td>24p</td>
+<td>312/1</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>24n</td>
+<td>72/1</td>
+</tr>
+<tr>
+<td>M14</td>
+<td></td>
+<td>10/1</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183533.png" alt="OTA">
+<figcaption aria-hidden="true">OTA</figcaption>
+</figure>
+<h1 id="cadence-仿真">cadence 仿真</h1>
+<h2 id="ac">AC</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183534.svg" alt="ac">
+<figcaption aria-hidden="true">ac</figcaption>
+</figure>
+<p>通过 AC 仿真可以得到 GBW 大约为 113MHz，在单位带宽增益处，相移达到了
+127°，表明相位裕度为 53°，不能满足大于 60° 的要求，因此调整米勒电容 Cc
+为 1.5pF，再次仿真，得到GBW 为113MHz，相位裕度为 63°，满足要求。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183535.svg" alt="ac1.5p">
+<figcaption aria-hidden="true">ac1.5p</figcaption>
+</figure>
+<h2 id="噪声仿真">噪声仿真</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727183604.png" alt="截屏2021-03-20 下午4.47.15" style="zoom:33%;"></p>
+<p>接下来仿真噪声，依照上图设置参数。其中，最下面 Positive Output Node
+一栏，可点击 Select 按钮后，在电路图中选择输出节点；而 Negative Output
+Node 一栏则选地，若不选，则也会默认为地；Input Voltage Source
+选择<strong>输入差分信号的电压源</strong>。结果选择等效输入噪声，如下：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727183623.svg" alt="noise"></p>
+<h2 id="其他指标仿真">其他指标仿真</h2>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183536.png" alt="tb_all">
+<figcaption aria-hidden="true">tb_all</figcaption>
+</figure>
+<p>SR、CMRR 和 nPSRR，仿真如上图所示。</p>
+<h3 id="sr-压摆率">SR (压摆率)</h3>
+<p><img src="https://pic.zhouyuqian.com/img/20210727183635.png" alt="截屏2021-03-20 下午6.43.01" style="zoom:33%;"></p>
+<p>其中 SR 仿真中信号源使用
+<code>vpulse</code>，设置如上图所示。仿真时使用 <code>tran</code>
+仿真，仿真后输出波形。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183537.png" alt="截屏2021-03-20 下午6.37.13">
+<figcaption aria-hidden="true">截屏2021-03-20 下午6.37.13</figcaption>
+</figure>
+<p>由于 SR 是电压相对于时间的导数，可以使用计算器来得到一个更直观的 SR。
+设置如上图所示。SR 的结果如下图所示。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183538.svg" alt="SR">
+<figcaption aria-hidden="true">SR</figcaption>
+</figure>
+<h3 id="cmrr-共模抑制比">CMRR (共模抑制比)</h3>
+<p>定义为差模增益与差模输入为0时共模到输出的增益比值。物理意义即衡量共模输入转换到等效差模输入的大小。</p>
+<p>使用两个信号源分别加载于被测放大器的同相、反相输入端，由于放大器的差模增益远远大于共模增益，因此
+CMRR 可以近似为 <span class="math inline">\(V_{CM}/V_{out}\)</span>。
+<span class="math display">\[
+V_{out} = A_{DM}(V_P-V_N) + A_{CM}
+\]</span> <span class="math display">\[
+V_P= V_{CM},\ \ V_N = V_{out} + V_{CM}, \ \ V_{CM} = 1
+\]</span> <span class="math display">\[
+\frac{V_{out}}{V_{CM}} =
+\frac{A_{CM}}{A_{DM}+1}\approx\frac{A_{CM}}{A_{DM}}=\frac{1}{CMRR}
+\]</span></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183539.svg" alt="CMRR">
+<figcaption aria-hidden="true">CMRR</figcaption>
+</figure>
+<h3 id="电源抑制比-psrr">电源抑制比 (PSRR)</h3>
+<p>在负电源上叠加 1V 交流电压，输出端接到负输入端，正输入端接 VDD/2
+的直流电源。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727183540.svg" alt="nPSRR">
+<figcaption aria-hidden="true">nPSRR</figcaption>
+</figure>
+<h2 id="仿真结果">仿真结果</h2>
+<table>
+<thead>
+<tr>
+<th>设计指标</th>
+<th>带宽最大化</th>
+<th>仿真结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>静态功耗</td>
+<td><span class="math inline">\(\leq 2mW\)</span></td>
+<td><span class="math inline">\(377\mu A\times 1.8V\)</span></td>
+</tr>
+<tr>
+<td>开环直流增益</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+<td>83 dB</td>
+</tr>
+<tr>
+<td>单位增益带宽</td>
+<td>Maximize</td>
+<td>113 MHz</td>
+</tr>
+<tr>
+<td>相位裕度</td>
+<td><span class="math inline">\(\geq 60 degree\)</span></td>
+<td>63 degree</td>
+</tr>
+<tr>
+<td>转换速率</td>
+<td><span class="math inline">\(\geq 30V/\mu s\)</span></td>
+<td><span class="math inline">\(40 V/\mu s\)</span></td>
+</tr>
+<tr>
+<td>共模抑制比</td>
+<td><span class="math inline">\(\geq 60dB\)</span></td>
+<td>69 dB</td>
+</tr>
+<tr>
+<td>负电源抑制比</td>
+<td><span class="math inline">\(\geq 80dB\)</span></td>
+<td>89 dB</td>
+</tr>
+<tr>
+<td>等效输入噪声</td>
+<td><span class="math inline">\(\leq 300nV/Hz@1KHz\)</span></td>
+<td><span class="math inline">\(91.6nV/Hz@1KHz\)</span></td>
+</tr>
+</tbody>
+</table>
+<h1 id="reference">Reference</h1>
+<p>[1] <a target="_blank" rel="noopener" href="http://bbs.eetop.cn/thread-279034-1-1.html">复旦大学模拟电路二级运放实例</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="http://blog.eetop.cn/blog-1770479-6946353.html">两级运算放大器设计笔记</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv5808960/">cadence中运放性能参数仿真（一）</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://wx.seu.edu.cn/_upload/article/files/ed/b2/3c80f23a41e79abc3114a231ed52/9c379d42-4ec3-4605-9ea7-a55b922bd984.pdf">运放仿真方法整理</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2021/03/17/OTA/" title="二级运放设计">https://zhouyuqian.com/2021/03/17/OTA/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/15/VerilogOnVscode/" rel="prev" title="配置 VS Code 的 Verilog 开发环境">
+      <i class="fa fa-chevron-left"></i> 配置 VS Code 的 Verilog 开发环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/24/LC-VCO/" rel="next" title="LC-VCO">
+      LC-VCO <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">电路分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">静态特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%91%E7%8E%87%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">频率特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E4%BD%8D%E8%A1%A5%E5%81%BF"><span class="nav-number">1.3.</span> <span class="nav-text">相位补偿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%8F%E7%BD%AE%E7%94%B5%E8%B7%AF"><span class="nav-number">1.4.</span> <span class="nav-text">偏置电路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E6%A0%87%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">指标分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">电路设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%8C%87%E6%A0%87"><span class="nav-number">3.1.</span> <span class="nav-text">设计指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F"><span class="nav-number">3.2.</span> <span class="nav-text">约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%AE%A1%E5%8C%B9%E9%85%8D"><span class="nav-number">3.3.</span> <span class="nav-text">单管匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.4.</span> <span class="nav-text">设计步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cadence-%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.</span> <span class="nav-text">cadence 仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ac"><span class="nav-number">4.1.</span> <span class="nav-text">AC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%99%AA%E5%A3%B0%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.2.</span> <span class="nav-text">噪声仿真</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%8C%87%E6%A0%87%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.3.</span> <span class="nav-text">其他指标仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sr-%E5%8E%8B%E6%91%86%E7%8E%87"><span class="nav-number">4.3.1.</span> <span class="nav-text">SR (压摆率)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmrr-%E5%85%B1%E6%A8%A1%E6%8A%91%E5%88%B6%E6%AF%94"><span class="nav-number">4.3.2.</span> <span class="nav-text">CMRR (共模抑制比)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E6%BA%90%E6%8A%91%E5%88%B6%E6%AF%94-psrr"><span class="nav-number">4.3.3.</span> <span class="nav-text">电源抑制比 (PSRR)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E7%BB%93%E6%9E%9C"><span class="nav-number">4.4.</span> <span class="nav-text">仿真结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

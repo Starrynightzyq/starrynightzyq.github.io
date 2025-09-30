@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="分频器是伴随着频率综合器的出现而发展起来的，在射频无线收发芯片中需要频率综合器输出高质量的本地载波来完成信号的上变频或下变频；在数字芯片中需要频率综合器输出各种不同频率的时钟来驱动时序电路完成各种逻辑运算。频率综合器中都需要分频器来讲高频时钟分频至低频时钟的任务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分频器--锁存器">
+<meta property="og:url" content="https://zhouyuqian.com/2020/09/23/divider/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="分频器是伴随着频率综合器的出现而发展起来的，在射频无线收发芯片中需要频率综合器输出高质量的本地载波来完成信号的上变频或下变频；在数字芯片中需要频率综合器输出各种不同频率的时钟来驱动时序电路完成各种逻辑运算。频率综合器中都需要分频器来讲高频时钟分频至低频时钟的任务。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175641.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175655.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175705.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175719.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175730.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175740.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175816.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175826.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175841.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727175853.png">
+<meta property="article:published_time" content="2020-09-23T08:20:31.000Z">
+<meta property="article:modified_time" content="2020-09-25T03:01:11.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta property="article:tag" content="PLL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727175641.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2020/09/23/divider/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>分频器--锁存器 | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2020/09/23/divider/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分频器--锁存器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-23 16:20:31" itemprop="dateCreated datePublished" datetime="2020-09-23T16:20:31+08:00">2020-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-25 11:01:11" itemprop="dateModified" datetime="2020-09-25T11:01:11+08:00">2020-09-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PLL/" itemprop="url" rel="index"><span itemprop="name">PLL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>分频器</strong>是伴随着频率综合器的出现而发展起来的，在射频无线收发芯片中需要频率综合器输出高质量的本地载波来完成信号的上变频或下变频；在数字芯片中需要频率综合器输出各种不同频率的时钟来驱动时序电路完成各种逻辑运算。频率综合器中都需要分频器来讲高频时钟分频至低频时钟的任务。</p>
+<span id="more"></span>
+<h1 id="分频器">分频器</h1>
+<p>分频器可分为：</p>
+<ul>
+<li>模拟分频器</li>
+<li>数字分频器</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>模拟分频器</th>
+<th>数字分频器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工作频率</td>
+<td>高</td>
+<td>低</td>
+</tr>
+<tr>
+<td>工作范围</td>
+<td>窄</td>
+<td>宽</td>
+</tr>
+<tr>
+<td>实现方式</td>
+<td>复杂</td>
+<td>简单</td>
+</tr>
+<tr>
+<td>功耗</td>
+<td>较大</td>
+<td>正比工作频率</td>
+</tr>
+<tr>
+<td>工艺角及温度影响</td>
+<td>较大</td>
+<td>较小</td>
+</tr>
+<tr>
+<td>随工艺发展的潜力</td>
+<td>较小</td>
+<td>较大</td>
+</tr>
+</tbody>
+</table>
+<p>下文主要介绍数字分频器。</p>
+<hr>
+<h1 id="数字分频器">数字分频器</h1>
+<p>数字分频器是基于锁存器（Latch）所存数据的原理，在输入时钟的使能下完成对输入时钟的分频。</p>
+<h2 id="d-锁存器">D 锁存器</h2>
+<p>D
+锁存器的数据输出在时钟输入端为高电平时，跟随数据输入端；在时钟输入端为低电平时，一直锁存当前数据保持不变。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175641.png" alt="D 锁存器理想时序图" style="zoom:40%; margin: auto;"></p>
+<h2 id="主从锁存器">主从锁存器</h2>
+<p>锁存器的数据输出端在时钟时钟输入端为高电平时一直跟随数据输入端的变化而变化会引起一系列诸如不稳定、毛刺和竞争冒险等时序问题。可以使用由两个相位互反的时钟分别驱动两个串联的
+D 锁存器来解决。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175655.png" alt="主从锁存器理想时序图" style="zoom:60%; margin: auto;"></p>
+<h2 id="亚稳态稳定性分析">亚稳态/稳定性分析</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175705.png" alt="主从锁存器(a)亚稳态(b)实际时序图" style="zoom:50%; margin: auto;"></p>
+<p>如图(a)所示，在时钟上升沿，数据输入发生变化，那么数据输出该如何变化。此时就产生了亚稳态问题。</p>
+<p>主从锁存器的实际时序图如图(b)所示：</p>
+<ul>
+<li><span class="math inline">\(T_{CLK}\)</span>
+：时钟输入端的时钟周期；</li>
+<li><span class="math inline">\(T_S\)</span> ：建立时间(Set-up
+Time)，为数据输入端在时钟输入端上升沿来临前的建立时间；</li>
+<li><span class="math inline">\(T_H\)</span> ：保持时间(Hold
+Time)，为数据输入端在时钟输入端上升沿来临前的保持时间；</li>
+<li><span class="math inline">\(T_{CQ}\)</span>
+：时钟输入端到数据输出端的时延(CLK-to-Q Delay)，决定了 <span class="math inline">\(T_S\)</span> 和 <span class="math inline">\(T_H\)</span> 的最小值；</li>
+</ul>
+<p>为保证锁存器工作的稳定性，需要满足如下条件：</p>
+<ul>
+<li><span class="math inline">\(T_{CLK}\)</span>
+大于锁存器的最小出入时钟周期；</li>
+<li>数据输入端在 <span class="math inline">\(T_S\)</span>
+之前建立完毕，并保持到 <span class="math inline">\(T_H\)</span>
+之后；</li>
+</ul>
+<p>时序关系如下图所示：</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175719.png" alt="主从锁存器的稳定性" style="zoom:40%; margin: auto;"></p>
+<h1 id="正交二分频器的结构">正交二分频器的结构</h1>
+<p>目前已有很多种结构的锁存器被发明出来做分频电路，下文介绍几种具有代表性的锁存器结构。</p>
+<h2 id="传输门主从锁存器">传输门主从锁存器</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175730.png" alt="基本传输门锁存器" style="zoom:35%; margin: auto;"></p>
+<p>基本的传输门锁存器如上图所示，一对互补的 MOS
+管组成了一个传输门开关。</p>
+<ul>
+<li>CLK为高电平时，传输门打开，输入信号 D 存储至电容 C 中；</li>
+<li>CLK由高变低时，传输门关闭，电容 C
+存储的电荷继续维持锁存器的输出。</li>
+</ul>
+<p>实际中电容 C
+可以用传输门和反相器的寄生电容来实现，但由于传输门关闭后仍有微小的漏电流存在，传输门寄存器需要<strong>定期刷新</strong>来保证数据不丢失。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175740.png" alt="传输门主从锁存器" style="zoom:35%; margin: auto;"></p>
+<p>如上图所示，<strong>传输门主从锁存器 (Transmission Gate Master-Slave
+Latch)</strong>克服了<strong>传输门锁存器</strong>需要定期刷新的缺点。</p>
+<p>该结构中，传输门 TG1、TG2 和反相器 INV1、INV2
+构成了<strong>第一级主锁存器</strong>；传输门 TG3、TG4 和反相器
+INV3、INV4 构成第二级<strong>从锁存器</strong>。</p>
+<ul>
+<li><p>CLK 由高变低时：传输门 TG1、TG4 打开，传输门 TG2、TG3 关闭。</p>
+<p>由于 TG1 打开，TG2关闭，输入信号路径：<strong>D -&gt; TG1 -&gt; A
+-&gt; INV1 -&gt; INV2 -&gt; B</strong>，此时一级主锁存器将信号输入 D
+传至输出端 B 点；</p>
+<p>由于 TG3 关闭，TG4 打开，因此 C 点电平不受 B
+点影响，路径为：<strong>C -&gt; INV3 -&gt; INV4 -&gt; Q -&gt; TG4 -&gt;
+C</strong>，此时二级从锁存器形成一个稳定的锁存回路，输出端 Q
+保持上一次的电平不变。</p></li>
+<li><p>CLK 由低电平变高电平时：与上面 CLK 由高变低时的情况相反，传输门
+TG1、TG4 关闭，传输门 TG2、TG3 打开。</p>
+<p>相应的，一级主锁存器形成一个锁存回路，输出 B 点保持上次电平不变；</p>
+<p>二级从寄存器将 B 点信号传输至 Q 点。</p></li>
+</ul>
+<h2 id="时钟控制-cmos-主从锁存器">时钟控制 CMOS 主从锁存器</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175816.png" alt="时钟控制 CMOS 主从锁存器" style="zoom:35%; margin: auto;"></p>
+<p><strong>时钟控制 CMOS 主从锁存器 (Clocked CMOS Master-Slave
+Latch)</strong>
+是在传输门主从锁存器的基础上发展而来，其主要变化是将传输门锁存器中的传输门和反相器合二为一，构成了如上图
+(a)
+所示的<strong>时钟控制反相器</strong>，从而简化了版图，提升了主从锁存器的工作速度。</p>
+<blockquote>
+<p><strong><em>(具体分析)</em></strong> 待完成</p>
+</blockquote>
+<h2 id="共源共栅电压切换逻辑主从锁存器">共源共栅电压切换逻辑主从锁存器</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175826.png" alt="共源共栅电压切换逻辑主从锁存器" style="zoom:40%; margin: auto;"></p>
+<p>一种基于共源共栅电压切换逻辑的主从锁存器 (Cascode Voltage Switch
+Logic Master-Slave Latch) 如上图所示，<span class="math inline">\(M_1
+\sim M_6\)</span> 构成了一级主锁存器，<span class="math inline">\(M_7
+\sim M_{12}\)</span> 构成二级从锁存器。<span class="math inline">\(M_1\)</span> 和 <span class="math inline">\(M_2\)</span> 是一级主锁存器的<strong>再生式管对
+(???)</strong>，<span class="math inline">\(M_{11}\)</span> 和 <span class="math inline">\(M_{12}\)</span>
+是第二极从锁存器中的<strong><em>再生式管对</em></strong>。</p>
+<p>以第一级主锁存器为例，介绍其工作原理。</p>
+<ul>
+<li><p>CLK 由低变高时，M5、M6 打开；</p>
+<ol type="1">
+<li><p>若输入 D 为<strong>高电平</strong>，M3 打开，M4 关闭；</p>
+<p>A 点电平下降，B 点电平上升；</p>
+<p>A 点电平下降控制 M2 逐渐打开，使 B 点电平更快地上升；</p>
+<p>B 点电平下降控制 M1 逐渐关闭，使 A 点电平更快地下降；</p>
+<p>最终 A 点下降至地电平，B 点上升至 <span class="math inline">\(V_{DD}\)</span> 电平。</p></li>
+<li><p>若输入 D 为<strong>低电平</strong>，则情况相反，A 点上升至 <span class="math inline">\(V_{DD}\)</span> 电平，B 点下降至地电平。</p></li>
+</ol></li>
+<li><p>CLK 由高变低时，M5、M6 关闭，A、B 点通过 M1、M2
+维持前一刻电平不变。</p></li>
+</ul>
+<p>一级主锁存器与二级从锁存器交替工作，形成了一个完整的共源共栅电压切换逻辑主从锁存器。</p>
+<h2 id="真单相时钟主从锁存器">真单相时钟主从锁存器</h2>
+<p>真单相时钟主从锁存器 (True Single-Phase Clock Master-Slave Latch)
+是在时钟控制 CMOS
+主从锁存器的基础上简化而来，主要是省略了同相锁存器，完全以节点寄生电容来存储电平。真单相时钟主从锁存器结构简单、MOS
+管数量少、工作速度高、功耗低，特别适用于<strong>高速分频器</strong>。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175841.png" alt="真单相时钟主从锁存器" style="zoom:40%; margin: auto;"></p>
+<p>常用的一种真单相时钟主从锁存器结构如上图所示：<span class="math inline">\(M_1 \sim M_3\)</span>
+构成第一级<strong>时钟控制反相器</strong>，<span class="math inline">\(M_4 \sim M_6\)</span>
+构成第二级时钟控制反相器，<span class="math inline">\(M_7 \sim
+M_9\)</span> 构成第三级时钟控制反相器，<span class="math inline">\(M_{10}\)</span> 和 <span class="math inline">\(M_{11}\)</span> 构成输出反相器。</p>
+<ul>
+<li><p>CLK 由高电平变低电平后：</p>
+<p>第一级时钟控制反相器输出 A 跟随数据输入 D；</p>
+<p>第二级时钟控制反相器输出 B 被拉伸至 <span class="math inline">\(V_{DD}\)</span>；</p>
+<p>M7 和 M8 分别被 B 和 CLK 关闭，第三级时钟控制反相器输出 C
+维持前一时刻电平不变。</p></li>
+<li><p>CLK 由低电平变高电平后，输入信号 D 需要维持不变 (保证数据输入端在
+<span class="math inline">\(T_S\)</span> 之前建立完毕)，A 点电平与 D
+点相同：</p>
+<p>若 A 点为高电平，B 点被拉低至地电平；若 A 点为低电平，M4、M5 关闭，B
+点维持高电平不变；这样实现了 B 点反向跟随 A 点电平；</p>
+<p>此时 M8 被 CLK 打开，输出信号 <span class="math inline">\(\overline{Q}\)</span>，再经过
+M10、M11组成的反相器输出信号 <span class="math inline">\(Q\)</span>。</p></li>
+</ul>
+<h2 id="电流模型主从锁存器">电流模型主从锁存器</h2>
+<p>电流模型主从锁存器 (Current Mode Logic Master-Slave Latch)
+本质上是一个<strong>模拟分频器</strong>，其 MOS
+管的静态工作点均位于<strong>饱和区</strong>且有<strong>尾电流</strong>，因此无论该锁存器有没有输入信号，其功耗都是一定的。相比于上述的
+CMOS
+逻辑锁存器，电流模型主从锁存器的<strong>功耗</strong>虽然<strong>较大</strong>，但其<strong>工作频率</strong>有很大优势，因此在<strong>超高速分频器</strong>中有广泛应用。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727175853.png" alt="电流模型主从锁存器" style="zoom:35%; margin: auto;"></p>
+<p>电流模型主从锁存器的结构如上图所示，由两个相同的电流模型锁存器串联组成。</p>
+<p>先对其左半部分分析：</p>
+<p>M1、M2 为一对差分信号放大管，M3、M4 为一对交叉信号锁存管，M5、M6
+为一对查分时钟放大管。</p>
+<ul>
+<li><p>CLK 为高电平时：</p>
+<p>M5 导通，M6 截止；</p>
+<p>差分信号放大管 M1、M2 对差分输入信号 D 进行采样放大；</p>
+<p>交叉信号锁存管 M3、M4 处于无效状态。</p></li>
+<li><p>CLK 为低电平时：</p>
+<p>M5 截止、M6 导通；</p>
+<p>差分信号放大管 M1、M2 处于无效状态；</p>
+<p>交叉信号锁存管 M3、M4 形成正反馈，开始锁存被采样信号。</p></li>
+</ul>
+<p>右半部分与左半部分结构相同，差分管 M12、M13 的输入信号与 M5、M6
+的输入信号时钟反相。</p>
+<h1 id="cadence-仿真">Cadence 仿真</h1>
+<blockquote>
+<p>待完成</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2020/09/23/divider/" title="分频器--锁存器">https://zhouyuqian.com/2020/09/23/divider/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+              <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/11/PLL/" rel="prev" title="PLL(Phase-locked loop, 锁相环)">
+      <i class="fa fa-chevron-left"></i> PLL(Phase-locked loop, 锁相环)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/02/DSP-DDS/" rel="next" title="DDS">
+      DDS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">分频器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%88%86%E9%A2%91%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">数字分频器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#d-%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">D 锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">主从锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%9A%E7%A8%B3%E6%80%81%E7%A8%B3%E5%AE%9A%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">亚稳态&#x2F;稳定性分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E4%BA%8C%E5%88%86%E9%A2%91%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">正交二分频器的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E9%97%A8%E4%B8%BB%E4%BB%8E%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">传输门主从锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%92%9F%E6%8E%A7%E5%88%B6-cmos-%E4%B8%BB%E4%BB%8E%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">时钟控制 CMOS 主从锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E6%BA%90%E5%85%B1%E6%A0%85%E7%94%B5%E5%8E%8B%E5%88%87%E6%8D%A2%E9%80%BB%E8%BE%91%E4%B8%BB%E4%BB%8E%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">共源共栅电压切换逻辑主从锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E5%8D%95%E7%9B%B8%E6%97%B6%E9%92%9F%E4%B8%BB%E4%BB%8E%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">真单相时钟主从锁存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E6%B5%81%E6%A8%A1%E5%9E%8B%E4%B8%BB%E4%BB%8E%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-number">3.5.</span> <span class="nav-text">电流模型主从锁存器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cadence-%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.</span> <span class="nav-text">Cadence 仿真</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

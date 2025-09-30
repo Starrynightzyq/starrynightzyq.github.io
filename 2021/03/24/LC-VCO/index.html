@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#49b1f5">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180x180-yaowan.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-yaowan.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-yaowan.png">
+  <link rel="mask-icon" href="/images/logo-yaowan.svg" color="#49b1f5">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhouyuqian.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":"default","style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#49b1f5","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":"ture"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LC-VCO 原理及电路仿真">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LC-VCO">
+<meta property="og:url" content="https://zhouyuqian.com/2021/03/24/LC-VCO/index.html">
+<meta property="og:site_name" content="Fitz&#39;s Blog - 快乐学习每一天">
+<meta property="og:description" content="LC-VCO 原理及电路仿真">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182903.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182903.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182932.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182944.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182954.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183006.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727183016.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182839.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182840.svg">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182841.png">
+<meta property="og:image" content="https://pic.zhouyuqian.com/img/20210727182842.svg">
+<meta property="article:published_time" content="2021-03-24T13:53:36.000Z">
+<meta property="article:modified_time" content="2021-04-12T03:00:36.000Z">
+<meta property="article:author" content="Fitz">
+<meta property="article:tag" content="IC_design">
+<meta property="article:tag" content="Analog">
+<meta property="article:tag" content="PLL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.zhouyuqian.com/img/20210727182903.png">
+
+<link rel="canonical" href="https://zhouyuqian.com/2021/03/24/LC-VCO/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>LC-VCO | Fitz's Blog - 快乐学习每一天</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fitz's Blog - 快乐学习每一天</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-ariang">
+
+    <a href="/AriaNg/" rel="section"><i class="fa fa-fw fa-cloud-download"></i>AriaNg</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/Starrynightzyq" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhouyuqian.com/2021/03/24/LC-VCO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Fitz">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fitz's Blog - 快乐学习每一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LC-VCO
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-24 21:53:36" itemprop="dateCreated datePublished" datetime="2021-03-24T21:53:36+08:00">2021-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 11:00:36" itemprop="dateModified" datetime="2021-04-12T11:00:36+08:00">2021-04-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PLL/" itemprop="url" rel="index"><span itemprop="name">PLL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+            <div class="post-description">LC-VCO 原理及电路仿真</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="lc-vco-原理">LC-VCO 原理</h1>
+<h2 id="lc-振荡器">LC 振荡器</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727182903.png" alt="image-20210327165004749" style="zoom:33%;"></p>
+<p>振荡器的本质是一个非线性反馈系统，如上图所示，该系统的开环传递函数为
+<span class="math inline">\(H(s)\)</span>，则其闭环传递函数可以表示为：
+<span class="math display">\[
+\frac{V_{out}}{V_{in}}=\frac{H(s)}{1+H(s)}
+\]</span> 当 <span class="math inline">\(H(s)=-1\)</span>
+时，负反馈系统的输出为无穷大，这样系统中的任何节点上有一个小的抖动或者噪声都能够使得系统发生振荡，这时候负反馈系统变成正反馈。</p>
+<p>一个负反馈系统必须满足以下两个 Barkhausen
+振荡原则，电路才能够在频率点 <span class="math inline">\(\omega
+_0(s=j\omega _0)\)</span> 上发生振荡：</p>
+<ul>
+<li>振荡器开环增益 <span class="math inline">\(|H(j\omega
+_0)|\geq1\)</span>；</li>
+<li>振荡器的开环相移为 180°。</li>
+</ul>
+<p>在实际电路设计中，振荡器的开环增益往往是计算值的 2-3
+倍。这主要是为了克服工艺和温度的偏差，以及由于电路非线性造成的开环增益的下降。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727182903.png" alt="image-20210328191139257" style="zoom:50%;"></p>
+<p>如上图(a)所示，一个理想的电感电容谐振电路，在频率 <span class="math inline">\(\omega_{res}=1/\sqrt{LC}\)</span>
+处谐振，在此频率下，电感的阻抗 <span class="math inline">\(jL\omega_{res}\)</span> 和电容的阻抗 <span class="math inline">\(1/(jC\omega_{res})\)</span>
+幅值相等而方向相反，因此产生了无穷大的阻抗，回路的品质因数Q
+为无穷大。实际的片上电感和电容都存在串联电阻，如图(b)所示，可以将其等效为电路(c)，电路(b)和电路(c)阻抗相等，有如下的关系：
+<span class="math display">\[
+Ls+R_L=\frac{R_{P,L}\cdot L_Ps}{R_{P,L}+L_Ps}
+\]</span> 只考虑稳态，假设 <span class="math inline">\(s=j\omega\)</span>，上式可以写成： <span class="math display">\[
+(L\cdot R_{P,L}+L_P\cdot R_L)j\omega+R_{L}\cdot R_{P,L}-L\cdot L_P \cdot
+\omega^2=R_{P,L}\cdot L_P\cdot j\omega
+\]</span> 要求对所有的 <span class="math inline">\(\omega\)</span>
+值都成立，则： <span class="math display">\[
+L\cdot R_{P,L}+L_P\cdot R_L =R_{P,L}\cdot L_P
+\]</span></p>
+<p><span class="math display">\[
+R_{L}\cdot R_{P,L}-L\cdot L_P \cdot \omega^2 = 0
+\]</span></p>
+<p>则有： <span class="math display">\[
+L_P= L(1+\frac{1}{Q_L^2})\quad , \quad Q_L= \frac{L\omega}{R_L}
+\]</span></p>
+<p><span class="math display">\[
+R_{P,L}=(1+Q_L)^2R_L
+\]</span></p>
+<p>同样的可以推导出： <span class="math display">\[
+C_P= \frac{C}{1+\frac{1}{Q_C^2}}\quad,\quad Q_C = \frac{1}{\omega C R_C}
+\]</span></p>
+<p><span class="math display">\[
+R_{P,C} =(1+Q_C)^2R_C
+\]</span></p>
+<p><span class="math display">\[
+R_P =R_{P,L}+ R_{P,C}=(1+Q_L)^2+(1+Q_C)^2R_C
+\]</span></p>
+<p>RLC 并联谐振回路的品质因数 <span class="math inline">\(Q_{tank} =
+{R_P}/{\omega L_P}=\omega C_P R_P\)</span>，谐振频率为 <span class="math inline">\(\omega _{res} =
+1/\sqrt{L_PC_P}\)</span>，在谐振频率处，RLC 并联等效电路的输出阻抗为
+<span class="math inline">\(R_P\)</span>。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727182932.png" alt="截屏2021-03-28 下午7.54.27" style="zoom:50%;"></p>
+<p>上图画出振荡回路的阻抗和频率的关系。</p>
+<h2 id="交叉耦合振荡器">交叉耦合振荡器</h2>
+<h2 id="从负电阻角度理解">从"负电阻"角度理解</h2>
+<p><img src="https://pic.zhouyuqian.com/img/20210727182944.png" alt="image-20210328195729413" style="zoom:50%;"></p>
+<p>如上图(a)所示，当有一个电流脉冲刺激 RLC 并联电路时，RLC
+电路将发生振荡，由于电阻 <span class="math inline">\(R_P\)</span>
+的存在，振荡将慢慢衰减为零。如果将一负阻 <span class="math inline">\(-R_P\)</span> 与该电路并联，如图(b)所示，RLC
+电路的并联电阻为
+0，这样振荡将永远维持下去。因此如果单端口电路有一负电阻与振荡回路并联，如图(c)所示，电路就会永远振荡。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727182954.png" alt="image-20210328204242084" style="zoom:50%;"></p>
+<p>上图为采用 MOS 管实现的负阻电路和其交流小信号等效电路。忽略 MOS 管
+Mn1 和Mn2 的衬底效应和沟道调制效应，可以得到： <span class="math display">\[
+V_x = V_2-V_1,\quad I_x = g_{m2}V_1=-g_{m1}V_2
+\]</span> 则： <span class="math display">\[
+V_x = V_2-V_1=-\frac{-I_x}{g_{m2}}-\frac{-I_x}{g_{m1}} = -I_x\left(
+\frac{1}{g_{m1}}+ \frac{1}{g_{m2}} \right)
+\]</span> 如果 Mn1 和 Mn2 相同，则： <span class="math display">\[
+\frac{V_x}{I_x}= -\frac{2}{g_m}
+\]</span>
+当加在负阻的两端的电压增加时，负阻将对外输出电流。如果将上图中的交叉耦合差分对管与
+RLC 回路相并联，如下图所示，并且保证 <span class="math inline">\(R_P\leq
+2/g_m\)</span> 时，负阻就能够为 RLC 回路中的并联电阻 <span class="math inline">\(R_P\)</span> 消耗的能量进行源源不断的补偿。节点 X
+和 Y
+将产生差分振荡信号，<strong>振荡波形与尾电流偏置大小有关。</strong></p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727183006.png" alt="image-20210328205400270" style="zoom:50%;"></p>
+<h1 id="谐振振荡器内在振荡机制">谐振振荡器内在振荡机制</h1>
+<h2 id="振荡器谐振幅度">振荡器谐振幅度</h2>
+<h1 id="vco-压控振荡器">VCO 压控振荡器</h1>
+<h2 id="指标">指标</h2>
+<h2 id="lc-vco-的调节">LC-VCO 的调节</h2>
+<p>LC 振荡器的振荡频率等于 <span class="math inline">\(f_{osc}=1/(2\pi
+\sqrt{LC})\)</span>，因为改变单片电感的值很困难，我们可以调节电容值来调节振荡器。电容值与电压值有关的电容被称为“可变电容器”
+(varactor)。</p>
+<p><img src="https://pic.zhouyuqian.com/img/20210727183016.png" alt="image-20210328213837766" style="zoom:50%;"></p>
+<p>如上图所示，变容二极管可以使用 MOS 管构成。</p>
+<h2 id="vco-的数学模型">VCO 的数学模型</h2>
+<h1 id="lc-vco-的设计">LC-VCO 的设计</h1>
+<h2 id="电路结构">电路结构</h2>
+<h2 id="varactor-变容二极管仿真">**Varactor 变容二极管仿真</h2>
+<h3 id="ac">AC</h3>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727182839.png" alt="tb-ac">
+<figcaption aria-hidden="true">tb-ac</figcaption>
+</figure>
+<p>AC
+仿真使用的电路如上图所示。<strong>为了减小栅电阻，使用多指结构；为了减小沟道电阻，使用最小的沟道长度。</strong></p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727182840.svg" alt="imaginary-L10u-W10u">
+<figcaption aria-hidden="true">imaginary-L10u-W10u</figcaption>
+</figure>
+<p>仿真结果 imaginary 和频率的关系如上图所示。<span class="math inline">\(imag=2\pi fC_{var}\)</span>。</p>
+<h3 id="dc">DC</h3>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727182841.png" alt="tb-dc">
+<figcaption aria-hidden="true">tb-dc</figcaption>
+</figure>
+<p>DC 仿真使用的电路如上图所示。同时使用 "DC" 和 "parametric
+analysis"，扫描控制电压 VB。</p>
+<figure>
+<img src="https://pic.zhouyuqian.com/img/20210727182842.svg" alt="cgg-L10u-W10u">
+<figcaption aria-hidden="true">cgg-L10u-W10u</figcaption>
+</figure>
+<p>使用 "calculator" 中的 "op" 选项 (operating point)，获取变容二极管的
+"cgg" 参数，画出其与控制电压的关系。可以看到，当控制电压在 0-1.2 V
+之间时，cgg 和 VB
+近似可以看成一个线性的关系。当要在相同的控制电压下获得其他值的电容，只需要按比例缩放变容二极管的
+W 和 L。</p>
+<h2 id="inductor-电感仿真">Inductor 电感仿真</h2>
+<blockquote>
+<p>待完成</p>
+</blockquote>
+<h2 id="电路参数确定">电路参数确定</h2>
+<blockquote>
+<p>待完成</p>
+</blockquote>
+<h2 id="整体仿真">整体仿真</h2>
+<blockquote>
+<p>待完成</p>
+</blockquote>
+<h1 id="references">References</h1>
+<p>[] <a href>L100-VCOs-2UP(9_1_03) by P.E.Allen</a></p>
+<p>[] <a href>唐长文博士论文_PhD_Thesis</a></p>
+<p>[] <a href>RFIC Design Tutorial Voltage Controlled Oscillators
+Prepared By: Burak Catli</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------The end of this article&nbsp;<i class="fa fa-paw"></i>&nbsp;Thank you for your reading-------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fitz
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhouyuqian.com/2021/03/24/LC-VCO/" title="LC-VCO">https://zhouyuqian.com/2021/03/24/LC-VCO/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IC-design/" <i class="fa fa-tag"></i> IC_design</a>
+              <a href="/tags/Analog/" <i class="fa fa-tag"></i> Analog</a>
+              <a href="/tags/PLL/" <i class="fa fa-tag"></i> PLL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/17/OTA/" rel="prev" title="二级运放设计">
+      <i class="fa fa-chevron-left"></i> 二级运放设计
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/02/zfs/" rel="next" title="ZFS on Ubuntu">
+      ZFS on Ubuntu <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lc-vco-%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">LC-VCO 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lc-%E6%8C%AF%E8%8D%A1%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">LC 振荡器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E8%80%A6%E5%90%88%E6%8C%AF%E8%8D%A1%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">交叉耦合振荡器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E8%B4%9F%E7%94%B5%E9%98%BB%E8%A7%92%E5%BA%A6%E7%90%86%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">从&quot;负电阻&quot;角度理解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%90%E6%8C%AF%E6%8C%AF%E8%8D%A1%E5%99%A8%E5%86%85%E5%9C%A8%E6%8C%AF%E8%8D%A1%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">谐振振荡器内在振荡机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%AF%E8%8D%A1%E5%99%A8%E8%B0%90%E6%8C%AF%E5%B9%85%E5%BA%A6"><span class="nav-number">2.1.</span> <span class="nav-text">振荡器谐振幅度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vco-%E5%8E%8B%E6%8E%A7%E6%8C%AF%E8%8D%A1%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">VCO 压控振荡器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%A0%87"><span class="nav-number">3.1.</span> <span class="nav-text">指标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lc-vco-%E7%9A%84%E8%B0%83%E8%8A%82"><span class="nav-number">3.2.</span> <span class="nav-text">LC-VCO 的调节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vco-%E7%9A%84%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">VCO 的数学模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lc-vco-%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">LC-VCO 的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E7%BB%93%E6%9E%84"><span class="nav-number">4.1.</span> <span class="nav-text">电路结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#varactor-%E5%8F%98%E5%AE%B9%E4%BA%8C%E6%9E%81%E7%AE%A1%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.2.</span> <span class="nav-text">**Varactor 变容二极管仿真</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ac"><span class="nav-number">4.2.1.</span> <span class="nav-text">AC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dc"><span class="nav-number">4.2.2.</span> <span class="nav-text">DC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inductor-%E7%94%B5%E6%84%9F%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.3.</span> <span class="nav-text">Inductor 电感仿真</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E5%8F%82%E6%95%B0%E7%A1%AE%E5%AE%9A"><span class="nav-number">4.4.</span> <span class="nav-text">电路参数确定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E4%BB%BF%E7%9C%9F"><span class="nav-number">4.5.</span> <span class="nav-text">整体仿真</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#references"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fitz"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Fitz</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Starrynightzyq" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Starrynightzyq" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:starrynightzyq@gmail.com" title="E-Mail → mailto:starrynightzyq@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/57711842" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;57711842" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom bilibili"></i>Bilibili</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=2421854978&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;2421854978&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-custom qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://leiblog.wang/" title="http:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">Lei Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备20042287号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fitz</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.2
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script pjax>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+  <!-- 页面点击小红心 -->
+  <!-- <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script> -->
+  <script type="text/javascript" src="/js/clicklove.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
